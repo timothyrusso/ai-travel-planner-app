@@ -1,4 +1,4 @@
-import Login from '@/components/composite/Login/Login';
+import WelcomePage from '@/components/pages/WelcomePage/WelcomePage';
 import { View } from 'react-native';
 
 export default function Index() {
@@ -8,7 +8,7 @@ export default function Index() {
         flex: 1,
       }}
     >
-      <Login />
+      <WelcomePage />
     </View>
   );
 }
