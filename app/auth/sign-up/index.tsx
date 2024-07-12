@@ -1,12 +1,18 @@
 import { View, Text } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigation } from 'expo-router';
+import SignUpPage from '@/components/pages/SignUpPage/SignUpPage';
 
 const SignUp = () => {
-  return (
-    <View>
-      <Text>SignUp</Text>
-    </View>
-  );
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, []);
+
+  return <SignUpPage />;
 };
 
 export default SignUp;

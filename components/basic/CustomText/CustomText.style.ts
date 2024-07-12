@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   text: {
-    fontFamily: 'inter-regular',
+    fontFamily: 'inter',
     fontSize: dimensions.Double,
   },
 });

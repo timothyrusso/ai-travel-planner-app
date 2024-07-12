@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
   input: {
     width: '100%',
     color: colors.primaryBlack,
-    fontFamily: 'inter-regular',
+    fontFamily: 'inter',
     fontSize: dimensions.Triple,
   },
   container: {

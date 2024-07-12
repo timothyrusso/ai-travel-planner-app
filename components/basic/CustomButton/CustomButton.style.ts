@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
   },
   text: {
     color: colors.primaryWhite,
-    fontFamily: 'inter-semibold',
+    fontFamily: 'inter-medium',
     fontSize: dimensions.Triple,
   },
   pressed: {
