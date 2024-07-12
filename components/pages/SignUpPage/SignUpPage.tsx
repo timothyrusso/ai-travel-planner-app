@@ -7,14 +7,32 @@ import CustomText from '@/components/basic/CustomText/CustomText';
 import CustomButton from '@/components/basic/CustomButton/CustomButton';
 import { useRouter } from 'expo-router';
 import { routes } from '@/constants/routes';
+import { Ionicons } from '@expo/vector-icons';
+import { icons } from '@/constants/icons';
+import { dimensions } from '@/constants/dimensions';
+import { colors } from '@/constants/colors';
+import CustomIconButton from '@/components/basic/CustomIconButton/CustomIconButton';
 
 const SignUpPage = () => {
   const router = useRouter();
 
   return (
     <BasicView>
-      <Text style={styles.title}>Sign Up</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Sign Up</Text>
+        <CustomIconButton
+          icon={icons.circleClose}
+          iconSize={dimensions.Fourfold + dimensions.MinimalDouble}
+          iconColor={colors.primaryBlack}
+          onPress={() => router.back()}
+        />
+      </View>
+      <Text style={styles.subtitle}>Create a new account!</Text>
       <View style={styles.inputContainer}>
+        <View style={styles.emailContainer}>
+          <CustomText text="Name" style={styles.label} />
+          <CustomTextInput placeholder="Enter the name" />
+        </View>
         <View style={styles.emailContainer}>
           <CustomText text="Email" style={styles.label} />
           <CustomTextInput placeholder="Enter the email" />
@@ -28,10 +46,13 @@ const SignUpPage = () => {
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <CustomButton title="Sign In" onPress={() => {}} />
         <CustomButton
           title="Create an account"
           onPress={() => router.replace(routes.signUp)}
+        />
+        <CustomButton
+          title="Sign In"
+          onPress={() => router.replace(routes.signIn)}
           outline
         />
       </View>

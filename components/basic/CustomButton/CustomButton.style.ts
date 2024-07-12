@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     fontSize: dimensions.Triple,
   },
   pressed: {
-    opacity: 0.8,
+    opacity: 0.6,
   },
   outline: {
     backgroundColor: colors.primaryWhite,

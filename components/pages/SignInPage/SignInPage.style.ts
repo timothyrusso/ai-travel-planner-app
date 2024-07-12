@@ -22,4 +22,8 @@ export const styles = StyleSheet.create({
     paddingTop: dimensions.separator40,
     rowGap: dimensions.Quintuple,
   },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
 });

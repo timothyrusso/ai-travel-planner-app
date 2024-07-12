@@ -7,13 +7,25 @@ import CustomText from '@/components/basic/CustomText/CustomText';
 import CustomButton from '@/components/basic/CustomButton/CustomButton';
 import { useRouter } from 'expo-router';
 import { routes } from '@/constants/routes';
+import CustomIconButton from '@/components/basic/CustomIconButton/CustomIconButton';
+import { icons } from '@/constants/icons';
+import { dimensions } from '@/constants/dimensions';
+import { colors } from '@/constants/colors';
 
 const SignInPage = () => {
   const router = useRouter();
 
   return (
     <BasicView>
-      <Text style={styles.title}>Sign In</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Sign In</Text>
+        <CustomIconButton
+          icon={icons.circleClose}
+          iconSize={dimensions.Fourfold + dimensions.MinimalDouble}
+          iconColor={colors.primaryBlack}
+          onPress={() => router.back()}
+        />
+      </View>
       <View style={styles.inputContainer}>
         <View style={styles.emailContainer}>
           <CustomText text="Email" style={styles.label} />

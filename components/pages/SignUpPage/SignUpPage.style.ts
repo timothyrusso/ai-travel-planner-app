@@ -22,4 +22,13 @@ export const styles = StyleSheet.create({
     paddingTop: dimensions.separator40,
     rowGap: dimensions.Quintuple,
   },
+  subtitle: {
+    fontFamily: 'inter',
+    fontSize: dimensions.Triple,
+    marginTop: dimensions.Double,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
 });

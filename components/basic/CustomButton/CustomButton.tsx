@@ -1,4 +1,4 @@
-import { View, Text, Pressable, StyleProp, ViewStyle } from 'react-native';
+import { Text, Pressable, StyleProp, ViewStyle } from 'react-native';
 import React, { FC } from 'react';
 import { styles } from './CustomButton.style';
 
