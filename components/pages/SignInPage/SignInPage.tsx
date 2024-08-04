@@ -11,9 +11,12 @@ import CustomIconButton from '@/components/basic/CustomIconButton/CustomIconButt
 import { icons } from '@/constants/icons';
 import { dimensions } from '@/constants/dimensions';
 import { colors } from '@/constants/colors';
+import { useSignInPageLogic } from './SignInPage.logic';
 
 const SignInPage = () => {
   const router = useRouter();
+  const { signIn, email, setEmail, password, setPassword, isLoading } =
+    useSignInPageLogic();
 
   return (
     <BasicView>
@@ -29,18 +32,24 @@ const SignInPage = () => {
       <View style={styles.inputContainer}>
         <View style={styles.emailContainer}>
           <CustomText text="Email" style={styles.label} />
-          <CustomTextInput placeholder="Enter the email" />
+          <CustomTextInput
+            placeholder="Enter the email"
+            onChangeText={(text: string) => setEmail(text)}
+            value={email}
+          />
         </View>
         <View style={styles.passwordContainer}>
           <CustomText text="Password" style={styles.label} />
           <CustomTextInput
             placeholder="Enter the password"
             secureTextEntry={true}
+            onChangeText={(text: string) => setPassword(text)}
+            value={password}
           />
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <CustomButton title="Sign In" onPress={() => {}} />
+        <CustomButton title="Sign In" onPress={signIn} isLoading={isLoading} />
         <CustomButton
           title="Create an account"
           onPress={() => router.replace(routes.signUp)}
