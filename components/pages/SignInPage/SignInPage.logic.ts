@@ -1,20 +1,24 @@
+import { AuthError, signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 import { auth } from '../../../configs/firebaseConfig';
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  AuthError,
-} from 'firebase/auth';
 
 export const useSignInPageLogic = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
-  const signIn = async () => {
+  const onSignIn = async () => {
+    if (!email || !password) return;
+
     setLoading(true);
+
     try {
-      const response = await signInWithEmailAndPassword(auth, email, password);
+      const response = await signInWithEmailAndPassword(
+        auth,
+        email.toLowerCase(),
+        password
+      );
+      console.log(response);
     } catch (error) {
       const typedError = error as AuthError;
       console.log(typedError);
@@ -23,5 +27,12 @@ export const useSignInPageLogic = () => {
     }
   };
 
-  return { signIn, email, setEmail, password, setPassword, isLoading: loading };
+  return {
+    onSignIn,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    isLoading: loading,
+  };
 };

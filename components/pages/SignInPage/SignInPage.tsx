@@ -1,21 +1,21 @@
-import { View, Text, TextInput } from 'react-native';
-import React from 'react';
-import { styles } from './SignInPage.style';
-import BasicView from '@/components/composite/BasicView/BasicView';
-import CustomTextInput from '@/components/basic/CustomTextInput/CustomTextInput';
-import CustomText from '@/components/basic/CustomText/CustomText';
 import CustomButton from '@/components/basic/CustomButton/CustomButton';
-import { useRouter } from 'expo-router';
-import { routes } from '@/constants/routes';
 import CustomIconButton from '@/components/basic/CustomIconButton/CustomIconButton';
-import { icons } from '@/constants/icons';
-import { dimensions } from '@/constants/dimensions';
+import CustomText from '@/components/basic/CustomText/CustomText';
+import CustomTextInput from '@/components/basic/CustomTextInput/CustomTextInput';
+import BasicView from '@/components/composite/BasicView/BasicView';
 import { colors } from '@/constants/colors';
+import { dimensions } from '@/constants/dimensions';
+import { icons } from '@/constants/icons';
+import { routes } from '@/constants/routes';
+import { useRouter } from 'expo-router';
+import React from 'react';
+import { Text, View } from 'react-native';
 import { useSignInPageLogic } from './SignInPage.logic';
+import { styles } from './SignInPage.style';
 
 const SignInPage = () => {
   const router = useRouter();
-  const { signIn, email, setEmail, password, setPassword, isLoading } =
+  const { onSignIn, email, setEmail, password, setPassword, isLoading } =
     useSignInPageLogic();
 
   return (
@@ -49,7 +49,11 @@ const SignInPage = () => {
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <CustomButton title="Sign In" onPress={signIn} isLoading={isLoading} />
+        <CustomButton
+          title="Sign In"
+          onPress={onSignIn}
+          isLoading={isLoading}
+        />
         <CustomButton
           title="Create an account"
           onPress={() => router.replace(routes.signUp)}

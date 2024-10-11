@@ -1,13 +1,13 @@
+import { colors } from '@/constants/colors';
+import React, { FC } from 'react';
 import {
-  Text,
+  ActivityIndicator,
   Pressable,
   StyleProp,
+  Text,
   ViewStyle,
-  ActivityIndicator,
 } from 'react-native';
-import React, { FC } from 'react';
 import { styles } from './CustomButton.style';
-import { colors } from '@/constants/colors';
 
 type CustomButtonProps = {
   title: string;

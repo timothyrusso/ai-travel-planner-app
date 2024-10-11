@@ -1,20 +1,29 @@
-import { View, Text, TextInput } from 'react-native';
-import React from 'react';
-import { styles } from './SignUpPage.style';
-import BasicView from '@/components/composite/BasicView/BasicView';
-import CustomTextInput from '@/components/basic/CustomTextInput/CustomTextInput';
-import CustomText from '@/components/basic/CustomText/CustomText';
 import CustomButton from '@/components/basic/CustomButton/CustomButton';
-import { useRouter } from 'expo-router';
-import { routes } from '@/constants/routes';
-import { Ionicons } from '@expo/vector-icons';
-import { icons } from '@/constants/icons';
-import { dimensions } from '@/constants/dimensions';
-import { colors } from '@/constants/colors';
 import CustomIconButton from '@/components/basic/CustomIconButton/CustomIconButton';
+import CustomText from '@/components/basic/CustomText/CustomText';
+import CustomTextInput from '@/components/basic/CustomTextInput/CustomTextInput';
+import BasicView from '@/components/composite/BasicView/BasicView';
+import { colors } from '@/constants/colors';
+import { dimensions } from '@/constants/dimensions';
+import { icons } from '@/constants/icons';
+import { routes } from '@/constants/routes';
+import React from 'react';
+import { Text, View } from 'react-native';
+import { useSignUpPageLogic } from './SignUpPage.logic';
+import { styles } from './SignUpPage.style';
 
 const SignUpPage = () => {
-  const router = useRouter();
+  const {
+    onCreateAccount,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    fullName,
+    setFullName,
+    router,
+    isLoading,
+  } = useSignUpPageLogic();
 
   return (
     <BasicView>
@@ -31,24 +40,35 @@ const SignUpPage = () => {
       <View style={styles.inputContainer}>
         <View style={styles.emailContainer}>
           <CustomText text="Name" style={styles.label} />
-          <CustomTextInput placeholder="Enter the name" />
+          <CustomTextInput
+            placeholder="Enter the full name"
+            onChangeText={(text: string) => setFullName(text)}
+            value={fullName}
+          />
         </View>
         <View style={styles.emailContainer}>
           <CustomText text="Email" style={styles.label} />
-          <CustomTextInput placeholder="Enter the email" />
+          <CustomTextInput
+            placeholder="Enter the email"
+            onChangeText={(text: string) => setEmail(text)}
+            value={email}
+          />
         </View>
         <View style={styles.passwordContainer}>
           <CustomText text="Password" style={styles.label} />
           <CustomTextInput
             placeholder="Enter the password"
             secureTextEntry={true}
+            onChangeText={(text: string) => setPassword(text)}
+            value={password}
           />
         </View>
       </View>
       <View style={styles.buttonContainer}>
         <CustomButton
           title="Create an account"
-          onPress={() => router.replace(routes.signUp)}
+          onPress={onCreateAccount}
+          isLoading={isLoading}
         />
         <CustomButton
           title="Sign In"
