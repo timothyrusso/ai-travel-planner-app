@@ -21,8 +21,15 @@ export const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: '100%',
-    flexDirection: 'row',
     justifyContent: 'center',
     paddingTop: dimensions.separator40 + dimensions.TripleAndHalf,
+    rowGap: dimensions.Fourfold,
+  },
+  title: {
+    fontFamily: 'inter',
+    fontSize: dimensions.Triple,
+    marginTop: dimensions.Double,
+    textAlign: 'center',
+    paddingHorizontal: dimensions.separator80,
   },
 });

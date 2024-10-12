@@ -10,6 +10,7 @@ import { routes } from '@/constants/routes';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { Text, View } from 'react-native';
+import Toast from 'react-native-toast-message';
 import { useSignInPageLogic } from './SignInPage.logic';
 import { styles } from './SignInPage.style';
 
@@ -60,6 +61,7 @@ const SignInPage = () => {
           outline
         />
       </View>
+      <Toast />
     </BasicView>
   );
 };

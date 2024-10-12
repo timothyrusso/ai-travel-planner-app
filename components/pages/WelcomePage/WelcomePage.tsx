@@ -1,10 +1,11 @@
-import { View, Text, Image } from 'react-native';
-import React from 'react';
-import TravelAnimation from '@/components/basic/TravelAnimation/TravelAnimation';
-import { styles } from './WelcomePage.style';
 import CustomButton from '@/components/basic/CustomButton/CustomButton';
-import { useRouter } from 'expo-router';
+import CustomText from '@/components/basic/CustomText/CustomText';
+import TravelAnimation from '@/components/basic/TravelAnimation/TravelAnimation';
 import { routes } from '@/constants/routes';
+import { useRouter } from 'expo-router';
+import React from 'react';
+import { Image, View } from 'react-native';
+import { styles } from './WelcomePage.style';
 
 const WelcomePage = () => {
   const router = useRouter();
@@ -17,6 +18,10 @@ const WelcomePage = () => {
       />
       <TravelAnimation style={styles.Animation} />
       <View style={styles.buttonContainer}>
+        <CustomText
+          text="Effortlessly plan your trips with AI at your fingertips!"
+          style={styles.title}
+        />
         <CustomButton
           title="Get started"
           onPress={() => router.push(routes.signIn)}

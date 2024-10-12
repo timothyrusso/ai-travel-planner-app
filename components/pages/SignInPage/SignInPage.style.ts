@@ -7,10 +7,10 @@ export const styles = StyleSheet.create({
     fontSize: dimensions.Fourfold,
   },
   emailContainer: {
-    paddingVertical: dimensions.Triple,
+    paddingTop: dimensions.Double,
   },
   passwordContainer: {
-    paddingVertical: dimensions.Triple,
+    paddingVertical: dimensions.Double,
   },
   label: {
     marginBottom: dimensions.Single,
@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
   },
   buttonContainer: {
     paddingTop: dimensions.separator40,
-    rowGap: dimensions.Quintuple,
+    rowGap: dimensions.Triple,
   },
   header: {
     flexDirection: 'row',

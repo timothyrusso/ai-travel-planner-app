@@ -9,6 +9,7 @@ import { icons } from '@/constants/icons';
 import { routes } from '@/constants/routes';
 import React from 'react';
 import { Text, View } from 'react-native';
+import Toast from 'react-native-toast-message';
 import { useSignUpPageLogic } from './SignUpPage.logic';
 import { styles } from './SignUpPage.style';
 
@@ -76,6 +77,7 @@ const SignUpPage = () => {
           outline
         />
       </View>
+      <Toast />
     </BasicView>
   );
 };

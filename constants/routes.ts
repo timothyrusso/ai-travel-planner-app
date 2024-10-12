@@ -1,5 +1,7 @@
+import { Href } from 'expo-router';
+
 export const routes = {
-  welcomePage: 'index',
-  signUp: 'auth/sign-up',
-  signIn: 'auth/sign-in',
-};
+  welcomePage: 'index' as Href<string | object>,
+  signUp: 'auth/sign-up' as Href<string | object>,
+  signIn: 'auth/sign-in' as Href<string | object>,
+} as const;

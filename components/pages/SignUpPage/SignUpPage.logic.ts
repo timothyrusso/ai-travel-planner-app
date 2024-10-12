@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router';
 import { FirebaseError } from 'firebase/app';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
+import Toast from 'react-native-toast-message';
 
 export const useSignUpPageLogic = () => {
   const [email, setEmail] = useState<string>('');
@@ -12,8 +13,18 @@ export const useSignUpPageLogic = () => {
 
   const router = useRouter();
 
+  const showToast = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'Invalid credentials',
+    });
+  };
+
   const onCreateAccount = async () => {
-    if (!email || !password || !fullName) return;
+    if (!email || !password || !fullName) {
+      showToast();
+      return;
+    }
 
     setLoading(true);
 
@@ -27,6 +38,7 @@ export const useSignUpPageLogic = () => {
       console.log(user);
     } catch (error) {
       const { code: errorCode, message: errorMessage } = error as FirebaseError;
+      showToast();
       console.log(errorCode, errorMessage);
     } finally {
       setLoading(false);

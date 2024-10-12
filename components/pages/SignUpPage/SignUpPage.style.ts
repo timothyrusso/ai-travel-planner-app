@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     fontSize: dimensions.Fourfold,
   },
   emailContainer: {
-    paddingVertical: dimensions.Triple,
+    paddingTop: dimensions.Triple,
   },
   passwordContainer: {
     paddingVertical: dimensions.Triple,
@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
   },
   buttonContainer: {
     paddingTop: dimensions.separator40,
-    rowGap: dimensions.Quintuple,
+    rowGap: dimensions.Triple,
   },
   subtitle: {
     fontFamily: 'inter',
