@@ -1,4 +1,6 @@
 import { auth } from '@/configs/firebaseConfig';
+import { routes } from '@/constants/routes';
+import { router } from 'expo-router';
 import { AuthError, signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 import Toast from 'react-native-toast-message';
@@ -24,12 +26,8 @@ export const useSignInPageLogic = () => {
     setLoading(true);
 
     try {
-      const response = await signInWithEmailAndPassword(
-        auth,
-        email.toLowerCase(),
-        password
-      );
-      console.log(response);
+      await signInWithEmailAndPassword(auth, email.toLowerCase(), password);
+      router.replace(routes.myTrip);
     } catch (error) {
       const typedError = error as AuthError;
       showToast();

@@ -1,4 +1,5 @@
 import { auth } from '@/configs/firebaseConfig';
+import { routes } from '@/constants/routes';
 import { useRouter } from 'expo-router';
 import { FirebaseError } from 'firebase/app';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -29,13 +30,8 @@ export const useSignUpPageLogic = () => {
     setLoading(true);
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
-      console.log(user);
+      await createUserWithEmailAndPassword(auth, email, password);
+      router.replace(routes.myTrip);
     } catch (error) {
       const { code: errorCode, message: errorMessage } = error as FirebaseError;
       showToast();
