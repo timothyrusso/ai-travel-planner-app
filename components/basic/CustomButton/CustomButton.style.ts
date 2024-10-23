@@ -1,6 +1,7 @@
-import { StyleSheet } from 'react-native';
 import { colors } from '@/constants/colors';
 import { dimensions } from '@/constants/dimensions';
+import { fonts } from '@/constants/fonts';
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   main: {
@@ -14,7 +15,7 @@ export const styles = StyleSheet.create({
   },
   text: {
     color: colors.primaryWhite,
-    fontFamily: 'inter-medium',
+    fontFamily: fonts.interMedium,
     fontSize: dimensions.Triple,
   },
   pressed: {

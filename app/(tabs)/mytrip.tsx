@@ -1,34 +1,19 @@
-import CustomText from '@/components/basic/CustomText/CustomText';
 import BasicView from '@/components/composite/BasicView/BasicView';
+import MyTripContainer from '@/components/composite/MyTripContainer/MyTripContainer';
+import MyTripHeader from '@/components/composite/MyTripHeader/MyTripHeader';
 import StartNewTripCard from '@/components/composite/StartNewTripCard/StartNewTripCard';
-import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { View } from 'react-native';
 
 const MyTrip = () => {
   const [userTrips, setUserTrips] = React.useState([]);
 
   return (
     <BasicView>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}
-      >
-        <CustomText
-          text="My Trips"
-          style={{ fontSize: 30, fontFamily: 'inter-bold' }}
-        />
-        <Ionicons name="add-circle" size={24} color="black" />
-      </View>
+      <MyTripHeader />
 
-      {userTrips.length === 0 ? (
-        <StartNewTripCard />
-      ) : (
-        <CustomText text="Your Trips" />
-      )}
+      <MyTripContainer>
+        {userTrips.length === 0 ? <StartNewTripCard /> : null}
+      </MyTripContainer>
     </BasicView>
   );
 };

@@ -1,11 +1,14 @@
+import { fonts } from '@/constants/fonts';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 
 export default function RootLayout() {
+  const { interRegular, interMedium, interBold } = fonts;
+
   useFonts({
-    inter: require('../assets/fonts/Inter-Regular.ttf'),
-    'inter-medium': require('../assets/fonts/Inter-Medium.ttf'),
-    'inter-bold': require('../assets/fonts/Inter-Bold.ttf'),
+    interRegular: require('../assets/fonts/Inter-Regular.ttf'),
+    interMedium: require('../assets/fonts/Inter-Medium.ttf'),
+    interBold: require('../assets/fonts/Inter-Bold.ttf'),
   });
 
   return (

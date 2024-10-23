@@ -1,4 +1,5 @@
 import { dimensions } from '@/constants/dimensions';
+import { fonts } from '@/constants/fonts';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
@@ -26,7 +27,7 @@ export const styles = StyleSheet.create({
     rowGap: dimensions.Fourfold,
   },
   title: {
-    fontFamily: 'inter',
+    fontFamily: fonts.interRegular,
     fontSize: dimensions.Triple,
     marginTop: dimensions.Double,
     textAlign: 'center',

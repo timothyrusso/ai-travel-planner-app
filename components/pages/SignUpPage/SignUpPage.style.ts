@@ -1,9 +1,10 @@
 import { dimensions } from '@/constants/dimensions';
+import { fonts } from '@/constants/fonts';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   title: {
-    fontFamily: 'inter-bold',
+    fontFamily: fonts.interBold,
     fontSize: dimensions.Fourfold,
   },
   emailContainer: {
@@ -23,7 +24,7 @@ export const styles = StyleSheet.create({
     rowGap: dimensions.Triple,
   },
   subtitle: {
-    fontFamily: 'inter',
+    fontFamily: fonts.interRegular,
     fontSize: dimensions.Triple,
     marginTop: dimensions.Double,
   },

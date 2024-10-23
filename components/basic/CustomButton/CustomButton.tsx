@@ -5,6 +5,7 @@ import {
   Pressable,
   StyleProp,
   Text,
+  TextStyle,
   ViewStyle,
 } from 'react-native';
 import { styles } from './CustomButton.style';
@@ -14,7 +15,7 @@ type CustomButtonProps = {
   onPress: () => void;
   outline?: boolean;
   style?: StyleProp<ViewStyle>;
-  textStyle?: StyleProp<ViewStyle>;
+  textStyle?: StyleProp<TextStyle>;
   isLoading?: boolean;
   activityndicatorColor?: string;
 };
