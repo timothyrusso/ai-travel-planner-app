@@ -1,7 +1,7 @@
-import BasicView from '@/components/composite/BasicView/BasicView';
-import MyTripContainer from '@/components/composite/MyTripContainer/MyTripContainer';
-import MyTripHeader from '@/components/composite/MyTripHeader/MyTripHeader';
-import StartNewTripCard from '@/components/composite/StartNewTripCard/StartNewTripCard';
+import BasicView from '@/ui/components/composite/BasicView/BasicView';
+import MyTripContainer from '@/ui/components/composite/MyTripContainer/MyTripContainer';
+import MyTripHeader from '@/ui/components/composite/MyTripHeader/MyTripHeader';
+import StartNewTripCard from '@/ui/components/composite/StartNewTripCard/StartNewTripCard';
 import React from 'react';
 
 const MyTrip = () => {

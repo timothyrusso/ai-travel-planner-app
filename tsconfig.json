@@ -5,7 +5,9 @@
     "paths": {
       "@/*": ["./*"],
       "@firebase/auth": ["./node_modules/@firebase/auth/dist/index.rn.d.ts"],
-      "@configs/*": ["./configs/*"]
+      "@configs/*": ["./configs/*"],
+      "@constants/*": ["./constants/*"],
+      "@ui/*": ["./ui/*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]

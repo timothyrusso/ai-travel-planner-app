@@ -1,7 +1,6 @@
-import { View, Text } from 'react-native';
-import React, { useEffect } from 'react';
+import SignUpPage from '@/ui/pages/SignUpPage/SignUpPage';
 import { useNavigation } from 'expo-router';
-import SignUpPage from '@/components/pages/SignUpPage/SignUpPage';
+import React, { useEffect } from 'react';
 
 const SignUp = () => {
   const navigation = useNavigation();

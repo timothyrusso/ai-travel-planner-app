@@ -1,7 +1,6 @@
-import { View, Text } from 'react-native';
-import React, { useEffect } from 'react';
+import SignInPage from '@/ui/pages/SignInPage/SignInPage';
 import { useNavigation } from 'expo-router';
-import SignInPage from '@/components/pages/SignInPage/SignInPage';
+import React, { useEffect } from 'react';
 
 const SignIn = () => {
   const navigation = useNavigation();

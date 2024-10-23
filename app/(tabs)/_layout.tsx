@@ -1,5 +1,5 @@
-import { colors } from '@/constants/colors';
-import { dimensions } from '@/constants/dimensions';
+import { colors } from '@/constants/style/colors';
+import { dimensions } from '@/constants/style/dimensions';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';

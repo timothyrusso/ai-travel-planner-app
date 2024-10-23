@@ -1,6 +1,6 @@
-import WelcomePage from '@/components/pages/WelcomePage/WelcomePage';
 import { auth } from '@/configs/firebaseConfig';
 import { routes } from '@/constants/routes';
+import WelcomePage from '@/ui/pages/WelcomePage/WelcomePage';
 import { Redirect } from 'expo-router';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useState } from 'react';
