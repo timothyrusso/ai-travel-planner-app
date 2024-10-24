@@ -3,8 +3,10 @@ import { dimensions } from '@/constants/style/dimensions';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 const TabLayout = () => {
+  const { t } = useTranslation();
   return (
     <Tabs
       screenOptions={{
@@ -14,7 +16,7 @@ const TabLayout = () => {
     >
       <Tabs.Screen
         options={{
-          tabBarLabel: 'My Trip',
+          tabBarLabel: t('MYTRIP.TITLE'),
           tabBarIcon: ({ color }) => (
             <Ionicons
               name="location"
@@ -28,7 +30,7 @@ const TabLayout = () => {
       <Tabs.Screen
         name="discover"
         options={{
-          tabBarLabel: 'Discover',
+          tabBarLabel: t('DISCOVER.TITLE'),
           tabBarIcon: ({ color }) => (
             <Ionicons
               name="globe-outline"
@@ -41,7 +43,7 @@ const TabLayout = () => {
       <Tabs.Screen
         name="profile"
         options={{
-          tabBarLabel: 'Profile',
+          tabBarLabel: t('PROFILE.TITLE'),
           tabBarIcon: ({ color }) => (
             <Ionicons
               name="person-circle-outline"

@@ -4,11 +4,13 @@ import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import TravelAnimation from '@/ui/components/basic/TravelAnimation/TravelAnimation';
 import { useRouter } from 'expo-router';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Image, View } from 'react-native';
 import { styles } from './WelcomePage.style';
 
 const WelcomePage = () => {
   const router = useRouter();
+  const { t } = useTranslation();
 
   return (
     <View style={styles.container}>
@@ -18,12 +20,9 @@ const WelcomePage = () => {
       />
       <TravelAnimation style={styles.Animation} />
       <View style={styles.buttonContainer}>
-        <CustomText
-          text="Effortlessly plan your trips with AI at your fingertips!"
-          style={styles.title}
-        />
+        <CustomText text={t('WELCOME.TITLE')} style={styles.title} />
         <CustomButton
-          title="Get started"
+          title={t('WELCOME.BUTTON')}
           onPress={() => router.push(routes.signIn)}
           style={styles.button}
         />

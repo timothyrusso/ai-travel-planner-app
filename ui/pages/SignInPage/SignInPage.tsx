@@ -9,20 +9,20 @@ import CustomTextInput from '@/ui/components/basic/CustomTextInput/CustomTextInp
 import BasicView from '@/ui/components/composite/BasicView/BasicView';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { useSignInPageLogic } from './SignInPage.logic';
 import { styles } from './SignInPage.style';
 
 const SignInPage = () => {
   const router = useRouter();
-  const { onSignIn, email, setEmail, password, setPassword, isLoading } =
+  const { onSignIn, email, setEmail, password, setPassword, isLoading, t } =
     useSignInPageLogic();
 
   return (
     <BasicView>
       <View style={styles.header}>
-        <Text style={styles.title}>Sign In</Text>
+        <CustomText text={t('SIGNIN.TITLE')} style={styles.title} />
         <CustomIconButton
           icon={icons.circleClose}
           iconSize={dimensions.Fourfold + dimensions.MinimalDouble}
@@ -32,17 +32,17 @@ const SignInPage = () => {
       </View>
       <View style={styles.inputContainer}>
         <View style={styles.emailContainer}>
-          <CustomText text="Email" style={styles.label} />
+          <CustomText text={t('SIGNIN.EMAIL')} style={styles.label} />
           <CustomTextInput
-            placeholder="Enter the email"
+            placeholder={t('SIGNIN.EMAIL_PLACEHOLDER')}
             onChangeText={(text: string) => setEmail(text)}
             value={email}
           />
         </View>
         <View style={styles.passwordContainer}>
-          <CustomText text="Password" style={styles.label} />
+          <CustomText text={t('SIGNIN.PASSWORD')} style={styles.label} />
           <CustomTextInput
-            placeholder="Enter the password"
+            placeholder={t('SIGNIN.PASSWORD_PLACEHOLDER')}
             secureTextEntry={true}
             onChangeText={(text: string) => setPassword(text)}
             value={password}
@@ -51,12 +51,12 @@ const SignInPage = () => {
       </View>
       <View style={styles.buttonContainer}>
         <CustomButton
-          title="Sign In"
+          title={t('SIGNIN.TITLE')}
           onPress={onSignIn}
           isLoading={isLoading}
         />
         <CustomButton
-          title="Create an account"
+          title={t('SIGNIN.CREATE_ACCOUNT')}
           onPress={() => router.replace(routes.signUp)}
           outline
         />

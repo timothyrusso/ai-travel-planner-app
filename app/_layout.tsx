@@ -1,9 +1,10 @@
-import { fonts } from '@/constants/style/fonts';
+import i18n from '@/ui/translations/i18n';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 
 export default function RootLayout() {
-  const { interRegular, interMedium, interBold } = fonts;
+  // Initialize localization
+  i18n;
 
   useFonts({
     'inter-regular': require('../ui/assets/fonts/Inter-Regular.ttf'),

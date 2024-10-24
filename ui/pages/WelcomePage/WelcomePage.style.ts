@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
   buttonContainer: {
     width: '100%',
     justifyContent: 'center',
-    paddingTop: dimensions.separator40 + dimensions.TripleAndHalf,
+    paddingTop: dimensions.separator40,
     rowGap: dimensions.Fourfold,
   },
   title: {

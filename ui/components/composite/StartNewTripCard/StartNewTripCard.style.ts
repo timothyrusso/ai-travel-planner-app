@@ -20,7 +20,7 @@ export const style = StyleSheet.create({
     textAlign: 'center',
   },
   button: {
-    width: '50%',
+    width: '60%',
   },
   buttonText: {
     textAlign: 'center',

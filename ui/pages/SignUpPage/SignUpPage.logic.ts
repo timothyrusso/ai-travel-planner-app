@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { FirebaseError } from 'firebase/app';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Toast from 'react-native-toast-message';
 
 export const useSignUpPageLogic = () => {
@@ -11,6 +12,7 @@ export const useSignUpPageLogic = () => {
   const [password, setPassword] = useState<string>('');
   const [fullName, setFullName] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const { t } = useTranslation();
 
   const router = useRouter();
 
@@ -51,5 +53,6 @@ export const useSignUpPageLogic = () => {
     setFullName,
     router,
     isLoading: loading,
+    t,
   };
 };
