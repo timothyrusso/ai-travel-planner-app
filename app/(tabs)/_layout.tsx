@@ -1,5 +1,6 @@
 import { colors } from '@/constants/style/colors';
 import { dimensions } from '@/constants/style/dimensions';
+import { icons } from '@/constants/style/icons';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
@@ -19,7 +20,7 @@ const TabLayout = () => {
           tabBarLabel: t('MYTRIP.TITLE'),
           tabBarIcon: ({ color }) => (
             <Ionicons
-              name="location"
+              name={icons.location}
               size={dimensions.Fourfold}
               color={color}
             />
@@ -33,7 +34,7 @@ const TabLayout = () => {
           tabBarLabel: t('DISCOVER.TITLE'),
           tabBarIcon: ({ color }) => (
             <Ionicons
-              name="globe-outline"
+              name={icons.globeOutline}
               size={dimensions.Fourfold}
               color={color}
             />
@@ -46,7 +47,7 @@ const TabLayout = () => {
           tabBarLabel: t('PROFILE.TITLE'),
           tabBarIcon: ({ color }) => (
             <Ionicons
-              name="person-circle-outline"
+              name={icons.personCircleOutline}
               size={dimensions.Fourfold}
               color={color}
             />

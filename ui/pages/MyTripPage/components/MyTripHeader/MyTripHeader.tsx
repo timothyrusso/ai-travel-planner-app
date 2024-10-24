@@ -1,5 +1,6 @@
 import { colors } from '@/constants/style/colors';
 import { dimensions } from '@/constants/style/dimensions';
+import { icons } from '@/constants/style/icons';
 import CustomIconButton from '@/ui/components/basic/CustomIconButton/CustomIconButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import React from 'react';
@@ -14,7 +15,7 @@ const MyTripHeader = () => {
     <View style={style.container}>
       <CustomText text={t('MYTRIP.TITLE')} style={style.title} />
       <CustomIconButton
-        icon="add-circle"
+        icon={icons.addCircle}
         iconSize={dimensions.Fourfold}
         iconColor={colors.primaryBlack}
         onPress={() => {}}

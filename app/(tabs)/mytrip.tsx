@@ -1,21 +1,8 @@
-import BasicView from '@/ui/components/composite/BasicView/BasicView';
-import MyTripContainer from '@/ui/components/composite/MyTripContainer/MyTripContainer';
-import MyTripHeader from '@/ui/components/composite/MyTripHeader/MyTripHeader';
-import StartNewTripCard from '@/ui/components/composite/StartNewTripCard/StartNewTripCard';
+import MyTripPage from '@/ui/pages/MyTripPage/MyTripPage';
 import React from 'react';
 
 const MyTrip = () => {
-  const [userTrips, setUserTrips] = React.useState([]);
-
-  return (
-    <BasicView>
-      <MyTripHeader />
-
-      <MyTripContainer>
-        {userTrips.length === 0 ? <StartNewTripCard /> : null}
-      </MyTripContainer>
-    </BasicView>
-  );
+  return <MyTripPage />;
 };
 
 export default MyTrip;
