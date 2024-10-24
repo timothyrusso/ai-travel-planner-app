@@ -3,8 +3,7 @@
   "MYTRIP": {
     "NO_TRIPS_PLANNED": "No trips planned yet",
     "START_NEW_TRIP": "Start New Trip",
-    "TITLE": "My Trips",
-    "EMPTY_LIST_CARD_DESC": "Looks like its time to plan a new travel experience! Get started below!"
+    "TITLE": "My Trips"
   },
   "DISCOVER": {
     "TITLE": "Discover"
@@ -17,12 +16,12 @@
     "BUTTON": "Get Started"
   },
   "SIGNIN": {
-    "TITLE:": "Sign In",
     "EMAIL": "Email",
     "EMAIL_PLACEHOLDER": "Enter your email",
     "PASSWORD": "Password",
     "PASSWORD_PLACEHOLDER": "Enter your password",
-    "CREATE_ACCOUNT": "Create an account"
+    "CREATE_ACCOUNT": "Create an account",
+    "TITLE": "Sign In"
   },
   "SIGNUP": {
     "TITLE": "Sign Up",

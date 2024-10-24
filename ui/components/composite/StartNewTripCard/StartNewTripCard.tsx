@@ -21,10 +21,6 @@ const StartNewTripCard = () => {
         color={colors.primaryBlack}
       />
       <CustomText text={t('MYTRIP.NO_TRIPS_PLANNED')} style={style.title} />
-      <CustomText
-        text={t('MYTRIP.EMPTY_LIST_CARD_DESC')}
-        style={style.subtitle}
-      />
       <CustomButton
         title={t('MYTRIP.START_NEW_TRIP')}
         onPress={() => changeLanguage('it')}

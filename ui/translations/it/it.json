@@ -3,8 +3,7 @@
   "MYTRIP": {
     "NO_TRIPS_PLANNED": "Nessun viaggio pianificato",
     "START_NEW_TRIP": "Inizia un nuovo viaggio",
-    "TITLE": "Viaggi",
-    "EMPTY_LIST_CARD_DESC": "Sembra che sia il momento di pianificare una nuova esperienza di viaggio! Inizia qui sotto!"
+    "TITLE": "Viaggi"
   },
   "DISCOVER": {
     "TITLE": "Esplora"
@@ -17,12 +16,12 @@
     "BUTTON": "Inizia"
   },
   "SIGNIN": {
-    "TITLE:": "Accedi",
     "EMAIL": "Email",
     "EMAIL_PLACEHOLDER": "Inserisci la tua email",
     "PASSWORD": "Password",
     "PASSWORD_PLACEHOLDER": "Inserisci la tua password",
-    "CREATE_ACCOUNT": "Crea un account"
+    "CREATE_ACCOUNT": "Crea un account",
+    "TITLE": "Accedi"
   },
   "SIGNUP": {
     "TITLE": "Registrati",
