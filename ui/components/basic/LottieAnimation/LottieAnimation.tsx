@@ -4,20 +4,22 @@ import { StyleProp, ViewStyle } from 'react-native';
 
 type TravelAnimationProps = {
   style: StyleProp<ViewStyle>;
+  animationPath: string;
   autoPlay?: boolean;
   loop?: boolean;
 };
 export default function TravelAnimation({
   style,
-  autoPlay,
-  loop,
+  animationPath,
+  autoPlay = true,
+  loop = true,
 }: TravelAnimationProps) {
   return (
     <LottieView
-      source={require('../../../assets/lottie/travel_animation.json')}
+      source={animationPath}
       style={style}
-      autoPlay
-      loop
+      autoPlay={autoPlay}
+      loop={loop}
     />
   );
 }

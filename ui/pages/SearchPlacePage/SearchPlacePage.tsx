@@ -3,6 +3,7 @@ import { dimensions } from '@/constants/style/dimensions';
 import { icons } from '@/constants/style/icons';
 import CustomIconButton from '@/ui/components/basic/CustomIconButton/CustomIconButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
+import LottieAnimation from '@/ui/components/basic/LottieAnimation/LottieAnimation';
 import BasicView from '@/ui/components/composite/BasicView/BasicView';
 import PlacesAutocomplete from '@/ui/components/composite/PlacesAutocomplete/PlacesAutocomplete';
 import React from 'react';
@@ -11,7 +12,8 @@ import { useSearchPageLogic } from './SearchPlacePage.logic';
 import { styles } from './SearchPlacePage.style';
 
 const SearchPlacePage = () => {
-  const { goBackHandler, handleSearchPress, t } = useSearchPageLogic();
+  const { goBackHandler, handleSearchPress, t, animation } =
+    useSearchPageLogic();
 
   return (
     <BasicView>
@@ -31,6 +33,11 @@ const SearchPlacePage = () => {
         />
         <PlacesAutocomplete onPress={handleSearchPress} />
       </View>
+      <LottieAnimation
+        style={styles.Animation}
+        animationPath={animation}
+        loop={false}
+      />
     </BasicView>
   );
 };

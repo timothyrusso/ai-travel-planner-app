@@ -19,4 +19,9 @@ export const styles = StyleSheet.create({
     fontFamily: fonts.interMedium,
     fontSize: dimensions.Triple,
   },
+  Animation: {
+    width: '100%',
+    height: dimensions.travelAnimationHeight,
+    marginTop: dimensions.separator80 + dimensions.separator80,
+  },
 });

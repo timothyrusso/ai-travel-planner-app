@@ -14,5 +14,7 @@ export const useSearchPageLogic = () => {
 
   const goBackHandler = () => router.back();
 
-  return { handleSearchPress, goBackHandler, t };
+  const animation = require('../../assets/lottie/search_animation.json');
+
+  return { handleSearchPress, goBackHandler, t, animation };
 };

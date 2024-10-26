@@ -1,16 +1,13 @@
-import { routes } from '@/constants/routes';
 import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
-import TravelAnimation from '@/ui/components/basic/TravelAnimation/TravelAnimation';
-import { useRouter } from 'expo-router';
+import LottieAnimation from '@/ui/components/basic/LottieAnimation/LottieAnimation';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Image, View } from 'react-native';
+import { useWelcomePageLogic } from './WelcomePage.logic';
 import { styles } from './WelcomePage.style';
 
 const WelcomePage = () => {
-  const router = useRouter();
-  const { t } = useTranslation();
+  const { handlePress, t, animation } = useWelcomePageLogic();
 
   return (
     <View style={styles.container}>
@@ -18,12 +15,12 @@ const WelcomePage = () => {
         source={require('../../assets/images/main_logo.png')}
         style={styles.logo}
       />
-      <TravelAnimation style={styles.Animation} />
+      <LottieAnimation style={styles.Animation} animationPath={animation} />
       <View style={styles.buttonContainer}>
         <CustomText text={t('WELCOME.TITLE')} style={styles.title} />
         <CustomButton
           title={t('WELCOME.BUTTON')}
-          onPress={() => router.push(routes.signIn)}
+          onPress={handlePress}
           style={styles.button}
         />
       </View>
