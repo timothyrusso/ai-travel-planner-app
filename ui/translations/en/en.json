@@ -32,5 +32,10 @@
     "EMAIL_PLACEHOLDER": "Enter your email",
     "PASSWORD": "Password",
     "PASSWORD_PLACEHOLDER": "Enter your password"
+  },
+  "SEARCH_PLACE_PAGE": {
+    "TITLE": "Search",
+    "DESCRIPTION": "Search your next destination!",
+    "SEARCH_PLACE": "Search Place"
   }
 }

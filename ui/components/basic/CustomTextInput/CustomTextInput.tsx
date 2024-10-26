@@ -1,10 +1,11 @@
-import { View, Text, TextInput, TextInputProps } from 'react-native';
 import React, { FC } from 'react';
+import { TextInput, TextInputProps, View } from 'react-native';
 import { styles } from './CustomTextInput.style';
 
 type CustomTextInputProps = TextInputProps & {
   placeholder: string;
 };
+
 const CustomTextInput: FC<CustomTextInputProps> = ({
   placeholder,
   ...TextInputProps

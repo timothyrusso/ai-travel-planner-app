@@ -11,4 +11,12 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  searchContainer: {
+    marginTop: dimensions.separator40,
+    rowGap: dimensions.Triple,
+  },
+  description: {
+    fontFamily: fonts.interMedium,
+    fontSize: dimensions.Triple,
+  },
 });
