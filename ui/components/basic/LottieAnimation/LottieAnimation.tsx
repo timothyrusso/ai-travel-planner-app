@@ -8,7 +8,7 @@ type TravelAnimationProps = {
   autoPlay?: boolean;
   loop?: boolean;
 };
-export default function TravelAnimation({
+export default function LottieAnimation({
   style,
   animationPath,
   autoPlay = true,

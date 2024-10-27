@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingTop: dimensions.separator80,
   },
-  Animation: {
+  animation: {
     width: '100%',
     height: dimensions.travelAnimationHeight,
   },

@@ -12,16 +12,28 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   searchContainer: {
+    flex: 1,
     marginTop: dimensions.separator40,
     rowGap: dimensions.Triple,
+    position: 'relative',
+  },
+  autoCompleteContainer: {
+    flex: 1,
+    position: 'absolute',
+    top: dimensions.separator40,
+    zIndex: 1,
+    width: '100%',
   },
   description: {
     fontFamily: fonts.interMedium,
     fontSize: dimensions.Triple,
   },
-  Animation: {
+  animation: {
     width: '100%',
-    height: dimensions.travelAnimationHeight,
-    marginTop: dimensions.separator80 + dimensions.separator80,
+    height: dimensions.searchAnimationHeight,
+  },
+  animationContainer: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });

@@ -15,7 +15,7 @@ const WelcomePage = () => {
         source={require('../../assets/images/main_logo.png')}
         style={styles.logo}
       />
-      <LottieAnimation style={styles.Animation} animationPath={animation} />
+      <LottieAnimation style={styles.animation} animationPath={animation} />
       <View style={styles.buttonContainer}>
         <CustomText text={t('WELCOME.TITLE')} style={styles.title} />
         <CustomButton

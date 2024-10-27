@@ -16,6 +16,6 @@ export const style = StyleSheet.create({
     width: '60%',
   },
   buttonText: {
-    textAlign: 'center',
+    fontFamily: fonts.interRegular,
   },
 });

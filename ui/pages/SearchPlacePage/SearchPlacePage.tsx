@@ -31,13 +31,17 @@ const SearchPlacePage = () => {
           text={t('SEARCH_PLACE_PAGE.DESCRIPTION')}
           style={styles.description}
         />
-        <PlacesAutocomplete onPress={handleSearchPress} />
+        <View style={styles.autoCompleteContainer}>
+          <PlacesAutocomplete onPress={handleSearchPress} />
+        </View>
+        <View style={styles.animationContainer}>
+          <LottieAnimation
+            style={styles.animation}
+            animationPath={animation}
+            loop={false}
+          />
+        </View>
       </View>
-      <LottieAnimation
-        style={styles.Animation}
-        animationPath={animation}
-        loop={false}
-      />
     </BasicView>
   );
 };

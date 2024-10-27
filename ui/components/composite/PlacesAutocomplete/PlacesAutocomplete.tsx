@@ -39,6 +39,7 @@ const PlacesAutocomplete: FC<PlacesAutocompleteProps> = ({ onPress }) => {
           backgroundColor: colors.primaryWhite,
         },
       }}
+      onFail={console.error}
     />
   );
 };
