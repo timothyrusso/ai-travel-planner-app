@@ -1,27 +1,30 @@
 import { colors } from '@/constants/style/colors';
 import { dimensions } from '@/constants/style/dimensions';
-import { icons } from '@/constants/style/icons';
 import CustomIconButton from '@/ui/components/basic/CustomIconButton/CustomIconButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import { Ionicons } from '@expo/vector-icons';
+import React, { FC } from 'react';
 import { View } from 'react-native';
-import { style } from './MyTripHeader.style';
+import { style } from './CustomHeader.style';
 
-const MyTripHeader = () => {
-  const { t } = useTranslation();
+type CustomHeaderProps = {
+  title: string;
+  icon: keyof typeof Ionicons.glyphMap;
+  onPress: () => void;
+};
 
+const CustomHeader: FC<CustomHeaderProps> = ({ title, icon, onPress }) => {
   return (
     <View style={style.container}>
-      <CustomText text={t('MYTRIP.TITLE')} style={style.title} />
+      <CustomText text={title} style={style.title} />
       <CustomIconButton
-        icon={icons.addCircle}
+        icon={icon}
         iconSize={dimensions.Fourfold}
         iconColor={colors.primaryBlack}
-        onPress={() => {}}
+        onPress={onPress}
       />
     </View>
   );
 };
 
-export default MyTripHeader;
+export default CustomHeader;

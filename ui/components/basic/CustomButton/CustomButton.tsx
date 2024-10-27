@@ -18,6 +18,7 @@ type CustomButtonProps = {
   textStyle?: StyleProp<TextStyle>;
   isLoading?: boolean;
   activityndicatorColor?: string;
+  isDisabled?: boolean;
 };
 const CustomButton: FC<CustomButtonProps> = ({
   title,
@@ -27,15 +28,18 @@ const CustomButton: FC<CustomButtonProps> = ({
   textStyle,
   isLoading,
   activityndicatorColor,
+  isDisabled,
 }) => {
   return (
     <Pressable
+      disabled={isDisabled}
       onPress={onPress}
       style={({ pressed }) => [
         styles.main,
         style,
         pressed && styles.pressed,
         outline && styles.outline,
+        isDisabled && styles.disabled,
       ]}
     >
       {isLoading ? (

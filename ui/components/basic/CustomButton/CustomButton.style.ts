@@ -29,4 +29,7 @@ export const styles = StyleSheet.create({
   textOutline: {
     color: colors.primaryBlack,
   },
+  disabled: {
+    backgroundColor: colors.primaryGrey,
+  },
 });

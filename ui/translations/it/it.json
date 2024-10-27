@@ -36,6 +36,7 @@
   "SEARCH_PLACE_PAGE": {
     "TITLE": "Cerca",
     "DESCRIPTION": "Cerca la tua prossima destinazione!",
-    "SEARCH_PLACE": "Cerca luogo"
+    "SEARCH_PLACE": "Cerca luogo",
+    "PARTECIPANTS": "Seleziona i partecipanti"
   }
 }

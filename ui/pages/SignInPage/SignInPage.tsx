@@ -1,12 +1,10 @@
 import { routes } from '@/constants/routes';
-import { colors } from '@/constants/style/colors';
-import { dimensions } from '@/constants/style/dimensions';
 import { icons } from '@/constants/style/icons';
 import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
-import CustomIconButton from '@/ui/components/basic/CustomIconButton/CustomIconButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import CustomTextInput from '@/ui/components/basic/CustomTextInput/CustomTextInput';
 import BasicView from '@/ui/components/composite/BasicView/BasicView';
+import CustomHeader from '@/ui/components/composite/CustomHeader/CustomHeader';
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { View } from 'react-native';
@@ -21,15 +19,11 @@ const SignInPage = () => {
 
   return (
     <BasicView>
-      <View style={styles.header}>
-        <CustomText text={t('SIGNIN.TITLE')} style={styles.title} />
-        <CustomIconButton
-          icon={icons.circleClose}
-          iconSize={dimensions.Fourfold + dimensions.MinimalDouble}
-          iconColor={colors.primaryBlack}
-          onPress={() => router.back()}
-        />
-      </View>
+      <CustomHeader
+        title={t('SIGNIN.TITLE')}
+        icon={icons.circleClose}
+        onPress={() => router.back()}
+      />
       <View style={styles.inputContainer}>
         <View style={styles.emailContainer}>
           <CustomText text={t('SIGNIN.EMAIL')} style={styles.label} />
