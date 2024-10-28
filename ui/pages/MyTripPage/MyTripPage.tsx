@@ -5,19 +5,17 @@ import CustomHeader from '@/ui/components/composite/CustomHeader/CustomHeader';
 import MyTripContainer from '@/ui/pages/MyTripPage/components/MyTripContainer/MyTripContainer';
 import StartNewTripCard from '@/ui/pages/MyTripPage/components/MyTripContainer/StartNewTripCard/StartNewTripCard';
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { style } from './MyTripPage.style';
 
 const MyTripPage = () => {
   const [userTrips, setUserTrips] = useState([]);
   const animation = require('../../assets/lottie/trip_animation.json');
-  const { t } = useTranslation();
 
   return (
     <>
       <BasicView>
         <CustomHeader
-          title={t('MYTRIP.TITLE')}
+          title="MYTRIP.TITLE"
           icon={icons.addCircle}
           onPress={() => {}}
         />

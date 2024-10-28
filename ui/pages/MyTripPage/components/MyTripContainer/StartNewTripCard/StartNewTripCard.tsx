@@ -7,12 +7,10 @@ import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
 import { style } from './StartNewTripCard.style';
 
 const StartNewTripCard = () => {
-  const { t } = useTranslation();
   const router = useRouter();
 
   return (
@@ -22,12 +20,11 @@ const StartNewTripCard = () => {
         size={dimensions.Quintuple}
         color={colors.primaryBlack}
       />
-      <CustomText text={t('MYTRIP.NO_TRIPS_PLANNED')} style={style.title} />
+      <CustomText text="MYTRIP.NO_TRIPS_PLANNED" style={style.title} />
       <CustomButton
-        title={t('MYTRIP.START_NEW_TRIP')}
+        title="MYTRIP.START_NEW_TRIP"
         onPress={() => router.push(routes.searchPlace)}
         style={style.button}
-        textStyle={style.buttonText}
       />
     </View>
   );

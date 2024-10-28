@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
     rowGap: dimensions.Fourfold,
   },
   title: {
-    fontFamily: fonts.interRegular,
+    fontFamily: fonts.interMedium,
     fontSize: dimensions.Triple,
     marginTop: dimensions.Double,
     textAlign: 'center',

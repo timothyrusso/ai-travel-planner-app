@@ -1,12 +1,8 @@
+import SelectTravelersPage from '@/ui/pages/SelectTravelersPage/SelectTravelersPage';
 import React from 'react';
-import { Text, View } from 'react-native';
 
 const SelectTraveler = () => {
-  return (
-    <View>
-      <Text>select-traveler</Text>
-    </View>
-  );
+  return <SelectTravelersPage />;
 };
 
 export default SelectTraveler;

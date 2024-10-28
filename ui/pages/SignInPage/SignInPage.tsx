@@ -14,29 +14,29 @@ import { styles } from './SignInPage.style';
 
 const SignInPage = () => {
   const router = useRouter();
-  const { onSignIn, email, setEmail, password, setPassword, isLoading, t } =
+  const { onSignIn, email, setEmail, password, setPassword, isLoading } =
     useSignInPageLogic();
 
   return (
     <BasicView>
       <CustomHeader
-        title={t('SIGNIN.TITLE')}
+        title="SIGNIN.TITLE"
         icon={icons.circleClose}
         onPress={() => router.back()}
       />
       <View style={styles.inputContainer}>
         <View style={styles.emailContainer}>
-          <CustomText text={t('SIGNIN.EMAIL')} style={styles.label} />
+          <CustomText text="SIGNIN.EMAIL" style={styles.label} />
           <CustomTextInput
-            placeholder={t('SIGNIN.EMAIL_PLACEHOLDER')}
+            placeholder="SIGNIN.EMAIL_PLACEHOLDER"
             onChangeText={(text: string) => setEmail(text)}
             value={email}
           />
         </View>
         <View style={styles.passwordContainer}>
-          <CustomText text={t('SIGNIN.PASSWORD')} style={styles.label} />
+          <CustomText text="SIGNIN.PASSWORD" style={styles.label} />
           <CustomTextInput
-            placeholder={t('SIGNIN.PASSWORD_PLACEHOLDER')}
+            placeholder="SIGNIN.PASSWORD_PLACEHOLDER"
             secureTextEntry={true}
             onChangeText={(text: string) => setPassword(text)}
             value={password}
@@ -45,12 +45,12 @@ const SignInPage = () => {
       </View>
       <View style={styles.buttonContainer}>
         <CustomButton
-          title={t('SIGNIN.TITLE')}
+          title="SIGNIN.TITLE"
           onPress={onSignIn}
           isLoading={isLoading}
         />
         <CustomButton
-          title={t('SIGNIN.CREATE_ACCOUNT')}
+          title="SIGNIN.CREATE_ACCOUNT"
           onPress={() => router.replace(routes.signUp)}
           outline
         />

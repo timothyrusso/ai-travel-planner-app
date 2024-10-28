@@ -7,7 +7,7 @@ import { useWelcomePageLogic } from './WelcomePage.logic';
 import { styles } from './WelcomePage.style';
 
 const WelcomePage = () => {
-  const { handlePress, t, animation } = useWelcomePageLogic();
+  const { handlePress, animation } = useWelcomePageLogic();
 
   return (
     <View style={styles.container}>
@@ -17,9 +17,9 @@ const WelcomePage = () => {
       />
       <LottieAnimation style={styles.animation} animationPath={animation} />
       <View style={styles.buttonContainer}>
-        <CustomText text={t('WELCOME.TITLE')} style={styles.title} />
+        <CustomText text="WELCOME.TITLE" style={styles.title} />
         <CustomButton
-          title={t('WELCOME.BUTTON')}
+          title="WELCOME.BUTTON"
           onPress={handlePress}
           style={styles.button}
         />

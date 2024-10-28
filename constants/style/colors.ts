@@ -3,4 +3,5 @@ export const colors = {
   primaryBlack: '#000000',
   primaryWhite: '#FFFFFF',
   primaryGrey: '#8E8E8F',
+  secondaryGrey: '#E6E6E6',
 };

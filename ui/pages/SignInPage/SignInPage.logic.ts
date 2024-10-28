@@ -3,14 +3,12 @@ import { routes } from '@/constants/routes';
 import { router } from 'expo-router';
 import { AuthError, signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import Toast from 'react-native-toast-message';
 
 export const useSignInPageLogic = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const { t } = useTranslation();
 
   const showToast = () => {
     Toast.show({
@@ -46,6 +44,5 @@ export const useSignInPageLogic = () => {
     password,
     setPassword,
     isLoading: loading,
-    t,
   };
 };

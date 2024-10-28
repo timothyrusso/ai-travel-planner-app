@@ -21,10 +21,11 @@ export const dimensions = {
   separator40: 40,
   separator80: 80,
 
-  travelAnimationHeight: 300,
+  travelAnimationHeight: 350,
   searchAnimationHeight: 250,
   tripAnimationHeight: 250,
   mainLogoSize: 200,
   customButtonHeight: 50,
   customButtonWidth: 300,
+  travelersCardHeight: 100,
 };

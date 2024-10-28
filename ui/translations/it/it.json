@@ -38,5 +38,17 @@
     "DESCRIPTION": "Cerca la tua prossima destinazione!",
     "SEARCH_PLACE": "Cerca luogo",
     "PARTECIPANTS": "Seleziona i partecipanti"
+  },
+  "SELECT_TRAVELERS": {
+    "TITLE": "Viaggiatori",
+    "DESCRIPTION": "Scegli i tuoi viaggiatori",
+    "JUST_ME": "Solo io",
+    "JUST_ME_DESCRIPTION": "Un viaggiatore solitario in esplorazione",
+    "COUPLE": "Coppia",
+    "COUPLE_DESCRIPTION": "Due viaggiatori in tandem",
+    "FAMILY": "Famiglia",
+    "FAMILY_DESCRIPTION": "Un gruppo di persone amanti del divertimento",
+    "FRIENDS": "Amici",
+    "FRIENDS_DESCRIPTION": "Un gruppo di cercatori di emozioni"
   }
 }

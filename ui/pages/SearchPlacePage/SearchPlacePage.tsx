@@ -14,7 +14,6 @@ const SearchPlacePage = () => {
   const {
     goBackHandler,
     handleSearchPress,
-    t,
     animation,
     handleParticipantsPress,
     isButtonDisabled,
@@ -23,13 +22,13 @@ const SearchPlacePage = () => {
   return (
     <BasicView>
       <CustomHeader
-        title={t('SEARCH_PLACE_PAGE.TITLE')}
+        title="SEARCH_PLACE_PAGE.TITLE"
         icon={icons.arrowBackCircleOutline}
         onPress={goBackHandler}
       />
       <View style={styles.searchContainer}>
         <CustomText
-          text={t('SEARCH_PLACE_PAGE.DESCRIPTION')}
+          text="SEARCH_PLACE_PAGE.DESCRIPTION"
           style={styles.description}
         />
         <View style={styles.autoCompleteContainer}>
@@ -44,7 +43,7 @@ const SearchPlacePage = () => {
         </View>
         <View style={{ alignItems: 'center', height: 100 }}>
           <CustomButton
-            title={t('SEARCH_PLACE_PAGE.PARTECIPANTS')}
+            title="SEARCH_PLACE_PAGE.PARTECIPANTS"
             style={styles.button}
             onPress={handleParticipantsPress}
             isDisabled={isButtonDisabled}

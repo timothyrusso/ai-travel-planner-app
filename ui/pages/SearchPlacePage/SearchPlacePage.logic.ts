@@ -3,12 +3,10 @@ import { LocationInfo } from '@/modules/trip/domain/entities/LocationInfo';
 import { useTripState } from '@/ui/state/trip';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 export const useSearchPageLogic = () => {
   const router = useRouter();
   const { tripActions } = useTripState();
-  const { t } = useTranslation();
   const [locationInfo, setLocationInfo] = useState<LocationInfo>();
 
   const handleSearchPress = (locationInfo: LocationInfo) => {
@@ -27,7 +25,6 @@ export const useSearchPageLogic = () => {
   return {
     handleSearchPress,
     goBackHandler,
-    t,
     animation,
     handleParticipantsPress,
     isButtonDisabled,

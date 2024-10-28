@@ -22,38 +22,37 @@ const SignUpPage = () => {
     setFullName,
     router,
     isLoading,
-    t,
   } = useSignUpPageLogic();
 
   return (
     <BasicView>
       <CustomHeader
-        title={t('SIGNUP.TITLE')}
+        title="SIGNUP.TITLE"
         icon={icons.circleClose}
         onPress={() => router.back()}
       />
       <Text style={styles.subtitle}>Create a new account!</Text>
       <View style={styles.inputContainer}>
         <View style={styles.emailContainer}>
-          <CustomText text={t('SIGNUP.NAME')} style={styles.label} />
+          <CustomText text="SIGNUP.NAME" style={styles.label} />
           <CustomTextInput
-            placeholder={t('SIGNUP.NAME_PLACEHOLDER')}
+            placeholder="SIGNUP.NAME_PLACEHOLDER"
             onChangeText={(text: string) => setFullName(text)}
             value={fullName}
           />
         </View>
         <View style={styles.emailContainer}>
-          <CustomText text={t('SIGNUP.EMAIL')} style={styles.label} />
+          <CustomText text="SIGNUP.EMAIL" style={styles.label} />
           <CustomTextInput
-            placeholder={t('SIGNUP.EMAIL_PLACEHOLDER')}
+            placeholder="SIGNUP.EMAIL_PLACEHOLDER"
             onChangeText={(text: string) => setEmail(text)}
             value={email}
           />
         </View>
         <View style={styles.passwordContainer}>
-          <CustomText text={t('SIGNUP.PASSWORD')} style={styles.label} />
+          <CustomText text="SIGNUP.PASSWORD" style={styles.label} />
           <CustomTextInput
-            placeholder={t('SIGNUP.PASSWORD_PLACEHOLDER')}
+            placeholder="SIGNUP.PASSWORD_PLACEHOLDER"
             secureTextEntry={true}
             onChangeText={(text: string) => setPassword(text)}
             value={password}
@@ -62,12 +61,12 @@ const SignUpPage = () => {
       </View>
       <View style={styles.buttonContainer}>
         <CustomButton
-          title={t('SIGNIN.CREATE_ACCOUNT')}
+          title="SIGNIN.CREATE_ACCOUNT"
           onPress={onCreateAccount}
           isLoading={isLoading}
         />
         <CustomButton
-          title={t('SIGNIN.TITLE')}
+          title="SIGNIN.TITLE"
           onPress={() => router.replace(routes.signIn)}
           outline
         />

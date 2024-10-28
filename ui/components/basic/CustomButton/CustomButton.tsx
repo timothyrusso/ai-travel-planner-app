@@ -1,5 +1,6 @@
 import { colors } from '@/constants/style/colors';
 import React, { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   ActivityIndicator,
   Pressable,
@@ -30,6 +31,8 @@ const CustomButton: FC<CustomButtonProps> = ({
   activityndicatorColor,
   isDisabled,
 }) => {
+  const { t } = useTranslation();
+
   return (
     <Pressable
       disabled={isDisabled}
@@ -48,7 +51,7 @@ const CustomButton: FC<CustomButtonProps> = ({
         />
       ) : (
         <Text style={[styles.text, outline && styles.textOutline, textStyle]}>
-          {title}
+          {t(title)}
         </Text>
       )}
     </Pressable>
