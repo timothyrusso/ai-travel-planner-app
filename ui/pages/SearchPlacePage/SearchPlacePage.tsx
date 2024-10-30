@@ -26,11 +26,11 @@ const SearchPlacePage = () => {
         icon={icons.arrowBackCircleOutline}
         onPress={goBackHandler}
       />
+      <CustomText
+        text="SEARCH_PLACE_PAGE.DESCRIPTION"
+        style={styles.subtitle}
+      />
       <View style={styles.searchContainer}>
-        <CustomText
-          text="SEARCH_PLACE_PAGE.DESCRIPTION"
-          style={styles.description}
-        />
         <View style={styles.autoCompleteContainer}>
           <PlacesAutocomplete onPress={handleSearchPress} />
         </View>
@@ -43,7 +43,7 @@ const SearchPlacePage = () => {
         </View>
         <View style={{ alignItems: 'center', height: 100 }}>
           <CustomButton
-            title="SEARCH_PLACE_PAGE.PARTECIPANTS"
+            title="SELECT_TRAVELERS.TITLE"
             style={styles.button}
             onPress={handleParticipantsPress}
             isDisabled={isButtonDisabled}

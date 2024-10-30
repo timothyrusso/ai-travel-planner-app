@@ -1,5 +1,5 @@
 export interface TravelerInfo {
-  id: number | undefined;
+  id: number | null;
   title: string;
   description: string;
   icon: string;

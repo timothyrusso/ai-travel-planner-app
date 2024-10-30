@@ -7,14 +7,18 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 
 type PlacesAutocompleteProps = {
   onPress: (locationInfo: LocationInfo) => void;
+  placeholder?: string;
 };
-const PlacesAutocomplete: FC<PlacesAutocompleteProps> = ({ onPress }) => {
+const PlacesAutocomplete: FC<PlacesAutocompleteProps> = ({
+  onPress,
+  placeholder = 'SEARCH_PLACE_PAGE.SEARCH_PLACE',
+}) => {
   const { i18n, t } = useTranslation();
   const getLanguage = () => i18n.language;
 
   return (
     <GooglePlacesAutocomplete
-      placeholder={t('SEARCH_PLACE_PAGE.SEARCH_PLACE')}
+      placeholder={t(placeholder)}
       fetchDetails={true}
       onPress={(data, details = null) => {
         onPress({

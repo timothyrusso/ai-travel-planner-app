@@ -35,12 +35,11 @@
   },
   "SEARCH_PLACE_PAGE": {
     "TITLE": "Search",
-    "DESCRIPTION": "Search your next destination!",
-    "SEARCH_PLACE": "Search Place",
-    "PARTECIPANTS": "Select partecipants"
+    "DESCRIPTION": "Search your next destination",
+    "SEARCH_PLACE": "Search Place"
   },
   "SELECT_TRAVELERS": {
-    "TITLE": "Select Travelers",
+    "TITLE": "Select travelers",
     "DESCRIPTION": "Choose your travelers",
     "JUST_ME": "Just me",
     "JUST_ME_DESCRIPTION": "A sole traveler in exploration",
@@ -50,5 +49,8 @@
     "FAMILY_DESCRIPTION": "A group of fun loving people",
     "FRIENDS": "Friends",
     "FRIENDS_DESCRIPTION": "A bunch of thrill-seekers"
+  },
+  "SELECT_DATES": {
+    "TITLE": "Select dates"
   }
 }

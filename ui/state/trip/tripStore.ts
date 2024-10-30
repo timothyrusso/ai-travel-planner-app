@@ -9,11 +9,16 @@ const initialState: TripState = {
     url: '',
   },
   travelerInfo: {
-    id: undefined,
+    id: null,
     title: '',
     description: '',
     icon: '',
     people: '',
+  },
+  datesInfo: {
+    startDate: null,
+    endDate: null,
+    totalNoOfDays: 0,
   },
 };
 
@@ -22,6 +27,7 @@ export const useTripStore = create<TripState & TripActions>()((set) => ({
   actions: {
     setLocationInfo: (locationInfo) => set({ locationInfo }),
     setTravelerInfo: (travelerInfo) => set({ travelerInfo }),
+    setDatesInfo: (datesInfo) => set({ datesInfo }),
     resetTripState: () => set(initialState),
   },
 }));

@@ -7,26 +7,24 @@ export const styles = StyleSheet.create({
     fontFamily: fonts.interBold,
     fontSize: dimensions.Fourfold,
   },
+  subtitle: {
+    marginVertical: dimensions.Fourfold,
+    fontSize: dimensions.Fourfold,
+    fontFamily: fonts.interMedium,
+  },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
   searchContainer: {
     flex: 1,
-    marginTop: dimensions.separator40,
-    rowGap: dimensions.Triple,
     position: 'relative',
   },
   autoCompleteContainer: {
     flex: 1,
     position: 'absolute',
-    top: dimensions.separator40,
     zIndex: 1,
     width: '100%',
-  },
-  description: {
-    fontFamily: fonts.interMedium,
-    fontSize: dimensions.Triple,
   },
   animation: {
     width: '100%',

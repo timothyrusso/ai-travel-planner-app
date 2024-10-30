@@ -7,4 +7,5 @@ export const routes = {
   myTrip: '/mytrip' as Href<string | object>,
   searchPlace: '/create-trip/search-place' as Href<string | object>,
   selectTraveler: '/create-trip/select-traveler' as Href<string | object>,
+  selectDates: '/create-trip/select-dates' as Href<string | object>,
 } as const;

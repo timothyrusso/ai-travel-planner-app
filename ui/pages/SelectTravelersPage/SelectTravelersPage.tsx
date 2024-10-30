@@ -11,11 +11,16 @@ import { useSelectTravelersPageLogic } from './SelectTravelersPage.logic';
 import { style } from './SelectTravelersPage.style';
 
 const SelectTravelersPage = () => {
-  const { TravelerData, handleBackPress, handleCardPress, selectedTravelers } =
-    useSelectTravelersPageLogic();
+  const {
+    TravelerData,
+    handleBackPress,
+    handleCardPress,
+    selectedTravelers,
+    handleButtonPress,
+  } = useSelectTravelersPageLogic();
 
   const item = ({ item }: { item: TravelerInfo }) =>
-    item.id ? (
+    item.id !== null ? (
       <TravelersCard
         id={item.id}
         title={item.title}
@@ -44,8 +49,8 @@ const SelectTravelersPage = () => {
       />
       <View style={style.buttonContainer}>
         <CustomButton
-          title="SELECT_TRAVELERS.BUTTON"
-          onPress={() => {}}
+          title="SELECT_DATES.TITLE"
+          onPress={handleButtonPress}
           style={style.button}
         />
       </View>
