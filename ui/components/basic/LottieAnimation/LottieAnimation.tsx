@@ -2,7 +2,7 @@ import LottieView from 'lottie-react-native';
 import React from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
 
-type TravelAnimationProps = {
+type LottieAnimationProps = {
   style: StyleProp<ViewStyle>;
   animationPath: string;
   autoPlay?: boolean;
@@ -13,7 +13,7 @@ export default function LottieAnimation({
   animationPath,
   autoPlay = true,
   loop = true,
-}: TravelAnimationProps) {
+}: LottieAnimationProps) {
   return (
     <LottieView
       source={animationPath}

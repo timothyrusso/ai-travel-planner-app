@@ -3,22 +3,18 @@ import { fonts } from '@/constants/style/fonts';
 import { StyleSheet } from 'react-native';
 
 export const style = StyleSheet.create({
+  animation: {
+    flex: 1,
+    width: '100%',
+    height: dimensions.tripAnimationHeight,
+  },
   subtitle: {
     marginVertical: dimensions.Fourfold,
     fontSize: dimensions.Fourfold,
     fontFamily: fonts.interMedium,
   },
-  button: {
-    width: '60%',
-    position: 'absolute',
-    bottom: 0,
-    marginBottom: dimensions.Double,
-  },
-  buttonContainer: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  separator: {
-    height: dimensions.TripleAndHalf,
+  title: {
+    fontSize: dimensions.Quintuple,
+    fontFamily: fonts.interBold,
   },
 });

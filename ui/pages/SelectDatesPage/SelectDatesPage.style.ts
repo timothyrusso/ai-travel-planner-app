@@ -6,6 +6,9 @@ import { StyleSheet } from 'react-native';
 export const style = StyleSheet.create({
   button: {
     width: '60%',
+    position: 'absolute',
+    bottom: 0,
+    marginBottom: dimensions.Double,
   },
   buttonContainer: {
     flex: 1,
@@ -17,12 +20,16 @@ export const style = StyleSheet.create({
     width: '100%',
     padding: dimensions.TripleAndHalf,
     borderRadius: dimensions.Double,
-    marginTop: dimensions.separator80,
   },
   calendarText: {
     fontFamily: fonts.interMedium,
   },
   calendarDayText: {
     color: colors.primaryWhite,
+  },
+  subtitle: {
+    marginVertical: dimensions.Fourfold,
+    fontSize: dimensions.Fourfold,
+    fontFamily: fonts.interMedium,
   },
 });

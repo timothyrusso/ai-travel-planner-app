@@ -17,7 +17,7 @@ export const useSelectBudgetPageLogic = () => {
 
   const handleBackPress = () => router.back();
 
-  const handleButtonPress = () => router.push(routes.selectDates);
+  const handleButtonPress = () => router.push(routes.reviewTrip);
 
   return {
     handleBackPress,

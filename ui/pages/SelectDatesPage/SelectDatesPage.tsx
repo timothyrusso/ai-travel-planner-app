@@ -2,6 +2,7 @@ import { colors } from '@/constants/style/colors';
 import { dimensions } from '@/constants/style/dimensions';
 import { icons } from '@/constants/style/icons';
 import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
+import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import BasicView from '@/ui/components/composite/BasicView/BasicView';
 import CustomHeader from '@/ui/components/composite/CustomHeader/CustomHeader';
 import React from 'react';
@@ -26,6 +27,7 @@ const SelectDatesPage = () => {
         icon={icons.arrowBackCircleOutline}
         onPress={handleBackPress}
       />
+      <CustomText text="SELECT_DATES.DESCRIPTION" style={style.subtitle} />
       <View style={style.calendar}>
         <CalendarPicker
           allowRangeSelection

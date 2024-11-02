@@ -19,7 +19,7 @@ const CustomHeader: FC<CustomHeaderProps> = ({ title, icon, onPress }) => {
       <CustomText text={title} style={style.title} />
       <CustomIconButton
         icon={icon}
-        iconSize={dimensions.Fourfold}
+        iconSize={dimensions.Quintuple}
         iconColor={colors.primaryBlack}
         onPress={onPress}
       />

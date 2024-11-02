@@ -51,16 +51,30 @@
     "FRIENDS_DESCRIPTION": "Un gruppo di cercatori di emozioni"
   },
   "SELECT_DATES": {
-    "TITLE": "Seleziona le date"
+    "TITLE": "Seleziona le date",
+    "DESCRIPTION": "Scegli le date del tuo viaggio"
   },
   "SELECT_BUDGET": {
     "TITLE": "Seleziona il budget",
-    "DESCRIPTION": "Scegli le abitudini di spesa per il tuo viaggio",
+    "DESCRIPTION": "Scegli il tuo budget",
     "CHEAP": "Economico",
     "CHEAP_DESCRIPTION": "Opzioni convenienti",
     "MODERATE": "Moderato",
     "MODERATE_DESCRIPTION": "Opzioni bilanciate",
     "EXPENSIVE": "Costoso",
     "EXPENSIVE_DESCRIPTION": "Opzioni di alta gamma"
+  },
+  "REVIEW_TRIP": {
+    "TITLE": "Rivedi il viaggio",
+    "DESCRIPTION": "Controlla i dettagli del tuo viaggio",
+    "DESTINATION": "Destinazione",
+    "TRAVEL_DATE": "Data del viaggio",
+    "TRAVELERS": "Viaggiatori",
+    "BUDGET": "Budget",
+    "BUILD_TRIP": "Genera viaggio"
+  },
+  "GENERATE_TRIP": {
+    "TITLE": "Creazione del viaggio",
+    "DESCRIPTION": "Stiamo lavorando per creare il viaggio dei tuoi sogni"
   }
 }

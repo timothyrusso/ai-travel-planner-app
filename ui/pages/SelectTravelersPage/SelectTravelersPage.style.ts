@@ -10,6 +10,9 @@ export const style = StyleSheet.create({
   },
   button: {
     width: '60%',
+    position: 'absolute',
+    bottom: 0,
+    marginBottom: dimensions.Double,
   },
   buttonContainer: {
     flex: 1,

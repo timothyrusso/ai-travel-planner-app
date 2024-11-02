@@ -51,16 +51,30 @@
     "FRIENDS_DESCRIPTION": "A bunch of thrill-seekers"
   },
   "SELECT_DATES": {
-    "TITLE": "Select dates"
+    "TITLE": "Select dates",
+    "DESCRIPTION": "Choose your travel dates"
   },
   "SELECT_BUDGET": {
     "TITLE": "Select budget",
-    "DESCRIPTION": "Choose spending habits for your trip",
+    "DESCRIPTION": "Choose your budget",
     "CHEAP": "Cheap",
     "CHEAP_DESCRIPTION": "Budget-friendly options",
     "MODERATE": "Moderate",
     "MODERATE_DESCRIPTION": "Balanced options",
     "LUXURY": "Luxury",
     "LUXURY_DESCRIPTION": "High-end options"
+  },
+  "REVIEW_TRIP": {
+    "TITLE": "Review your trip",
+    "DESCRIPTION": "Review your trip details",
+    "DESTINATION": "Destination",
+    "TRAVEL_DATE": "Travel Date",
+    "TRAVELERS": "Travelers",
+    "BUDGET": "Budget",
+    "BUILD_TRIP": "Build Trip"
+  },
+  "GENERATE_TRIP": {
+    "TITLE": "Generating Trip",
+    "DESCRIPTION": "We are working to generate your dream trip"
   }
 }
