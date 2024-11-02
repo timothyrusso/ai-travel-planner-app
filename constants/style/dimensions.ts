@@ -27,5 +27,6 @@ export const dimensions = {
   mainLogoSize: 200,
   customButtonHeight: 50,
   customButtonWidth: 300,
-  travelersCardHeight: 100,
+  CardWithIconHeight: 100,
+  calendarWidth: 350,
 };

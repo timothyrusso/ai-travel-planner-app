@@ -9,7 +9,7 @@ export const style = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: colors.secondaryGrey,
     borderRadius: dimensions.Double,
-    height: dimensions.travelersCardHeight,
+    height: dimensions.CardWithIconHeight,
     alignItems: 'center',
     paddingHorizontal: dimensions.Double,
   },

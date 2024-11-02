@@ -2,17 +2,17 @@ import { routes } from '@/constants/routes';
 import { useTripState } from '@/ui/state/trip';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { TravelerData } from './SelectTravelersPage.data';
+import { BudgetData } from './SelectBudgetPage.data';
 
-export const useSelectTravelersPageLogic = () => {
+export const useSelectBudgetPageLogic = () => {
   const router = useRouter();
   const { tripActions } = useTripState();
 
-  const [selectedTravelers, setSelectedTravelers] = useState<number>(0);
+  const [selectedBudget, setSelectedBudget] = useState<number>(0);
 
   const handleCardPress = (id: number) => {
-    setSelectedTravelers(id);
-    tripActions.setTravelerInfo(TravelerData[id].people);
+    setSelectedBudget(id);
+    tripActions.setBudgetInfo(BudgetData[id].title);
   };
 
   const handleBackPress = () => router.back();
@@ -20,10 +20,9 @@ export const useSelectTravelersPageLogic = () => {
   const handleButtonPress = () => router.push(routes.selectDates);
 
   return {
-    TravelerData,
     handleBackPress,
+    selectedBudget,
     handleCardPress,
-    selectedTravelers,
     handleButtonPress,
   };
 };

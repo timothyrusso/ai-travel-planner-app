@@ -8,18 +8,13 @@ const initialState: TripState = {
     photoRef: '',
     url: '',
   },
-  travelerInfo: {
-    id: null,
-    title: '',
-    description: '',
-    icon: '',
-    people: '',
-  },
+  travelerInfo: '',
   datesInfo: {
     startDate: null,
     endDate: null,
     totalNoOfDays: 0,
   },
+  budgetInfo: '',
 };
 
 export const useTripStore = create<TripState & TripActions>()((set) => ({
@@ -28,6 +23,7 @@ export const useTripStore = create<TripState & TripActions>()((set) => ({
     setLocationInfo: (locationInfo) => set({ locationInfo }),
     setTravelerInfo: (travelerInfo) => set({ travelerInfo }),
     setDatesInfo: (datesInfo) => set({ datesInfo }),
+    setBudgetInfo: (budgetInfo) => set({ budgetInfo }),
     resetTripState: () => set(initialState),
   },
 }));

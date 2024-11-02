@@ -1,5 +1,5 @@
 import { icons } from '@/constants/style/icons';
-import { TravelerInfo } from '@/modules/trip/domain/entities/TravelerInfo';
+import { BudgetInfo } from '@/modules/trip/domain/entities/BudgetInfo';
 import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import BasicView from '@/ui/components/composite/BasicView/BasicView';
@@ -7,19 +7,21 @@ import CustomHeader from '@/ui/components/composite/CustomHeader/CustomHeader';
 import React from 'react';
 import { FlatList, View } from 'react-native';
 import CardWithIcon from '../../components/composite/CardWithIcon/CardWithIcon';
-import { useSelectTravelersPageLogic } from './SelectTravelersPage.logic';
-import { style } from './SelectTravelersPage.style';
+import { BudgetData } from './SelectBudgetPage.data';
+import { useSelectBudgetPageLogic } from './SelectBudgetPage.logic';
+import { style } from './SelectBudgetPage.style';
 
-const SelectTravelersPage = () => {
+const SelectBudgetPage = () => {
   const {
-    TravelerData,
     handleBackPress,
+    selectedBudget,
     handleCardPress,
-    selectedTravelers,
     handleButtonPress,
-  } = useSelectTravelersPageLogic();
+  } = useSelectBudgetPageLogic();
 
-  const item = ({ item }: { item: TravelerInfo }) =>
+  const separatorItem = () => <View style={style.separator} />;
+
+  const item = ({ item }: { item: BudgetInfo }) =>
     item.id !== null ? (
       <CardWithIcon
         id={item.id}
@@ -27,22 +29,20 @@ const SelectTravelersPage = () => {
         description={item.description}
         icon={item.icon}
         onPress={handleCardPress}
-        isSelected={selectedTravelers === item.id}
+        isSelected={selectedBudget === item.id}
       />
     ) : null;
-
-  const separatorItem = () => <View style={style.separator} />;
 
   return (
     <BasicView>
       <CustomHeader
-        title="SELECT_TRAVELERS.TITLE"
+        title="SELECT_BUDGET.TITLE"
         icon={icons.arrowBackCircleOutline}
         onPress={handleBackPress}
       />
-      <CustomText text="SELECT_TRAVELERS.DESCRIPTION" style={style.subtitle} />
+      <CustomText text="SELECT_BUDGET.DESCRIPTION" style={style.subtitle} />
       <FlatList
-        data={TravelerData}
+        data={BudgetData}
         keyExtractor={(item) => item.id.toString()}
         ItemSeparatorComponent={separatorItem}
         renderItem={item}
@@ -58,4 +58,4 @@ const SelectTravelersPage = () => {
   );
 };
 
-export default SelectTravelersPage;
+export default SelectBudgetPage;

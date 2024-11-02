@@ -1,9 +1,9 @@
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import React, { FC } from 'react';
 import { Pressable, View } from 'react-native';
-import { style } from './TravelersCard.style';
+import { style } from './CardWithIcon.style';
 
-type TravelersCardProps = {
+type CardWithIconProps = {
   id: number;
   title: string;
   description: string;
@@ -11,7 +11,7 @@ type TravelersCardProps = {
   onPress: (id: number) => void;
   isSelected: boolean;
 };
-const TravelersCard: FC<TravelersCardProps> = ({
+const CardWithIcon: FC<CardWithIconProps> = ({
   id,
   title,
   description,
@@ -37,4 +37,4 @@ const TravelersCard: FC<TravelersCardProps> = ({
   );
 };
 
-export default TravelersCard;
+export default CardWithIcon;

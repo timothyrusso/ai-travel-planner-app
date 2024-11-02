@@ -52,5 +52,15 @@
   },
   "SELECT_DATES": {
     "TITLE": "Select dates"
+  },
+  "SELECT_BUDGET": {
+    "TITLE": "Select budget",
+    "DESCRIPTION": "Choose spending habits for your trip",
+    "CHEAP": "Cheap",
+    "CHEAP_DESCRIPTION": "Budget-friendly options",
+    "MODERATE": "Moderate",
+    "MODERATE_DESCRIPTION": "Balanced options",
+    "LUXURY": "Luxury",
+    "LUXURY_DESCRIPTION": "High-end options"
   }
 }
