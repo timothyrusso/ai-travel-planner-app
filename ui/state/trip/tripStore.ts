@@ -8,13 +8,13 @@ const initialState: TripState = {
     photoRef: '',
     url: '',
   },
-  travelerInfo: '',
+  travelerInfo: '1',
   datesInfo: {
     startDate: null,
     endDate: null,
     totalNoOfDays: 0,
   },
-  budgetInfo: '',
+  budgetInfo: 'Cheap',
 };
 
 export const useTripStore = create<TripState & TripActions>()((set) => ({
