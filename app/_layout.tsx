@@ -1,4 +1,5 @@
 import i18n from '@/ui/translations/i18n';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 
@@ -16,9 +17,13 @@ export default function RootLayout() {
     'arima-medium': require('../ui/assets/fonts/Arima-Medium.ttf'),
   });
 
+  const queryClient = new QueryClient();
+
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="(tabs)" />
-    </Stack>
+    <QueryClientProvider client={queryClient}>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(tabs)" />
+      </Stack>
+    </QueryClientProvider>
   );
 }
