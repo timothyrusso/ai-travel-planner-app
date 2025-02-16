@@ -1,5 +1,5 @@
-import { DatesInfo } from '@/modules/trip/domain/entities/DatesInfo';
-import { LocationInfo } from '@/modules/trip/domain/entities/LocationInfo';
+import type { DatesInfo } from '@/modules/trip/domain/entities/DatesInfo';
+import type { LocationInfo } from '@/modules/trip/domain/entities/LocationInfo';
 
 export type TripState = {
   locationInfo: LocationInfo;

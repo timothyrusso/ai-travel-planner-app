@@ -1,5 +1,5 @@
 import { create } from '../shared/createStore';
-import { TripActions, TripState } from './types';
+import type { TripActions, TripState } from './types';
 
 const initialState: TripState = {
   locationInfo: {

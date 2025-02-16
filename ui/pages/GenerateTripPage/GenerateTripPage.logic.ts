@@ -1,3 +1,5 @@
+// FIXME: react-native-get-random-values must be imported before nanoid
+import 'react-native-get-random-values';
 import { ai_prompt } from '@/ai/prompt';
 import { auth, db } from '@/configs/firebaseConfig';
 import { chatSession } from '@/configs/geminiConfig';
@@ -13,34 +15,30 @@ export const useGenerateTripPageLogic = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const userEmail = auth.currentUser?.email;
+  const location = tripSelectors.locationInfo().name;
+  const days = tripSelectors.datesInfo().totalNoOfDays.toString();
+  const nights = (tripSelectors.datesInfo().totalNoOfDays - 1).toString();
+  const traveler = tripSelectors.travelerInfo;
+  const budget = tripSelectors.budgetInfo;
 
-  useEffect(() => {
-    generateAiTrip();
-  }, [tripSelectors]);
+  const PROMPT = ai_prompt
+    .replace('{location}', location)
+    .replace('{days}', days)
+    .replace('{nights}', nights)
+    .replace('{traveler}', traveler)
+    .replace('{budget}', budget)
+    .replace('{days}', days)
+    .replace('{nights}', nights);
 
   const generateAiTrip = async () => {
     setIsLoading(true);
-    const PROMPT = ai_prompt
-      .replace('{location}', tripSelectors.locationInfo().name)
-      .replace('{days}', tripSelectors.datesInfo().totalNoOfDays.toString())
-      .replace(
-        '{nights}',
-        (tripSelectors.datesInfo().totalNoOfDays - 1).toString()
-      )
-      .replace('{traveler}', tripSelectors.travelerInfo())
-      .replace('{budget}', tripSelectors.budgetInfo())
-      .replace('{days}', tripSelectors.datesInfo().totalNoOfDays.toString())
-      .replace(
-        '{nights}',
-        (tripSelectors.datesInfo().totalNoOfDays - 1).toString()
-      );
 
     try {
       const resultPrompt = await chatSession.sendMessage(PROMPT);
       const responseText = await resultPrompt.response.text();
-      console.log(responseText);
 
       const docId = nanoid();
+
       const tripData = JSON.parse(responseText);
 
       await setDoc(doc(db, 'UserTrips', docId), {
@@ -55,6 +53,10 @@ export const useGenerateTripPageLogic = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    generateAiTrip();
+  }, []);
 
   return { generateAiTrip, isLoading };
 };
