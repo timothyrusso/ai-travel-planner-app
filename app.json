@@ -27,10 +27,23 @@
       "output": "static",
       "favicon": "./ui/assets/images/favicon.png"
     },
-    "plugins": ["expo-router", "expo-localization", "expo-font"],
+    "plugins": [
+      "expo-router",
+      "expo-localization",
+      "expo-font"
+    ],
     "experiments": {
       "typedRoutes": true
     },
-    "newArchEnabled": true
+    "newArchEnabled": true,
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "619a2a72-6d4c-4395-8262-2dc83d81556a"
+      }
+    },
+    "owner": "russotimothy"
   }
 }
