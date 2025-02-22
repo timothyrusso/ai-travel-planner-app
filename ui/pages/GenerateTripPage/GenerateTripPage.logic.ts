@@ -15,20 +15,24 @@ export const useGenerateTripPageLogic = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const userEmail = auth.currentUser?.email;
-  const location = tripSelectors.locationInfo().name;
-  const days = tripSelectors.datesInfo().totalNoOfDays.toString();
-  const nights = (tripSelectors.datesInfo().totalNoOfDays - 1).toString();
-  const traveler = tripSelectors.travelerInfo;
-  const budget = tripSelectors.budgetInfo;
+  const userTripData = {
+    startDate: tripSelectors.datesInfo().startDate,
+    endDate: tripSelectors.datesInfo().endDate,
+    location: tripSelectors.locationInfo().name,
+    days: tripSelectors.datesInfo().totalNoOfDays.toString(),
+    nights: (tripSelectors.datesInfo().totalNoOfDays - 1).toString(),
+    traveler: tripSelectors.travelerInfo,
+    budget: tripSelectors.budgetInfo,
+  };
 
   const PROMPT = ai_prompt
-    .replace('{location}', location)
-    .replace('{days}', days)
-    .replace('{nights}', nights)
-    .replace('{traveler}', traveler)
-    .replace('{budget}', budget)
-    .replace('{days}', days)
-    .replace('{nights}', nights);
+    .replace('{location}', userTripData.location)
+    .replace('{days}', userTripData.days)
+    .replace('{nights}', userTripData.nights)
+    .replace('{traveler}', userTripData.traveler)
+    .replace('{budget}', userTripData.budget)
+    .replace('{days}', userTripData.days)
+    .replace('{nights}', userTripData.nights);
 
   const generateAiTrip = async () => {
     setIsLoading(true);
@@ -39,11 +43,13 @@ export const useGenerateTripPageLogic = () => {
 
       const docId = nanoid();
 
-      const tripData = JSON.parse(responseText);
+      const tripAiResp = JSON.parse(responseText);
 
       await setDoc(doc(db, 'UserTrips', docId), {
         userEmail,
-        tripData,
+        tripAiResp,
+        userTripData: JSON.stringify(userTripData),
+        docId,
       });
 
       router.push(routes.myTrip);
