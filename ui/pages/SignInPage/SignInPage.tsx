@@ -6,7 +6,6 @@ import CustomTextInput from '@/ui/components/basic/CustomTextInput/CustomTextInp
 import BasicView from '@/ui/components/composite/BasicView/BasicView';
 import CustomHeader from '@/ui/components/composite/CustomHeader/CustomHeader';
 import { useRouter } from 'expo-router';
-import React from 'react';
 import { View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { useSignInPageLogic } from './SignInPage.logic';
@@ -14,16 +13,11 @@ import { styles } from './SignInPage.style';
 
 const SignInPage = () => {
   const router = useRouter();
-  const { onSignIn, email, setEmail, password, setPassword, isLoading } =
-    useSignInPageLogic();
+  const { onSignIn, email, setEmail, password, setPassword, isLoading } = useSignInPageLogic();
 
   return (
     <BasicView>
-      <CustomHeader
-        title="SIGNIN.TITLE"
-        icon={icons.circleClose}
-        onPress={() => router.back()}
-      />
+      <CustomHeader title="SIGNIN.TITLE" icon={icons.circleClose} onPress={() => router.back()} />
       <View style={styles.inputContainer}>
         <View style={styles.emailContainer}>
           <CustomText text="SIGNIN.EMAIL" style={styles.label} />
@@ -44,16 +38,8 @@ const SignInPage = () => {
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <CustomButton
-          title="SIGNIN.TITLE"
-          onPress={onSignIn}
-          isLoading={isLoading}
-        />
-        <CustomButton
-          title="SIGNIN.CREATE_ACCOUNT"
-          onPress={() => router.replace(routes.signUp)}
-          outline
-        />
+        <CustomButton title="SIGNIN.TITLE" onPress={onSignIn} isLoading={isLoading} />
+        <CustomButton title="SIGNIN.CREATE_ACCOUNT" onPress={() => router.replace(routes.signUp)} outline />
       </View>
       <Toast />
     </BasicView>

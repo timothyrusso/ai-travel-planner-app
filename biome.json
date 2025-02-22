@@ -3,13 +3,7 @@
   "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
   "files": {
     "ignoreUnknown": false,
-    "ignore": [
-      "android/**",
-      "ios/**",
-      "node_modules/**",
-      "dist/**",
-      "coverage/**"
-    ]
+    "ignore": ["android/**", "ios/**", "node_modules/**", "dist/**", "coverage/**"]
   },
   "formatter": {
     "enabled": true,
@@ -97,10 +91,7 @@
       }
     },
     {
-      "include": [
-        "ui/state/shared/createSelectors.ts",
-        "ui/state/shared/createStore.ts"
-      ],
+      "include": ["ui/state/shared/createSelectors.ts", "ui/state/shared/createStore.ts"],
       "linter": {
         "rules": {
           "correctness": {

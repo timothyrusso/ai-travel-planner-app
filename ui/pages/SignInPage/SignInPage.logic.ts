@@ -1,7 +1,7 @@
 import { auth } from '@/configs/firebaseConfig';
 import { routes } from '@/constants/routes';
 import { router } from 'expo-router';
-import { AuthError, signInWithEmailAndPassword } from 'firebase/auth';
+import { type AuthError, signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 import Toast from 'react-native-toast-message';
 

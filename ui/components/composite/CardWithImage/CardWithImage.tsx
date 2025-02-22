@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import type { FC } from 'react';
 import { Image, View } from 'react-native';
 import CustomText from '../../basic/CustomText/CustomText';
 import { style } from './CardWithImage.style';
@@ -9,12 +9,7 @@ type CardWithImageProps = {
   icon?: string;
   image?: string;
 };
-const CardWithImage: FC<CardWithImageProps> = ({
-  title,
-  description,
-  icon,
-  image,
-}) => {
+const CardWithImage: FC<CardWithImageProps> = ({ title, description, icon, image }) => {
   return (
     <View style={style.container}>
       {icon && <CustomText text={icon} style={style.icon} />}

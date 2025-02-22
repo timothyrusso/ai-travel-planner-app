@@ -1,6 +1,6 @@
 import SignUpPage from '@/ui/pages/SignUpPage/SignUpPage';
 import { useNavigation } from 'expo-router';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 const SignUp = () => {
   const navigation = useNavigation();

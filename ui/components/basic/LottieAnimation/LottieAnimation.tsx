@@ -1,6 +1,5 @@
 import LottieView from 'lottie-react-native';
-import React from 'react';
-import { StyleProp, ViewStyle } from 'react-native';
+import type { StyleProp, ViewStyle } from 'react-native';
 
 type LottieAnimationProps = {
   style: StyleProp<ViewStyle>;
@@ -8,18 +7,6 @@ type LottieAnimationProps = {
   autoPlay?: boolean;
   loop?: boolean;
 };
-export default function LottieAnimation({
-  style,
-  animationPath,
-  autoPlay = true,
-  loop = true,
-}: LottieAnimationProps) {
-  return (
-    <LottieView
-      source={animationPath}
-      style={style}
-      autoPlay={autoPlay}
-      loop={loop}
-    />
-  );
+export default function LottieAnimation({ style, animationPath, autoPlay = true, loop = true }: LottieAnimationProps) {
+  return <LottieView source={animationPath} style={style} autoPlay={autoPlay} loop={loop} />;
 }

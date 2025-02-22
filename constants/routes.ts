@@ -1,4 +1,4 @@
-import { Href } from 'expo-router';
+import type { Href } from 'expo-router';
 
 export const routes = {
   welcomePage: 'index' as Href<string | object>,

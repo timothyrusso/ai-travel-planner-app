@@ -6,7 +6,6 @@ import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React from 'react';
 import { View } from 'react-native';
 import { style } from './StartNewTripCard.style';
 
@@ -15,11 +14,7 @@ const StartNewTripCard = () => {
 
   return (
     <View style={style.container}>
-      <Ionicons
-        name={icons.location}
-        size={dimensions.Quintuple}
-        color={colors.primaryBlack}
-      />
+      <Ionicons name={icons.location} size={dimensions.Quintuple} color={colors.primaryBlack} />
       <CustomText text="MYTRIP.NO_TRIPS_PLANNED" style={style.title} />
       <CustomButton
         title="MYTRIP.START_NEW_TRIP"

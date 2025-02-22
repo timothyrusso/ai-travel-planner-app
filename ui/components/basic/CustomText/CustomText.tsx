@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { StyleProp, Text, TextProps, ViewStyle } from 'react-native';
+import { type StyleProp, Text, type TextProps, type ViewStyle } from 'react-native';
 import { styles } from './CustomText.style';
 
 type CustomTextProps = TextProps & {

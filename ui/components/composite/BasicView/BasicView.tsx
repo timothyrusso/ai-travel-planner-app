@@ -1,5 +1,6 @@
-import React, { FC } from 'react';
-import { SafeAreaView, StyleProp, View, ViewStyle } from 'react-native';
+import type React from 'react';
+import type { FC } from 'react';
+import { SafeAreaView, type StyleProp, View, type ViewStyle } from 'react-native';
 import { styles } from './BasicView.style';
 
 type BasicViewProps = {

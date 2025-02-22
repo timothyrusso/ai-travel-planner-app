@@ -5,28 +5,18 @@ import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import BasicView from '@/ui/components/composite/BasicView/BasicView';
 import CustomHeader from '@/ui/components/composite/CustomHeader/CustomHeader';
-import React from 'react';
 import { View } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 import { useSelectDatesPageLogic } from './SelectDatesPage.logic';
 import { style } from './SelectDatesPage.style';
 
 const SelectDatesPage = () => {
-  const {
-    handleBackPress,
-    handleButtonPress,
-    todayInLocalTimezone,
-    handleDateChange,
-    startDate,
-  } = useSelectDatesPageLogic();
+  const { handleBackPress, handleButtonPress, todayInLocalTimezone, handleDateChange, startDate } =
+    useSelectDatesPageLogic();
 
   return (
     <BasicView>
-      <CustomHeader
-        title="SELECT_DATES.TITLE"
-        icon={icons.arrowBackCircleOutline}
-        onPress={handleBackPress}
-      />
+      <CustomHeader title="SELECT_DATES.TITLE" icon={icons.arrowBackCircleOutline} onPress={handleBackPress} />
       <CustomText text="SELECT_DATES.DESCRIPTION" style={style.subtitle} />
       <View style={style.calendar}>
         <CalendarPicker

@@ -17,13 +17,13 @@ const initialState: TripState = {
   budgetInfo: 'Cheap',
 };
 
-export const useTripStore = create<TripState & TripActions>()((set) => ({
+export const useTripStore = create<TripState & TripActions>()(set => ({
   ...initialState,
   actions: {
-    setLocationInfo: (locationInfo) => set({ locationInfo }),
-    setTravelerInfo: (travelerInfo) => set({ travelerInfo }),
-    setDatesInfo: (datesInfo) => set({ datesInfo }),
-    setBudgetInfo: (budgetInfo) => set({ budgetInfo }),
+    setLocationInfo: locationInfo => set({ locationInfo }),
+    setTravelerInfo: travelerInfo => set({ travelerInfo }),
+    setDatesInfo: datesInfo => set({ datesInfo }),
+    setBudgetInfo: budgetInfo => set({ budgetInfo }),
     resetTripState: () => set(initialState),
   },
 }));

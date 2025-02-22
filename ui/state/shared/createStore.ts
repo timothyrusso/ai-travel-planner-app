@@ -4,7 +4,7 @@ import { create as _create } from 'zustand';
 const storeResetFns = new Set<() => void>();
 
 export const resetAllStores = () => {
-  storeResetFns.forEach((resetFn) => {
+  storeResetFns.forEach(resetFn => {
     resetFn();
   });
 };

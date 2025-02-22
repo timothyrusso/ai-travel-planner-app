@@ -5,32 +5,18 @@ import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import CustomTextInput from '@/ui/components/basic/CustomTextInput/CustomTextInput';
 import BasicView from '@/ui/components/composite/BasicView/BasicView';
 import CustomHeader from '@/ui/components/composite/CustomHeader/CustomHeader';
-import React from 'react';
 import { Text, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { useSignUpPageLogic } from './SignUpPage.logic';
 import { styles } from './SignUpPage.style';
 
 const SignUpPage = () => {
-  const {
-    onCreateAccount,
-    email,
-    setEmail,
-    password,
-    setPassword,
-    fullName,
-    setFullName,
-    router,
-    isLoading,
-  } = useSignUpPageLogic();
+  const { onCreateAccount, email, setEmail, password, setPassword, fullName, setFullName, router, isLoading } =
+    useSignUpPageLogic();
 
   return (
     <BasicView>
-      <CustomHeader
-        title="SIGNUP.TITLE"
-        icon={icons.circleClose}
-        onPress={() => router.back()}
-      />
+      <CustomHeader title="SIGNUP.TITLE" icon={icons.circleClose} onPress={() => router.back()} />
       <Text style={styles.subtitle}>Create a new account!</Text>
       <View style={styles.inputContainer}>
         <View style={styles.emailContainer}>
@@ -60,16 +46,8 @@ const SignUpPage = () => {
         </View>
       </View>
       <View style={styles.buttonContainer}>
-        <CustomButton
-          title="SIGNIN.CREATE_ACCOUNT"
-          onPress={onCreateAccount}
-          isLoading={isLoading}
-        />
-        <CustomButton
-          title="SIGNIN.TITLE"
-          onPress={() => router.replace(routes.signIn)}
-          outline
-        />
+        <CustomButton title="SIGNIN.CREATE_ACCOUNT" onPress={onCreateAccount} isLoading={isLoading} />
+        <CustomButton title="SIGNIN.TITLE" onPress={() => router.replace(routes.signIn)} outline />
       </View>
       <Toast />
     </BasicView>

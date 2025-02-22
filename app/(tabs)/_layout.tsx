@@ -3,7 +3,6 @@ import { dimensions } from '@/constants/style/dimensions';
 import { icons } from '@/constants/style/icons';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 const TabLayout = () => {
@@ -18,13 +17,7 @@ const TabLayout = () => {
       <Tabs.Screen
         options={{
           tabBarLabel: t('MYTRIP.TITLE'),
-          tabBarIcon: ({ color }) => (
-            <Ionicons
-              name={icons.location}
-              size={dimensions.Fourfold}
-              color={color}
-            />
-          ),
+          tabBarIcon: ({ color }) => <Ionicons name={icons.location} size={dimensions.Fourfold} color={color} />,
         }}
         name="mytrip"
       />
@@ -32,13 +25,7 @@ const TabLayout = () => {
         name="discover"
         options={{
           tabBarLabel: t('DISCOVER.TITLE'),
-          tabBarIcon: ({ color }) => (
-            <Ionicons
-              name={icons.globeOutline}
-              size={dimensions.Fourfold}
-              color={color}
-            />
-          ),
+          tabBarIcon: ({ color }) => <Ionicons name={icons.globeOutline} size={dimensions.Fourfold} color={color} />,
         }}
       />
       <Tabs.Screen
@@ -46,11 +33,7 @@ const TabLayout = () => {
         options={{
           tabBarLabel: t('PROFILE.TITLE'),
           tabBarIcon: ({ color }) => (
-            <Ionicons
-              name={icons.personCircleOutline}
-              size={dimensions.Fourfold}
-              color={color}
-            />
+            <Ionicons name={icons.personCircleOutline} size={dimensions.Fourfold} color={color} />
           ),
         }}
       />

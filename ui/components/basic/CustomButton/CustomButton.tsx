@@ -1,14 +1,7 @@
 import { colors } from '@/constants/style/colors';
-import React, { FC } from 'react';
+import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  ActivityIndicator,
-  Pressable,
-  StyleProp,
-  Text,
-  TextStyle,
-  ViewStyle,
-} from 'react-native';
+import { ActivityIndicator, Pressable, type StyleProp, Text, type TextStyle, type ViewStyle } from 'react-native';
 import { styles } from './CustomButton.style';
 
 type CustomButtonProps = {
@@ -46,13 +39,9 @@ const CustomButton: FC<CustomButtonProps> = ({
       ]}
     >
       {isLoading ? (
-        <ActivityIndicator
-          color={activityndicatorColor || colors.primaryWhite}
-        />
+        <ActivityIndicator color={activityndicatorColor || colors.primaryWhite} />
       ) : (
-        <Text style={[styles.text, outline && styles.textOutline, textStyle]}>
-          {t(title)}
-        </Text>
+        <Text style={[styles.text, outline && styles.textOutline, textStyle]}>{t(title)}</Text>
       )}
     </Pressable>
   );

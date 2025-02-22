@@ -6,11 +6,11 @@ const initialState: AppState = {
   loading: false,
 };
 
-export const useAppStore = create<AppState & AppActions>()((set) => ({
+export const useAppStore = create<AppState & AppActions>()(set => ({
   ...initialState,
   actions: {
-    setLanguage: (language) => set({ language }),
-    setLoading: (loading) => set({ loading }),
+    setLanguage: language => set({ language }),
+    setLoading: loading => set({ loading }),
     resetAppState: () => set(initialState),
   },
 }));

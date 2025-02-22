@@ -1,5 +1,5 @@
 import { routes } from '@/constants/routes';
-import { LocationInfo } from '@/modules/trip/domain/entities/LocationInfo';
+import type { LocationInfo } from '@/modules/trip/domain/entities/LocationInfo';
 import { useTripState } from '@/ui/state/trip';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';

@@ -1,4 +1,4 @@
-import { Point } from 'react-native-google-places-autocomplete';
+import type { Point } from 'react-native-google-places-autocomplete';
 
 export interface LocationInfo {
   name: string;

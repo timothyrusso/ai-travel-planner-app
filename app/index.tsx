@@ -9,7 +9,7 @@ import { View } from 'react-native';
 export default function Index() {
   const [loggedIn, setLoggedIn] = useState(false);
 
-  onAuthStateChanged(auth, (user) => {
+  onAuthStateChanged(auth, user => {
     if (user) {
       setLoggedIn(true);
       // User is signed in, see docs for a list of available properties

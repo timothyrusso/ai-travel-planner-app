@@ -1,13 +1,14 @@
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import LottieAnimation from '@/ui/components/basic/LottieAnimation/LottieAnimation';
 import BasicView from '@/ui/components/composite/BasicView/BasicView';
-import React from 'react';
 import { useGenerateTripPageLogic } from './GenerateTripPage.logic';
 import { style } from './GenerateTripPage.style';
 
 const GenerateTripPage = () => {
   const animation = require('../../assets/lottie/loading_animation.json');
   const { generateAiTrip } = useGenerateTripPageLogic();
+
+  console.log(generateAiTrip);
 
   return (
     <BasicView>
