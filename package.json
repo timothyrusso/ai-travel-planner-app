@@ -9,7 +9,10 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
-    "lint": "expo lint"
+    "e2e": "maestro test ./maestro",
+    "cspell": "cspell link add @cspell/dict-it-it && cspell lint .",
+    "format": "npx @biomejs/biome format --write",
+    "lint": "npx @biomejs/biome check --no-errors-on-unmatched --files-ignore-unknown=true"
   },
   "jest": {
     "preset": "jest-expo"

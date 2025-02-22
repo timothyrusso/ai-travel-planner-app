@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "ai-travel-planner-app",
-    "slug": "ai-travel-planner-app",
+    "name": "Travel Planner",
+    "slug": "travelplanner",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./ui/assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "travelplanner",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./ui/assets/images/splash.png",
@@ -13,7 +13,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.example.travelplanner"
     },
     "android": {
       "adaptiveIcon": {
@@ -26,11 +27,7 @@
       "output": "static",
       "favicon": "./ui/assets/images/favicon.png"
     },
-    "plugins": [
-      "expo-router",
-      "expo-localization",
-      "expo-font"
-    ],
+    "plugins": ["expo-router", "expo-localization", "expo-font"],
     "experiments": {
       "typedRoutes": true
     },

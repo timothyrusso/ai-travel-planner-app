@@ -1,0 +1,115 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.3/schema.json",
+  "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
+  "files": {
+    "ignoreUnknown": false,
+    "ignore": [
+      "android/**",
+      "ios/**",
+      "node_modules/**",
+      "dist/**",
+      "coverage/**"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "useEditorconfig": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 120,
+    "attributePosition": "auto",
+    "bracketSpacing": true,
+    "ignore": [
+      "./.bundle",
+      "./.vscode",
+      "./android",
+      "./ios",
+      "./src/assets",
+      "**/*.json",
+      "**/*.lock",
+      "expo-env.d.ts"
+    ]
+  },
+  "organizeImports": { "enabled": true },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "style": {
+        "useImportType": "error"
+      },
+      "correctness": {
+        "all": true,
+        "useExhaustiveDependencies": "off",
+        "noUndeclaredDependencies": "off",
+        "useImportExtensions": "off",
+        "noUndeclaredVariables": "off",
+        "noUnusedVariables": {
+          "level": "error",
+          "fix": "safe"
+        }
+      },
+      "suspicious": {
+        "all": true,
+        "noExplicitAny": "error",
+        "noConsoleLog": "off",
+        "noEmptyBlockStatements": "off"
+      },
+      "complexity": {
+        "all": true
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "all",
+      "semicolons": "always",
+      "arrowParentheses": "asNeeded",
+      "bracketSameLine": false,
+      "indentStyle": "space",
+      "indentWidth": 2,
+      "lineWidth": 120,
+      "quoteStyle": "single",
+      "attributePosition": "auto",
+      "bracketSpacing": true
+    },
+    "parser": { "unsafeParameterDecoratorsEnabled": true }
+  },
+  "json": {
+    "formatter": {
+      "indentStyle": "space",
+      "indentWidth": 2,
+      "lineWidth": 120,
+      "trailingCommas": "none"
+    }
+  },
+  "overrides": [
+    {
+      "linter": {
+        "rules": {
+          "complexity": { "noForEach": "off" },
+          "suspicious": { "noExplicitAny": "off" }
+        }
+      }
+    },
+    {
+      "include": [
+        "ui/state/shared/createSelectors.ts",
+        "ui/state/shared/createStore.ts"
+      ],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUndeclaredVariables": "off"
+          },
+          "complexity": { "noForEach": "off" },
+          "suspicious": { "noExplicitAny": "off" }
+        }
+      }
+    }
+  ]
+}

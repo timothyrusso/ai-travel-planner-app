@@ -22,3 +22,13 @@ expo-env.d.ts
 
 # extra
 info.MD
+
+# Android
+android/
+
+# iOS
+ios/
+
+# local builds
+*.apk
+*.ipa
