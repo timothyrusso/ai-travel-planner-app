@@ -1,0 +1,80 @@
+name: Build App
+on:
+  push:
+    branches: ['main','test','development']
+  workflow_dispatch:
+    inputs:
+      os:
+        type: choice
+        description: OS to build on. Ubuntu is faster, MacOS supports iOS builds
+        options:
+          - macos-latest
+          - ubuntu-latest
+      platform:
+        type: choice
+        description: Platform to build for
+        options:
+          - android
+          - ios
+      profile:
+        type: choice
+        description: Build profile to use
+        options:
+          - development
+          - test
+          - preview
+          - production
+      should_submit:
+        type: boolean
+        description: Whether to perform the submit step
+        required: true
+        default: false
+jobs:
+  build:
+    runs-on: ${{ github.event.inputs.os || 'ubuntu-latest' }}
+    strategy:
+      matrix:
+        node: [20.x]
+    steps:
+    - name: Setup repo
+      uses: actions/checkout@v4
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node }}
+        cache: npm
+
+    - name: Setup Java 17
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Setup Expo and EAS
+      uses: expo/expo-github-action@v7
+      with:
+        token: ${{ secrets.EXPO_TOKEN }}
+        expo-version: latest
+        eas-version: latest
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build app
+      # env:
+      #   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      #   EXPO_PUBLIC_MMKV_ENCRYPTION_KEY: ${{ secrets.MMKV_ENCRYPTION_KEY }}
+      run: |
+        eas build --local \
+          --non-interactive \
+          --output=./app-build \
+          --platform=${{ github.event.inputs.platform  || 'android' }} \
+          --profile=${{ github.event.inputs.profile || 'test' }}
+
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifacts
+        path: /home/runner/work/travelplanner/travelplanner/app-build
+        retention-days: 1
