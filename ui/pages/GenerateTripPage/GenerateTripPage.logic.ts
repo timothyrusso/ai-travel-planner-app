@@ -1,5 +1,4 @@
 // FIXME: react-native-get-random-values must be imported before nanoid
-import 'react-native-get-random-values';
 import { ai_prompt } from '@/ai/prompt';
 import { auth, db } from '@/configs/firebaseConfig';
 import { chatSession } from '@/configs/geminiConfig';
@@ -9,6 +8,7 @@ import { useRouter } from 'expo-router';
 import { doc, setDoc } from 'firebase/firestore';
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
+import 'react-native-get-random-values';
 
 export const useGenerateTripPageLogic = () => {
   const { tripSelectors } = useTripState();
@@ -54,6 +54,7 @@ export const useGenerateTripPageLogic = () => {
 
       router.push(routes.myTrip);
     } catch (error) {
+      // biome-ignore lint/suspicious/noConsole: <explanation>
       console.error('Error generating AI trip:', error);
     } finally {
       setIsLoading(false);

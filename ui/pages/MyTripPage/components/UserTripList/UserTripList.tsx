@@ -12,6 +12,8 @@ export const UserTripList: FC<UserTripListProps> = ({ userTrips }) => {
   try {
     _latestTrip = JSON.parse(userTrips[0]?.userTripData);
   } catch (error) {
+    // biome-ignore lint/suspicious/noConsole: <explanation>
+    // biome-ignore lint/suspicious/noConsole: <explanation>
     console.error('Error parsing userTripData:', error);
   }
 

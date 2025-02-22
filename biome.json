@@ -3,7 +3,7 @@
   "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
   "files": {
     "ignoreUnknown": false,
-    "ignore": ["android/**", "ios/**", "node_modules/**", "dist/**", "coverage/**"]
+    "ignore": ["android/**", "ios/**", "node_modules/**", "dist/**", "coverage/**", "scripts/**", ".expo/**"]
   },
   "formatter": {
     "enabled": true,
@@ -51,9 +51,7 @@
         "noConsoleLog": "off",
         "noEmptyBlockStatements": "off"
       },
-      "complexity": {
-        "all": true
-      }
+      "complexity": { "all": true, "noForEach": "off" }
     }
   },
   "javascript": {
@@ -83,9 +81,12 @@
   },
   "overrides": [
     {
+      "include": ["biome.json"],
+      "linter": { "enabled": false }
+    },
+    {
       "linter": {
         "rules": {
-          "complexity": { "noForEach": "off" },
           "suspicious": { "noExplicitAny": "off" }
         }
       }
@@ -97,7 +98,6 @@
           "correctness": {
             "noUndeclaredVariables": "off"
           },
-          "complexity": { "noForEach": "off" },
           "suspicious": { "noExplicitAny": "off" }
         }
       }

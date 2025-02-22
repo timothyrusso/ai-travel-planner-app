@@ -22,7 +22,7 @@ export const useSignUpPageLogic = () => {
   };
 
   const onCreateAccount = async () => {
-    if (!email || !password || !fullName) {
+    if (!(email && password && fullName)) {
       showToast();
       return;
     }
@@ -35,6 +35,7 @@ export const useSignUpPageLogic = () => {
     } catch (error) {
       const { code: errorCode, message: errorMessage } = error as FirebaseError;
       showToast();
+      // biome-ignore lint/suspicious/noConsole: <explanation>
       console.log(errorCode, errorMessage);
     } finally {
       setLoading(false);

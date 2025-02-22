@@ -18,7 +18,7 @@ export const useSignInPageLogic = () => {
   };
 
   const onSignIn = async () => {
-    if (!email || !password) {
+    if (!(email && password)) {
       showToast();
       return;
     }
@@ -31,6 +31,7 @@ export const useSignInPageLogic = () => {
     } catch (error) {
       const typedError = error as AuthError;
       showToast();
+      // biome-ignore lint/suspicious/noConsole: <explanation>
       console.log(typedError);
     } finally {
       setLoading(false);

@@ -8,6 +8,7 @@ const GenerateTripPage = () => {
   const animation = require('../../assets/lottie/loading_animation.json');
   const { generateAiTrip } = useGenerateTripPageLogic();
 
+  // biome-ignore lint/suspicious/noConsole: <explanation>
   console.log(generateAiTrip);
 
   return (

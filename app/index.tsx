@@ -14,13 +14,11 @@ export default function Index() {
       setLoggedIn(true);
       // User is signed in, see docs for a list of available properties
       // https://firebase.google.com/docs/reference/js/auth.user
-      const uid = user.uid;
-      console.log(uid, 'logged in');
+      // const uid = user.uid;
       // ...
     } else {
       // User is signed out
       // ...
-      console.log('logged out');
     }
   });
 
