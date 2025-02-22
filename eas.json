@@ -6,17 +6,11 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal",
-      "env": {
-        "EXPO_PUBLIC_EXAMPLE_ENV": "fake_env"
-      }
+      "distribution": "internal"
     },
     "test": {
       "developmentClient": false,
       "distribution": "internal",
-      "env": {
-        "EXPO_PUBLIC_EXAMPLE_ENV": "fake_env"
-      },
       "android": {
         "buildType": "apk"
       }
@@ -24,24 +18,15 @@
     "development-simulator": {
       "developmentClient": true,
       "distribution": "internal",
-      "env": {
-        "EXPO_PUBLIC_EXAMPLE_ENV": "fake_env"
-      },
       "ios": {
         "simulator": true
       }
     },
     "preview": {
-      "distribution": "internal",
-      "env": {
-        "EXPO_PUBLIC_EXAMPLE_ENV": "fake_env"
-      }
+      "distribution": "internal"
     },
     "production": {
-      "autoIncrement": true,
-      "env": {
-        "EXPO_PUBLIC_EXAMPLE_ENV": "fake_env"
-      }
+      "autoIncrement": true
     }
   },
   "submit": {
