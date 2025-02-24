@@ -28,6 +28,7 @@
     "date-fns": "^4.1.0",
     "expo": "^52.0.18",
     "expo-constants": "~17.0.3",
+    "expo-dev-client": "~5.0.12",
     "expo-font": "~13.0.1",
     "expo-linking": "~7.0.3",
     "expo-localization": "~16.0.0",
@@ -55,8 +56,7 @@
     "react-native-screens": "~4.1.0",
     "react-native-toast-message": "^2.2.1",
     "react-native-web": "~0.19.13",
-    "zustand": "^5.0.0",
-    "expo-dev-client": "~5.0.12"
+    "zustand": "^5.0.0"
   },
   "devDependencies": {
     "@arkweid/lefthook": "^0.7.7",
@@ -68,6 +68,7 @@
     "@types/react-test-renderer": "^18.0.7",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
+    "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "eslint": "^8.57.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^9.1.0",
