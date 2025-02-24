@@ -5,8 +5,8 @@
   "scripts": {
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
     "e2e": "maestro test ./maestro",
@@ -55,7 +55,8 @@
     "react-native-screens": "~4.1.0",
     "react-native-toast-message": "^2.2.1",
     "react-native-web": "~0.19.13",
-    "zustand": "^5.0.0"
+    "zustand": "^5.0.0",
+    "expo-dev-client": "~5.0.12"
   },
   "devDependencies": {
     "@arkweid/lefthook": "^0.7.7",
