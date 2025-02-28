@@ -76,5 +76,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: build-artifacts
-        path: /home/runner/work/travelplanner/travelplanner/app-build
+        path: /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/app-build
         retention-days: 1
