@@ -4,9 +4,6 @@
 pre-push:
   parallel: true
   commands:
-    check:
-      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
-      run: npx @biomejs/biome check --no-errors-on-unmatched --files-ignore-unknown=true --colors=off {push_files}
     # packages-audit:
     #  tags: frontend security
     #  run: npm audit
@@ -14,14 +11,16 @@ pre-push:
     #  run: npm test
 
 pre-commit:
+  parallel: true
   commands:
-    check:
-      glob: "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}"
-      run: npx @biomejs/biome check --write --no-errors-on-unmatched --files-ignore-unknown=true --colors=off {staged_files}
-      stage_fixed: true
-    # maestro:
-    #   tags: e2e
-    #   run: npx e2e
+    lint:
+      files: git diff --name-only --cached --diff-filter=d
+      glob: "*.{js,jsx,ts,tsx}"
+      run: npx @biomejs/biome check --no-errors-on-unmatched {files}
+    format:
+      files: git diff --name-only --cached --diff-filter=d
+      glob: "*.{js,jsx,ts,tsx}"
+      run: npx @biomejs/biome format --write {files}
 
 commit-msg:
   parallel: true
@@ -30,4 +29,3 @@ commit-msg:
       run: npx --no-install commitlint --config .commitlint.cjs --edit $1
     spell-check:
       run: npx cspell --no-summary {1}
-
