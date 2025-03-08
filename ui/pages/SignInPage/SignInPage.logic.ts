@@ -1,5 +1,5 @@
 import { auth } from '@/configs/firebaseConfig';
-import { routes } from '@/constants/routes';
+import { routes } from '@/ui/constants/routes';
 import { router } from 'expo-router';
 import { type AuthError, signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';

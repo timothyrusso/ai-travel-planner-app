@@ -1,4 +1,4 @@
-import { dimensions } from '@/constants/style/dimensions';
+import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { StyleSheet } from 'react-native';
 
 export const style = StyleSheet.create({
@@ -6,7 +6,7 @@ export const style = StyleSheet.create({
     flex: 1,
     position: 'absolute',
     width: '100%',
-    height: dimensions.tripAnimationHeight,
+    height: spacing.tripAnimationHeight,
     bottom: 0,
   },
 });

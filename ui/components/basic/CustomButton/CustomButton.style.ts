@@ -1,29 +1,29 @@
-import { colors } from '@/constants/style/colors';
-import { dimensions } from '@/constants/style/dimensions';
-import { fonts } from '@/constants/style/fonts';
+import { colors } from '@/ui/constants/style/colors';
+import { spacing } from '@/ui/constants/style/dimensions/spacing';
+import { fonts } from '@/ui/constants/style/fonts';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   main: {
     width: '100%',
-    height: dimensions.customButtonHeight,
+    height: spacing.customButtonHeight,
     backgroundColor: colors.primaryBlack,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: dimensions.Triple,
+    borderRadius: spacing.Triple,
   },
   text: {
     color: colors.primaryWhite,
     fontFamily: fonts.interBold,
-    fontSize: dimensions.Triple,
+    fontSize: spacing.Triple,
   },
   pressed: {
     opacity: 0.6,
   },
   outline: {
     backgroundColor: colors.primaryWhite,
-    borderWidth: dimensions.ThreeQuarterMinimal,
+    borderWidth: spacing.ThreeQuarterMinimal,
     borderColor: colors.primaryBlack,
   },
   textOutline: {

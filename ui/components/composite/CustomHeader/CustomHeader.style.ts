@@ -1,5 +1,5 @@
-import { dimensions } from '@/constants/style/dimensions';
-import { fonts } from '@/constants/style/fonts';
+import { spacing } from '@/ui/constants/style/dimensions/spacing';
+import { fonts } from '@/ui/constants/style/fonts';
 import { StyleSheet } from 'react-native';
 
 export const style = StyleSheet.create({
@@ -9,7 +9,7 @@ export const style = StyleSheet.create({
     justifyContent: 'space-between',
   },
   title: {
-    fontSize: dimensions.Quintuple,
+    fontSize: spacing.Quintuple,
     fontFamily: fonts.interBold,
   },
 });

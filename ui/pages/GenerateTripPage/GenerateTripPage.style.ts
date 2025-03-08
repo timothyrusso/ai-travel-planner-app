@@ -1,20 +1,20 @@
-import { dimensions } from '@/constants/style/dimensions';
-import { fonts } from '@/constants/style/fonts';
+import { spacing } from '@/ui/constants/style/dimensions/spacing';
+import { fonts } from '@/ui/constants/style/fonts';
 import { StyleSheet } from 'react-native';
 
 export const style = StyleSheet.create({
   animation: {
     flex: 1,
     width: '100%',
-    height: dimensions.tripAnimationHeight,
+    height: spacing.tripAnimationHeight,
   },
   subtitle: {
-    marginVertical: dimensions.Fourfold,
-    fontSize: dimensions.Fourfold,
+    marginVertical: spacing.Fourfold,
+    fontSize: spacing.Fourfold,
     fontFamily: fonts.interMedium,
   },
   title: {
-    fontSize: dimensions.Quintuple,
+    fontSize: spacing.Quintuple,
     fontFamily: fonts.interBold,
   },
 });

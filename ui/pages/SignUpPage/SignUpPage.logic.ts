@@ -1,5 +1,5 @@
 import { auth } from '@/configs/firebaseConfig';
-import { routes } from '@/constants/routes';
+import { routes } from '@/ui/constants/routes';
 import { useRouter } from 'expo-router';
 import type { FirebaseError } from 'firebase/app';
 import { createUserWithEmailAndPassword } from 'firebase/auth';

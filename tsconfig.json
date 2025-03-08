@@ -9,7 +9,7 @@
       "@/*": ["./*"],
       "@firebase/auth": ["./node_modules/@firebase/auth/dist/index.rn.d.ts"],
       "@configs/*": ["./configs/*"],
-      "@constants/*": ["./constants/*"],
+      "@constants/*": ["ui/constants/*"],
       "@ui/*": ["./ui/*"]
     }
   },

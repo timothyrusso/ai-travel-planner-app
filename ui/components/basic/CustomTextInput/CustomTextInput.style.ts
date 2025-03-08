@@ -1,6 +1,6 @@
-import { colors } from '@/constants/style/colors';
-import { dimensions } from '@/constants/style/dimensions';
-import { fonts } from '@/constants/style/fonts';
+import { colors } from '@/ui/constants/style/colors';
+import { spacing } from '@/ui/constants/style/dimensions/spacing';
+import { fonts } from '@/ui/constants/style/fonts';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
@@ -8,12 +8,12 @@ export const styles = StyleSheet.create({
     width: '100%',
     color: colors.primaryBlack,
     fontFamily: fonts.interRegular,
-    fontSize: dimensions.Triple,
+    fontSize: spacing.Triple,
   },
   container: {
-    borderWidth: dimensions.ThreeQuarterMinimal,
+    borderWidth: spacing.ThreeQuarterMinimal,
     borderColor: colors.primaryBlack,
-    borderRadius: dimensions.Triple,
-    padding: dimensions.Triple,
+    borderRadius: spacing.Triple,
+    padding: spacing.Triple,
   },
 });

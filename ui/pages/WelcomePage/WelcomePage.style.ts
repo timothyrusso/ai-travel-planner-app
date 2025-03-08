@@ -1,36 +1,36 @@
-import { dimensions } from '@/constants/style/dimensions';
-import { fonts } from '@/constants/style/fonts';
+import { spacing } from '@/ui/constants/style/dimensions/spacing';
+import { fonts } from '@/ui/constants/style/fonts';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: dimensions.separator80,
+    paddingTop: spacing.separator80,
   },
   animation: {
     width: '100%',
-    height: dimensions.travelAnimationHeight,
+    height: spacing.travelAnimationHeight,
   },
   logo: {
-    width: dimensions.mainLogoSize,
-    height: dimensions.mainLogoSize,
+    width: spacing.mainLogoSize,
+    height: spacing.mainLogoSize,
     alignSelf: 'center',
   },
   button: {
     alignSelf: 'center',
-    width: dimensions.customButtonWidth,
+    width: spacing.customButtonWidth,
   },
   buttonContainer: {
     width: '100%',
     justifyContent: 'center',
-    paddingTop: dimensions.separator40,
-    rowGap: dimensions.Fourfold,
+    paddingTop: spacing.separator40,
+    rowGap: spacing.Fourfold,
   },
   title: {
     fontFamily: fonts.interMedium,
-    fontSize: dimensions.Triple,
-    marginTop: dimensions.Double,
+    fontSize: spacing.Triple,
+    marginTop: spacing.Double,
     textAlign: 'center',
-    paddingHorizontal: dimensions.separator80,
+    paddingHorizontal: spacing.separator80,
   },
 });

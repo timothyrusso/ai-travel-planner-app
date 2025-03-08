@@ -1,10 +1,10 @@
-import { colors } from '@/constants/style/colors';
-import { dimensions } from '@/constants/style/dimensions';
-import { icons } from '@/constants/style/icons';
 import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import BasicView from '@/ui/components/composite/BasicView/BasicView';
 import CustomHeader from '@/ui/components/composite/CustomHeader/CustomHeader';
+import { colors } from '@/ui/constants/style/colors';
+import { spacing } from '@/ui/constants/style/dimensions/spacing';
+import { icons } from '@/ui/constants/style/icons';
 import { View } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 import { useSelectDatesPageLogic } from './SelectDatesPage.logic';
@@ -25,7 +25,7 @@ const SelectDatesPage = () => {
           textStyle={style.calendarText}
           selectedDayColor={colors.primaryBlack}
           selectedDayTextStyle={style.calendarDayText}
-          width={dimensions.calendarWidth}
+          width={spacing.calendarWidth}
           onDateChange={handleDateChange}
         />
       </View>

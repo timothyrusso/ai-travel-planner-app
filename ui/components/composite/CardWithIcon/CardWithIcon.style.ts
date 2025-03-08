@@ -1,6 +1,6 @@
-import { colors } from '@/constants/style/colors';
-import { dimensions } from '@/constants/style/dimensions';
-import { fonts } from '@/constants/style/fonts';
+import { colors } from '@/ui/constants/style/colors';
+import { spacing } from '@/ui/constants/style/dimensions/spacing';
+import { fonts } from '@/ui/constants/style/fonts';
 import { StyleSheet } from 'react-native';
 
 export const style = StyleSheet.create({
@@ -8,30 +8,30 @@ export const style = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     backgroundColor: colors.secondaryGrey,
-    borderRadius: dimensions.Double,
-    height: dimensions.CardWithIconHeight,
+    borderRadius: spacing.Double,
+    height: spacing.CardWithIconHeight,
     alignItems: 'center',
-    paddingHorizontal: dimensions.Double,
+    paddingHorizontal: spacing.Double,
   },
   textContainer: {
     flex: 1,
   },
   icon: {
-    fontSize: dimensions.separator40,
+    fontSize: spacing.separator40,
     alignItems: 'center',
   },
   title: {
-    fontSize: dimensions.Fourfold,
+    fontSize: spacing.Fourfold,
     fontFamily: fonts.arimaBold,
   },
   description: {
-    fontSize: dimensions.Triple,
+    fontSize: spacing.Triple,
     fontFamily: fonts.arimaMedium,
   },
   pressed: {
     opacity: 0.6,
   },
   selected: {
-    borderWidth: dimensions.Minimal,
+    borderWidth: spacing.Minimal,
   },
 });

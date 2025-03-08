@@ -1,10 +1,10 @@
-import { icons } from '@/constants/style/icons';
 import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import LottieAnimation from '@/ui/components/basic/LottieAnimation/LottieAnimation';
 import BasicView from '@/ui/components/composite/BasicView/BasicView';
 import CustomHeader from '@/ui/components/composite/CustomHeader/CustomHeader';
 import PlacesAutocomplete from '@/ui/components/composite/PlacesAutocomplete/PlacesAutocomplete';
+import { icons } from '@/ui/constants/style/icons';
 import { View } from 'react-native';
 import { useSearchPageLogic } from './SearchPlacePage.logic';
 import { styles } from './SearchPlacePage.style';

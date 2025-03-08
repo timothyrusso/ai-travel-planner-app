@@ -1,15 +1,15 @@
-import { dimensions } from '@/constants/style/dimensions';
-import { fonts } from '@/constants/style/fonts';
+import { spacing } from '@/ui/constants/style/dimensions/spacing';
+import { fonts } from '@/ui/constants/style/fonts';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   title: {
     fontFamily: fonts.interBold,
-    fontSize: dimensions.Fourfold,
+    fontSize: spacing.Fourfold,
   },
   subtitle: {
-    marginVertical: dimensions.Fourfold,
-    fontSize: dimensions.Fourfold,
+    marginVertical: spacing.Fourfold,
+    fontSize: spacing.Fourfold,
     fontFamily: fonts.interMedium,
   },
   header: {
@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
   },
   animation: {
     width: '100%',
-    height: dimensions.searchAnimationHeight,
+    height: spacing.searchAnimationHeight,
   },
   animationContainer: {
     flex: 1,
@@ -38,6 +38,6 @@ export const styles = StyleSheet.create({
     width: '60%',
     position: 'absolute',
     bottom: 0,
-    marginBottom: dimensions.Double,
+    marginBottom: spacing.Double,
   },
 });

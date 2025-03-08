@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
 
-import { colors } from '@/constants/style/colors';
-import { dimensions } from '@/constants/style/dimensions';
+import { colors } from '@/ui/constants/style/colors';
+import { spacing } from '@/ui/constants/style/dimensions/spacing';
 
-export const styles = (circleSize = dimensions.separator40) =>
+export const styles = (circleSize = spacing.separator40) =>
   StyleSheet.create({
     icon: {
       alignItems: 'center',

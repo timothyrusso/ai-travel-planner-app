@@ -2,7 +2,7 @@
 import { ai_prompt } from '@/ai/prompt';
 import { auth, db } from '@/configs/firebaseConfig';
 import { chatSession } from '@/configs/geminiConfig';
-import { routes } from '@/constants/routes';
+import { routes } from '@/ui/constants/routes';
 import { useTripState } from '@/ui/state/trip';
 import { useRouter } from 'expo-router';
 import { doc, setDoc } from 'firebase/firestore';

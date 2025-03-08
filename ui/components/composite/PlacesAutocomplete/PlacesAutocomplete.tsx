@@ -1,6 +1,6 @@
-import { colors } from '@/constants/style/colors';
-import { dimensions } from '@/constants/style/dimensions';
 import type { LocationInfo } from '@/modules/trip/domain/entities/LocationInfo';
+import { colors } from '@/ui/constants/style/colors';
+import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
@@ -36,10 +36,10 @@ const PlacesAutocomplete: FC<PlacesAutocompleteProps> = ({
       }}
       styles={{
         textInputContainer: {
-          height: dimensions.separator40 + dimensions.Single,
-          borderWidth: dimensions.Minimal,
+          height: spacing.separator40 + spacing.Single,
+          borderWidth: spacing.Minimal,
           borderColor: colors.primaryBlack,
-          borderRadius: dimensions.Triple,
+          borderRadius: spacing.Triple,
           overflow: 'hidden',
           backgroundColor: colors.primaryWhite,
         },

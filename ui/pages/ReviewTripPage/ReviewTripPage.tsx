@@ -1,9 +1,9 @@
-import { icons } from '@/constants/style/icons';
 import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import BasicView from '@/ui/components/composite/BasicView/BasicView';
 import CardWithImage from '@/ui/components/composite/CardWithImage/CardWithImage';
 import CustomHeader from '@/ui/components/composite/CustomHeader/CustomHeader';
+import { icons } from '@/ui/constants/style/icons';
 import { FlatList, View } from 'react-native';
 import { type TripRecap, useReviewTripPageLogic } from './ReviewTripPage.logic';
 import { style } from './ReviewTripPage.style';

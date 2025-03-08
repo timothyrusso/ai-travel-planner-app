@@ -39,7 +39,10 @@ export const UserTripList: FC<UserTripListProps> = ({ userTrips }) => {
           );
         }}
         ItemSeparatorComponent={() => <View style={{ width: 20 }} />}
-        contentContainerStyle={{ marginTop: 30, paddingHorizontal: 20 }}
+        contentContainerStyle={{
+          marginTop: 30,
+          paddingHorizontal: 20,
+        }}
         showsHorizontalScrollIndicator={false}
       />
     </View>

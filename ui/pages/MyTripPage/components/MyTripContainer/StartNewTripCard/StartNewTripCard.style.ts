@@ -1,16 +1,16 @@
-import { dimensions } from '@/constants/style/dimensions';
-import { fonts } from '@/constants/style/fonts';
+import { spacing } from '@/ui/constants/style/dimensions/spacing';
+import { fonts } from '@/ui/constants/style/fonts';
 import { StyleSheet } from 'react-native';
 
 export const style = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
-    rowGap: dimensions.Triple,
+    rowGap: spacing.Triple,
   },
   title: {
     fontFamily: fonts.interMedium,
-    fontSize: dimensions.Fourfold,
+    fontSize: spacing.Fourfold,
   },
   button: {
     width: '60%',
