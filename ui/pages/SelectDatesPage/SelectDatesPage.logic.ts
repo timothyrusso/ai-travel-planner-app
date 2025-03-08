@@ -1,6 +1,6 @@
-import { routes } from '@/constants/routes';
 import { getTimezoneFormattedDateUseCase } from '@/modules/dates/application/getTimezoneFormattedDateUseCase';
 import { getTodayInLocalTimezoneUseCase } from '@/modules/dates/application/getTodayInLocalTimezoneUseCase';
+import { routes } from '@/ui/constants/routes';
 import { useTripState } from '@/ui/state/trip';
 import { differenceInDays } from 'date-fns';
 import { useRouter } from 'expo-router';

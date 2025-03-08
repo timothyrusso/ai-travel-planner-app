@@ -2,7 +2,7 @@
 import { ai_prompt } from '@/ai/prompt';
 import { auth, db } from '@/configs/firebaseConfig';
 import { chatSession } from '@/configs/geminiConfig';
-import { routes } from '@/constants/routes';
+import { routes } from '@/ui/constants/routes';
 import { useTripState } from '@/ui/state/trip';
 import { useRouter } from 'expo-router';
 import { doc, setDoc } from 'firebase/firestore';
@@ -15,6 +15,8 @@ export const useGenerateTripPageLogic = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const userEmail = auth.currentUser?.email;
+  const _googleApiKey = process.env.EXPO_PUBLIC_GOOGLE_PLACES_API_KEY;
+
   const userTripData = {
     startDate: tripSelectors.datesInfo().startDate,
     endDate: tripSelectors.datesInfo().endDate,
@@ -23,6 +25,7 @@ export const useGenerateTripPageLogic = () => {
     nights: (tripSelectors.datesInfo().totalNoOfDays - 1).toString(),
     traveler: tripSelectors.travelerInfo,
     budget: tripSelectors.budgetInfo,
+    imageUrl: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${tripSelectors.locationInfo().photoRef}&key=${_googleApiKey}`,
   };
 
   const PROMPT = ai_prompt

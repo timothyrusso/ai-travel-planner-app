@@ -1,27 +1,27 @@
-import { dimensions } from '@/constants/style/dimensions';
-import { fonts } from '@/constants/style/fonts';
+import { spacing } from '@/ui/constants/style/dimensions/spacing';
+import { fonts } from '@/ui/constants/style/fonts';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   title: {
     fontFamily: fonts.interBold,
-    fontSize: dimensions.Fourfold,
+    fontSize: spacing.Fourfold,
   },
   emailContainer: {
-    paddingTop: dimensions.Double,
+    paddingTop: spacing.Double,
   },
   passwordContainer: {
-    paddingVertical: dimensions.Double,
+    paddingVertical: spacing.Double,
   },
   label: {
-    marginBottom: dimensions.Single,
+    marginBottom: spacing.Single,
   },
   inputContainer: {
-    paddingTop: dimensions.Triple,
+    paddingTop: spacing.Triple,
   },
   buttonContainer: {
-    paddingTop: dimensions.separator40,
-    rowGap: dimensions.Triple,
+    paddingTop: spacing.separator40,
+    rowGap: spacing.Triple,
   },
   header: {
     flexDirection: 'row',

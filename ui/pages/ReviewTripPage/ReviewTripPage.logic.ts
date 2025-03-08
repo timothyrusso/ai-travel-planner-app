@@ -1,4 +1,4 @@
-import { routes } from '@/constants/routes';
+import { routes } from '@/ui/constants/routes';
 import { useTripState } from '@/ui/state/trip';
 import { format } from 'date-fns';
 import { useRouter } from 'expo-router';

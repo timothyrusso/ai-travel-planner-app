@@ -1,5 +1,5 @@
 import { auth } from '@/configs/firebaseConfig';
-import { routes } from '@/constants/routes';
+import { routes } from '@/ui/constants/routes';
 import WelcomePage from '@/ui/pages/WelcomePage/WelcomePage';
 import { Redirect } from 'expo-router';
 import { onAuthStateChanged } from 'firebase/auth';

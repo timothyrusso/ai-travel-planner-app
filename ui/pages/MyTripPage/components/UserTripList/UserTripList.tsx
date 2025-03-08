@@ -1,37 +1,49 @@
-import type { UserTripData, UserTrips } from '@/modules/trip/domain/dto/UserTripsDTO';
+import type { UserTrips } from '@/modules/trip/domain/dto/UserTripsDTO';
+import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
+import CustomText from '@/ui/components/basic/CustomText/CustomText';
+import { TripListItem } from '@/ui/components/composite/TripListItem/TripListItem';
 import type { FC } from 'react';
-import { Image, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 
 type UserTripListProps = {
   userTrips: UserTrips[] | [];
 };
 
 export const UserTripList: FC<UserTripListProps> = ({ userTrips }) => {
-  // Può essere preso anche dallo stato globale
-  let _latestTrip: UserTripData;
-  try {
-    _latestTrip = JSON.parse(userTrips[0]?.userTripData);
-  } catch (error) {
-    // biome-ignore lint/suspicious/noConsole: <explanation>
-    // biome-ignore lint/suspicious/noConsole: <explanation>
-    console.error('Error parsing userTripData:', error);
-  }
-
   // go to specific dynamic route:
   // router.push({ pathname: '/trip-details', params: { trip:  JSON.stringify(userTrips[0]) } });
 
   return (
-    <View>
-      <Image
-        source={{
-          uri: 'https://plus.unsplash.com/premium_photo-1661964071015-d97428970584?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aG90ZWx8ZW58MHx8MHx8fDA%3D',
+    <View style={{ flex: 1 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 40 }}>
+        <CustomText style={{ fontSize: 20 }} text={'Favorite destinations'} />
+        <CustomButton
+          title="View All"
+          style={{ backgroundColor: 'transparent', width: 'auto' }}
+          textStyle={{ color: 'black', fontSize: 15 }}
+          onPress={() => {}}
+        />
+      </View>
+      <FlatList
+        horizontal
+        data={userTrips}
+        keyExtractor={item => item.docId}
+        renderItem={({ item }) => {
+          return (
+            <TripListItem
+              tripItem={{
+                ...item.tripAiResp.trip_details,
+                image: item.userTripData ? JSON.parse(item.userTripData).imageUrl : undefined,
+              }}
+            />
+          );
         }}
-        style={{
-          width: '100%',
-          height: 240,
-          borderRadius: 15,
-          objectFit: 'cover',
+        ItemSeparatorComponent={() => <View style={{ width: 20 }} />}
+        contentContainerStyle={{
+          marginTop: 30,
+          paddingHorizontal: 20,
         }}
+        showsHorizontalScrollIndicator={false}
       />
     </View>
   );

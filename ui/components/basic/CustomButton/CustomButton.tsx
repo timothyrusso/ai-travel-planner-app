@@ -1,4 +1,4 @@
-import { colors } from '@/constants/style/colors';
+import { colors } from '@/ui/constants/style/colors';
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Pressable, type StyleProp, Text, type TextStyle, type ViewStyle } from 'react-native';

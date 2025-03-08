@@ -1,10 +1,10 @@
-import { routes } from '@/constants/routes';
-import { icons } from '@/constants/style/icons';
 import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import CustomTextInput from '@/ui/components/basic/CustomTextInput/CustomTextInput';
 import BasicView from '@/ui/components/composite/BasicView/BasicView';
 import CustomHeader from '@/ui/components/composite/CustomHeader/CustomHeader';
+import { routes } from '@/ui/constants/routes';
+import { icons } from '@/ui/constants/style/icons';
 import { Text, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { useSignUpPageLogic } from './SignUpPage.logic';
