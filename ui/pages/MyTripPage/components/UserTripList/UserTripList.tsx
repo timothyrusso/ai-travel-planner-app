@@ -16,7 +16,7 @@ export const UserTripList: FC<UserTripListProps> = ({ userTrips }) => {
   return (
     <View style={{ flex: 1 }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 40 }}>
-        <CustomText style={{ fontSize: 20 }} text={'Favorite destinations'} />
+        <CustomText style={{ fontSize: 20 }} text={'Newest destinations'} />
         <CustomButton
           title="View All"
           style={{ backgroundColor: 'transparent', width: 'auto' }}
@@ -29,10 +29,13 @@ export const UserTripList: FC<UserTripListProps> = ({ userTrips }) => {
         data={userTrips}
         keyExtractor={item => item.docId}
         renderItem={({ item }) => {
+          const _userTripData = item.userTripData ? JSON.parse(item.userTripData) : {};
+
           return (
             <TripListItem
               tripItem={{
-                ...item.tripAiResp.trip_details,
+                ...item.tripAiResp,
+                ..._userTripData,
                 image: item.userTripData ? JSON.parse(item.userTripData).imageUrl : undefined,
               }}
             />

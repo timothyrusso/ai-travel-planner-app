@@ -1,57 +1,77 @@
 interface GeoCoordinates {
-  latitude: string;
-  longitude: string;
+  latitude: number;
+  longitude: number;
 }
 
-interface PlaceToVisit {
-  timeToTravel: string;
-  ticketPricing: string;
+interface ScheduleItem {
+  time: string;
+  bestTimeToVisit: string;
+  ticketPricing: string | number;
+  placeDetails: string;
   geoCoordinates: GeoCoordinates;
   placeName: string;
-  placeDetails: string;
   placeImageUrl: string;
-}
-
-interface HotelOption {
-  hotelAddress: string;
-  rating: string;
-  geoCoordinates: GeoCoordinates;
-  description: string;
-  hotelName: string;
-  price: string;
-  hotelImageUrl: string;
-}
-
-interface FlightDetails {
-  destination: string;
-  airline: string;
-  departure_date: string;
-  booking_url: string;
-  origin: string;
-  flight_price: string;
-  return_date: string;
+  activity: string;
+  travelTimeFromHotel?: string;
 }
 
 interface DayPlan {
-  bestTimeToVisit: string;
-  plan: string;
+  schedule: ScheduleItem[];
   day: number;
+  theme: string;
+}
+
+interface FlightInfo {
+  airline: string;
+  flightNumber: string;
+  departureAirport: string;
+  arrivalAirport: string;
+  flightPrice: number;
+  bookingUrl: string;
+  departureTime?: string;
+  arrivalTime?: string;
+}
+
+interface FlightDetails {
+  notes: string;
+  arrival: FlightInfo;
+  departure: FlightInfo;
+}
+
+interface HotelOption {
+  hotelName: string;
+  description: string;
+  rating: number;
+  geoCoordinates: GeoCoordinates;
+  nearbyPlaces: string[];
+  hotelAddress: string;
+  hotelImageUrl: string;
+  price: number;
 }
 
 export interface TripDetails {
-  places_to_visit: PlaceToVisit[];
-  hotel_options: HotelOption[];
-  flight_details: FlightDetails;
-  duration: string;
-  destination: string;
-  travelers: string;
-  day_plans: DayPlan[];
+  location: string;
   budget: string;
-  image?: string;
+  travelers: number;
+  durationDays: number;
+  durationNights: number;
 }
 
-interface TripAiResp {
-  trip_details: TripDetails;
+export interface TripAiResp {
+  budgetNotes: string;
+  dayPlans: DayPlan[];
+  flightDetails: FlightDetails;
+  importantNotes: string;
+  hotelOptions: HotelOption[];
+  transportationNotes: string;
+  tripDetails: TripDetails;
+}
+
+export interface UserTrips {
+  docId: string;
+  tripAiResp: TripAiResp;
+  userEmail: string;
+  userTripData: string;
 }
 
 export interface UserTripData {

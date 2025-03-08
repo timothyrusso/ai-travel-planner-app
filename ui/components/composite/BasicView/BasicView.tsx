@@ -6,11 +6,18 @@ import { styles } from './BasicView.style';
 type BasicViewProps = {
   children: React.ReactNode;
   style?: StyleProp<ViewStyle>;
+  isFullScreen?: boolean;
 };
-const BasicView: FC<BasicViewProps> = ({ children, style }) => {
+const BasicView: FC<BasicViewProps> = ({ children, style, isFullScreen }) => {
+  const _viewStyle = styles(isFullScreen);
+
+  if (isFullScreen) {
+    return <View style={[_viewStyle.viewContainer, style]}>{children}</View>;
+  }
+
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={[styles.viewContainer, style]}>{children}</View>
+    <SafeAreaView style={_viewStyle.container}>
+      <View style={[_viewStyle.viewContainer, style]}>{children}</View>
     </SafeAreaView>
   );
 };

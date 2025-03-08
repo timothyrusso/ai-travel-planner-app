@@ -1,13 +1,7 @@
-import { Text, View } from 'react-native';
+import { TripDetailPage } from '@/ui/pages/TripDetailPage/TripDetailPage';
 
-export const index = () => {
-  // Retrieve trip details:
-  // const { trip } = useLocalSearchParams()
-  // JSON.parse(trip)
-
-  return (
-    <View>
-      <Text>index</Text>
-    </View>
-  );
+const TripDetail = () => {
+  return <TripDetailPage />;
 };
+
+export default TripDetail;
