@@ -22,13 +22,6 @@ const TabLayout = () => {
         name="mytrip"
       />
       <Tabs.Screen
-        name="discover"
-        options={{
-          tabBarLabel: t('DISCOVER.TITLE'),
-          tabBarIcon: ({ color }) => <Ionicons name={icons.globeOutline} size={dimensions.Fourfold} color={color} />,
-        }}
-      />
-      <Tabs.Screen
         name="profile"
         options={{
           tabBarLabel: t('PROFILE.TITLE'),

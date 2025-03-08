@@ -21,7 +21,6 @@ const PlacesAutocomplete: FC<PlacesAutocompleteProps> = ({
       placeholder={t(placeholder)}
       fetchDetails={true}
       onPress={(data, details = null) => {
-        // TODO: console.log(details?.photos?.[0].photo_reference);
         onPress({
           name: data.description,
           coordinates: details?.geometry.location,

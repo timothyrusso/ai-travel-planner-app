@@ -38,7 +38,7 @@ interface DayPlan {
   day: number;
 }
 
-interface TripDetails {
+export interface TripDetails {
   places_to_visit: PlaceToVisit[];
   hotel_options: HotelOption[];
   flight_details: FlightDetails;
@@ -47,6 +47,7 @@ interface TripDetails {
   travelers: string;
   day_plans: DayPlan[];
   budget: string;
+  image?: string;
 }
 
 interface TripAiResp {
@@ -59,6 +60,7 @@ export interface UserTripData {
   location: string;
   days: string;
   nights: string;
+  imageRef: string;
 }
 
 export interface UserTrips {
