@@ -32,3 +32,4 @@ ios/
 # local builds
 *.apk
 *.ipa
+.qodo

@@ -11,7 +11,7 @@ type CustomButtonProps = {
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
   isLoading?: boolean;
-  activityndicatorColor?: string;
+  activityIndicatorColor?: string;
   isDisabled?: boolean;
 };
 const CustomButton: FC<CustomButtonProps> = ({
@@ -21,7 +21,7 @@ const CustomButton: FC<CustomButtonProps> = ({
   style,
   textStyle,
   isLoading,
-  activityndicatorColor,
+  activityIndicatorColor,
   isDisabled,
 }) => {
   const { t } = useTranslation();
@@ -39,7 +39,7 @@ const CustomButton: FC<CustomButtonProps> = ({
       ]}
     >
       {isLoading ? (
-        <ActivityIndicator color={activityndicatorColor || colors.primaryWhite} />
+        <ActivityIndicator color={activityIndicatorColor || colors.primaryWhite} />
       ) : (
         <Text style={[styles.text, outline && styles.textOutline, textStyle]}>{t(title)}</Text>
       )}

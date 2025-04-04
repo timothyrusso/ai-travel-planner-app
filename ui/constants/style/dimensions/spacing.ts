@@ -20,6 +20,8 @@ export const spacing = {
   separator40: 40,
   separator80: 80,
 
+  radius: 50,
+
   travelAnimationHeight: 350,
   searchAnimationHeight: 250,
   tripAnimationHeight: 250,

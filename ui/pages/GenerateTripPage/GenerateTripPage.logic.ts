@@ -25,7 +25,7 @@ export const useGenerateTripPageLogic = () => {
     nights: (tripSelectors.datesInfo().totalNoOfDays - 1).toString(),
     traveler: tripSelectors.travelerInfo,
     budget: tripSelectors.budgetInfo,
-    imageUrl: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${tripSelectors.locationInfo().photoRef}&key=${_googleApiKey}`,
+    imageUrl: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${tripSelectors.locationInfo().photoRef}&key=${_googleApiKey}`,
   };
 
   const PROMPT = ai_prompt

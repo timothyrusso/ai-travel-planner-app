@@ -22,11 +22,11 @@ export const style = StyleSheet.create({
   },
   title: {
     fontSize: spacing.Fourfold,
-    fontFamily: fonts.arimaBold,
+    fontFamily: fonts.interBold,
   },
   description: {
     fontSize: spacing.Triple,
-    fontFamily: fonts.arimaMedium,
+    fontFamily: fonts.interMedium,
   },
   pressed: {
     opacity: 0.6,
