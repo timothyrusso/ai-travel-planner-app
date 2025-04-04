@@ -4,28 +4,21 @@ import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import { TripListItem } from '@/ui/components/composite/TripListItem/TripListItem';
 import type { FC } from 'react';
 import { FlatList, View } from 'react-native';
-
+import { styles } from './UserTripList.style';
 type UserTripListProps = {
   userTrips: UserTrips[] | [];
 };
 
-export const UserTripList: FC<UserTripListProps> = ({ userTrips }) => {
-  // go to specific dynamic route:
-  // router.push({ pathname: '/trip-details', params: { trip:  JSON.stringify(userTrips[0]) } });
+const separator = () => <View style={styles.separator} />;
 
+export const UserTripList: FC<UserTripListProps> = ({ userTrips }) => {
   return (
-    <View style={{ flex: 1 }}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 40 }}>
-        <CustomText style={{ fontSize: 20 }} text={'Newest destinations'} />
-        <CustomButton
-          title="View All"
-          style={{ backgroundColor: 'transparent', width: 'auto' }}
-          textStyle={{ color: 'black', fontSize: 15 }}
-          onPress={() => {}}
-        />
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <CustomText style={styles.title} text="MYTRIP.NEWEST_DESTINATIONS" />
+        <CustomButton title="GLOBAL.VIEW_ALL" style={styles.button} textStyle={styles.buttonText} onPress={() => {}} />
       </View>
       <FlatList
-        horizontal
         data={userTrips}
         keyExtractor={item => item.docId}
         renderItem={({ item }) => {
@@ -41,12 +34,9 @@ export const UserTripList: FC<UserTripListProps> = ({ userTrips }) => {
             />
           );
         }}
-        ItemSeparatorComponent={() => <View style={{ width: 20 }} />}
-        contentContainerStyle={{
-          marginTop: 30,
-          paddingHorizontal: 20,
-        }}
-        showsHorizontalScrollIndicator={false}
+        ItemSeparatorComponent={separator}
+        contentContainerStyle={styles.contentContainer}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );

@@ -3,7 +3,7 @@ interface GeoCoordinates {
   longitude: number;
 }
 
-interface ScheduleItem {
+export interface ScheduleItem {
   time: string;
   bestTimeToVisit: string;
   ticketPricing: string | number;
@@ -15,7 +15,7 @@ interface ScheduleItem {
   travelTimeFromHotel?: string;
 }
 
-interface DayPlan {
+export interface DayPlan {
   schedule: ScheduleItem[];
   day: number;
   theme: string;

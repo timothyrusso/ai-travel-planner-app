@@ -1,4 +1,3 @@
-import CustomIcon from '@/ui/components/basic/CustomIcon/CustomIcon';
 import CustomIconButton from '@/ui/components/basic/CustomIconButton/CustomIconButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import BasicView from '@/ui/components/composite/BasicView/BasicView';
@@ -6,10 +5,12 @@ import CustomScrollView from '@/ui/components/composite/CustomScrollView/CustomS
 import { colors } from '@/ui/constants/style/colors';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { icons } from '@/ui/constants/style/icons';
-import { Ionicons } from '@expo/vector-icons';
-import { Image, View } from 'react-native';
+import { FlatList, Image, View } from 'react-native';
 import { useTripDetailPageLogic } from './TripDetailPage.logic';
 import { styles } from './TripDetailPage.style';
+import { DayItem } from './components/DayItem/DayItem';
+
+const separator = () => <View style={styles.separator} />;
 
 export const TripDetailPage = () => {
   const { goBackHandler, _tripData, _tripDays } = useTripDetailPageLogic();
@@ -32,18 +33,16 @@ export const TripDetailPage = () => {
       <CustomScrollView style={styles.container}>
         <CustomText text={_tripData.location} style={styles.title} />
         <CustomText text={_tripDays} style={styles.subTitle} />
-        <View style={styles.iconAndText}>
-          <CustomIcon<typeof Ionicons> name="people" size={12} IconComponent={Ionicons} color={colors.primaryGrey} />
-          <CustomText style={styles.people} text={_tripData.tripDetails.travelers.toString()} />
-        </View>
-
+        <CustomText style={styles.people} text={`🫂 ${_tripData.tripDetails.travelers.toString()}`} />
         <View>
-          {_tripData.dayPlans.map((day, _index) => (
-            <View key={day.day}>
-              <CustomText text={`Day ${day.day.toString()}`} style={styles.title} />
-              <CustomText text={day.theme} style={styles.title} />
-            </View>
-          ))}
+          <FlatList
+            data={_tripData.dayPlans}
+            keyExtractor={item => item.day.toString()}
+            renderItem={({ item }) => <DayItem dayPlan={item} />}
+            scrollEnabled={false}
+            contentContainerStyle={styles.dayPlans}
+            ItemSeparatorComponent={separator}
+          />
         </View>
       </CustomScrollView>
     </BasicView>

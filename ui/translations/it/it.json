@@ -3,6 +3,7 @@
   "MYTRIP": {
     "NO_TRIPS_PLANNED": "Nessun viaggio pianificato",
     "START_NEW_TRIP": "Nuovo viaggio",
+    "NEWEST_DESTINATIONS": "Destinazioni più recenti",
     "TITLE": "Viaggi"
   },
   "PROFILE": {
@@ -73,5 +74,9 @@
   "GENERATE_TRIP": {
     "TITLE": "Creazione del viaggio",
     "DESCRIPTION": "Stiamo lavorando per creare il viaggio dei tuoi sogni"
+  },
+  "GLOBAL": {
+    "NO_IMAGE": "Nessun immagine disponibile",
+    "VIEW_ALL": "Vedi tutti"
   }
 }

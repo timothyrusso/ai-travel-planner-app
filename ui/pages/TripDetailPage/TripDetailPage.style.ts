@@ -1,4 +1,5 @@
 import { colors } from '@/ui/constants/style/colors';
+import { components } from '@/ui/constants/style/dimensions/components';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { fonts } from '@/ui/constants/style/fonts';
 import { StyleSheet } from 'react-native';
@@ -13,9 +14,11 @@ export const styles = StyleSheet.create({
   },
   title: {
     marginVertical: spacing.Triple,
-    fontSize: spacing.Triple,
-    fontFamily: fonts.interMedium,
+    fontSize: spacing.Fourfold,
+    fontFamily: fonts.interBold,
     paddingHorizontal: spacing.Fourfold,
+    paddingTop: spacing.separator80 + spacing.separator40,
+    textAlign: 'center',
   },
   subTitle: {
     fontSize: spacing.Double,
@@ -24,7 +27,7 @@ export const styles = StyleSheet.create({
     color: colors.primaryGrey,
   },
   image: {
-    height: 300,
+    height: components.tripDetailImageHeight,
   },
   basicViewContainer: {
     padding: 0,
@@ -32,22 +35,24 @@ export const styles = StyleSheet.create({
   },
   icon: {
     position: 'absolute',
-    zIndex: 2,
-    right: 30,
-    top: 60,
+    zIndex: spacing.Minimal,
+    right: spacing.Quintuple,
+    top: spacing.TripleAndHalf + spacing.separator40,
     backgroundColor: colors.secondaryGrey,
     borderRadius: spacing.radius,
-  },
-  iconAndText: {
-    paddingHorizontal: spacing.Fourfold,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingTop: spacing.Double,
   },
   people: {
     fontSize: spacing.Double,
     fontFamily: fonts.interMedium,
     color: colors.primaryGrey,
     marginLeft: spacing.Single,
+    marginTop: spacing.Double,
+  },
+  dayPlans: {
+    paddingTop: spacing.Triple,
+    flex: 1,
+  },
+  separator: {
+    height: spacing.Triple,
   },
 });
