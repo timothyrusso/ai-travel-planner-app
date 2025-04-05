@@ -10,15 +10,15 @@ type ActivityItemProps = {
   scheduleItem: ScheduleItem;
 };
 export const ActivityItem: FC<ActivityItemProps> = ({ scheduleItem }) => {
-  const { image, _placeName, isLoading } = useActivityItemLogic(scheduleItem);
+  const { image, isLoading } = useActivityItemLogic(scheduleItem);
 
   return (
     <View style={styles.container}>
-      {isLoading ? (
+      {isLoading && !image ? (
         <View style={[styles.image, styles.loadingContainer]}>
           <ActivityIndicator size="large" color={colors.primaryBlack} />
         </View>
-      ) : _placeName ? (
+      ) : image ? (
         <Image source={{ uri: image }} style={styles.image} />
       ) : (
         <View style={[styles.image, styles.noImageContainer]}>

@@ -16,7 +16,7 @@ export const TripListItem: FC<TripListItemProps> = ({ tripItem }) => {
   return (
     <Pressable
       onPress={() => router.push({ pathname: routes.tripDetails, params: { trip: JSON.stringify(tripItem) } })}
-      style={({ pressed }) => [pressed ? { opacity: 0.5 } : {}]}
+      style={({ pressed }) => [pressed ? styles.button : {}]}
     >
       <View style={styles.container}>
         <Image
@@ -25,13 +25,17 @@ export const TripListItem: FC<TripListItemProps> = ({ tripItem }) => {
           }}
           style={styles.image}
         />
-        <CustomText style={styles.location} text={tripItem.location} numberOfLines={2} ellipsizeMode="tail" />
+        <View style={styles.contentContainer}>
+          <CustomText style={styles.location} text={tripItem.location} numberOfLines={2} ellipsizeMode="tail" />
 
-        <CustomText style={styles.days} text={`📆 ${tripItem.days}`} />
+          <View style={styles.detailsContainer}>
+            <CustomText style={styles.days} text={`📆 ${tripItem.days}`} />
 
-        <CustomText style={styles.budget} text={`💰 ${tripItem?.tripDetails?.budget}`} />
+            <CustomText style={styles.budget} text={`💰 ${tripItem?.tripDetails?.budget}`} />
 
-        <CustomText style={styles.travelers} text={`👥 ${tripItem.tripDetails?.travelers.toString()}`} />
+            <CustomText style={styles.travelers} text={`👥 ${tripItem.tripDetails?.travelers.toString()}`} />
+          </View>
+        </View>
       </View>
     </Pressable>
   );

@@ -28,6 +28,8 @@ export const styles = StyleSheet.create({
   },
   image: {
     height: components.tripDetailImageHeight,
+    borderBottomLeftRadius: spacing.Fourfold,
+    borderBottomRightRadius: spacing.Fourfold,
   },
   basicViewContainer: {
     padding: 0,
@@ -38,7 +40,7 @@ export const styles = StyleSheet.create({
     zIndex: spacing.Minimal,
     right: spacing.Quintuple,
     top: spacing.TripleAndHalf + spacing.separator40,
-    backgroundColor: colors.secondaryGrey,
+    backgroundColor: colors.primaryWhite,
     borderRadius: spacing.radius,
   },
   people: {
