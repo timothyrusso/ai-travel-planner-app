@@ -20,7 +20,10 @@ export const styles = StyleSheet.create({
     fontSize: spacing.Fourfold,
     fontFamily: fonts.interRegular,
   },
-  button: { backgroundColor: 'transparent', width: 'auto' },
+  button: {
+    backgroundColor: 'transparent',
+    width: 'auto',
+  },
   buttonText: {
     fontSize: spacing.Double,
     fontFamily: fonts.interBold,
@@ -28,5 +31,6 @@ export const styles = StyleSheet.create({
   },
   contentContainer: {
     marginTop: spacing.Quintuple,
+    paddingBottom: spacing.separator40,
   },
 });

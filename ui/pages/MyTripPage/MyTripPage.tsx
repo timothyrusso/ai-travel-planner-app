@@ -4,12 +4,11 @@ import CustomHeader from '@/ui/components/composite/CustomHeader/CustomHeader';
 import { routes } from '@/ui/constants/routes';
 import { colors } from '@/ui/constants/style/colors';
 import { icons } from '@/ui/constants/style/icons';
-import MyTripContainer from '@/ui/pages/MyTripPage/components/MyTripContainer/MyTripContainer';
-import StartNewTripCard from '@/ui/pages/MyTripPage/components/MyTripContainer/StartNewTripCard/StartNewTripCard';
+import StartNewTripCard from '@/ui/pages/MyTripPage/components/StartNewTripCard/StartNewTripCard';
 import { Fragment } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, View } from 'react-native';
 import { useMyTripPageLogic } from './MyTripPage.logic';
-import { style } from './MyTripPage.style';
+import { styles } from './MyTripPage.style';
 import { UserTripList } from './components/UserTripList/UserTripList';
 
 const MyTripPage = () => {
@@ -20,12 +19,12 @@ const MyTripPage = () => {
       <BasicView>
         <CustomHeader title="MYTRIP.TITLE" icon={icons.addCircle} onPress={() => router.push(routes.searchPlace)} />
 
-        <MyTripContainer>
+        <View style={styles.container}>
           {isLoading && <ActivityIndicator size="large" color={colors.primary} />}
           {userTrips.length === 0 && !isLoading ? <StartNewTripCard /> : <UserTripList userTrips={userTrips} />}
-        </MyTripContainer>
+        </View>
       </BasicView>
-      {userTrips.length === 0 && <LottieAnimation animationPath={animation} style={style.animation} />}
+      {userTrips.length === 0 && <LottieAnimation animationPath={animation} style={styles.animation} />}
     </Fragment>
   );
 };
