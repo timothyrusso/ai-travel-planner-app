@@ -13,16 +13,31 @@ import { DayItem } from './components/DayItem/DayItem';
 const separator = () => <View style={styles.separator} />;
 
 export const TripDetailPage = () => {
-  const { goBackHandler, _tripData, _tripDays } = useTripDetailPageLogic();
+  const { goBackHandler, _tripData, _tripDays, isFavorite, addToFavoritesHandler, handleDeleteTrip } =
+    useTripDetailPageLogic();
 
   return (
     <BasicView style={styles.basicViewContainer} isFullScreen>
       <CustomIconButton
-        icon={icons.arrowBackCircleOutline}
+        icon={icons.arrowBack}
         iconSize={spacing.Quintuple}
         iconColor={colors.primaryBlack}
         onPress={goBackHandler}
-        style={styles.icon}
+        style={styles.backIcon}
+      />
+      <CustomIconButton
+        icon={!isFavorite ? icons.hearth : icons.heartOutline}
+        iconSize={spacing.Quintuple}
+        iconColor={colors.primaryBlack}
+        onPress={addToFavoritesHandler}
+        style={styles.favoriteIcon}
+      />
+      <CustomIconButton
+        icon={icons.remove}
+        iconSize={spacing.Quintuple}
+        iconColor={colors.primaryBlack}
+        onPress={handleDeleteTrip}
+        style={styles.removeIcon}
       />
       <Image
         source={{
@@ -34,16 +49,15 @@ export const TripDetailPage = () => {
         <CustomText text={_tripData.location} style={styles.title} />
         <CustomText text={_tripDays} style={styles.subTitle} />
         <CustomText style={styles.people} text={`🫂 ${_tripData.tripDetails.travelers.toString()}`} />
-        <View>
-          <FlatList
-            data={_tripData.dayPlans}
-            keyExtractor={item => item.day.toString()}
-            renderItem={({ item }) => <DayItem dayPlan={item} />}
-            scrollEnabled={false}
-            contentContainerStyle={styles.dayPlans}
-            ItemSeparatorComponent={separator}
-          />
-        </View>
+
+        <FlatList
+          data={_tripData.dayPlans}
+          keyExtractor={item => item.day.toString()}
+          renderItem={({ item }) => <DayItem dayPlan={item} />}
+          scrollEnabled={false}
+          contentContainerStyle={styles.dayPlans}
+          ItemSeparatorComponent={separator}
+        />
       </CustomScrollView>
     </BasicView>
   );

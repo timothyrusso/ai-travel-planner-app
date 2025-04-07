@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.primaryYellow,
     borderRadius: spacing.Triple,
+    width: '100%',
   },
   content: {
     padding: spacing.Triple,

@@ -15,7 +15,7 @@ const SearchPlacePage = () => {
 
   return (
     <BasicView>
-      <CustomHeader title="SEARCH_PLACE_PAGE.TITLE" icon={icons.arrowBackCircleOutline} onPress={goBackHandler} />
+      <CustomHeader title="SEARCH_PLACE_PAGE.TITLE" icon={icons.arrowBack} onPress={goBackHandler} />
       <CustomText text="SEARCH_PLACE_PAGE.DESCRIPTION" style={styles.subtitle} />
       <View style={styles.searchContainer}>
         <View style={styles.autoCompleteContainer}>

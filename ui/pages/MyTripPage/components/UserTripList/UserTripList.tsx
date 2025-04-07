@@ -30,6 +30,8 @@ export const UserTripList: FC<UserTripListProps> = ({ userTrips }) => {
                 ...item.tripAiResp,
                 ..._userTripData,
                 image: item.userTripData ? JSON.parse(item.userTripData).imageUrl : undefined,
+                id: item.docId,
+                isFavorite: item.isFavorite,
               }}
             />
           );

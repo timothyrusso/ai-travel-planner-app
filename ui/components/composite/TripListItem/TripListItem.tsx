@@ -7,7 +7,7 @@ import CustomText from '../../basic/CustomText/CustomText';
 import { styles } from './TripListItem.style';
 
 type TripListItemProps = {
-  tripItem: TripAiResp & UserTripData & { image: string };
+  tripItem: TripAiResp & UserTripData & { image: string; id: string };
 };
 
 export const TripListItem: FC<TripListItemProps> = ({ tripItem }) => {
@@ -25,16 +25,15 @@ export const TripListItem: FC<TripListItemProps> = ({ tripItem }) => {
           }}
           style={styles.image}
         />
-        <View style={styles.contentContainer}>
-          <CustomText style={styles.location} text={tripItem.location} numberOfLines={2} ellipsizeMode="tail" />
 
-          <View style={styles.detailsContainer}>
-            <CustomText style={styles.days} text={`📆 ${tripItem.days}`} />
+        <CustomText style={styles.location} text={tripItem.location} numberOfLines={1} ellipsizeMode="tail" />
 
-            <CustomText style={styles.budget} text={`💰 ${tripItem?.tripDetails?.budget}`} />
+        <View style={styles.detailsContainer}>
+          <CustomText style={styles.days} text={`📆 ${tripItem.days}`} />
 
-            <CustomText style={styles.travelers} text={`👥 ${tripItem.tripDetails?.travelers.toString()}`} />
-          </View>
+          <CustomText style={styles.budget} text={`💰 ${tripItem?.tripDetails?.budget}`} />
+
+          <CustomText style={styles.travelers} text={`👥 ${tripItem.tripDetails?.travelers.toString()}`} />
         </View>
       </View>
     </Pressable>

@@ -18,7 +18,7 @@ const ReviewTripPage = () => {
 
   return (
     <BasicView>
-      <CustomHeader title="REVIEW_TRIP.TITLE" icon={icons.arrowBackCircleOutline} onPress={handleBackPress} />
+      <CustomHeader title="REVIEW_TRIP.TITLE" icon={icons.arrowBack} onPress={handleBackPress} />
       <CustomText text="REVIEW_TRIP.DESCRIPTION" style={style.subtitle} />
       <FlatList
         data={tripData}

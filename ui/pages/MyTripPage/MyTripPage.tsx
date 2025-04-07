@@ -21,10 +21,10 @@ const MyTripPage = () => {
 
         <View style={styles.container}>
           {isLoading && <ActivityIndicator size="large" color={colors.primary} />}
-          {userTrips.length === 0 && !isLoading ? <StartNewTripCard /> : <UserTripList userTrips={userTrips} />}
+          {userTrips?.length === 0 && !isLoading ? <StartNewTripCard /> : <UserTripList userTrips={userTrips ?? []} />}
         </View>
       </BasicView>
-      {userTrips.length === 0 && <LottieAnimation animationPath={animation} style={styles.animation} />}
+      {userTrips?.length === 0 && <LottieAnimation animationPath={animation} style={styles.animation} />}
     </Fragment>
   );
 };

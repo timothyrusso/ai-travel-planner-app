@@ -19,6 +19,7 @@ export const DayItem: FC<DayItemProps> = ({ dayPlan }) => {
         keyExtractor={item => item.placeName}
         renderItem={({ item }) => <ActivityItem scheduleItem={item} />}
         ItemSeparatorComponent={separator}
+        style={styles.list}
       />
     </View>
   );

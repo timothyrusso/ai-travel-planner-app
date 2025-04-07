@@ -14,6 +14,7 @@ export const spacing = {
   Triple: 16,
   TripleAndHalf: 20,
   Fourfold: 24,
+  FourfoldAndHalf: 28,
   Quintuple: 32,
   Sextuple: 48,
 

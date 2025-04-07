@@ -7,17 +7,16 @@ import { StyleSheet } from 'react-native';
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    borderTopEndRadius: spacing.Fourfold,
-    borderTopStartRadius: spacing.Fourfold,
     backgroundColor: colors.primaryWhite,
     marginTop: -spacing.Fourfold,
+    zIndex: 2,
+    borderRadius: spacing.Triple,
   },
   title: {
     marginVertical: spacing.Triple,
     fontSize: spacing.Fourfold,
     fontFamily: fonts.interBold,
     paddingHorizontal: spacing.Fourfold,
-    paddingTop: spacing.separator80 + spacing.separator40,
     textAlign: 'center',
   },
   subTitle: {
@@ -28,17 +27,33 @@ export const styles = StyleSheet.create({
   },
   image: {
     height: components.tripDetailImageHeight,
-    borderBottomLeftRadius: spacing.Fourfold,
-    borderBottomRightRadius: spacing.Fourfold,
+    width: '100%',
+    zIndex: 1,
   },
   basicViewContainer: {
     padding: 0,
     position: 'relative',
   },
-  icon: {
+  backIcon: {
+    position: 'absolute',
+    zIndex: spacing.Minimal,
+    left: spacing.Quintuple,
+    top: spacing.TripleAndHalf + spacing.separator40,
+    backgroundColor: colors.primaryWhite,
+    borderRadius: spacing.radius,
+  },
+  favoriteIcon: {
     position: 'absolute',
     zIndex: spacing.Minimal,
     right: spacing.Quintuple,
+    top: spacing.TripleAndHalf + spacing.separator40,
+    backgroundColor: colors.primaryWhite,
+    borderRadius: spacing.radius,
+  },
+  removeIcon: {
+    position: 'absolute',
+    zIndex: spacing.Minimal,
+    right: spacing.Quintuple + spacing.Sextuple,
     top: spacing.TripleAndHalf + spacing.separator40,
     backgroundColor: colors.primaryWhite,
     borderRadius: spacing.radius,
@@ -52,6 +67,7 @@ export const styles = StyleSheet.create({
   },
   dayPlans: {
     paddingTop: spacing.Triple,
+    paddingBottom: spacing.Triple,
     flex: 1,
   },
   separator: {
