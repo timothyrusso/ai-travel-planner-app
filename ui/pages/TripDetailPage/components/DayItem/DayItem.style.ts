@@ -18,6 +18,12 @@ export const styles = StyleSheet.create({
     height: spacing.TripleAndHalf,
   },
   container: {
-    alignItems: 'flex-end',
+    alignItems: 'center',
+    flex: 1,
+    width: '100%',
+  },
+  list: {
+    flex: 1,
+    width: '100%',
   },
 });

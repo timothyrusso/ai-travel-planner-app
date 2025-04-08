@@ -1,3 +1,3 @@
 export const GooglePlaceImagesKeys = {
-  googlePlaceImages: 'googlePlaceImages',
+  getGooglePlaceImages: 'get_google_place_images',
 } as const;

@@ -16,7 +16,7 @@ const SelectDatesPage = () => {
 
   return (
     <BasicView>
-      <CustomHeader title="SELECT_DATES.TITLE" icon={icons.arrowBackCircleOutline} onPress={handleBackPress} />
+      <CustomHeader title="SELECT_DATES.TITLE" icon={icons.arrowBack} onPress={handleBackPress} />
       <CustomText text="SELECT_DATES.DESCRIPTION" style={style.subtitle} />
       <View style={style.calendar}>
         <CalendarPicker

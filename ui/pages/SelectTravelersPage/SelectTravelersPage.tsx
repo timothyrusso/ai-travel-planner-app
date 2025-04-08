@@ -29,7 +29,7 @@ const SelectTravelersPage = () => {
 
   return (
     <BasicView>
-      <CustomHeader title="SELECT_TRAVELERS.TITLE" icon={icons.arrowBackCircleOutline} onPress={handleBackPress} />
+      <CustomHeader title="SELECT_TRAVELERS.TITLE" icon={icons.arrowBack} onPress={handleBackPress} />
       <CustomText text="SELECT_TRAVELERS.DESCRIPTION" style={style.subtitle} />
       <FlatList
         data={TravelerData}

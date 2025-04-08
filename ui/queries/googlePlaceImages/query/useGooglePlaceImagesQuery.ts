@@ -5,7 +5,7 @@ export const useGooglePlaceImagesQuery = (placeName: string) => {
   const _googleApiKey = process.env.EXPO_PUBLIC_GOOGLE_PLACES_API_KEY || '';
 
   const { data, isFetching } = useQuery({
-    queryKey: [GooglePlaceImagesKeys.googlePlaceImages, placeName],
+    queryKey: [GooglePlaceImagesKeys.getGooglePlaceImages, placeName],
     queryFn: () => getImage(placeName),
     enabled: !!placeName,
     staleTime: Number.POSITIVE_INFINITY,

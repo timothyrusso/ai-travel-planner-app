@@ -2,6 +2,7 @@
 import { ai_prompt } from '@/ai/prompt';
 import { auth, db } from '@/configs/firebaseConfig';
 import { chatSession } from '@/configs/geminiConfig';
+import { dbKeys } from '@/modules/trip/domain/entities/DbKeys';
 import { routes } from '@/ui/constants/routes';
 import { useTripState } from '@/ui/state/trip';
 import { useRouter } from 'expo-router';
@@ -26,6 +27,7 @@ export const useGenerateTripPageLogic = () => {
     traveler: tripSelectors.travelerInfo,
     budget: tripSelectors.budgetInfo,
     imageUrl: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${tripSelectors.locationInfo().photoRef}&key=${_googleApiKey}`,
+    isFavorite: false,
   };
 
   const PROMPT = ai_prompt
@@ -48,7 +50,7 @@ export const useGenerateTripPageLogic = () => {
 
       const tripAiResp = JSON.parse(responseText);
 
-      await setDoc(doc(db, 'UserTrips', docId), {
+      await setDoc(doc(db, dbKeys.userTrips, docId), {
         userEmail,
         tripAiResp,
         userTripData: JSON.stringify(userTripData),

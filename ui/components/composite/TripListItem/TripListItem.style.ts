@@ -1,47 +1,56 @@
 import { colors } from '@/ui/constants/style/colors';
 import { components } from '@/ui/constants/style/dimensions/components';
+import { labels } from '@/ui/constants/style/dimensions/labels';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { fonts } from '@/ui/constants/style/fonts';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    borderRadius: spacing.TripleAndHalf,
+    flex: spacing.HalfMinimal,
+    borderRadius: spacing.Fourfold,
     width: '100%',
     rowGap: spacing.Double,
     position: 'relative',
+    borderWidth: spacing.SingleAndHalf,
+    borderColor: colors.primaryBlue,
   },
   image: {
     width: '100%',
     height: components.tripImageHeight,
-    borderTopRightRadius: spacing.Triple,
-    borderTopLeftRadius: spacing.Triple,
+    borderRadius: spacing.Triple,
     objectFit: 'cover',
-    zIndex: 1,
+    zIndex: spacing.HalfMinimal,
   },
   location: {
-    fontSize: spacing.TripleAndHalf,
-    fontFamily: fonts.interRegular,
-    width: '100%',
+    fontSize: spacing.Triple,
+    fontFamily: fonts.interMedium,
+    width: labels.myTripPageLocations,
+    position: 'absolute',
+    bottom: spacing.Zero,
+    zIndex: spacing.Minimal,
+    backgroundColor: colors.primaryBlue,
+    paddingLeft: spacing.Double,
+    paddingVertical: spacing.Single,
+    borderTopRightRadius: spacing.Triple,
   },
   days: {
     fontSize: spacing.Double,
-    fontFamily: fonts.interBold,
+    fontFamily: fonts.interMedium,
     backgroundColor: colors.primaryWhite,
     padding: spacing.SingleAndHalf,
     borderRadius: spacing.Triple,
   },
   budget: {
     fontSize: spacing.Double,
-    fontFamily: fonts.interBold,
+    fontFamily: fonts.interMedium,
     backgroundColor: colors.primaryWhite,
     padding: spacing.SingleAndHalf,
     borderRadius: spacing.Triple,
   },
   travelers: {
     fontSize: spacing.Double,
-    fontFamily: fonts.interBold,
+    fontFamily: fonts.interMedium,
     backgroundColor: colors.primaryWhite,
     padding: spacing.SingleAndHalf,
     borderRadius: spacing.Triple,
@@ -52,7 +61,7 @@ export const styles = StyleSheet.create({
     borderRadius: spacing.Triple,
     rowGap: spacing.Triple,
     marginTop: -spacing.Fourfold,
-    zIndex: 2,
+    zIndex: spacing.Minimal,
     backgroundColor: colors.primaryBlue,
   },
   detailsContainer: {
@@ -60,5 +69,9 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     columnGap: spacing.Double,
     justifyContent: 'flex-end',
+    position: 'absolute',
+    top: spacing.Double,
+    right: spacing.Triple,
+    zIndex: spacing.Minimal,
   },
 });

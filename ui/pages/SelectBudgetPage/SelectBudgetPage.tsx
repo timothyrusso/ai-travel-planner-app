@@ -29,7 +29,7 @@ const SelectBudgetPage = () => {
 
   return (
     <BasicView>
-      <CustomHeader title="SELECT_BUDGET.TITLE" icon={icons.arrowBackCircleOutline} onPress={handleBackPress} />
+      <CustomHeader title="SELECT_BUDGET.TITLE" icon={icons.arrowBack} onPress={handleBackPress} />
       <CustomText text="SELECT_BUDGET.DESCRIPTION" style={style.subtitle} />
       <FlatList
         data={BudgetData}

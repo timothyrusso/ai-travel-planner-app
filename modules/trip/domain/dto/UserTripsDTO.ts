@@ -72,6 +72,7 @@ export interface UserTrips {
   tripAiResp: TripAiResp;
   userEmail: string;
   userTripData: string;
+  isFavorite: boolean;
 }
 
 export interface UserTripData {
@@ -81,11 +82,4 @@ export interface UserTripData {
   days: string;
   nights: string;
   imageRef: string;
-}
-
-export interface UserTrips {
-  userTripData: string;
-  userEmail: string;
-  docId: string;
-  tripAiResp: TripAiResp;
 }
