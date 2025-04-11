@@ -10,13 +10,18 @@ export const useAddToFavoriteTrip = (id: string) => {
   const { mutate } = useMutation({
     mutationKey: [tripsKeys.addTripToFavorites, id],
     mutationFn: async (isFavorite: boolean) => {
-      const docRef = doc(db, dbKeys.userTrips, id);
+      try {
+        const docRef = doc(db, dbKeys.userTrips, id);
 
-      await updateDoc(docRef, {
-        isFavorite: !isFavorite,
-      });
+        await updateDoc(docRef, {
+          isFavorite: !isFavorite,
+        });
 
-      return true; // Return a value to indicate success
+        return true;
+      } catch (error) {
+        console.error(`Error updating favorite trip: ${error}`);
+        return false;
+      }
     },
     onMutate: isFavorite => {
       queryClient.setQueryData([tripsKeys.getUserTrips], (oldTrips: UserTrips[]) => {
