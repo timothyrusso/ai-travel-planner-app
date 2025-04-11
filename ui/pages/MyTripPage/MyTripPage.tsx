@@ -1,7 +1,7 @@
 import LottieAnimation from '@/ui/components/basic/LottieAnimation/LottieAnimation';
 import BasicView from '@/ui/components/composite/BasicView/BasicView';
 import CustomHeader from '@/ui/components/composite/CustomHeader/CustomHeader';
-import { routes } from '@/ui/constants/routes';
+import { Routes } from '@/ui/constants/routes';
 import { colors } from '@/ui/constants/style/colors';
 import { icons } from '@/ui/constants/style/icons';
 import StartNewTripCard from '@/ui/pages/MyTripPage/components/StartNewTripCard/StartNewTripCard';
@@ -17,7 +17,7 @@ const MyTripPage = () => {
   return (
     <Fragment>
       <BasicView>
-        <CustomHeader title="MYTRIP.TITLE" icon={icons.addCircle} onPress={() => router.push(routes.searchPlace)} />
+        <CustomHeader title="MYTRIP.TITLE" icon={icons.addCircle} onPress={() => router.push(Routes.search)} />
 
         <View style={styles.container}>
           {isLoading && <ActivityIndicator size="large" color={colors.primary} />}

@@ -1,5 +1,6 @@
-import MyTripPage from '@/ui/pages/MyTripPage/MyTripPage';
+import { Routes } from '@/ui/constants/routes';
+import { Redirect } from 'expo-router';
 
-export default function Home() {
-  return <MyTripPage />;
+export default function Index() {
+  return <Redirect href={Routes.myTrip} />;
 }

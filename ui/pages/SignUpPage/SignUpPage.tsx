@@ -3,7 +3,7 @@ import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import CustomTextInput from '@/ui/components/basic/CustomTextInput/CustomTextInput';
 import BasicView from '@/ui/components/composite/BasicView/BasicView';
 import CustomHeader from '@/ui/components/composite/CustomHeader/CustomHeader';
-import { routes } from '@/ui/constants/routes';
+import { Routes } from '@/ui/constants/routes';
 import { icons } from '@/ui/constants/style/icons';
 import { Text, View } from 'react-native';
 import Toast from 'react-native-toast-message';
@@ -47,7 +47,7 @@ const SignUpPage = () => {
       </View>
       <View style={styles.buttonContainer}>
         <CustomButton title="SIGNIN.CREATE_ACCOUNT" onPress={onCreateAccount} isLoading={isLoading} />
-        <CustomButton title="SIGNIN.TITLE" onPress={() => router.replace(routes.signIn)} outline />
+        <CustomButton title="SIGNIN.TITLE" onPress={() => router.replace(Routes.signIn)} outline />
       </View>
       <Toast />
     </BasicView>

@@ -3,7 +3,7 @@ import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import CustomTextInput from '@/ui/components/basic/CustomTextInput/CustomTextInput';
 import BasicView from '@/ui/components/composite/BasicView/BasicView';
 import CustomHeader from '@/ui/components/composite/CustomHeader/CustomHeader';
-import { routes } from '@/ui/constants/routes';
+import { Routes } from '@/ui/constants/routes';
 import { icons } from '@/ui/constants/style/icons';
 import { useRouter } from 'expo-router';
 import { View } from 'react-native';
@@ -39,7 +39,7 @@ const SignInPage = () => {
       </View>
       <View style={styles.buttonContainer}>
         <CustomButton title="SIGNIN.TITLE" onPress={onSignIn} isLoading={isLoading} />
-        <CustomButton title="SIGNIN.CREATE_ACCOUNT" onPress={() => router.replace(routes.signUp)} outline />
+        <CustomButton title="SIGNIN.CREATE_ACCOUNT" onPress={() => router.replace(Routes.signUp)} outline />
       </View>
       <Toast />
     </BasicView>

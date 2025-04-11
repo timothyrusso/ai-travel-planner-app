@@ -1,12 +1,13 @@
-import { auth, db } from '@/configs/firebaseConfig';
+import { db } from '@/configs/firebaseConfig';
 import type { UserTrips } from '@/modules/trip/domain/dto/UserTripsDTO';
 import { dbKeys } from '@/modules/trip/domain/entities/DbKeys';
+import auth from '@react-native-firebase/auth';
 import { useQuery } from '@tanstack/react-query';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import { tripsKeys } from '../TripsKeys';
 
 export const useGetUserTripsQuery = () => {
-  const user = auth.currentUser;
+  const user = auth().currentUser;
 
   const getMyTrips = async () => {
     if (!user) return;

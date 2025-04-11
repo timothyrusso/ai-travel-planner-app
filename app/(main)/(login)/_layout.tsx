@@ -1,12 +1,12 @@
-import { routes } from '@/ui/constants/routes';
+import { Routes } from '@/ui/constants/routes';
 import { Stack } from 'expo-router';
 
-export default function AuthLayout() {
+export default function LoginLayout() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name={routes.welcomePage} />
-      <Stack.Screen name={routes.signIn} />
-      <Stack.Screen name={routes.signUp} />
+      <Stack.Screen name={Routes.welcome} />
+      <Stack.Screen name={Routes.signIn} />
+      <Stack.Screen name={Routes.signUp} />
     </Stack>
   );
 }
