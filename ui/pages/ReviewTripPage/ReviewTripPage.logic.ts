@@ -1,4 +1,4 @@
-import { routes } from '@/ui/constants/routes';
+import { Routes } from '@/ui/constants/routes';
 import { useTripState } from '@/ui/state/trip';
 import { format } from 'date-fns';
 import { useRouter } from 'expo-router';
@@ -47,7 +47,7 @@ export const useReviewTripPageLogic = () => {
 
   const handleButtonPress = () => {
     router.dismissAll();
-    router.replace(routes.generateTrip);
+    router.replace(Routes.generateTrip);
   };
 
   return { handleButtonPress, handleBackPress, tripData: getTripRecap() };

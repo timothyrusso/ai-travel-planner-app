@@ -1,4 +1,4 @@
-import { routes } from '@/ui/constants/routes';
+import { Routes } from '@/ui/constants/routes';
 import { useTripState } from '@/ui/state/trip';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -17,7 +17,7 @@ export const useSelectTravelersPageLogic = () => {
 
   const handleBackPress = () => router.back();
 
-  const handleButtonPress = () => router.push(routes.selectDates);
+  const handleButtonPress = () => router.push(Routes.selectDates);
 
   return {
     TravelerData,

@@ -1,5 +1,5 @@
 import type { LocationInfo } from '@/modules/trip/domain/entities/LocationInfo';
-import { routes } from '@/ui/constants/routes';
+import { Routes } from '@/ui/constants/routes';
 import { useTripState } from '@/ui/state/trip';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -14,7 +14,7 @@ export const useSearchPageLogic = () => {
     setLocationInfo(locationInfo);
   };
 
-  const handleParticipantsPress = () => router.push(routes.selectTraveler);
+  const handleParticipantsPress = () => router.push(Routes.selectTraveler);
 
   const isButtonDisabled = !locationInfo;
 

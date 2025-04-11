@@ -1,8 +1,7 @@
-import { auth } from '@/configs/firebaseConfig';
-import { routes } from '@/ui/constants/routes';
+import { Routes } from '@/ui/constants/routes';
+import auth from '@react-native-firebase/auth';
 import { useRouter } from 'expo-router';
 import type { FirebaseError } from 'firebase/app';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 import Toast from 'react-native-toast-message';
 
@@ -30,8 +29,8 @@ export const useSignUpPageLogic = () => {
     setLoading(true);
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      router.replace(routes.myTrip);
+      await auth().createUserWithEmailAndPassword(email, password);
+      router.replace(Routes.myTrip);
     } catch (error) {
       const { code: errorCode, message: errorMessage } = error as FirebaseError;
       showToast();
