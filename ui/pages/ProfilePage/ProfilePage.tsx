@@ -16,9 +16,21 @@ export const ProfilePage = () => {
       });
   };
 
+  const deleteAccount = () => {
+    auth()
+      .currentUser?.delete()
+      .then(() => {
+        router.replace(Routes.welcome);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
   return (
     <BasicView>
       <CustomButton title="Logout" onPress={logout} />
+      <CustomButton title="Delete Account" onPress={deleteAccount} />
     </BasicView>
   );
 };

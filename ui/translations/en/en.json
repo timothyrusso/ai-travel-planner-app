@@ -19,7 +19,9 @@
     "PASSWORD": "Password",
     "PASSWORD_PLACEHOLDER": "Enter your password",
     "CREATE_ACCOUNT": "Create an account",
-    "TITLE": "Sign In"
+    "TITLE": "Sign In",
+    "RESET_PASSWORD": "Forgot your password?",
+    "RESET_PASSWORD_TITLE": "Reset Password"
   },
   "SIGNUP": {
     "TITLE": "Sign Up",
@@ -77,6 +79,10 @@
   },
   "GLOBAL": {
     "NO_IMAGE": "No image available",
-    "VIEW_ALL": "View All"
+    "VIEW_ALL": "View All",
+    "BUTTON": {
+      "CONFIRM": "Confirm",
+      "CANCEL": "Cancel"
+    }
   }
 }

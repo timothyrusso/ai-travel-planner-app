@@ -1,5 +1,5 @@
 import { Routes } from '@/ui/constants/routes';
-import auth from '@react-native-firebase/auth';
+import auth, { updateProfile } from '@react-native-firebase/auth';
 import { useRouter } from 'expo-router';
 import type { FirebaseError } from 'firebase/app';
 import { useState } from 'react';
@@ -20,8 +20,10 @@ export const useSignUpPageLogic = () => {
     });
   };
 
+  const emailRegex = /\S+@\S+\.\S+/;
+
   const onCreateAccount = async () => {
-    if (!(email && password && fullName)) {
+    if (!(emailRegex.test(email) && password && fullName)) {
       showToast();
       return;
     }
@@ -29,7 +31,10 @@ export const useSignUpPageLogic = () => {
     setLoading(true);
 
     try {
-      await auth().createUserWithEmailAndPassword(email, password);
+      const result = await auth().createUserWithEmailAndPassword(email.toLowerCase(), password);
+      updateProfile(result.user, {
+        displayName: fullName,
+      });
       router.replace(Routes.myTrip);
     } catch (error) {
       const { code: errorCode, message: errorMessage } = error as FirebaseError;

@@ -19,7 +19,9 @@
     "PASSWORD": "Password",
     "PASSWORD_PLACEHOLDER": "Inserisci la tua password",
     "CREATE_ACCOUNT": "Crea un account",
-    "TITLE": "Accedi"
+    "TITLE": "Accedi",
+    "RESET_PASSWORD": "Hai dimenticato la password?",
+    "RESET_PASSWORD_TITLE": "Reimposta la password"
   },
   "SIGNUP": {
     "TITLE": "Registrati",
@@ -77,6 +79,10 @@
   },
   "GLOBAL": {
     "NO_IMAGE": "Nessun immagine disponibile",
-    "VIEW_ALL": "Vedi tutti"
+    "VIEW_ALL": "Vedi tutti",
+    "BUTTON": {
+      "CONFIRM": "Conferma",
+      "CANCEL": "Annulla"
+    }
   }
 }

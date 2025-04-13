@@ -16,7 +16,7 @@ const SignUpPage = () => {
 
   return (
     <BasicView>
-      <CustomHeader title="SIGNUP.TITLE" icon={icons.circleClose} onPress={() => router.back()} />
+      <CustomHeader title="SIGNUP.TITLE" icon={icons.close} onPress={() => router.back()} />
       <Text style={styles.subtitle}>Create a new account!</Text>
       <View style={styles.inputContainer}>
         <View style={styles.emailContainer}>
