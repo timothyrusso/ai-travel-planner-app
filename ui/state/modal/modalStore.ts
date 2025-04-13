@@ -14,6 +14,10 @@ const initialState: ModalState = {
       secondaryButtonTitle: 'GLOBAL.BUTTON.CANCEL',
     },
   },
+  infoModal: {
+    isVisible: false,
+    modal: {},
+  },
 };
 
 export const useModalStore = create<ModalState & ModalActions>()(
@@ -32,6 +36,20 @@ export const useModalStore = create<ModalState & ModalActions>()(
           resetPasswordModal: {
             isVisible: false,
             modal: state.resetPasswordModal.modal,
+          },
+        })),
+      showInfoModal: modal =>
+        set({
+          infoModal: {
+            isVisible: true,
+            modal,
+          },
+        }),
+      hideInfoModal: () =>
+        set(state => ({
+          infoModal: {
+            isVisible: false,
+            modal: state.infoModal.modal,
           },
         })),
       resetModal: () => set(initialState),

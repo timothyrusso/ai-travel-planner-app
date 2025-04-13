@@ -33,6 +33,7 @@ const PlacesAutocomplete: FC<PlacesAutocompleteProps> = ({
       query={{
         key: process.env.EXPO_PUBLIC_GOOGLE_PLACES_API_KEY,
         language: getLanguage ?? 'en',
+        // types: 'airport',
       }}
       styles={{
         textInputContainer: {

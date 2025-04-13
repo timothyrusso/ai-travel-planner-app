@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
   },
   passwordContainer: {
     paddingVertical: spacing.Triple,
+    rowGap: spacing.Triple,
   },
   label: {
     marginBottom: spacing.Single,

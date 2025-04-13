@@ -18,10 +18,13 @@
     "EMAIL_PLACEHOLDER": "Enter your email",
     "PASSWORD": "Password",
     "PASSWORD_PLACEHOLDER": "Enter your password",
+    "CONFIRM_PASSWORD": "Confirm password",
+    "CONFIRM_PASSWORD_PLACEHOLDER": "Confirm your password",
     "CREATE_ACCOUNT": "Create an account",
     "TITLE": "Sign In",
     "RESET_PASSWORD": "Forgot your password?",
-    "RESET_PASSWORD_TITLE": "Reset Password"
+    "RESET_PASSWORD_TITLE": "Reset Password",
+    "RESET_PASSWORD_SENT": "Password reset email sent"
   },
   "SIGNUP": {
     "TITLE": "Sign Up",
@@ -31,7 +34,9 @@
     "EMAIL": "Email",
     "EMAIL_PLACEHOLDER": "Enter your email",
     "PASSWORD": "Password",
-    "PASSWORD_PLACEHOLDER": "Enter your password"
+    "PASSWORD_PLACEHOLDER": "Enter your password",
+    "EMAIL_VERIFICATION_TITLE": "Verify your email",
+    "EMAIL_VERIFICATION_DESCRIPTION": "To complete the registration process, we have sent you an email verification. Please check your email and click on the link to complete the registration process."
   },
   "SEARCH_PLACE_PAGE": {
     "TITLE": "Search",
@@ -83,6 +88,10 @@
     "BUTTON": {
       "CONFIRM": "Confirm",
       "CANCEL": "Cancel"
+    },
+    "ERROR": {
+      "INVALID_CREDENTIALS": "Invalid credentials",
+      "INVALID_EMAIL": "Invalid email"
     }
   }
 }
