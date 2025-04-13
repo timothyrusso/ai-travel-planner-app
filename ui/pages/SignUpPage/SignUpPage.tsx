@@ -3,6 +3,7 @@ import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import CustomTextInput from '@/ui/components/basic/CustomTextInput/CustomTextInput';
 import BasicView from '@/ui/components/composite/BasicView/BasicView';
 import CustomHeader from '@/ui/components/composite/CustomHeader/CustomHeader';
+import { InfoModal } from '@/ui/components/dialogs/InfoModal/InfoModal';
 import { Routes } from '@/ui/constants/routes';
 import { icons } from '@/ui/constants/style/icons';
 import { Text, View } from 'react-native';
@@ -11,12 +12,23 @@ import { useSignUpPageLogic } from './SignUpPage.logic';
 import { styles } from './SignUpPage.style';
 
 const SignUpPage = () => {
-  const { onCreateAccount, email, setEmail, password, setPassword, fullName, setFullName, router, isLoading } =
-    useSignUpPageLogic();
+  const {
+    onCreateAccount,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    confirmPassword,
+    setConfirmPassword,
+    fullName,
+    setFullName,
+    router,
+    isLoading,
+  } = useSignUpPageLogic();
 
   return (
     <BasicView>
-      <CustomHeader title="SIGNUP.TITLE" icon={icons.circleClose} onPress={() => router.back()} />
+      <CustomHeader title="SIGNUP.TITLE" icon={icons.close} onPress={() => router.back()} />
       <Text style={styles.subtitle}>Create a new account!</Text>
       <View style={styles.inputContainer}>
         <View style={styles.emailContainer}>
@@ -36,13 +48,24 @@ const SignUpPage = () => {
           />
         </View>
         <View style={styles.passwordContainer}>
-          <CustomText text="SIGNUP.PASSWORD" style={styles.label} />
-          <CustomTextInput
-            placeholder="SIGNUP.PASSWORD_PLACEHOLDER"
-            secureTextEntry={true}
-            onChangeText={(text: string) => setPassword(text)}
-            value={password}
-          />
+          <View>
+            <CustomText text="SIGNUP.PASSWORD" style={styles.label} />
+            <CustomTextInput
+              placeholder="SIGNUP.PASSWORD_PLACEHOLDER"
+              secureTextEntry={true}
+              onChangeText={(text: string) => setPassword(text)}
+              value={password}
+            />
+          </View>
+          <View>
+            <CustomText text="SIGNUP.CONFIRM_PASSWORD" style={styles.label} />
+            <CustomTextInput
+              placeholder="SIGNUP.CONFIRM_PASSWORD_PLACEHOLDER"
+              secureTextEntry={true}
+              onChangeText={(text: string) => setConfirmPassword(text)}
+              value={confirmPassword}
+            />
+          </View>
         </View>
       </View>
       <View style={styles.buttonContainer}>
@@ -50,6 +73,7 @@ const SignUpPage = () => {
         <CustomButton title="SIGNIN.TITLE" onPress={() => router.replace(Routes.signIn)} outline />
       </View>
       <Toast />
+      <InfoModal />
     </BasicView>
   );
 };

@@ -6,4 +6,5 @@ export const components = {
   activityImageHeight: 250,
   bottomMenuHeight: 90 + (Platform.OS.match(PlatformOS.ios) ? 20 : 0),
   tripDetailImageHeight: 350,
+  modalFooterHeight: 90,
 };

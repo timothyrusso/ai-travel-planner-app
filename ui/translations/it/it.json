@@ -19,7 +19,10 @@
     "PASSWORD": "Password",
     "PASSWORD_PLACEHOLDER": "Inserisci la tua password",
     "CREATE_ACCOUNT": "Crea un account",
-    "TITLE": "Accedi"
+    "TITLE": "Accedi",
+    "RESET_PASSWORD": "Hai dimenticato la password?",
+    "RESET_PASSWORD_TITLE": "Reimposta la password",
+    "RESET_PASSWORD_SENT": "Email di reimpostazione password inviata"
   },
   "SIGNUP": {
     "TITLE": "Registrati",
@@ -29,7 +32,11 @@
     "EMAIL": "Email",
     "EMAIL_PLACEHOLDER": "Inserisci la tua email",
     "PASSWORD": "Password",
-    "PASSWORD_PLACEHOLDER": "Inserisci la tua password"
+    "PASSWORD_PLACEHOLDER": "Inserisci la tua password",
+    "CONFIRM_PASSWORD": "Conferma password",
+    "CONFIRM_PASSWORD_PLACEHOLDER": "Conferma la tua password",
+    "EMAIL_VERIFICATION_TITLE": "Verifica la tua email",
+    "EMAIL_VERIFICATION_DESCRIPTION": "Per completare il processo di registrazione, ti abbiamo inviato un'email di verifica. Per favore, controlla la tua email e clicca sul link per completare il processo di registrazione."
   },
   "SEARCH_PLACE_PAGE": {
     "TITLE": "Cerca",
@@ -77,6 +84,14 @@
   },
   "GLOBAL": {
     "NO_IMAGE": "Nessun immagine disponibile",
-    "VIEW_ALL": "Vedi tutti"
+    "VIEW_ALL": "Vedi tutti",
+    "BUTTON": {
+      "CONFIRM": "Conferma",
+      "CANCEL": "Annulla"
+    },
+    "ERROR": {
+      "INVALID_CREDENTIALS": "Credenziali non valide",
+      "INVALID_EMAIL": "Email non valida"
+    }
   }
 }
