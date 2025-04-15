@@ -16,9 +16,9 @@ const TabLayout = () => {
       }}
     >
       <Tabs.Screen
-        name={Routes.myTrip}
+        name={Routes.MyTrip}
         options={{
-          tabBarLabel: t('MYTRIP.TITLE'),
+          tabBarLabel: t('MY_TRIP.TITLE'),
           tabBarIcon: ({ color }) => <Ionicons name={icons.location} size={spacing.Fourfold} color={color} />,
         }}
       />

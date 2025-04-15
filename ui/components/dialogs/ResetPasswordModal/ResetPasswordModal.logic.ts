@@ -1,32 +1,26 @@
+import { ToastType, useToast } from '@/ui/hooks/useToast';
 import { useModalState } from '@/ui/state/modal/useModalState';
 import auth from '@react-native-firebase/auth';
 import { useState } from 'react';
-import Toast from 'react-native-toast-message';
 
 export const useResetPasswordModalLogic = () => {
   const { modalActions, modalSelectors } = useModalState();
+  const { showToast } = useToast();
 
   const closeModal = () => modalActions.hideResetPasswordModal();
 
   const [email, setEmail] = useState<string>('');
 
-  const showToast = (text: string, type: 'error' | 'success' = 'error') => {
-    Toast.show({
-      type: type,
-      text1: text,
-    });
-  };
-
   const emailRegex = /\S+@\S+\.\S+/;
 
   const handleResetPasswordButton = async () => {
     if (!emailRegex.test(email)) {
-      showToast('GLOBAL.ERROR.INVALID_EMAIL', 'error');
+      showToast('GLOBAL.ERROR.INVALID_EMAIL');
       return;
     }
     try {
       await auth().sendPasswordResetEmail(email);
-      showToast('SIGNIN.RESET_PASSWORD_SENT', 'success');
+      showToast('SIGNIN.RESET_PASSWORD_SENT', ToastType.SUCCESS);
       closeModal();
     } catch (error) {
       console.error(error);

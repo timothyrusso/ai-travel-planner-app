@@ -1,15 +1,15 @@
 export enum Routes {
-  welcome = 'welcome',
-  signUp = 'sign-up',
-  signIn = 'sign-in',
-  myTrip = 'mytrip',
-  search = '/create-trip/search-place',
-  selectTraveler = '/create-trip/select-traveler',
-  selectDates = '/create-trip/select-dates',
-  selectBudget = '/create-trip/select-budget',
-  reviewTrip = '/create-trip/review-trip',
-  generateTrip = '/create-trip/generate-trip',
-  tripDetails = '/trip-details',
+  Welcome = 'welcome',
+  SignUp = 'sign-up',
+  SignIn = 'sign-in',
+  MyTrip = 'my-trip',
+  Search = 'create-trip/search-place',
+  SelectTraveler = 'create-trip/select-traveler',
+  SelectDates = 'create-trip/select-dates',
+  SelectBudget = 'create-trip/select-budget',
+  ReviewTrip = 'create-trip/review-trip',
+  GenerateTrip = 'create-trip/generate-trip',
+  TripDetails = 'trip-details',
 }
 
 export enum Stacks {

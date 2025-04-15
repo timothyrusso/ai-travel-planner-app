@@ -14,7 +14,7 @@ export const useSearchPageLogic = () => {
     setLocationInfo(locationInfo);
   };
 
-  const handleParticipantsPress = () => router.push(Routes.selectTraveler);
+  const handleParticipantsPress = () => router.push(`/${Routes.SelectTraveler}`);
 
   const isButtonDisabled = !locationInfo;
 

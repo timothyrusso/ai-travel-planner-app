@@ -70,7 +70,7 @@ const SignUpPage = () => {
       </View>
       <View style={styles.buttonContainer}>
         <CustomButton title="SIGNIN.CREATE_ACCOUNT" onPress={onCreateAccount} isLoading={isLoading} />
-        <CustomButton title="SIGNIN.TITLE" onPress={() => router.replace(Routes.signIn)} outline />
+        <CustomButton title="SIGNIN.TITLE" onPress={() => router.replace(`/${Routes.SignIn}`)} outline />
       </View>
       <Toast />
       <InfoModal />

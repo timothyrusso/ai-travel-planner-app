@@ -5,6 +5,6 @@ export const useWelcomePageLogic = () => {
   const router = useRouter();
   const animation = require('../../assets/lottie/travel_animation.json');
 
-  const handlePress = () => router.push(Routes.signIn);
+  const handlePress = () => router.push(`/${Routes.SignIn}`);
   return { handlePress, animation };
 };

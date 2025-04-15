@@ -9,7 +9,7 @@ export const ProfilePage = () => {
     auth()
       .signOut()
       .then(() => {
-        router.replace(Routes.welcome);
+        router.replace(`/${Routes.Welcome}`);
       })
       .catch(error => {
         console.error(error);
@@ -20,7 +20,7 @@ export const ProfilePage = () => {
     auth()
       .currentUser?.delete()
       .then(() => {
-        router.replace(Routes.welcome);
+        router.replace(`/${Routes.Welcome}`);
       })
       .catch(error => {
         console.error(error);

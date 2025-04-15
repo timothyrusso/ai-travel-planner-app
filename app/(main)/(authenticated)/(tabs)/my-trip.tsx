@@ -1,7 +1,5 @@
 import MyTripPage from '@/ui/pages/MyTripPage/MyTripPage';
 
-const MyTrip = () => {
+export default function MyTrip() {
   return <MyTripPage />;
-};
-
-export default MyTrip;
+}

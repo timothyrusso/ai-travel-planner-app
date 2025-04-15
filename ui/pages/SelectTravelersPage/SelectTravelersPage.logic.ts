@@ -17,7 +17,7 @@ export const useSelectTravelersPageLogic = () => {
 
   const handleBackPress = () => router.back();
 
-  const handleButtonPress = () => router.push(Routes.selectDates);
+  const handleButtonPress = () => router.push(`/${Routes.SelectDates}`);
 
   return {
     TravelerData,

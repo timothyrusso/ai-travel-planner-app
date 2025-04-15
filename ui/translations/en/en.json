@@ -1,6 +1,6 @@
 {
   "language": "Language",
-  "MYTRIP": {
+  "MY_TRIP": {
     "NO_TRIPS_PLANNED": "No trips planned yet",
     "START_NEW_TRIP": "New Trip",
     "NEWEST_DESTINATIONS": "Newest destinations",
@@ -24,7 +24,11 @@
     "TITLE": "Sign In",
     "RESET_PASSWORD": "Forgot your password?",
     "RESET_PASSWORD_TITLE": "Reset Password",
-    "RESET_PASSWORD_SENT": "Password reset email sent"
+    "RESET_PASSWORD_SENT": "Password reset email sent",
+    "UNCONFIRMED_EMAIL_TITLE": "Unconfirmed email",
+    "UNCONFIRMED_EMAIL_DESCRIPTION": "Email not verified, please verify your email and try again.",
+    "SEND_EMAIL_VERIFICATION": "Send email verification",
+    "EMAIL_VERIFICATION_SENT": "Email verification sent"
   },
   "SIGNUP": {
     "TITLE": "Sign Up",

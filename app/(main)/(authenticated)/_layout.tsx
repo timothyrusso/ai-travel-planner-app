@@ -7,7 +7,7 @@ export default function AuthLayout() {
 
   if (initializing) return null;
 
-  if (!user?.emailVerified) return <Redirect href={Routes.welcome} />;
+  if (!user?.emailVerified) return <Redirect href={`/${Routes.Welcome}`} />;
 
   return (
     <Stack screenOptions={{ headerShown: false }}>

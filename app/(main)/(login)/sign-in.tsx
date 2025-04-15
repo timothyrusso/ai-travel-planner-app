@@ -1,17 +1,5 @@
 import SignInPage from '@/ui/pages/SignInPage/SignInPage';
-import { useNavigation } from 'expo-router';
-import { useEffect } from 'react';
 
-const SignIn = () => {
-  const navigation = useNavigation();
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerShown: false,
-    });
-  }, []);
-
+export default function SignIn() {
   return <SignInPage />;
-};
-
-export default SignIn;
+}

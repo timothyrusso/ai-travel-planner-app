@@ -15,8 +15,12 @@ const StartNewTripCard = () => {
   return (
     <View style={style.container}>
       <Ionicons name={icons.location} size={spacing.Quintuple} color={colors.primaryBlack} />
-      <CustomText text="MYTRIP.NO_TRIPS_PLANNED" style={style.title} />
-      <CustomButton title="MYTRIP.START_NEW_TRIP" onPress={() => router.push(Routes.search)} style={style.button} />
+      <CustomText text="MY_TRIP.NO_TRIPS_PLANNED" style={style.title} />
+      <CustomButton
+        title="MY_TRIP.START_NEW_TRIP"
+        onPress={() => router.push(`/${Routes.Search}`)}
+        style={style.button}
+      />
     </View>
   );
 };
