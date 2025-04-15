@@ -1,7 +1,5 @@
 import { ProfilePage } from '@/ui/pages/ProfilePage/ProfilePage';
 
-const Profile = () => {
+export default function Profile() {
   return <ProfilePage />;
-};
-
-export default Profile;
+}

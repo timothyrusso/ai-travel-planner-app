@@ -17,7 +17,7 @@ const MyTripPage = () => {
   return (
     <Fragment>
       <BasicView>
-        <CustomHeader title="MYTRIP.TITLE" icon={icons.addCircle} onPress={() => router.push(Routes.search)} />
+        <CustomHeader title="MY_TRIP.TITLE" icon={icons.addCircle} onPress={() => router.push(`/${Routes.Search}`)} />
 
         <View style={styles.container}>
           {isLoading && <ActivityIndicator size="large" color={colors.primary} />}

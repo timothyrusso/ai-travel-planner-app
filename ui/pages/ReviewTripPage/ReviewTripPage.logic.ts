@@ -47,7 +47,7 @@ export const useReviewTripPageLogic = () => {
 
   const handleButtonPress = () => {
     router.dismissAll();
-    router.replace(Routes.generateTrip);
+    router.replace(`/${Routes.GenerateTrip}`);
   };
 
   return { handleButtonPress, handleBackPress, tripData: getTripRecap() };

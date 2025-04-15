@@ -1,10 +1,10 @@
 import { Routes } from '@/ui/constants/routes';
+import { useToast } from '@/ui/hooks/useToast';
 import { useModalState } from '@/ui/state/modal/useModalState';
 import auth, { sendEmailVerification, updateProfile } from '@react-native-firebase/auth';
 import { useRouter } from 'expo-router';
 import type { FirebaseError } from 'firebase/app';
 import { useState } from 'react';
-import Toast from 'react-native-toast-message';
 
 export const useSignUpPageLogic = () => {
   const [email, setEmail] = useState<string>('');
@@ -12,30 +12,24 @@ export const useSignUpPageLogic = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [fullName, setFullName] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
+  const { showToast } = useToast();
 
   const { modalActions } = useModalState();
 
   const router = useRouter();
 
-  const showToast = () => {
-    Toast.show({
-      type: 'error',
-      text1: 'GLOBAL.ERROR.INVALID_CREDENTIALS',
-    });
-  };
-
   const emailRegex = /\S+@\S+\.\S+/;
 
   const showInfoModal = () => {
     modalActions.showInfoModal({
-      primaryAction: () => router.replace(Routes.signIn),
+      primaryAction: () => router.replace(`/${Routes.SignIn}`),
       description: 'SIGNUP.EMAIL_VERIFICATION_DESCRIPTION',
     });
   };
 
   const onCreateAccount = async () => {
     if (!(emailRegex.test(email) && password && password === confirmPassword && fullName)) {
-      showToast();
+      showToast('GLOBAL.ERROR.INVALID_CREDENTIALS');
       return;
     }
 
@@ -50,7 +44,7 @@ export const useSignUpPageLogic = () => {
       showInfoModal();
     } catch (error) {
       const { code: errorCode, message: errorMessage } = error as FirebaseError;
-      showToast();
+      showToast('GLOBAL.ERROR.INVALID_CREDENTIALS');
       // biome-ignore lint/suspicious/noConsole: <explanation>
       console.log(errorCode, errorMessage);
     } finally {

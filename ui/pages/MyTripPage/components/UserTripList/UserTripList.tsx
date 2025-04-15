@@ -15,7 +15,7 @@ export const UserTripList: FC<UserTripListProps> = ({ userTrips }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <CustomText style={styles.title} text="MYTRIP.NEWEST_DESTINATIONS" />
+        <CustomText style={styles.title} text="MY_TRIP.NEWEST_DESTINATIONS" />
         <CustomButton title="GLOBAL.VIEW_ALL" style={styles.button} textStyle={styles.buttonText} onPress={() => {}} />
       </View>
       <FlatList

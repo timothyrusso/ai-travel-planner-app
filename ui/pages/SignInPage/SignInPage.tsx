@@ -4,6 +4,8 @@ import { CustomTextButton } from '@/ui/components/basic/CustomTextButton/CustomT
 import CustomTextInput from '@/ui/components/basic/CustomTextInput/CustomTextInput';
 import BasicView from '@/ui/components/composite/BasicView/BasicView';
 import CustomHeader from '@/ui/components/composite/CustomHeader/CustomHeader';
+import { ActionModal } from '@/ui/components/dialogs/ActionModal/ActionModal';
+import { InfoModal } from '@/ui/components/dialogs/InfoModal/InfoModal';
 import { ResetPasswordModal } from '@/ui/components/dialogs/ResetPasswordModal/ResetPasswordModal';
 import { Routes } from '@/ui/constants/routes';
 import { icons } from '@/ui/constants/style/icons';
@@ -43,10 +45,12 @@ const SignInPage = () => {
       </View>
       <View style={styles.buttonContainer}>
         <CustomButton title="SIGNIN.TITLE" onPress={onSignIn} isLoading={isLoading} />
-        <CustomButton title="SIGNIN.CREATE_ACCOUNT" onPress={() => router.replace(Routes.signUp)} outline />
+        <CustomButton title="SIGNIN.CREATE_ACCOUNT" onPress={() => router.replace(Routes.SignUp)} outline />
       </View>
       <Toast />
       <ResetPasswordModal />
+      <InfoModal />
+      <ActionModal />
     </BasicView>
   );
 };

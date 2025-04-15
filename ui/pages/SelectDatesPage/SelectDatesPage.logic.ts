@@ -35,7 +35,7 @@ export const useSelectDatesPageLogic = () => {
       endDate,
       totalNoOfDays: calculateDifferenceInDays(),
     });
-    router.push(Routes.selectBudget);
+    router.push(`/${Routes.SelectBudget}`);
   };
 
   const handleBackPress = () => router.back();

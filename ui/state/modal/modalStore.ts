@@ -18,6 +18,16 @@ const initialState: ModalState = {
     isVisible: false,
     modal: {},
   },
+  actionModal: {
+    isVisible: false,
+    modal: {
+      headerTitle: undefined,
+      primaryAction: () => {},
+      secondaryAction: () => {},
+      primaryButtonTitle: 'GLOBAL.BUTTON.CONFIRM',
+      secondaryButtonTitle: 'GLOBAL.BUTTON.CANCEL',
+    },
+  },
 };
 
 export const useModalStore = create<ModalState & ModalActions>()(
@@ -50,6 +60,20 @@ export const useModalStore = create<ModalState & ModalActions>()(
           infoModal: {
             isVisible: false,
             modal: state.infoModal.modal,
+          },
+        })),
+      showActionModal: modal =>
+        set({
+          actionModal: {
+            isVisible: true,
+            modal,
+          },
+        }),
+      hideActionModal: () =>
+        set(state => ({
+          actionModal: {
+            isVisible: false,
+            modal: state.actionModal.modal,
           },
         })),
       resetModal: () => set(initialState),

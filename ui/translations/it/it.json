@@ -1,6 +1,6 @@
 {
   "language": "Lingua",
-  "MYTRIP": {
+  "MY_TRIP": {
     "NO_TRIPS_PLANNED": "Nessun viaggio pianificato",
     "START_NEW_TRIP": "Nuovo viaggio",
     "NEWEST_DESTINATIONS": "Destinazioni più recenti",
@@ -22,7 +22,11 @@
     "TITLE": "Accedi",
     "RESET_PASSWORD": "Hai dimenticato la password?",
     "RESET_PASSWORD_TITLE": "Reimposta la password",
-    "RESET_PASSWORD_SENT": "Email di reimpostazione password inviata"
+    "RESET_PASSWORD_SENT": "Email di reimpostazione password inviata",
+    "UNCONFIRMED_EMAIL_TITLE": "Email non verificata",
+    "UNCONFIRMED_EMAIL_DESCRIPTION": "Email non verificata, per favore verifica la tua email e riprova.",
+    "SEND_EMAIL_VERIFICATION": "Invia email di verifica",
+    "EMAIL_VERIFICATION_SENT": "Email di verifica inviata"
   },
   "SIGNUP": {
     "TITLE": "Registrati",

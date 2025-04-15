@@ -15,7 +15,7 @@ export const TripListItem: FC<TripListItemProps> = ({ tripItem }) => {
 
   return (
     <Pressable
-      onPress={() => router.push({ pathname: Routes.tripDetails, params: { trip: JSON.stringify(tripItem) } })}
+      onPress={() => router.push({ pathname: `/${Routes.TripDetails}`, params: { trip: JSON.stringify(tripItem) } })}
       style={({ pressed }) => [pressed ? styles.button : {}]}
     >
       <View style={styles.container}>
