@@ -7,14 +7,19 @@ export const style = StyleSheet.create({
     flex: 1,
     width: '100%',
     height: spacing.tripAnimationHeight,
+    paddingHorizontal: spacing.Fourfold,
   },
   subtitle: {
     marginVertical: spacing.Fourfold,
-    fontSize: spacing.Fourfold,
+    fontSize: spacing.Triple,
     fontFamily: fonts.interMedium,
+    alignSelf: 'flex-start',
+    paddingHorizontal: spacing.Fourfold,
   },
   title: {
     fontSize: spacing.Quintuple,
     fontFamily: fonts.interBold,
+    alignSelf: 'flex-start',
+    paddingHorizontal: spacing.Fourfold,
   },
 });

@@ -30,9 +30,9 @@ export const styles = StyleSheet.create({
     bottom: spacing.Zero,
     zIndex: spacing.Minimal,
     backgroundColor: colors.primaryBlue,
-    paddingLeft: spacing.Double,
     paddingVertical: spacing.Single,
     borderTopRightRadius: spacing.Triple,
+    textAlign: 'center',
   },
   days: {
     fontSize: spacing.Double,

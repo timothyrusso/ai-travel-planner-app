@@ -6,6 +6,7 @@ import { StyleSheet } from 'react-native';
 export const style = StyleSheet.create({
   container: {
     flex: 1,
+    width: '100%',
     flexDirection: 'row',
     backgroundColor: colors.secondaryGrey,
     borderRadius: spacing.Double,
@@ -15,6 +16,7 @@ export const style = StyleSheet.create({
   },
   textContainer: {
     flex: 1,
+    width: '100%',
   },
   icon: {
     fontSize: spacing.separator40,

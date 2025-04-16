@@ -9,8 +9,10 @@ export const styles = StyleSheet.create({
   },
   subtitle: {
     marginVertical: spacing.Fourfold,
-    fontSize: spacing.Fourfold,
+    fontSize: spacing.Triple,
     fontFamily: fonts.interMedium,
+    alignSelf: 'flex-start',
+    paddingHorizontal: spacing.Fourfold,
   },
   header: {
     flexDirection: 'row',
@@ -19,12 +21,15 @@ export const styles = StyleSheet.create({
   searchContainer: {
     flex: 1,
     position: 'relative',
+    width: '100%',
+    paddingHorizontal: spacing.Fourfold,
   },
   autoCompleteContainer: {
     flex: 1,
     position: 'absolute',
     zIndex: 1,
     width: '100%',
+    left: spacing.Fourfold,
   },
   animation: {
     width: '100%',
@@ -32,6 +37,7 @@ export const styles = StyleSheet.create({
   },
   animationContainer: {
     flex: 1,
+    width: '100%',
     justifyContent: 'center',
   },
   button: {

@@ -1,11 +1,12 @@
+import { PlatformOS } from '@/ui/constants/PlatformOS';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { fonts } from '@/ui/constants/style/fonts';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: spacing.separator80,
+    paddingTop: Platform.OS === PlatformOS.ios ? spacing.separator80 : 0,
   },
   animation: {
     width: '100%',

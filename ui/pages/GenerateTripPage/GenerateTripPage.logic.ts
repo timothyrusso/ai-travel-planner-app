@@ -17,6 +17,7 @@ export const useGenerateTripPageLogic = () => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const userEmail = auth().currentUser?.email;
+  const userId = auth().currentUser?.uid;
   const _googleApiKey = process.env.EXPO_PUBLIC_GOOGLE_PLACES_API_KEY;
 
   const userTripData = {
@@ -51,7 +52,7 @@ export const useGenerateTripPageLogic = () => {
 
       const tripAiResp = JSON.parse(responseText);
 
-      await setDoc(doc(db, dbKeys.userTrips, docId), {
+      await setDoc(doc(db, `${dbKeys.userTrips}/${userId}/trips`, docId), {
         userEmail,
         tripAiResp,
         userTripData: JSON.stringify(userTripData),

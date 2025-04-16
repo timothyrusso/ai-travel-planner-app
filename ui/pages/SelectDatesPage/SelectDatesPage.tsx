@@ -1,7 +1,8 @@
 import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
-import BasicView from '@/ui/components/composite/BasicView/BasicView';
 import CustomHeader from '@/ui/components/composite/CustomHeader/CustomHeader';
+import { BasicView } from '@/ui/components/view/BasicView/BasicView';
+import { Routes } from '@/ui/constants/routes';
 import { colors } from '@/ui/constants/style/colors';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { icons } from '@/ui/constants/style/icons';
@@ -15,7 +16,7 @@ const SelectDatesPage = () => {
     useSelectDatesPageLogic();
 
   return (
-    <BasicView>
+    <BasicView nameView={Routes.SelectDates}>
       <CustomHeader title="SELECT_DATES.TITLE" icon={icons.arrowBack} onPress={handleBackPress} />
       <CustomText text="SELECT_DATES.DESCRIPTION" style={style.subtitle} />
       <View style={style.calendar}>
