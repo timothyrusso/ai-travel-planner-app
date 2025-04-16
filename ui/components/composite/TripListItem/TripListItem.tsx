@@ -13,6 +13,8 @@ type TripListItemProps = {
 export const TripListItem: FC<TripListItemProps> = ({ tripItem }) => {
   const router = useRouter();
 
+  const title = tripItem.location.split(',')[0];
+
   return (
     <Pressable
       onPress={() => router.push({ pathname: `/${Routes.TripDetails}`, params: { trip: JSON.stringify(tripItem) } })}
@@ -26,7 +28,7 @@ export const TripListItem: FC<TripListItemProps> = ({ tripItem }) => {
           style={styles.image}
         />
 
-        <CustomText style={styles.location} text={tripItem.location} numberOfLines={1} ellipsizeMode="tail" />
+        <CustomText style={styles.location} text={title} numberOfLines={1} ellipsizeMode="tail" />
 
         <View style={styles.detailsContainer}>
           <CustomText style={styles.days} text={`📆 ${tripItem.days}`} />

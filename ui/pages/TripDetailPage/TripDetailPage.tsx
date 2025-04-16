@@ -1,7 +1,8 @@
 import CustomIconButton from '@/ui/components/basic/CustomIconButton/CustomIconButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
-import BasicView from '@/ui/components/composite/BasicView/BasicView';
 import CustomScrollView from '@/ui/components/composite/CustomScrollView/CustomScrollView';
+import { BasicView } from '@/ui/components/view/BasicView/BasicView';
+import { Routes } from '@/ui/constants/routes';
 import { colors } from '@/ui/constants/style/colors';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { icons } from '@/ui/constants/style/icons';
@@ -17,7 +18,7 @@ export const TripDetailPage = () => {
     useTripDetailPageLogic();
 
   return (
-    <BasicView style={styles.basicViewContainer} isFullScreen>
+    <BasicView nameView={Routes.TripDetails} containerStyle={styles.basicViewContainer} isFullScreen>
       <CustomIconButton
         icon={icons.arrowBack}
         iconSize={spacing.Quintuple}

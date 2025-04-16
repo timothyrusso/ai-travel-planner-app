@@ -17,9 +17,9 @@ export const style = StyleSheet.create({
   },
   calendar: {
     borderWidth: spacing.Minimal,
-    width: '100%',
     padding: spacing.TripleAndHalf,
     borderRadius: spacing.Double,
+    marginTop: spacing.Double,
   },
   calendarText: {
     fontFamily: fonts.interMedium,
@@ -29,7 +29,9 @@ export const style = StyleSheet.create({
   },
   subtitle: {
     marginVertical: spacing.Fourfold,
-    fontSize: spacing.Fourfold,
+    fontSize: spacing.Triple,
     fontFamily: fonts.interMedium,
+    alignSelf: 'flex-start',
+    paddingHorizontal: spacing.Fourfold,
   },
 });

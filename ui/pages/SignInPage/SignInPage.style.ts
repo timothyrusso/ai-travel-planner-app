@@ -18,13 +18,21 @@ export const styles = StyleSheet.create({
   },
   inputContainer: {
     paddingTop: spacing.Triple,
+    width: '100%',
+    paddingHorizontal: spacing.Fourfold,
   },
   buttonContainer: {
     paddingTop: spacing.separator40,
     rowGap: spacing.Triple,
+    width: '100%',
+    paddingHorizontal: spacing.Fourfold,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  container: {
+    flex: 1,
+    width: '100%',
   },
 });

@@ -11,6 +11,7 @@ export const style = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: spacing.Double,
     columnGap: spacing.Fourfold,
+    width: '100%',
   },
   textContainer: {
     flex: 1,

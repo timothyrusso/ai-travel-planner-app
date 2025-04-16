@@ -1,6 +1,6 @@
 import LottieAnimation from '@/ui/components/basic/LottieAnimation/LottieAnimation';
-import BasicView from '@/ui/components/composite/BasicView/BasicView';
 import CustomHeader from '@/ui/components/composite/CustomHeader/CustomHeader';
+import { BasicView } from '@/ui/components/view/BasicView/BasicView';
 import { Routes } from '@/ui/constants/routes';
 import { colors } from '@/ui/constants/style/colors';
 import { icons } from '@/ui/constants/style/icons';
@@ -16,7 +16,7 @@ const MyTripPage = () => {
 
   return (
     <Fragment>
-      <BasicView>
+      <BasicView nameView={Routes.MyTrip}>
         <CustomHeader title="MY_TRIP.TITLE" icon={icons.addCircle} onPress={() => router.push(`/${Routes.Search}`)} />
 
         <View style={styles.container}>

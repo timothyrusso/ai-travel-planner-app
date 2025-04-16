@@ -3,7 +3,7 @@ import type { UserTrips } from '@/modules/trip/domain/dto/UserTripsDTO';
 import { dbKeys } from '@/modules/trip/domain/entities/DbKeys';
 import auth from '@react-native-firebase/auth';
 import { useQuery } from '@tanstack/react-query';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query } from 'firebase/firestore';
 import { tripsKeys } from '../TripsKeys';
 
 export const useGetUserTripsQuery = () => {
@@ -14,7 +14,7 @@ export const useGetUserTripsQuery = () => {
 
     const userTrips: UserTrips[] = [];
 
-    const q = query(collection(db, dbKeys.userTrips), where('userEmail', '==', user?.email));
+    const q = query(collection(db, `${dbKeys.userTrips}/${user?.uid}/trips`));
 
     const querySnapshot = await getDocs(q);
 

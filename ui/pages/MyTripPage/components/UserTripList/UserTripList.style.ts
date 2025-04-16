@@ -15,6 +15,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingTop: spacing.TripleAndHalf,
+    paddingHorizontal: spacing.Fourfold,
   },
   title: {
     fontSize: spacing.Fourfold,
@@ -32,5 +33,6 @@ export const styles = StyleSheet.create({
   contentContainer: {
     marginTop: spacing.Quintuple,
     paddingBottom: spacing.separator40,
+    paddingHorizontal: spacing.Fourfold,
   },
 });

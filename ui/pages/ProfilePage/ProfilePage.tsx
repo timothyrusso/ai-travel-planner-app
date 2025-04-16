@@ -1,6 +1,6 @@
 import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
-import BasicView from '@/ui/components/composite/BasicView/BasicView';
-import { Routes } from '@/ui/constants/routes';
+import { BasicView } from '@/ui/components/view/BasicView/BasicView';
+import { Routes, Stacks } from '@/ui/constants/routes';
 import auth from '@react-native-firebase/auth';
 import { router } from 'expo-router';
 
@@ -28,7 +28,7 @@ export const ProfilePage = () => {
   };
 
   return (
-    <BasicView>
+    <BasicView nameView={Stacks.Profile}>
       <CustomButton title="Logout" onPress={logout} />
       <CustomButton title="Delete Account" onPress={deleteAccount} />
     </BasicView>
