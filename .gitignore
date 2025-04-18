@@ -33,3 +33,10 @@ ios/
 *.apk
 *.ipa
 .qodo
+
+google-services.json
+GoogleService-Info.plist
+**/google-services.json
+**/GoogleService-Info.plist
+./google-services.json
+./GoogleService-Info.plist

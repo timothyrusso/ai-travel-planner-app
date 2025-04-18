@@ -21,7 +21,7 @@
       "package": "com.app.travelplanner",
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
-        "foregroundImage": "./ui/assets/images/adaptive-icon.png",
+        "foregroundImage": "./ui/assets/images/android-icon.png",
         "backgroundColor": "#220059"
       }
     },
