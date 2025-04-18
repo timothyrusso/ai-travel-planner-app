@@ -7,15 +7,11 @@ export const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: Platform.OS === PlatformOS.ios ? spacing.separator80 : 0,
+    width: '100%',
   },
   animation: {
     width: '100%',
     height: spacing.travelAnimationHeight,
-  },
-  logo: {
-    width: spacing.mainLogoSize,
-    height: spacing.mainLogoSize,
-    alignSelf: 'center',
   },
   button: {
     alignSelf: 'center',
@@ -24,14 +20,14 @@ export const styles = StyleSheet.create({
   buttonContainer: {
     width: '100%',
     justifyContent: 'center',
-    paddingTop: spacing.separator40,
     rowGap: spacing.Fourfold,
+    flex: 1,
   },
   title: {
     fontFamily: fonts.interMedium,
     fontSize: spacing.Triple,
-    marginTop: spacing.Double,
     textAlign: 'center',
-    paddingHorizontal: spacing.separator80,
+    width: '100%',
+    paddingHorizontal: spacing.Triple,
   },
 });

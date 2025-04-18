@@ -30,8 +30,9 @@ export const BasicView = (props: PropsWithChildren<BasicViewProps>) => {
     bottomButtonLoading,
     topGradientColor,
     bottomGradientColor,
-    isFullScreen,
+    isFullScreen = false,
   } = props;
+
   const { componentStyle } = useBasicViewLogic(props);
 
   const Container = isFullScreen ? View : SafeAreaView;

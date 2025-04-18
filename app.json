@@ -8,21 +8,21 @@
     "scheme": "travelplanner",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./ui/assets/images/splash.png",
+      "image": "./ui/assets/images/icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#220059"
     },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.app.travelplanner",
-      "googleServicesFile": "./ios/GoogleService-Info.plist"
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "package": "com.app.travelplanner",
-      "googleServicesFile": "./android/google-services.json",
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./ui/assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#220059"
       }
     },
     "web": {
@@ -37,25 +37,36 @@
       [
         "expo-build-properties",
         {
-          "ios": {
-            "useFrameworks": "static"
+          "ios": { "useFrameworks": "static" },
+          "android": {
+            "kotlinVersion": "1.9.25",
+            "compileSdkVersion": 35,
+            "targetSdkVersion": 34,
+            "buildToolsVersion": "35.0.0"
           }
         }
       ],
       "@react-native-firebase/app",
-      "@react-native-firebase/auth"
+      "@react-native-firebase/auth",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#220059",
+          "image": "./ui/assets/images/icon.png",
+          "dark": {
+            "image": "./ui/assets/images/icon.png",
+            "backgroundColor": "#220059"
+          },
+          "imageWidth": 300,
+          "android": { "imageWidth": 150 }
+        }
+      ]
     ],
-    "experiments": {
-      "typedRoutes": true
-    },
+    "experiments": { "typedRoutes": true },
     "newArchEnabled": true,
     "extra": {
-      "router": {
-        "origin": false
-      },
-      "eas": {
-        "projectId": "619a2a72-6d4c-4395-8262-2dc83d81556a"
-      }
+      "router": { "origin": false },
+      "eas": { "projectId": "619a2a72-6d4c-4395-8262-2dc83d81556a" }
     },
     "owner": "russotimothy"
   }
