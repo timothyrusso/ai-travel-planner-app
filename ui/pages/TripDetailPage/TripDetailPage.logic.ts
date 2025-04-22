@@ -28,5 +28,7 @@ export const useTripDetailPageLogic = () => {
     router.back();
   };
 
-  return { goBackHandler, _tripData, _tripDays, addToFavoritesHandler, isFavorite, handleDeleteTrip };
+  const title = _tripData.location.split(',')[0];
+
+  return { goBackHandler, _tripData, _tripDays, addToFavoritesHandler, isFavorite, handleDeleteTrip, title };
 };

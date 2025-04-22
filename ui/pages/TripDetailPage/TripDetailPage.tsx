@@ -1,12 +1,11 @@
 import CustomIconButton from '@/ui/components/basic/CustomIconButton/CustomIconButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
-import CustomScrollView from '@/ui/components/composite/CustomScrollView/CustomScrollView';
 import { BasicView } from '@/ui/components/view/BasicView/BasicView';
 import { Routes } from '@/ui/constants/routes';
 import { colors } from '@/ui/constants/style/colors';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { icons } from '@/ui/constants/style/icons';
-import { FlatList, Image, View } from 'react-native';
+import { Image, SectionList, View } from 'react-native';
 import { useTripDetailPageLogic } from './TripDetailPage.logic';
 import { styles } from './TripDetailPage.style';
 import { DayItem } from './components/DayItem/DayItem';
@@ -14,7 +13,7 @@ import { DayItem } from './components/DayItem/DayItem';
 const separator = () => <View style={styles.separator} />;
 
 export const TripDetailPage = () => {
-  const { goBackHandler, _tripData, _tripDays, isFavorite, addToFavoritesHandler, handleDeleteTrip } =
+  const { goBackHandler, _tripData, _tripDays, isFavorite, addToFavoritesHandler, handleDeleteTrip, title } =
     useTripDetailPageLogic();
 
   return (
@@ -46,20 +45,24 @@ export const TripDetailPage = () => {
         }}
         style={styles.image}
       />
-      <CustomScrollView style={styles.container}>
-        <CustomText text={_tripData.location} style={styles.title} />
+      <View style={styles.container}>
+        <CustomText text={title} style={styles.title} />
         <CustomText text={_tripDays} style={styles.subTitle} />
         <CustomText style={styles.people} text={`🫂 ${_tripData.tripDetails.travelers.toString()}`} />
 
-        <FlatList
-          data={_tripData.dayPlans}
+        <SectionList
+          sections={_tripData.dayPlans.map(plan => ({
+            title: `Day ${plan.day}`,
+            data: [plan],
+          }))}
           keyExtractor={item => item.day.toString()}
           renderItem={({ item }) => <DayItem dayPlan={item} />}
-          scrollEnabled={false}
+          renderSectionHeader={({ section }) => <CustomText text={section.title} style={styles.sectionTitle} />}
           contentContainerStyle={styles.dayPlans}
           ItemSeparatorComponent={separator}
+          showsVerticalScrollIndicator={false}
         />
-      </CustomScrollView>
+      </View>
     </BasicView>
   );
 };
