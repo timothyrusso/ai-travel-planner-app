@@ -1,24 +1,26 @@
 import { StyleSheet } from 'react-native';
 
-import { colors } from '@/ui/constants/style/colors';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 
 export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: '100%',
+  },
   childrenContainer: {
     marginBottom: spacing.Fourfold,
   },
   basicView: {
     width: '100%',
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.primaryWhite,
+    flex: 1,
   },
   basicScrollView: {
     width: '100%',
     flex: 1,
-    backgroundColor: colors.primaryWhite,
-    padding: spacing.Fourfold,
-    paddingBottom: spacing.Fourfold,
+  },
+  basicContentStyle: {
+    flex: 1,
   },
 });

@@ -6,7 +6,6 @@ export const styles = (paddingTop: number) =>
   StyleSheet.create({
     basicContainer: {
       paddingTop,
-      position: 'relative',
     },
     buttonContainer: {
       width: '100%',

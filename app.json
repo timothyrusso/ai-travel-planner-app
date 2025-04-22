@@ -57,8 +57,13 @@
             "image": "./ui/assets/images/icon.png",
             "backgroundColor": "#220059"
           },
-          "imageWidth": 300,
-          "android": { "imageWidth": 150 }
+          "ios": {
+            "imageWidth": 150,
+            "resizeMode": "contain"
+          },
+          "android": {
+            "imageWidth": 150
+          }
         }
       ]
     ],
