@@ -14,16 +14,12 @@ export const ActivityItem: FC<ActivityItemProps> = ({ scheduleItem }) => {
 
   return (
     <View style={styles.container}>
-      {isLoading && !image ? (
+      {isLoading ? (
         <View style={[styles.image, styles.loadingContainer]}>
           <ActivityIndicator size="large" color={colors.primaryBlack} />
         </View>
-      ) : image ? (
-        <Image source={{ uri: image }} style={styles.image} />
       ) : (
-        <View style={[styles.image, styles.noImageContainer]}>
-          <CustomText text="GLOBAL.NO_IMAGE" />
-        </View>
+        <Image source={typeof image === 'string' ? { uri: image } : image} style={styles.image} />
       )}
 
       <View style={styles.content}>

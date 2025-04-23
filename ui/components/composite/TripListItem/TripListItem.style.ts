@@ -7,7 +7,6 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    flex: spacing.HalfMinimal,
     borderRadius: spacing.Fourfold,
     width: '100%',
     rowGap: spacing.Double,

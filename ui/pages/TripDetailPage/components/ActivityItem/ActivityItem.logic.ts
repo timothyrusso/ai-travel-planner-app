@@ -4,5 +4,8 @@ import { useGooglePlaceImagesQuery } from '@/ui/queries/googlePlaceImages/query/
 export const useActivityItemLogic = (scheduleItem: ScheduleItem) => {
   const { data, isLoading } = useGooglePlaceImagesQuery(scheduleItem?.placeName);
 
-  return { image: data, isLoading };
+  return {
+    image: data,
+    isLoading,
+  };
 };

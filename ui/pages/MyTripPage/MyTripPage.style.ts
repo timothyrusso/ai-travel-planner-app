@@ -9,10 +9,4 @@ export const styles = StyleSheet.create({
     height: spacing.tripAnimationHeight,
     bottom: 0,
   },
-  container: {
-    flex: 1,
-    width: '100%',
-    padding: 0,
-    justifyContent: 'center',
-  },
 });

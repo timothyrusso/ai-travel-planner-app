@@ -18,8 +18,6 @@
     "EMAIL_PLACEHOLDER": "Enter your email",
     "PASSWORD": "Password",
     "PASSWORD_PLACEHOLDER": "Enter your password",
-    "CONFIRM_PASSWORD": "Confirm password",
-    "CONFIRM_PASSWORD_PLACEHOLDER": "Confirm your password",
     "CREATE_ACCOUNT": "Create an account",
     "TITLE": "Sign In",
     "RESET_PASSWORD": "Forgot your password?",
@@ -39,6 +37,8 @@
     "EMAIL_PLACEHOLDER": "Enter your email",
     "PASSWORD": "Password",
     "PASSWORD_PLACEHOLDER": "Enter your password",
+    "CONFIRM_PASSWORD": "Confirm password",
+    "CONFIRM_PASSWORD_PLACEHOLDER": "Confirm your password",
     "EMAIL_VERIFICATION_TITLE": "Verify your email",
     "EMAIL_VERIFICATION_DESCRIPTION": "To complete the registration process, we have sent you an email verification. Please check your email and click on the link to complete the registration process."
   },

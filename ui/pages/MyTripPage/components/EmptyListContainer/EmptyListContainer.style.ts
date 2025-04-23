@@ -2,17 +2,16 @@ import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  separator: {
-    height: spacing.TripleAndHalf,
+  animation: {
+    flex: 1,
+    width: '100%',
+    height: spacing.tripAnimationHeight,
+    position: 'absolute',
+    bottom: 0,
   },
   container: {
-    alignItems: 'center',
     flex: 1,
     width: '100%',
-    paddingHorizontal: spacing.Fourfold,
-  },
-  list: {
-    flex: 1,
-    width: '100%',
+    justifyContent: 'center',
   },
 });

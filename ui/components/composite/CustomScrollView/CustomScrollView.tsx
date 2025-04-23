@@ -1,8 +1,9 @@
-import { type FC, type PropsWithChildren, useRef } from 'react';
+import type { FC, PropsWithChildren } from 'react';
 import type { NativeScrollEvent, NativeSyntheticEvent, StyleProp, ViewStyle } from 'react-native';
 import { ScrollView, View } from 'react-native';
+import Animated from 'react-native-reanimated';
 
-import useKeyboardEffect from '@/ui/hooks/useKeyboardEffect';
+import { useCustomScrollViewLogic } from './CustomScrollView.logic';
 import { styles } from './CustomScrollView.style';
 
 type CustomScrollViewProps = {
@@ -24,32 +25,25 @@ const CustomScrollView: FC<PropsWithChildren<CustomScrollViewProps>> = ({
   onScroll,
   scrollEventThrottle,
 }) => {
-  const { paddingHeight } = useKeyboardEffect();
-
-  const scrollViewRef = useRef<ScrollView | null>(null);
-
-  const scrollToTop = () => {
-    if (resetScroll && scrollViewRef.current) {
-      scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: false });
-    }
-  };
+  const { scrollViewRef, scrollToTop, keyboardViewStyle } = useCustomScrollViewLogic(resetScroll);
 
   return (
-    <ScrollView
-      ref={scrollViewRef}
-      onContentSizeChange={scrollToTop}
-      style={[styles.basicScrollView, style]}
-      automaticallyAdjustKeyboardInsets={true}
-      contentContainerStyle={contentContainerStyle}
-      keyboardShouldPersistTaps={'never'}
-      showsVerticalScrollIndicator={false}
-      onScroll={onScroll}
-      scrollEventThrottle={scrollEventThrottle}
-    >
-      <View style={[styles.basicView, styles.childrenContainer, childrenStyle]}>{children}</View>
-
-      <View style={{ height: paddingHeight }} />
-    </ScrollView>
+    <View style={styles.container}>
+      <ScrollView
+        ref={scrollViewRef}
+        onContentSizeChange={scrollToTop}
+        style={[styles.basicScrollView, style]}
+        automaticallyAdjustKeyboardInsets={true}
+        contentContainerStyle={[styles.basicContentStyle, contentContainerStyle]}
+        keyboardShouldPersistTaps={'never'}
+        showsVerticalScrollIndicator={false}
+        onScroll={onScroll}
+        scrollEventThrottle={scrollEventThrottle}
+      >
+        <View style={[styles.basicView, styles.childrenContainer, childrenStyle]}>{children}</View>
+      </ScrollView>
+      <Animated.View style={keyboardViewStyle} />
+    </View>
   );
 };
 

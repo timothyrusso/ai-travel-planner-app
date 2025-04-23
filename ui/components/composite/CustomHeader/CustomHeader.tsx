@@ -5,7 +5,7 @@ import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import type { Ionicons } from '@expo/vector-icons';
 import type { FC } from 'react';
 import { View } from 'react-native';
-import { style } from './CustomHeader.style';
+import { useCustomHeaderLogic } from './CustomHeader.logic';
 
 type CustomHeaderProps = {
   title: string;
@@ -14,9 +14,11 @@ type CustomHeaderProps = {
 };
 
 const CustomHeader: FC<CustomHeaderProps> = ({ title, icon, onPress }) => {
+  const { styleComponent } = useCustomHeaderLogic();
+
   return (
-    <View style={style.container}>
-      <CustomText text={title} style={style.title} />
+    <View style={styleComponent.container}>
+      <CustomText text={title} style={styleComponent.title} />
       <CustomIconButton icon={icon} iconSize={spacing.Quintuple} iconColor={colors.primaryBlack} onPress={onPress} />
     </View>
   );

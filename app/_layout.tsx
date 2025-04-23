@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { KeyboardProvider } from 'react-native-keyboard-controller';
 
 export default function RootLayout() {
   // Initialize localization
@@ -25,9 +26,11 @@ export default function RootLayout() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name={Stacks.Main} />
-      </Stack>
+      <KeyboardProvider>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name={Stacks.Main} />
+        </Stack>
+      </KeyboardProvider>
     </QueryClientProvider>
   );
 }

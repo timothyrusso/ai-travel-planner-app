@@ -1,45 +1,50 @@
 import type { UserTrips } from '@/modules/trip/domain/dto/UserTripsDTO';
-import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
-import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import { TripListItem } from '@/ui/components/composite/TripListItem/TripListItem';
+import { colors } from '@/ui/constants/style/colors';
 import type { FC } from 'react';
-import { FlatList, View } from 'react-native';
+import { ActivityIndicator, FlatList, View } from 'react-native';
+import { EmptyListContainer } from '../EmptyListContainer/EmptyListContainer';
+import { ListHeader } from '../ListHeader/ListHeader';
 import { styles } from './UserTripList.style';
 type UserTripListProps = {
   userTrips: UserTrips[] | [];
+  isLoading: boolean;
 };
 
 const separator = () => <View style={styles.separator} />;
 
-export const UserTripList: FC<UserTripListProps> = ({ userTrips }) => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <CustomText style={styles.title} text="MY_TRIP.NEWEST_DESTINATIONS" />
-        <CustomButton title="GLOBAL.VIEW_ALL" style={styles.button} textStyle={styles.buttonText} onPress={() => {}} />
-      </View>
-      <FlatList
-        data={userTrips}
-        keyExtractor={item => item.docId}
-        renderItem={({ item }) => {
-          const _userTripData = item.userTripData ? JSON.parse(item.userTripData) : {};
+const renderItem = ({ item }: { item: UserTrips }) => {
+  const _userTripData = item.userTripData ? JSON.parse(item.userTripData) : {};
 
-          return (
-            <TripListItem
-              tripItem={{
-                ...item.tripAiResp,
-                ..._userTripData,
-                image: item.userTripData ? JSON.parse(item.userTripData).imageUrl : undefined,
-                id: item.docId,
-                isFavorite: item.isFavorite,
-              }}
-            />
-          );
+  return (
+    <View style={styles.itemContainer}>
+      <TripListItem
+        tripItem={{
+          ...item.tripAiResp,
+          ..._userTripData,
+          image: item.userTripData ? JSON.parse(item.userTripData).imageUrl : undefined,
+          id: item.docId,
+          isFavorite: item.isFavorite,
         }}
-        ItemSeparatorComponent={separator}
-        contentContainerStyle={styles.contentContainer}
-        showsVerticalScrollIndicator={false}
       />
     </View>
+  );
+};
+
+export const UserTripList: FC<UserTripListProps> = ({ userTrips, isLoading }) => {
+  return isLoading ? (
+    <ActivityIndicator size="large" color={colors.primary} />
+  ) : (
+    <FlatList
+      data={userTrips}
+      keyExtractor={item => item.docId}
+      renderItem={renderItem}
+      ItemSeparatorComponent={separator}
+      contentContainerStyle={styles.contentContainer}
+      showsVerticalScrollIndicator={false}
+      ListEmptyComponent={<EmptyListContainer />}
+      ListHeaderComponent={() => <ListHeader userTrips={userTrips.length} />}
+      style={styles.container}
+    />
   );
 };

@@ -6,11 +6,12 @@ import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: colors.primaryWhite,
     marginTop: -spacing.Fourfold,
     zIndex: 2,
     borderRadius: spacing.Triple,
+    alignItems: 'center',
+    flex: 1,
   },
   title: {
     marginVertical: spacing.Triple,
@@ -66,11 +67,21 @@ export const styles = StyleSheet.create({
     marginTop: spacing.Double,
   },
   dayPlans: {
-    paddingTop: spacing.Triple,
-    paddingBottom: spacing.Triple,
-    flex: 1,
+    paddingBottom: spacing.FourfoldAndHalf,
+    flexGrow: 1,
   },
   separator: {
     height: spacing.Triple,
+  },
+  sectionTitle: {
+    marginVertical: spacing.Triple,
+    padding: spacing.Double,
+    backgroundColor: colors.primaryPink,
+    fontSize: spacing.Triple,
+    fontFamily: fonts.interBold,
+    borderRadius: spacing.Fourfold,
+    width: spacing.separator80,
+    textAlign: 'center',
+    alignSelf: 'center',
   },
 });
