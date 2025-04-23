@@ -61,22 +61,13 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Create Firebase config files
-        run: |
-          # Create the Firebase config files in project root
-          echo "${{ secrets.FIREBASE_ANDROID_CONFIG }}" | base64 --decode > google-services.json
-          echo "${{ secrets.FIREBASE_IOS_CONFIG }}" | base64 --decode > GoogleService-Info.plist
-
-          # Create standard platform directories and copy files there as well
-          mkdir -p android/app
-          cp google-services.json android/app/
-          mkdir -p ios
-          cp GoogleService-Info.plist ios/
-
       - name: Build app
         # env:
         #   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         #   EXPO_PUBLIC_MMKV_ENCRYPTION_KEY: ${{ secrets.MMKV_ENCRYPTION_KEY }}
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+          GOOGLE_SERVICES_PLIST: ${{ secrets.GOOGLE_SERVICES_PLIST }}
         run: |
           # Create a prebuild first to ensure files are in the right place
           npx expo prebuild --clean --platform=${{ github.event.inputs.platform || 'android' }}
