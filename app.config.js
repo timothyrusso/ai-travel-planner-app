@@ -1,15 +1,13 @@
-export default ({ expo }) => {
+export default ({ config }) => {
   return {
-    ...expo,
+    ...config,
     ios: {
-      config: {
-        googleServicesFile: process.env.GOOGLE_SERVICES_PLIST ?? './GoogleService-Info.plist',
-      },
+      ...config.ios,
+      googleServicesFile: process.env.GOOGLE_SERVICES_PLIST ?? './GoogleService-Info.plist',
     },
     android: {
-      config: {
-        googleServicesFile: process.env.GOOGLE_SERVICES_JSON ?? './google-services.json',
-      },
+      ...config.android,
+      googleServicesFile: process.env.GOOGLE_SERVICES_JSON ?? './google-services.json',
     },
   };
 };
