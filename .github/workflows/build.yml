@@ -1,7 +1,7 @@
 name: Build App
 on:
   push:
-    branches: ['main','test','development']
+    branches: ['main', 'test', 'development']
   workflow_dispatch:
     inputs:
       os:
@@ -36,45 +36,50 @@ jobs:
       matrix:
         node: [20.x]
     steps:
-    - name: Setup repo
-      uses: actions/checkout@v4
+      - name: Setup repo
+        uses: actions/checkout@v4
 
-    - name: Setup Node
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node }}
-        cache: npm
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
 
-    - name: Setup Java 17
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: '17'
+      - name: Create Firebase config files
+        run: |
+          echo "${{ secrets.FIREBASE_ANDROID_CONFIG }}" | base64 --decode > google-services.json
+          echo "${{ secrets.FIREBASE_IOS_CONFIG }}" | base64 --decode > GoogleService-Info.plist
 
-    - name: Setup Expo and EAS
-      uses: expo/expo-github-action@v7
-      with:
-        token: ${{ secrets.EXPO_TOKEN }}
-        expo-version: latest
-        eas-version: latest
+      - name: Setup Java 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-    - name: Install dependencies
-      run: npm install
+      - name: Setup Expo and EAS
+        uses: expo/expo-github-action@v7
+        with:
+          token: ${{ secrets.EXPO_TOKEN }}
+          expo-version: latest
+          eas-version: latest
 
-    - name: Build app
-      # env:
-      #   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-      #   EXPO_PUBLIC_MMKV_ENCRYPTION_KEY: ${{ secrets.MMKV_ENCRYPTION_KEY }}
-      run: |
-        eas build --local \
-          --non-interactive \
-          --output=./app-build \
-          --platform=${{ github.event.inputs.platform  || 'android' }} \
-          --profile=${{ github.event.inputs.profile || 'test' }}
+      - name: Install dependencies
+        run: npm install
 
-    - name: Upload Build Artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: build-artifacts
-        path: /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/app-build
-        retention-days: 1
+      - name: Build app
+        # env:
+        #   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+        #   EXPO_PUBLIC_MMKV_ENCRYPTION_KEY: ${{ secrets.MMKV_ENCRYPTION_KEY }}
+        run: |
+          eas build --local \
+            --non-interactive \
+            --output=./app-build \
+            --platform=${{ github.event.inputs.platform  || 'android' }} \
+            --profile=${{ github.event.inputs.profile || 'test' }}
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/app-build
+          retention-days: 1
