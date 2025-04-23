@@ -63,10 +63,8 @@ jobs:
 
       - name: Create Firebase config files
         run: |
-          mkdir -p android/app
-          echo "${{ secrets.FIREBASE_ANDROID_CONFIG }}" | base64 --decode > android/app/google-services.json
-          mkdir -p ios
-          echo "${{ secrets.FIREBASE_IOS_CONFIG }}" | base64 --decode > ios/GoogleService-Info.plist
+          echo "${{ secrets.FIREBASE_ANDROID_CONFIG }}" | base64 --decode > google-services.json
+          echo "${{ secrets.FIREBASE_IOS_CONFIG }}" | base64 --decode > GoogleService-Info.plist
 
       - name: Build app
         # env:
