@@ -37,6 +37,7 @@ export const TripDetailPage = () => {
             showsVerticalScrollIndicator={false}
             onScroll={handleScroll}
             style={styles.sectionList}
+            stickySectionHeadersEnabled={false}
             ListHeaderComponent={
               <View>
                 <CustomText text={title} style={styles.title} />
