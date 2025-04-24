@@ -1,5 +1,5 @@
 import { colors } from '@/ui/constants/style/colors';
-import { components } from '@/ui/constants/style/dimensions/components';
+import { images } from '@/ui/constants/style/dimensions/images';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { fonts } from '@/ui/constants/style/fonts';
 import { StyleSheet } from 'react-native';
@@ -25,39 +25,11 @@ export const styles = StyleSheet.create({
     fontFamily: fonts.interMedium,
     paddingHorizontal: spacing.Fourfold,
     color: colors.primaryGrey,
-  },
-  image: {
-    height: components.tripDetailImageHeight,
-    width: '100%',
-    zIndex: 1,
+    textAlign: 'center',
   },
   basicViewContainer: {
     padding: 0,
     position: 'relative',
-  },
-  backIcon: {
-    position: 'absolute',
-    zIndex: spacing.Minimal,
-    left: spacing.Quintuple,
-    top: spacing.TripleAndHalf + spacing.separator40,
-    backgroundColor: colors.primaryWhite,
-    borderRadius: spacing.radius,
-  },
-  favoriteIcon: {
-    position: 'absolute',
-    zIndex: spacing.Minimal,
-    right: spacing.Quintuple,
-    top: spacing.TripleAndHalf + spacing.separator40,
-    backgroundColor: colors.primaryWhite,
-    borderRadius: spacing.radius,
-  },
-  removeIcon: {
-    position: 'absolute',
-    zIndex: spacing.Minimal,
-    right: spacing.Quintuple + spacing.Sextuple,
-    top: spacing.TripleAndHalf + spacing.separator40,
-    backgroundColor: colors.primaryWhite,
-    borderRadius: spacing.radius,
   },
   people: {
     fontSize: spacing.Double,
@@ -65,10 +37,12 @@ export const styles = StyleSheet.create({
     color: colors.primaryGrey,
     marginLeft: spacing.Single,
     marginTop: spacing.Double,
+    textAlign: 'center',
   },
   dayPlans: {
     paddingBottom: spacing.FourfoldAndHalf,
     flexGrow: 1,
+    alignItems: 'center',
   },
   separator: {
     height: spacing.Triple,
@@ -83,5 +57,13 @@ export const styles = StyleSheet.create({
     width: spacing.separator80,
     textAlign: 'center',
     alignSelf: 'center',
+  },
+  sectionList: {
+    paddingTop: images.fullScreenImageHeight,
+    backgroundColor: colors.primaryWhite,
+    zIndex: 2,
+    borderRadius: spacing.Triple,
+    marginTop: spacing.Fourfold,
+    flex: 1,
   },
 });
