@@ -69,15 +69,30 @@ jobs:
           GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
           GOOGLE_SERVICES_PLIST: ${{ secrets.GOOGLE_SERVICES_PLIST }}
         run: |
+
+          # Create the necessary directories
+          mkdir -p ./android/app/
+
+          # Write the Google Services JSON to a file
+          echo "$GOOGLE_SERVICES_JSON" > ./android/app/google-services.json
+
+          # If building for iOS, also write the Google Services plist
+          if [ "${{ github.event.inputs.platform || 'android' }}" == "ios" ]; then
+          mkdir -p ./ios/
+          echo "$GOOGLE_SERVICES_PLIST" > ./ios/GoogleService-Info.plist
+          fi
+
+
+
           # Create a prebuild first to ensure files are in the right place
           npx expo prebuild --clean --platform=${{ github.event.inputs.platform || 'android' }}
 
           # Then do the actual build
           eas build --local \
             --non-interactive \
-            --output=./app-build \
-            --platform=${{ github.event.inputs.platform  || 'android' }} \
-            --profile=${{ github.event.inputs.profile || 'test' }}
+          --output=./app-build \
+          --platform=${{ github.event.inputs.platform  || 'android' }} \
+          --profile=${{ github.event.inputs.profile || 'test' }}
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
