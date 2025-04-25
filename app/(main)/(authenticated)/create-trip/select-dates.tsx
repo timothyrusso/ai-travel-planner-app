@@ -1,4 +1,4 @@
-import SelectDatesPage from '@/ui/pages/SelectDatesPage/SelectDatesPage';
+import SelectDatesPage from '@/ui/pages/create-trip/SelectDatesPage/SelectDatesPage';
 
 const SelectDates = () => {
   return <SelectDatesPage />;

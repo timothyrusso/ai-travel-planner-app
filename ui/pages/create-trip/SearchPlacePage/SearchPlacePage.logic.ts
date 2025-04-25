@@ -18,7 +18,7 @@ export const useSearchPageLogic = () => {
 
   const isButtonDisabled = !locationInfo;
 
-  const animation = require('../../assets/lottie/search_animation.json');
+  const animation = require('../../../assets/lottie/search_animation.json');
 
   return {
     handleSearchPress,

@@ -4,7 +4,7 @@ import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import { BasicView } from '@/ui/components/view/BasicView/BasicView';
 import { Routes } from '@/ui/constants/routes';
 import { FlatList, View } from 'react-native';
-import CardWithIcon from '../../components/composite/CardWithIcon/CardWithIcon';
+import CardWithIcon from '../../../components/composite/CardWithIcon/CardWithIcon';
 import { useSelectTravelersPageLogic } from './SelectTravelersPage.logic';
 import { style } from './SelectTravelersPage.style';
 

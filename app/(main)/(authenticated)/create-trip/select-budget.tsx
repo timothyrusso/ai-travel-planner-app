@@ -1,4 +1,4 @@
-import SelectBudgetPage from '@/ui/pages/SelectBudgetPage/SelectBudgetPage';
+import SelectBudgetPage from '@/ui/pages/create-trip/SelectBudgetPage/SelectBudgetPage';
 
 const SelectBudget = () => {
   return <SelectBudgetPage />;

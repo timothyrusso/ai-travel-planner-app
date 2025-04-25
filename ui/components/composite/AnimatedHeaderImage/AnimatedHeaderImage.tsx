@@ -3,7 +3,7 @@ import { Animated, Image, View } from 'react-native';
 
 import { images } from '@/ui/constants/style/dimensions/images';
 
-import { HeaderIcons } from '@/ui/pages/TripDetailsPage/components/HeaderIcons/HeaderIcons';
+import { HeaderIcons } from '@/ui/pages/create-trip/TripDetailsPage/components/HeaderIcons/HeaderIcons';
 import { style } from './AnimatedHeaderImage.style';
 
 interface AnimatedHeaderImageProps {
