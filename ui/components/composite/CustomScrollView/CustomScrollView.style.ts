@@ -12,8 +12,6 @@ export const styles = StyleSheet.create({
   },
   basicView: {
     width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
     flex: 1,
   },
   basicScrollView: {
@@ -21,6 +19,6 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   basicContentStyle: {
-    flex: 1,
+    flexGrow: 1,
   },
 });
