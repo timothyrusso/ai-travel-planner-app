@@ -14,7 +14,6 @@ const GenerateTripPage = () => {
 
   return (
     <BasicView nameView={Routes.GenerateTrip}>
-      <CustomText text="GENERATE_TRIP.TITLE" style={style.title} />
       <CustomText text="GENERATE_TRIP.DESCRIPTION" style={style.subtitle} />
       <LottieAnimation animationPath={animation} style={style.animation} />
     </BasicView>

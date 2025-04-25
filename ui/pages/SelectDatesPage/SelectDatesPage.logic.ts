@@ -1,6 +1,6 @@
 import { getTimezoneFormattedDateUseCase } from '@/modules/dates/application/getTimezoneFormattedDateUseCase';
 import { getTodayInLocalTimezoneUseCase } from '@/modules/dates/application/getTodayInLocalTimezoneUseCase';
-import { Routes } from '@/ui/constants/routes';
+import { Routes, Stacks } from '@/ui/constants/routes';
 import { useTripState } from '@/ui/state/trip';
 import { differenceInDays } from 'date-fns';
 import { useRouter } from 'expo-router';
@@ -35,13 +35,10 @@ export const useSelectDatesPageLogic = () => {
       endDate,
       totalNoOfDays: calculateDifferenceInDays(),
     });
-    router.push(`/${Routes.SelectBudget}`);
+    router.push(`/${Stacks.CreateTrip}/${Routes.SelectBudget}`);
   };
 
-  const handleBackPress = () => router.back();
-
   return {
-    handleBackPress,
     handleDateChange,
     handleButtonPress,
     todayInLocalTimezone,

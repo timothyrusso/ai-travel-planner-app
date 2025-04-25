@@ -1,4 +1,4 @@
-import { Routes } from '@/ui/constants/routes';
+import { Routes, Stacks } from '@/ui/constants/routes';
 import { useTripState } from '@/ui/state/trip';
 import { format } from 'date-fns';
 import { useRouter } from 'expo-router';
@@ -11,8 +11,6 @@ export type TripRecap = {
 export const useReviewTripPageLogic = () => {
   const router = useRouter();
   const { tripSelectors } = useTripState();
-
-  const handleBackPress = () => router.back();
 
   const getTripDates = () => {
     const { startDate, endDate, totalNoOfDays } = tripSelectors.datesInfo();
@@ -47,8 +45,8 @@ export const useReviewTripPageLogic = () => {
 
   const handleButtonPress = () => {
     router.dismissAll();
-    router.replace(`/${Routes.GenerateTrip}`);
+    router.replace(`/${Stacks.CreateTrip}/${Routes.GenerateTrip}`);
   };
 
-  return { handleButtonPress, handleBackPress, tripData: getTripRecap() };
+  return { handleButtonPress, tripData: getTripRecap() };
 };

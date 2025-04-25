@@ -12,6 +12,7 @@ export default function AuthLayout() {
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Screen name={Stacks.Tabs} />
+      <Stack.Screen name={Stacks.CreateTrip} />
     </Stack>
   );
 }
