@@ -73,7 +73,7 @@ jobs:
         #   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
         #   EXPO_PUBLIC_MMKV_ENCRYPTION_KEY: ${{ secrets.MMKV_ENCRYPTION_KEY }}
         env:
-          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+          GOOGLE_SERVICES_JSON: /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/android/app/google-services.json
           GOOGLE_SERVICES_PLIST: ${{ secrets.GOOGLE_SERVICES_PLIST }}
         run: |
           # Create a prebuild first to ensure files are in the right place
