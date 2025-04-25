@@ -1,12 +1,10 @@
 import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import CustomTextInput from '@/ui/components/basic/CustomTextInput/CustomTextInput';
-import CustomHeader from '@/ui/components/composite/CustomHeader/CustomHeader';
 import CustomScrollView from '@/ui/components/composite/CustomScrollView/CustomScrollView';
 import { InfoModal } from '@/ui/components/dialogs/InfoModal/InfoModal';
 import { BasicView } from '@/ui/components/view/BasicView/BasicView';
 import { Routes } from '@/ui/constants/routes';
-import { icons } from '@/ui/constants/style/icons';
 import { Text, View } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { useSignUpPageLogic } from './SignUpPage.logic';
@@ -31,7 +29,6 @@ const SignUpPage = () => {
     <BasicView nameView={Routes.SignUp}>
       <CustomScrollView>
         <View style={styles.container}>
-          <CustomHeader title="SIGNUP.TITLE" icon={icons.close} onPress={() => router.back()} />
           <Text style={styles.subtitle}>Create a new account!</Text>
           <View style={styles.inputContainer}>
             <View style={styles.emailContainer}>

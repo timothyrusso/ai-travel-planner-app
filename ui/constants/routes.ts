@@ -3,12 +3,12 @@ export enum Routes {
   SignUp = 'sign-up',
   SignIn = 'sign-in',
   MyTrip = 'my-trip',
-  Search = 'create-trip/search-place',
-  SelectTraveler = 'create-trip/select-traveler',
-  SelectDates = 'create-trip/select-dates',
-  SelectBudget = 'create-trip/select-budget',
-  ReviewTrip = 'create-trip/review-trip',
-  GenerateTrip = 'create-trip/generate-trip',
+  Search = 'search-place',
+  SelectTraveler = 'select-traveler',
+  SelectDates = 'select-dates',
+  SelectBudget = 'select-budget',
+  ReviewTrip = 'review-trip',
+  GenerateTrip = 'generate-trip',
   TripDetails = 'trip-details',
 }
 
@@ -18,4 +18,5 @@ export enum Stacks {
   Profile = 'profile',
   Login = '(login)',
   Authenticated = '(authenticated)',
+  CreateTrip = 'create-trip',
 }

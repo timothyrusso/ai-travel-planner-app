@@ -1,4 +1,4 @@
-import { Routes } from '@/ui/constants/routes';
+import { Routes, Stacks } from '@/ui/constants/routes';
 import { useTripState } from '@/ui/state/trip';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -17,12 +17,9 @@ export const useSelectBudgetPageLogic = () => {
     tripActions.setBudgetInfo(t(BudgetData[id].title));
   };
 
-  const handleBackPress = () => router.back();
-
-  const handleButtonPress = () => router.push(`/${Routes.ReviewTrip}`);
+  const handleButtonPress = () => router.push(`/${Stacks.CreateTrip}/${Routes.ReviewTrip}`);
 
   return {
-    handleBackPress,
     selectedBudget,
     handleCardPress,
     handleButtonPress,

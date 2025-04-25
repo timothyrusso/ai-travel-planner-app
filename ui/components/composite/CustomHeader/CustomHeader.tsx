@@ -9,8 +9,8 @@ import { useCustomHeaderLogic } from './CustomHeader.logic';
 
 type CustomHeaderProps = {
   title: string;
-  icon: keyof typeof Ionicons.glyphMap;
-  onPress: () => void;
+  icon?: keyof typeof Ionicons.glyphMap;
+  onPress?: () => void;
 };
 
 const CustomHeader: FC<CustomHeaderProps> = ({ title, icon, onPress }) => {
@@ -19,7 +19,9 @@ const CustomHeader: FC<CustomHeaderProps> = ({ title, icon, onPress }) => {
   return (
     <View style={styleComponent.container}>
       <CustomText text={title} style={styleComponent.title} />
-      <CustomIconButton icon={icon} iconSize={spacing.Quintuple} iconColor={colors.primaryBlack} onPress={onPress} />
+      {onPress && icon && (
+        <CustomIconButton icon={icon} iconSize={spacing.Quintuple} iconColor={colors.primaryBlack} onPress={onPress} />
+      )}
     </View>
   );
 };

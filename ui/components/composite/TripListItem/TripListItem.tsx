@@ -1,5 +1,5 @@
 import type { TripAiResp, UserTripData } from '@/modules/trip/domain/dto/UserTripsDTO';
-import { Routes } from '@/ui/constants/routes';
+import { Routes, Stacks } from '@/ui/constants/routes';
 import { useRouter } from 'expo-router';
 import type { FC } from 'react';
 import { Image, Pressable, View } from 'react-native';
@@ -17,7 +17,12 @@ export const TripListItem: FC<TripListItemProps> = ({ tripItem }) => {
 
   return (
     <Pressable
-      onPress={() => router.push({ pathname: `/${Routes.TripDetails}`, params: { trip: JSON.stringify(tripItem) } })}
+      onPress={() =>
+        router.push({
+          pathname: `/${Stacks.CreateTrip}/${Routes.TripDetails}`,
+          params: { trip: JSON.stringify(tripItem) },
+        })
+      }
       style={({ pressed }) => [styles.container, pressed ? styles.button : {}]}
     >
       <Image

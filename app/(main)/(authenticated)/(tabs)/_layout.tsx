@@ -24,7 +24,7 @@ const TabLayout = () => {
             <CustomHeader
               title="MY_TRIP.TITLE"
               icon={icons.addCircle}
-              onPress={() => router.push(`/${Routes.Search}`)}
+              onPress={() => router.push(`/${Stacks.CreateTrip}/${Routes.Search}`)}
             />
           ),
           tabBarLabel: t('MY_TRIP.TITLE'),
@@ -34,6 +34,7 @@ const TabLayout = () => {
       <Tabs.Screen
         name={Stacks.Profile}
         options={{
+          header: () => <CustomHeader title="PROFILE.TITLE" />,
           tabBarLabel: t('PROFILE.TITLE'),
           tabBarIcon: ({ color }) => (
             <Ionicons name={icons.personCircleOutline} size={spacing.Fourfold} color={color} />

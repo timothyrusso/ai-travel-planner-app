@@ -1,5 +1,5 @@
 import type { LocationInfo } from '@/modules/trip/domain/entities/LocationInfo';
-import { Routes } from '@/ui/constants/routes';
+import { Routes, Stacks } from '@/ui/constants/routes';
 import { useTripState } from '@/ui/state/trip';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -14,17 +14,14 @@ export const useSearchPageLogic = () => {
     setLocationInfo(locationInfo);
   };
 
-  const handleParticipantsPress = () => router.push(`/${Routes.SelectTraveler}`);
+  const handleParticipantsPress = () => router.push(`/${Stacks.CreateTrip}/${Routes.SelectTraveler}`);
 
   const isButtonDisabled = !locationInfo;
-
-  const goBackHandler = () => router.back();
 
   const animation = require('../../assets/lottie/search_animation.json');
 
   return {
     handleSearchPress,
-    goBackHandler,
     animation,
     handleParticipantsPress,
     isButtonDisabled,
