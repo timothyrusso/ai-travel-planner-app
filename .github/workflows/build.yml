@@ -64,7 +64,9 @@ jobs:
       - name: Putting data
         env:
           DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
-        run: echo $DATA > /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/app/google-services.json
+        run: |
+          mkdir -p /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/android/app
+          echo $DATA > /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/android/app/google-services.json
 
       - name: Build app
         # env:
