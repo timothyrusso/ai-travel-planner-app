@@ -69,10 +69,15 @@ jobs:
           GOOGLE_SERVICES_JSON: /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/android/app/google-services.json
           GOOGLE_SERVICES_PLIST: ${{ secrets.GOOGLE_SERVICES_PLIST }}
         run: |
+          # Create google-services.json before prebuild
+          mkdir -p /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/android/app
+          echo "${{ secrets.GOOGLE_SERVICES_JSON }}" > /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/android/app/google-services.json
+          ls -la /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/android/app/
+
           # Create a prebuild first to ensure files are in the right place
           npx expo prebuild --clean --platform=${{ github.event.inputs.platform || 'android' }}
 
-          # Create google-services.json after prebuild
+          # Copy google-services.json back after prebuild
           mkdir -p /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/android/app
           echo "${{ secrets.GOOGLE_SERVICES_JSON }}" > /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/android/app/google-services.json
           ls -la /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/android/app/
