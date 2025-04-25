@@ -27,6 +27,7 @@ export const styles = StyleSheet.create({
     rowGap: spacing.Triple,
     width: '100%',
     paddingHorizontal: spacing.Fourfold,
+    paddingBottom: spacing.Fourfold,
   },
   subtitle: {
     fontFamily: fonts.interRegular,
@@ -40,7 +41,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   container: {
-    flex: 1,
     width: '100%',
   },
 });

@@ -12,8 +12,8 @@ const WelcomePage = () => {
   const { handlePress, animation } = useWelcomePageLogic();
 
   return (
-    <CustomScrollView>
-      <BasicView nameView={Routes.Welcome}>
+    <BasicView nameView={Routes.Welcome}>
+      <CustomScrollView>
         <View style={styles.container}>
           <LottieAnimation style={styles.animation} animationPath={animation} />
           <View style={styles.buttonContainer}>
@@ -21,8 +21,8 @@ const WelcomePage = () => {
             <CustomButton title="WELCOME.BUTTON" onPress={handlePress} style={styles.button} />
           </View>
         </View>
-      </BasicView>
-    </CustomScrollView>
+      </CustomScrollView>
+    </BasicView>
   );
 };
 

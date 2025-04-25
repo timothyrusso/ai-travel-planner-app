@@ -28,8 +28,8 @@ const SignUpPage = () => {
   } = useSignUpPageLogic();
 
   return (
-    <CustomScrollView>
-      <BasicView nameView={Routes.SignUp}>
+    <BasicView nameView={Routes.SignUp}>
+      <CustomScrollView>
         <View style={styles.container}>
           <CustomHeader title="SIGNUP.TITLE" icon={icons.close} onPress={() => router.back()} />
           <Text style={styles.subtitle}>Create a new account!</Text>
@@ -80,8 +80,8 @@ const SignUpPage = () => {
         </View>
         <Toast />
         <InfoModal />
-      </BasicView>
-    </CustomScrollView>
+      </CustomScrollView>
+    </BasicView>
   );
 };
 

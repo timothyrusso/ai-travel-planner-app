@@ -22,8 +22,8 @@ const SignInPage = () => {
     useSignInPageLogic();
 
   return (
-    <CustomScrollView>
-      <BasicView nameView={Routes.SignIn}>
+    <BasicView nameView={Routes.SignIn}>
+      <CustomScrollView>
         <View style={styles.container}>
           <CustomHeader title="SIGNIN.TITLE" icon={icons.close} onPress={() => router.back()} />
           <View style={styles.inputContainer}>
@@ -57,8 +57,8 @@ const SignInPage = () => {
         <ResetPasswordModal />
         <InfoModal />
         <ActionModal />
-      </BasicView>
-    </CustomScrollView>
+      </CustomScrollView>
+    </BasicView>
   );
 };
 

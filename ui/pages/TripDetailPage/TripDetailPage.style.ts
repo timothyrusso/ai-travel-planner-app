@@ -1,18 +1,11 @@
+import { PlatformOS } from '@/ui/constants/PlatformOS';
 import { colors } from '@/ui/constants/style/colors';
 import { images } from '@/ui/constants/style/dimensions/images';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { fonts } from '@/ui/constants/style/fonts';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.primaryWhite,
-    marginTop: -spacing.Fourfold,
-    zIndex: 2,
-    borderRadius: spacing.Triple,
-    alignItems: 'center',
-    flex: 1,
-  },
   title: {
     marginVertical: spacing.Triple,
     fontSize: spacing.Fourfold,
@@ -40,7 +33,8 @@ export const styles = StyleSheet.create({
     textAlign: 'center',
   },
   dayPlans: {
-    paddingBottom: spacing.FourfoldAndHalf,
+    paddingBottom:
+      Platform.OS === PlatformOS.ios ? spacing.FourfoldAndHalf : images.fullScreenImageHeight + spacing.FourfoldAndHalf,
     flexGrow: 1,
     alignItems: 'center',
   },
