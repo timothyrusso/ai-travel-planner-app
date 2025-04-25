@@ -61,6 +61,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Create file
+        run: cat /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/app/google-services.json
+
+      - name: Putting data
+        env:
+          DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: echo $DATA > /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/app/google-services.json
+
       - name: Build app
         # env:
         #   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
@@ -69,21 +77,6 @@ jobs:
           GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
           GOOGLE_SERVICES_PLIST: ${{ secrets.GOOGLE_SERVICES_PLIST }}
         run: |
-
-          # Create the necessary directories
-          mkdir -p ./android/app/
-
-          # Write the Google Services JSON to a file
-          echo "$GOOGLE_SERVICES_JSON" > ./android/app/google-services.json
-
-          # If building for iOS, also write the Google Services plist
-          if [ "${{ github.event.inputs.platform || 'android' }}" == "ios" ]; then
-          mkdir -p ./ios/
-          echo "$GOOGLE_SERVICES_PLIST" > ./ios/GoogleService-Info.plist
-          fi
-
-
-
           # Create a prebuild first to ensure files are in the right place
           npx expo prebuild --clean --platform=${{ github.event.inputs.platform || 'android' }}
 
