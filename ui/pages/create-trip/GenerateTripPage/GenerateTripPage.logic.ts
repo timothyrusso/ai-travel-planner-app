@@ -59,7 +59,7 @@ export const useGenerateTripPageLogic = () => {
         docId,
       });
 
-      router.push(`/${Routes.MyTrip}`);
+      router.push(`/${Routes.MyTrips}`);
     } catch (error) {
       // biome-ignore lint/suspicious/noConsole: <explanation>
       console.error('Error generating AI trip:', error);

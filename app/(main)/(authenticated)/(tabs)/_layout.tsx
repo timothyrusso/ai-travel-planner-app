@@ -18,7 +18,7 @@ const TabLayout = () => {
       }}
     >
       <Tabs.Screen
-        name={Routes.MyTrip}
+        name={Routes.MyTrips}
         options={{
           header: () => (
             <CustomHeader

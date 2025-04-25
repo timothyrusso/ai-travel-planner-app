@@ -1,3 +1,3 @@
 export const labels = {
-  myTripPageLocations: 200,
+  myTripsPageLocations: 200,
 };

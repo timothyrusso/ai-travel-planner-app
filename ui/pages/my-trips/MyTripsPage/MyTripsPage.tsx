@@ -1,16 +1,16 @@
 import { BasicView } from '@/ui/components/view/BasicView/BasicView';
 import { Routes } from '@/ui/constants/routes';
-import { useMyTripPageLogic } from './MyTripPage.logic';
+import { useMyTripsPageLogic } from './MyTripsPage.logic';
 import { UserTripList } from './components/UserTripList/UserTripList';
 
-const MyTripPage = () => {
-  const { userTrips, isLoading } = useMyTripPageLogic();
+const MyTripsPage = () => {
+  const { userTrips, isLoading } = useMyTripsPageLogic();
 
   return (
-    <BasicView nameView={Routes.MyTrip}>
+    <BasicView nameView={Routes.MyTrips}>
       <UserTripList userTrips={userTrips ?? []} isLoading={isLoading} />
     </BasicView>
   );
 };
 
-export default MyTripPage;
+export default MyTripsPage;

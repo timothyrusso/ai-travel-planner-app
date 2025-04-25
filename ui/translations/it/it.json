@@ -86,6 +86,9 @@
     "TITLE": "Creazione del viaggio",
     "DESCRIPTION": "Stiamo lavorando per creare il viaggio dei tuoi sogni"
   },
+  "SHOW_ALL_TRIPS": {
+    "TITLE": "Tutti i viaggi"
+  },
   "GLOBAL": {
     "NO_IMAGE": "Nessun immagine disponibile",
     "VIEW_ALL": "Vedi tutti",

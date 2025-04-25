@@ -46,7 +46,7 @@ export const useSignInPageLogic = () => {
         handleUnconfirmedEmailModal(response.user);
         return;
       }
-      router.replace(`/${Routes.MyTrip}`);
+      router.replace(`/${Routes.MyTrips}`);
     } catch (error) {
       const typedError = error as AuthError;
       showToast('GLOBAL.ERROR.INVALID_CREDENTIALS');

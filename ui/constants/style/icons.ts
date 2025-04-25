@@ -9,5 +9,5 @@ export const icons: Record<string, keyof typeof Ionicons.glyphMap> = {
   addCircle: 'add-circle',
   remove: 'trash',
   hearth: 'heart-outline',
-  heartOutline: 'heart',
+  heartOutline: 'heart-sharp',
 };

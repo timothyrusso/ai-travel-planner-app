@@ -3,6 +3,7 @@ import { components } from '@/ui/constants/style/dimensions/components';
 import { labels } from '@/ui/constants/style/dimensions/labels';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { fonts } from '@/ui/constants/style/fonts';
+import { shadows } from '@/ui/constants/style/shadows';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
@@ -12,7 +13,8 @@ export const styles = StyleSheet.create({
     rowGap: spacing.Double,
     position: 'relative',
     borderWidth: spacing.SingleAndHalf,
-    borderColor: colors.primaryBlue,
+    borderColor: colors.primaryWhite,
+    boxShadow: shadows.defaultShadow,
   },
   image: {
     width: '100%',
@@ -23,12 +25,12 @@ export const styles = StyleSheet.create({
   },
   location: {
     fontSize: spacing.Triple,
-    fontFamily: fonts.interMedium,
-    width: labels.myTripPageLocations,
+    fontFamily: fonts.interBold,
+    width: labels.myTripsPageLocations,
     position: 'absolute',
     bottom: spacing.Zero,
     zIndex: spacing.Minimal,
-    backgroundColor: colors.primaryBlue,
+    backgroundColor: colors.primaryWhite,
     paddingVertical: spacing.Single,
     borderTopRightRadius: spacing.Triple,
     textAlign: 'center',
