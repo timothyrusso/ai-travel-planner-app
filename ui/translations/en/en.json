@@ -86,6 +86,9 @@
     "TITLE": "Generating Trip",
     "DESCRIPTION": "We are working to generate your dream trip"
   },
+  "SHOW_ALL_TRIPS": {
+    "TITLE": "All Trips"
+  },
   "GLOBAL": {
     "NO_IMAGE": "No image available",
     "VIEW_ALL": "View All",

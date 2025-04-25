@@ -1,4 +1,4 @@
-import SearchPlacePage from '@/ui/pages/SearchPlacePage/SearchPlacePage';
+import SearchPlacePage from '@/ui/pages/create-trip/SearchPlacePage/SearchPlacePage';
 
 const SearchPlace = () => {
   return <SearchPlacePage />;
