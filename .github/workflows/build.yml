@@ -66,7 +66,9 @@ jobs:
           DATA: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: |
           mkdir -p /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/android/app
-          echo $DATA > /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/android/app/google-services.json
+          echo "$DATA" > /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/android/app/google-services.json
+          ls -la /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/android/app/
+          cat /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/android/app/google-services.json
 
       - name: Build app
         # env:
@@ -82,9 +84,9 @@ jobs:
           # Then do the actual build
           eas build --local \
             --non-interactive \
-          --output=./app-build \
-          --platform=${{ github.event.inputs.platform  || 'android' }} \
-          --profile=${{ github.event.inputs.profile || 'test' }}
+            --output=./app-build \
+            --platform=${{ github.event.inputs.platform  || 'android' }} \
+            --profile=${{ github.event.inputs.profile || 'test' }}
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
