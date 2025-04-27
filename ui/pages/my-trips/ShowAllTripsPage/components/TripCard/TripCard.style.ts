@@ -1,4 +1,5 @@
 import { colors } from '@/ui/constants/style/colors';
+import { components } from '@/ui/constants/style/dimensions/components';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { fonts } from '@/ui/constants/style/fonts';
 import { shadows } from '@/ui/constants/style/shadows';
@@ -13,7 +14,7 @@ export const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 200,
+    height: components.tripCardImageHeight,
     borderRadius: spacing.Double,
   },
   title: {

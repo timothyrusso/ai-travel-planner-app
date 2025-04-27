@@ -11,6 +11,7 @@ export enum Routes {
   GenerateTrip = 'generate-trip',
   TripDetails = 'trip-details',
   ShowAllTrips = 'show-all-trips',
+  ChangeLanguage = 'change-language',
 }
 
 export enum Stacks {

@@ -79,8 +79,7 @@ jobs:
             --non-interactive \
             --output=./app-build \
             --platform=${{ github.event.inputs.platform  || 'android' }} \
-            --profile=${{ github.event.inputs.profile || 'test' }} \
-            --type=apk
+            --profile=${{ github.event.inputs.profile || 'test' }}
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4

@@ -1,7 +1,7 @@
 import { useGetUserTripsQuery } from '@/ui/queries/trips/query/useGetUserTripsQuery';
 
 export const useShowAllTripsPageLogic = () => {
-  const { data: userTrips, isLoading } = useGetUserTripsQuery();
+  const { data, isLoading } = useGetUserTripsQuery();
 
-  return { userTrips, isLoading };
+  return { userTrips: data?.trips, isLoading };
 };
