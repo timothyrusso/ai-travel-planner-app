@@ -10,4 +10,5 @@ export const icons: Record<string, keyof typeof Ionicons.glyphMap> = {
   remove: 'trash',
   hearth: 'heart-outline',
   heartOutline: 'heart-sharp',
+  success: 'checkmark-circle-sharp',
 };

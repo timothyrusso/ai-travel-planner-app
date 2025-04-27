@@ -5,13 +5,15 @@ import { useTranslation } from 'react-i18next';
 export const useChangeLanguage = () => {
   const { i18n } = useTranslation();
 
+  const loadLanguage = async () => {
+    const savedLanguage = await AsyncStorage.getItem('language');
+    if (savedLanguage) {
+      i18n.changeLanguage(savedLanguage);
+    }
+    return savedLanguage;
+  };
+
   useEffect(() => {
-    const loadLanguage = async () => {
-      const savedLanguage = await AsyncStorage.getItem('language');
-      if (savedLanguage) {
-        i18n.changeLanguage(savedLanguage);
-      }
-    };
     loadLanguage();
   }, [i18n]);
 
@@ -20,5 +22,5 @@ export const useChangeLanguage = () => {
     i18n.changeLanguage(lang);
   };
 
-  return { changeLanguage };
+  return { changeLanguage, loadLanguage };
 };

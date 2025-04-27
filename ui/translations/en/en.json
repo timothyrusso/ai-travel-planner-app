@@ -1,5 +1,4 @@
 {
-  "language": "Language",
   "MY_TRIP": {
     "NO_TRIPS_PLANNED": "No trips planned yet",
     "START_NEW_TRIP": "New Trip",
@@ -7,7 +6,21 @@
     "TITLE": "My Trips"
   },
   "PROFILE": {
-    "TITLE": "Profile"
+    "TITLE": "Profile",
+    "LABEL": {
+      "TOTAL_TRIPS": "Total Trips",
+      "FAVORITE_TRIPS": "Favorite Trips"
+    },
+    "BUTTON": {
+      "CHANGE_LANGUAGE": "Change Language",
+      "DELETE_ACCOUNT": "Delete Account"
+    }
+  },
+  "CHANGE_LANGUAGE": {
+    "BUTTON": {
+      "IT": "Italian",
+      "EN": "English"
+    }
   },
   "WELCOME": {
     "TITLE": "Effortlessly plan your trips with AI at your fingertips!",
@@ -94,7 +107,8 @@
     "VIEW_ALL": "View All",
     "BUTTON": {
       "CONFIRM": "Confirm",
-      "CANCEL": "Cancel"
+      "CANCEL": "Cancel",
+      "LOGOUT": "Logout"
     },
     "ERROR": {
       "INVALID_CREDENTIALS": "Invalid credentials",

@@ -28,6 +28,12 @@ export const useGetUserTripsQuery = () => {
   const { data, isLoading, refetch } = useQuery({
     queryKey: [tripsKeys.getUserTrips],
     queryFn: getMyTrips,
+    enabled: !!user,
+    select: data => ({
+      trips: data,
+      totalTrips: data?.length,
+      favoriteTrips: data?.filter(trip => trip.isFavorite),
+    }),
   });
 
   return { data, isLoading, refetch };

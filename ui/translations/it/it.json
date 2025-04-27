@@ -1,5 +1,4 @@
 {
-  "language": "Lingua",
   "MY_TRIP": {
     "NO_TRIPS_PLANNED": "Nessun viaggio pianificato",
     "START_NEW_TRIP": "Nuovo viaggio",
@@ -7,9 +6,23 @@
     "TITLE": "I miei viaggi"
   },
   "PROFILE": {
-    "TITLE": "Profilo"
+    "TITLE": "Profilo",
+    "LABEL": {
+      "TOTAL_TRIPS": "Totale viaggi",
+      "FAVORITE_TRIPS": "Viaggi preferiti"
+    },
+    "BUTTON": {
+      "CHANGE_LANGUAGE": "Cambia lingua",
+      "DELETE_ACCOUNT": "Cancella account"
+    }
   },
-  "WELCOLE": {
+  "CHANGE_LANGUAGE": {
+    "BUTTON": {
+      "IT": "Italiano",
+      "EN": "Inglese"
+    }
+  },
+  "WELCOME": {
     "TITLE": "Pianifica i tuoi viaggi senza sforzo con l'AI a portata di mano!",
     "BUTTON": "Inizia"
   },
@@ -94,7 +107,8 @@
     "VIEW_ALL": "Vedi tutti",
     "BUTTON": {
       "CONFIRM": "Conferma",
-      "CANCEL": "Annulla"
+      "CANCEL": "Annulla",
+      "LOGOUT": "Disconnetti"
     },
     "ERROR": {
       "INVALID_CREDENTIALS": "Credenziali non valide",
