@@ -62,9 +62,6 @@ jobs:
         run: npm install
 
       - name: Build app
-        # env:
-        #   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-        #   EXPO_PUBLIC_MMKV_ENCRYPTION_KEY: ${{ secrets.MMKV_ENCRYPTION_KEY }}
         env:
           GOOGLE_SERVICES_JSON: /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/android/app/google-services.json
           GOOGLE_SERVICES_PLIST: ${{ secrets.GOOGLE_SERVICES_PLIST }}
@@ -79,7 +76,16 @@ jobs:
             --non-interactive \
             --output=./app-build \
             --platform=${{ github.event.inputs.platform  || 'android' }} \
-            --profile=${{ github.event.inputs.profile || 'test' }}
+            --profile=${{ github.event.inputs.profile || 'test' }} \
+            --env EXPO_PUBLIC_FIREBASE_API_KEY=${{ secrets.EXPO_PUBLIC_FIREBASE_API_KEY }} \
+            --env EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ secrets.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN }} \
+            --env EXPO_PUBLIC_FIREBASE_PROJECT_ID=${{ secrets.EXPO_PUBLIC_FIREBASE_PROJECT_ID }} \
+            --env EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=${{ secrets.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET }} \
+            --env EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }} \
+            --env EXPO_PUBLIC_FIREBASE_APP_ID=${{ secrets.EXPO_PUBLIC_FIREBASE_APP_ID }} \
+            --env EXPO_PUBLIC_GOOGLE_PLACES_API_KEY=${{ secrets.EXPO_PUBLIC_GOOGLE_PLACES_API_KEY }} \
+            --env EXPO_PUBLIC_GOOGLE_GEMINI_API_KEY=${{ secrets.EXPO_PUBLIC_GOOGLE_GEMINI_API_KEY }} \
+            --env EXPO_PUBLIC_RAPID_API_KEY=${{ secrets.EXPO_PUBLIC_RAPID_API_KEY }}
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
