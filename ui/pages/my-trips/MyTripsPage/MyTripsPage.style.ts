@@ -1,12 +1,13 @@
-import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  animation: {
-    flex: 1,
-    position: 'absolute',
+  container: {
     width: '100%',
-    height: spacing.tripAnimationHeight,
-    bottom: 0,
+    flex: 1,
+  },
+  image: {
+    width: '100%',
+    flex: 1,
+    resizeMode: 'cover',
   },
 });

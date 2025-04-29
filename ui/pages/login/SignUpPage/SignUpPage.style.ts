@@ -24,7 +24,6 @@ export const styles = StyleSheet.create({
   },
   buttonContainer: {
     paddingTop: spacing.separator40,
-    rowGap: spacing.Triple,
     width: '100%',
     paddingHorizontal: spacing.Fourfold,
     paddingBottom: spacing.Fourfold,

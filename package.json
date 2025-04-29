@@ -68,7 +68,8 @@
     "react-native-web": "~0.19.13",
     "ts-pattern": "^5.6.2",
     "tsyringe": "^4.8.0",
-    "zustand": "^5.0.0"
+    "zustand": "^5.0.0",
+    "expo-blur": "~14.0.3"
   },
   "devDependencies": {
     "@arkweid/lefthook": "^0.7.7",

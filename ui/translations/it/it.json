@@ -3,7 +3,11 @@
     "NO_TRIPS_PLANNED": "Nessun viaggio pianificato",
     "START_NEW_TRIP": "Nuovo viaggio",
     "NEWEST_DESTINATIONS": "Destinazioni più recenti",
-    "TITLE": "I miei viaggi"
+    "TITLE": "I miei viaggi",
+    "CREATE_NEW_TRIP": "Crea nuovo viaggio",
+    "SHOW_ALL_TRIPS": "Mostra tutti i viaggi",
+    "TRIP_DETAILS": "Dettagli viaggio",
+    "BUDGET_NOT_AVAILABLE": "Budget non disponibile"
   },
   "PROFILE": {
     "TITLE": "Profilo",
