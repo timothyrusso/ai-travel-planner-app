@@ -33,6 +33,21 @@ export const useGetUserTripsQuery = () => {
       trips: data,
       totalTrips: data?.length,
       favoriteTrips: data?.filter(trip => trip.isFavorite),
+      tripItems: data?.map(trip => {
+        const userTripData = JSON.parse(trip.userTripData);
+        return {
+          ...trip.tripAiResp,
+          ...userTripData,
+          image: userTripData?.imageUrl,
+          id: trip.docId,
+          isFavorite: trip.isFavorite,
+        };
+      }),
+      lastCreatedTrip: data?.sort((a, b) => {
+        const userTripDataA = JSON.parse(a.userTripData);
+        const userTripDataB = JSON.parse(b.userTripData);
+        return userTripDataB.createdAt - userTripDataA.createdAt;
+      })[0],
     }),
   });
 

@@ -21,7 +21,6 @@ const SignUpPage = () => {
     setConfirmPassword,
     fullName,
     setFullName,
-    router,
     isLoading,
   } = useSignUpPageLogic();
 
@@ -72,7 +71,6 @@ const SignUpPage = () => {
           </View>
           <View style={styles.buttonContainer}>
             <CustomButton title="SIGNIN.CREATE_ACCOUNT" onPress={onCreateAccount} isLoading={isLoading} />
-            <CustomButton title="SIGNIN.TITLE" onPress={() => router.replace(`/${Routes.SignIn}`)} outline />
           </View>
         </View>
         <Toast />

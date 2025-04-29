@@ -1,7 +1,7 @@
 import type { StyleProp, TextStyle } from 'react-native';
 import { View } from 'react-native';
 
-import CustomIconButton from '@/ui/components/basic/CustomIconButton/CustomIconButton';
+import { CustomIconButton } from '@/ui/components/basic/CustomIconButton/CustomIconButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { icons } from '@/ui/constants/style/icons';

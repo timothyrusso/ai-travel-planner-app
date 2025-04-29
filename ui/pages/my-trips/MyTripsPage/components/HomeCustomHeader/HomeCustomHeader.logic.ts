@@ -1,0 +1,15 @@
+import { Routes, Stacks } from '@/ui/constants/routes';
+import { useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { styles as headerStyles } from './HomeCustomHeader.style';
+export const useHomeCustomHeaderLogic = () => {
+  const router = useRouter();
+  const { top } = useSafeAreaInsets();
+
+  const styles = headerStyles(top);
+
+  const handleShowAllTrips = () => router.push({ pathname: `/${Stacks.MyTrips}/${Routes.ShowAllTrips}` });
+  const handleCreateTrip = () => router.push({ pathname: `/${Stacks.CreateTrip}/${Routes.Search}` });
+
+  return { styles, handleShowAllTrips, handleCreateTrip };
+};

@@ -4,12 +4,11 @@ import { colors } from '@/ui/constants/style/colors';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { icons } from '@/ui/constants/style/icons';
 import { Ionicons } from '@expo/vector-icons';
-import { Tabs, useRouter } from 'expo-router';
+import { Tabs } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
 const TabLayout = () => {
   const { t } = useTranslation();
-  const router = useRouter();
 
   return (
     <Tabs
@@ -20,13 +19,7 @@ const TabLayout = () => {
       <Tabs.Screen
         name={Routes.MyTrips}
         options={{
-          header: () => (
-            <CustomHeader
-              title="MY_TRIP.TITLE"
-              icon={icons.addCircle}
-              onPress={() => router.push(`/${Stacks.CreateTrip}/${Routes.Search}`)}
-            />
-          ),
+          headerShown: false,
           tabBarLabel: t('MY_TRIP.TITLE'),
           tabBarIcon: ({ color }) => <Ionicons name={icons.location} size={spacing.Fourfold} color={color} />,
         }}

@@ -1,4 +1,4 @@
-import CustomIconButton from '@/ui/components/basic/CustomIconButton/CustomIconButton';
+import { CustomIconButton } from '@/ui/components/basic/CustomIconButton/CustomIconButton';
 import { colors } from '@/ui/constants/style/colors';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { icons } from '@/ui/constants/style/icons';

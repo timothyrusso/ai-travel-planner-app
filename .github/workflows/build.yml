@@ -65,6 +65,15 @@ jobs:
         env:
           GOOGLE_SERVICES_JSON: /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/android/app/google-services.json
           GOOGLE_SERVICES_PLIST: ${{ secrets.GOOGLE_SERVICES_PLIST }}
+          EXPO_PUBLIC_FIREBASE_API_KEY: ${{ secrets.EXPO_PUBLIC_FIREBASE_API_KEY }}
+          EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN: ${{ secrets.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN }}
+          EXPO_PUBLIC_FIREBASE_PROJECT_ID: ${{ secrets.EXPO_PUBLIC_FIREBASE_PROJECT_ID }}
+          EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET: ${{ secrets.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET }}
+          EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }}
+          EXPO_PUBLIC_FIREBASE_APP_ID: ${{ secrets.EXPO_PUBLIC_FIREBASE_APP_ID }}
+          EXPO_PUBLIC_GOOGLE_PLACES_API_KEY: ${{ secrets.EXPO_PUBLIC_GOOGLE_PLACES_API_KEY }}
+          EXPO_PUBLIC_GOOGLE_GEMINI_API_KEY: ${{ secrets.EXPO_PUBLIC_GOOGLE_GEMINI_API_KEY }}
+          EXPO_PUBLIC_RAPID_API_KEY: ${{ secrets.EXPO_PUBLIC_RAPID_API_KEY }}
         run: |
           # Create google-services.json from base64
           mkdir -p /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/android/app
@@ -76,16 +85,7 @@ jobs:
             --non-interactive \
             --output=./app-build \
             --platform=${{ github.event.inputs.platform  || 'android' }} \
-            --profile=${{ github.event.inputs.profile || 'test' }} \
-            --env EXPO_PUBLIC_FIREBASE_API_KEY=${{ secrets.EXPO_PUBLIC_FIREBASE_API_KEY }} \
-            --env EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=${{ secrets.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN }} \
-            --env EXPO_PUBLIC_FIREBASE_PROJECT_ID=${{ secrets.EXPO_PUBLIC_FIREBASE_PROJECT_ID }} \
-            --env EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET=${{ secrets.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET }} \
-            --env EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID }} \
-            --env EXPO_PUBLIC_FIREBASE_APP_ID=${{ secrets.EXPO_PUBLIC_FIREBASE_APP_ID }} \
-            --env EXPO_PUBLIC_GOOGLE_PLACES_API_KEY=${{ secrets.EXPO_PUBLIC_GOOGLE_PLACES_API_KEY }} \
-            --env EXPO_PUBLIC_GOOGLE_GEMINI_API_KEY=${{ secrets.EXPO_PUBLIC_GOOGLE_GEMINI_API_KEY }} \
-            --env EXPO_PUBLIC_RAPID_API_KEY=${{ secrets.EXPO_PUBLIC_RAPID_API_KEY }}
+            --profile=${{ github.event.inputs.profile || 'test' }}
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4

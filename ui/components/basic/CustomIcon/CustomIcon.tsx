@@ -1,52 +1,41 @@
-import type { ComponentType } from 'react';
+import { Ionicons } from '@expo/vector-icons';
 import { type GestureResponderEvent, type OpaqueColorValue, type StyleProp, View, type ViewStyle } from 'react-native';
 import { styles } from './CustomIcon.style';
 
 export const DEFAULT_ICON_SIZE = 30;
 
-type IconProps<T> = {
-  name: T;
-  size?: number;
-  color?: string | OpaqueColorValue | undefined;
-  onPress?: ((event: GestureResponderEvent) => void) | undefined;
-  disabled?: boolean;
-  style?: StyleProp<ViewStyle>;
-};
+export type IoniconsName = keyof typeof Ionicons.glyphMap;
 
-export type CustomIconProps<T extends string> = {
+export type CustomIconProps = {
   disabled?: boolean;
   onPress?: ((event: GestureResponderEvent) => void) | undefined;
   size?: number | undefined;
-  name: T;
+  name: IoniconsName;
   color?: string | OpaqueColorValue | undefined;
   style?: StyleProp<ViewStyle>;
   isDarkThemed?: boolean;
   isOutlined?: boolean;
-  IconComponent: ComponentType<IconProps<T>>;
 };
 
-const CustomIcon = <T extends string>({
+export const CustomIcon = ({
   disabled = false,
   onPress,
   name,
-  IconComponent,
   size = DEFAULT_ICON_SIZE,
   color,
   style = {},
   isOutlined,
-}: CustomIconProps<T>) => {
+}: CustomIconProps) => {
   return (
     <View style={[styles().icon, isOutlined && styles().iconOutline, style]}>
-      <IconComponent
+      <Ionicons
         name={name}
         size={size}
         color={color}
         onPress={onPress}
         disabled={disabled}
-        style={[styles().icon, styles(size).iconSize] as StyleProp<ViewStyle>}
+        style={[styles().icon, styles(size).iconSize]}
       />
     </View>
   );
 };
-
-export default CustomIcon;

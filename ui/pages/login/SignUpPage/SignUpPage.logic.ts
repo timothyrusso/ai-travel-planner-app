@@ -62,7 +62,6 @@ export const useSignUpPageLogic = () => {
     setConfirmPassword,
     fullName,
     setFullName,
-    router,
     isLoading: loading,
   };
 };

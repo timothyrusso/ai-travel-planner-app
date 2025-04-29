@@ -1,9 +1,9 @@
 import type { UserTrips } from '@/modules/trip/domain/dto/UserTripsDTO';
-import CustomIcon from '@/ui/components/basic/CustomIcon/CustomIcon';
+import { CustomIcon } from '@/ui/components/basic/CustomIcon/CustomIcon';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import { colors } from '@/ui/constants/style/colors';
+import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { icons } from '@/ui/constants/style/icons';
-import { Ionicons } from '@expo/vector-icons';
 import { Image, Pressable, View } from 'react-native';
 import { useTripCardLogic } from './TripCard.logic';
 import { styles } from './TripCard.style';
@@ -17,9 +17,8 @@ export const TripCard = ({ item }: { item: UserTrips }) => {
       <View style={styles.iconContainer}>
         <CustomIcon
           name={isFavorite ? icons.heartOutline : icons.hearth}
-          size={20}
+          size={spacing.TripleAndHalf}
           color={colors.primaryWhite}
-          IconComponent={Ionicons}
         />
       </View>
       <CustomText text={location} style={styles.title} />

@@ -1,7 +1,6 @@
-import CustomIcon from '@/ui/components/basic/CustomIcon/CustomIcon';
+import { CustomIcon } from '@/ui/components/basic/CustomIcon/CustomIcon';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import { icons } from '@/ui/constants/style/icons';
-import { Ionicons } from '@expo/vector-icons';
 import type { FC } from 'react';
 import { Pressable } from 'react-native';
 import { styles } from './LanguageItem.style';
@@ -16,7 +15,7 @@ export const LanguageItem: FC<LanguageItemProps> = ({ language, onPress, isSelec
   return (
     <Pressable style={({ pressed }) => [styles.container, pressed ? styles.pressed : {}]} onPress={onPress}>
       <CustomText text={language} style={styles.language} />
-      {isSelected && <CustomIcon name={icons.success} IconComponent={Ionicons} />}
+      {isSelected && <CustomIcon name={icons.success} />}
     </Pressable>
   );
 };
