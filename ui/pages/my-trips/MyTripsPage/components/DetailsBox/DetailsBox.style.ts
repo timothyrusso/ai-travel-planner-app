@@ -16,15 +16,31 @@ export const styles = StyleSheet.create({
   location: {
     color: colors.primaryWhite,
     fontFamily: fonts.interBold,
-    fontSize: spacing.Triple,
+    fontSize: spacing.TripleAndHalf,
     alignSelf: 'flex-start',
+    paddingBottom: spacing.SingleAndHalf,
   },
-  locationContainer: {
+  labelContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     columnGap: spacing.Single,
+    paddingBottom: spacing.Single,
   },
   detailsButton: {
     marginTop: spacing.Triple,
+  },
+  label: {
+    color: colors.primaryWhite,
+    fontFamily: fonts.interBold,
+    fontSize: spacing.Double,
+    alignSelf: 'flex-start',
+  },
+  date: {
+    position: 'absolute',
+    top: spacing.FourfoldAndHalf + spacing.Minimal,
+    right: spacing.Fourfold,
+    color: colors.primaryWhite,
+    fontFamily: fonts.interBold,
+    fontSize: spacing.Double,
   },
 });

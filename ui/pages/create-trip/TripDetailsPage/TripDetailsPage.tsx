@@ -11,7 +11,7 @@ import { DayItem } from './components/DayItem/DayItem';
 const separator = () => <View style={styles.separator} />;
 
 export const TripDetailsPage = () => {
-  const { _tripData, _tripDays, title } = useTripDetailsPageLogic();
+  const { _tripData, title } = useTripDetailsPageLogic();
 
   const scrollOffsetY = useRef(new Animated.Value(0)).current;
 
@@ -40,8 +40,6 @@ export const TripDetailsPage = () => {
           ListHeaderComponent={
             <View>
               <CustomText text={title} style={styles.title} />
-              <CustomText text={_tripDays} style={styles.subTitle} />
-              <CustomText style={styles.people} text={`🫂 ${_tripData.tripDetails.travelers.toString()}`} />
             </View>
           }
         />

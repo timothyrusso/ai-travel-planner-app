@@ -1,3 +1,4 @@
 export const blur = {
-  default: 25,
+  default: 15,
+  medium: 30,
 } as const;

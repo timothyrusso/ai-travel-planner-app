@@ -4,6 +4,7 @@ import { db } from '@/configs/firebaseConfig';
 import { chatSession } from '@/configs/geminiConfig';
 import { dbKeys } from '@/modules/trip/domain/entities/DbKeys';
 import { Routes } from '@/ui/constants/routes';
+import { useGooglePlaceImagesQuery } from '@/ui/queries/googlePlaceImages/query/useGooglePlaceImagesQuery';
 import { useTripState } from '@/ui/state/trip';
 import auth from '@react-native-firebase/auth';
 import { useRouter } from 'expo-router';
@@ -18,7 +19,7 @@ export const useGenerateTripPageLogic = () => {
   const [isLoading, setIsLoading] = useState(false);
   const userEmail = auth().currentUser?.email;
   const userId = auth().currentUser?.uid;
-  const _googleApiKey = process.env.EXPO_PUBLIC_GOOGLE_PLACES_API_KEY;
+  const { data: imageUrl } = useGooglePlaceImagesQuery(tripSelectors.locationInfo().name);
 
   const userTripData = {
     startDate: tripSelectors.datesInfo().startDate,
@@ -28,7 +29,7 @@ export const useGenerateTripPageLogic = () => {
     nights: (tripSelectors.datesInfo().totalNoOfDays - 1).toString(),
     traveler: tripSelectors.travelerInfo,
     budget: tripSelectors.budgetInfo,
-    imageUrl: `https://maps.googleapis.com/maps/api/place/photo?maxwidth=1000&photoreference=${tripSelectors.locationInfo().photoRef}&key=${_googleApiKey}`,
+    imageUrl: imageUrl,
     isFavorite: false,
     createdAt: new Date().toISOString(),
   };

@@ -24,19 +24,9 @@ export const styles = StyleSheet.create({
     padding: 0,
     position: 'relative',
   },
-  people: {
-    fontSize: spacing.Double,
-    fontFamily: fonts.interMedium,
-    color: colors.primaryGrey,
-    marginLeft: spacing.Single,
-    marginTop: spacing.Double,
-    textAlign: 'center',
-  },
   dayPlans: {
     paddingBottom:
       Platform.OS === PlatformOS.ios ? spacing.FourfoldAndHalf : images.fullScreenImageHeight + spacing.FourfoldAndHalf,
-    flexGrow: 1,
-    alignItems: 'center',
   },
   separator: {
     height: spacing.Triple,

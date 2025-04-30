@@ -31,6 +31,7 @@ export const ProfilePage = () => {
       bottomButtonPress={logout}
       bottomButtonTitle="GLOBAL.BUTTON.LOGOUT"
       bottomButtonLoading={isLoadingLogout}
+      isMenuVisible
     >
       <CustomScrollView>
         <View style={styles.avatarContainer}>

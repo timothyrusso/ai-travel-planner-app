@@ -8,9 +8,13 @@ export const icons: Record<string, keyof typeof Ionicons.glyphMap> = {
   personCircleOutline: 'person-circle-outline',
   arrowBack: 'chevron-back',
   addCircle: 'add-circle',
+  add: 'add',
   remove: 'trash',
   hearth: 'heart-outline',
   heartOutline: 'heart-sharp',
   success: 'checkmark-circle-sharp',
   list: 'list-circle-sharp',
+  calendar: 'calendar-number-outline',
+  cash: 'cash-outline',
+  people: 'people-outline',
 };

@@ -1,39 +1,32 @@
-import CustomHeader from '@/ui/components/composite/CustomHeader/CustomHeader';
+import { CustomTabButton } from '@/ui/components/composite/CustomTabButton/CustomTabButton';
+import { CustomTabButtonWithText } from '@/ui/components/composite/CustomTabButtonWithText/CustomTabButtonWithText';
 import { Routes, Stacks } from '@/ui/constants/routes';
-import { colors } from '@/ui/constants/style/colors';
-import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { icons } from '@/ui/constants/style/icons';
-import { Ionicons } from '@expo/vector-icons';
-import { Tabs } from 'expo-router';
-import { useTranslation } from 'react-i18next';
+import { useRouter } from 'expo-router';
+import { TabList, TabSlot, TabTrigger, Tabs } from 'expo-router/ui';
+import { tabsStyle } from './tabs.style';
 
 const TabLayout = () => {
-  const { t } = useTranslation();
+  const router = useRouter();
+  const searchRoute = `/${Stacks.CreateTrip}/${Routes.Search}`;
+  const handlePress = () => {
+    router.push(searchRoute);
+  };
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: colors.primary,
-      }}
-    >
-      <Tabs.Screen
-        name={Routes.MyTrips}
-        options={{
-          headerShown: false,
-          tabBarLabel: t('MY_TRIP.TITLE'),
-          tabBarIcon: ({ color }) => <Ionicons name={icons.location} size={spacing.Fourfold} color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name={Stacks.Profile}
-        options={{
-          header: () => <CustomHeader title="PROFILE.TITLE" />,
-          tabBarLabel: t('PROFILE.TITLE'),
-          tabBarIcon: ({ color }) => (
-            <Ionicons name={icons.personCircleOutline} size={spacing.Fourfold} color={color} />
-          ),
-        }}
-      />
+    <Tabs>
+      <TabSlot />
+      <TabList style={tabsStyle.tabList}>
+        <TabTrigger name="home" href="/my-trips" style={tabsStyle.tabTrigger} asChild>
+          <CustomTabButtonWithText icon={icons.location}>My Trips</CustomTabButtonWithText>
+        </TabTrigger>
+        <TabTrigger name="add-trip" href={searchRoute} style={tabsStyle.tabTrigger} asChild>
+          <CustomTabButton icon={icons.add} onPress={handlePress} />
+        </TabTrigger>
+        <TabTrigger name="profile" href="/profile" style={tabsStyle.tabTrigger} asChild>
+          <CustomTabButtonWithText icon={icons.personCircleOutline}>Profile</CustomTabButtonWithText>
+        </TabTrigger>
+      </TabList>
     </Tabs>
   );
 };
