@@ -6,13 +6,12 @@ export const styles = StyleSheet.create({
     height: spacing.TripleAndHalf,
   },
   container: {
-    alignItems: 'center',
-    flex: 1,
     width: '100%',
     paddingHorizontal: spacing.Fourfold,
+    paddingVertical: spacing.Double,
   },
   list: {
-    flex: 1,
     width: '100%',
+    flex: 1,
   },
 });

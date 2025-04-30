@@ -46,7 +46,11 @@ export const useGetUserTripsQuery = () => {
       lastCreatedTrip: data?.sort((a, b) => {
         const userTripDataA = JSON.parse(a.userTripData);
         const userTripDataB = JSON.parse(b.userTripData);
-        return userTripDataB.createdAt - userTripDataA.createdAt;
+
+        const dateA = new Date(userTripDataA.createdAt);
+        const dateB = new Date(userTripDataB.createdAt);
+
+        return dateB.getTime() - dateA.getTime();
       })[0],
     }),
   });

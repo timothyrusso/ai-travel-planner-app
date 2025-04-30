@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { GooglePlaceImagesKeys } from '../GooglePlaceImagesKeys';
 
-export const useGooglePlaceImagesQuery = (placeName: string) => {
+export const useGooglePlaceImagesQuery = (placeName: string, maxWidthPx = 1000) => {
   const _googleApiKey = process.env.EXPO_PUBLIC_GOOGLE_PLACES_API_KEY || '';
 
   const noImage = require('../../../assets/images/no-image-placeholder.jpg');
 
   const { data, isFetching } = useQuery({
-    queryKey: [GooglePlaceImagesKeys.getGooglePlaceImages, placeName],
+    queryKey: [GooglePlaceImagesKeys.getGooglePlaceImages, placeName, maxWidthPx],
     queryFn: () => getImage(placeName),
     enabled: !!placeName,
     staleTime: Number.POSITIVE_INFINITY,
@@ -38,7 +38,7 @@ export const useGooglePlaceImagesQuery = (placeName: string) => {
       if (data?.places?.length > 0 && data.places[0]?.photos?.length > 0) {
         const photoReference = data.places[0].photos[0].name;
         return photoReference
-          ? `https://places.googleapis.com/v1/${photoReference}/media?key=${_googleApiKey}&maxWidthPx=500`
+          ? `https://places.googleapis.com/v1/${photoReference}/media?key=${_googleApiKey}&maxWidthPx=${maxWidthPx}`
           : noImage;
       }
 

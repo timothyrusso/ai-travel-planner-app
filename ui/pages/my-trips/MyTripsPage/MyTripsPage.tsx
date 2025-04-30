@@ -11,14 +11,21 @@ const MyTripsPage = () => {
   const { lastCreatedTrip, isLoading, image, location, days, budget, travelers, tripItem } = useMyTripsPageLogic();
 
   return (
-    <BasicView nameView={Routes.MyTrips} isFullScreen>
+    <BasicView nameView={Routes.MyTrips} isFullScreen isMenuVisible>
       {isLoading ? (
         <ActivityIndicator size="large" color={colors.primary} />
       ) : lastCreatedTrip ? (
         <View style={styles.container}>
           <HomeCustomHeader />
           <Image source={{ uri: image }} style={styles.image} />
-          <DetailsBox location={location} days={days} budget={budget} travelers={travelers} tripItem={tripItem} />
+          <DetailsBox
+            location={location}
+            days={days}
+            budget={budget}
+            travelers={travelers}
+            tripItem={tripItem}
+            style={styles.detailsBox}
+          />
         </View>
       ) : (
         <EmptyListContainer />

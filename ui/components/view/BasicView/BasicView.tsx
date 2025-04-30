@@ -17,6 +17,7 @@ export type BasicViewProps = {
   bottomButtonLoading?: boolean;
   topGradientColor?: string;
   bottomGradientColor?: string;
+  isMenuVisible?: boolean;
 };
 
 export const BasicView = (props: PropsWithChildren<BasicViewProps>) => {

@@ -8,7 +8,8 @@ import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { icons } from '@/ui/constants/style/icons';
 import { BlurView } from 'expo-blur';
 import type { FC } from 'react';
-import { View } from 'react-native';
+import { type StyleProp, View, type ViewStyle } from 'react-native';
+import { MainPlacesList } from '../MainPlacesList/MainPlacesList';
 import { useDetailsBoxLogic } from './DetailsBox.logic';
 import { styles } from './DetailsBox.style';
 
@@ -18,20 +19,41 @@ type DetailsBoxProps = {
   budget: string;
   travelers: number;
   tripItem: TripItem;
+  style?: StyleProp<ViewStyle>;
 };
 
-export const DetailsBox: FC<DetailsBoxProps> = ({ location, days, budget, travelers, tripItem }) => {
-  const { handlePress, budgetLabel } = useDetailsBoxLogic(tripItem, budget);
+export const DetailsBox: FC<DetailsBoxProps> = ({ location, days, budget, travelers, tripItem, style }) => {
+  const { handlePress, budgetLabel, travelersLabel, daysLabel, dateLabel } = useDetailsBoxLogic(
+    tripItem,
+    budget,
+    travelers,
+    days,
+  );
 
   return (
-    <BlurView intensity={blur.default} style={styles.detailsContainer} experimentalBlurMethod="dimezisBlurView">
-      <View style={styles.locationContainer}>
-        <CustomIcon name={icons.locationOutline} size={spacing.Triple} color={colors.primaryWhite} />
+    <BlurView
+      intensity={blur.default}
+      style={[styles.detailsContainer, style]}
+      experimentalBlurMethod="dimezisBlurView"
+      tint="dark"
+    >
+      <View style={styles.labelContainer}>
         <CustomText text={location} style={styles.location} />
       </View>
-      <CustomText text={`${days} days`} style={styles.location} />
-      <CustomText text={budgetLabel} style={styles.location} />
-      <CustomText text={`${travelers} travelers`} style={styles.location} />
+      <View style={styles.labelContainer}>
+        <CustomIcon name={icons.calendar} size={spacing.Double} color={colors.primaryWhite} />
+        <CustomText text={daysLabel} style={styles.label} />
+      </View>
+      <View style={styles.labelContainer}>
+        <CustomIcon name={icons.cash} size={spacing.Double} color={colors.primaryWhite} />
+        <CustomText text={budgetLabel} style={styles.label} />
+      </View>
+      <View style={styles.labelContainer}>
+        <CustomIcon name={icons.people} size={spacing.Double} color={colors.primaryWhite} />
+        <CustomText text={travelersLabel} style={styles.label} />
+      </View>
+      <CustomText text={dateLabel} style={styles.date} />
+      <MainPlacesList />
       <CustomButton title="MY_TRIP.TRIP_DETAILS" onPress={handlePress} style={styles.detailsButton} />
     </BlurView>
   );

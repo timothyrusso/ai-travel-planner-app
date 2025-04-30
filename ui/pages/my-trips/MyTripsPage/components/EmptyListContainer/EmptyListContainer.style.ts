@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: spacing.tripAnimationHeight,
     position: 'absolute',
-    bottom: 0,
+    bottom: spacing.separator80 + spacing.Double,
   },
   container: {
     flex: 1,

@@ -9,7 +9,6 @@ export const useHomeCustomHeaderLogic = () => {
   const styles = headerStyles(top);
 
   const handleShowAllTrips = () => router.push({ pathname: `/${Stacks.MyTrips}/${Routes.ShowAllTrips}` });
-  const handleCreateTrip = () => router.push({ pathname: `/${Stacks.CreateTrip}/${Routes.Search}` });
 
-  return { styles, handleShowAllTrips, handleCreateTrip };
+  return { styles, handleShowAllTrips };
 };
