@@ -11,7 +11,7 @@ interface CustomTabButtonProps extends React.PropsWithChildren, TabTriggerSlotPr
   onPress: () => void;
 }
 
-// biome-ignore lint: <explanation>
+// biome-ignore lint: <ref is necessary for expo-router>
 export const CustomTabButton = React.forwardRef<View, CustomTabButtonProps>((props, ref) => {
   return (
     <Pressable {...props} style={({ pressed }) => [styles.button, pressed && styles.pressed]} onPress={props.onPress}>
