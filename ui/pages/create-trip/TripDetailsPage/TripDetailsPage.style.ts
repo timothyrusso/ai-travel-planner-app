@@ -41,6 +41,7 @@ export const styles = StyleSheet.create({
     width: spacing.separator80,
     textAlign: 'center',
     alignSelf: 'center',
+    overflow: 'hidden',
   },
   sectionList: {
     paddingTop: images.fullScreenImageHeight,
