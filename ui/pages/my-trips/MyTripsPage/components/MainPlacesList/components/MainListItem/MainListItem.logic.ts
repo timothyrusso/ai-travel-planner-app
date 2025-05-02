@@ -1,8 +1,7 @@
-import { spacing } from '@/ui/constants/style/dimensions/spacing';
-import { useGooglePlaceImagesQuery } from '@/ui/queries/googlePlaceImages/query/useGooglePlaceImagesQuery';
+import { UrlTypes, useUnsplashImages } from '@/ui/queries/unsplashImages/query/useUnsplashImages';
 
 export const useMainListItemLogic = (id?: string) => {
-  const { data, isLoading } = useGooglePlaceImagesQuery(id ?? '', spacing.separator40 * 2);
+  const { data, isLoading } = useUnsplashImages(id ?? '', UrlTypes.THUMB);
 
   return { data, isLoading };
 };
