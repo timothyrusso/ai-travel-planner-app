@@ -1,17 +1,28 @@
 export default ({ config }) => {
   return {
     ...config,
+    extra: {
+      ...config.extra,
+      googlePlacesApiKey: process.env.GOOGLE_PLACES_API_KEY,
+      firebaseConfig: {
+        apiKey: process.env.FIREBASE_API_KEY,
+        authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+        projectId: process.env.FIREBASE_PROJECT_ID,
+        storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+        messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+        appId: process.env.FIREBASE_APP_ID,
+      },
+      googleGeminiApiKey: process.env.GOOGLE_GEMINI_API_KEY,
+      rapidApiKey: process.env.RAPID_API_KEY,
+      unsplashAccessKey: process.env.UNSPLASH_ACCESS_KEY,
+    },
     ios: {
       ...config.ios,
-      googleServicesFile:
-        process.env.GOOGLE_SERVICES_PLIST ??
-        '/Users/timothy.russo/Desktop/Projects/ai-travel-planner-app/GoogleService-Info.plist',
+      googleServicesFile: process.env.GOOGLE_SERVICES_PLIST ?? process.env.GOOGLE_SERVICES_PLIST_LOCAL_PATH,
     },
     android: {
       ...config.android,
-      googleServicesFile:
-        process.env.GOOGLE_SERVICES_JSON ??
-        '/Users/timothy.russo/Desktop/Projects/ai-travel-planner-app/google-services.json',
+      googleServicesFile: process.env.GOOGLE_SERVICES_JSON ?? process.env.GOOGLE_SERVICES_JSON_LOCAL_PATH,
     },
   };
 };

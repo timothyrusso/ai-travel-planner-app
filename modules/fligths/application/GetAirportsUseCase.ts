@@ -1,3 +1,4 @@
+import Constants from 'expo-constants';
 import ky from 'ky';
 
 export const GetAirportsUseCase = async (place: string, locale: string) => {
@@ -5,7 +6,7 @@ export const GetAirportsUseCase = async (place: string, locale: string) => {
     .get('https://sky-scrapper.p.rapidapi.com/api/v1/flights/searchAirport', {
       headers: {
         'x-rapidapi-host': 'sky-scrapper.p.rapidapi.com',
-        'x-rapidapi-key': process.env.EXPO_PUBLIC_RAPID_API_KEY,
+        'x-rapidapi-key': Constants.expoConfig?.extra?.rapidApiKey,
       },
       searchParams: { query: place, locale },
     })

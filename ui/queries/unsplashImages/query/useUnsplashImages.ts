@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
+import Constants from 'expo-constants';
 import { UnsplashImagesKeys } from '../UnsplashImagesKeys';
 
-const _unsplashAccessKey = process.env.EXPO_PUBLIC_UNSPLASH_ACCESS_KEY;
+const _unsplashAccessKey = Constants.expoConfig?.extra?.unsplashAccessKey;
 
 const noImage = require('../../../assets/images/no-image-placeholder.jpg');
 
