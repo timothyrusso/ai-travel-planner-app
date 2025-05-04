@@ -9,11 +9,11 @@ import { useTripCardLogic } from './TripCard.logic';
 import { styles } from './TripCard.style';
 
 export const TripCard = ({ item }: { item: UserTrips }) => {
-  const { image, location, onCardPress, isFavorite } = useTripCardLogic(item);
+  const { imageUrl, location, onCardPress, isFavorite } = useTripCardLogic(item);
 
   return (
     <Pressable style={({ pressed }) => [styles.container, pressed ? styles.pressed : {}]} onPress={onCardPress}>
-      <Image source={{ uri: image }} style={styles.image} />
+      <Image source={{ uri: imageUrl }} style={styles.image} />
       <View style={styles.iconContainer}>
         <CustomIcon
           name={isFavorite ? icons.heartOutline : icons.hearth}

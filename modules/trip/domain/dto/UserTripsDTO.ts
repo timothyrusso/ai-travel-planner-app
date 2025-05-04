@@ -81,6 +81,5 @@ export interface UserTripData {
   location: string;
   days: string;
   nights: string;
-  imageRef: string;
   createdAt: string;
 }

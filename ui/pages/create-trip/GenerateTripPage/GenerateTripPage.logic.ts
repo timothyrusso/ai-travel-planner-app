@@ -4,7 +4,6 @@ import { db } from '@/configs/firebaseConfig';
 import { chatSession } from '@/configs/geminiConfig';
 import { dbKeys } from '@/modules/trip/domain/entities/DbKeys';
 import { Routes } from '@/ui/constants/routes';
-import { UrlTypes, useUnsplashImages } from '@/ui/queries/unsplashImages/query/useUnsplashImages';
 import { useTripState } from '@/ui/state/trip';
 import auth from '@react-native-firebase/auth';
 import { useRouter } from 'expo-router';
@@ -19,7 +18,6 @@ export const useGenerateTripPageLogic = () => {
   const [isLoading, setIsLoading] = useState(false);
   const userEmail = auth().currentUser?.email;
   const userId = auth().currentUser?.uid;
-  const { data: imageUrl } = useUnsplashImages(tripSelectors.locationInfo().name, UrlTypes.REGULAR);
 
   const userTripData = {
     startDate: tripSelectors.datesInfo().startDate,
@@ -29,7 +27,6 @@ export const useGenerateTripPageLogic = () => {
     nights: (tripSelectors.datesInfo().totalNoOfDays - 1).toString(),
     traveler: tripSelectors.travelerInfo,
     budget: tripSelectors.budgetInfo,
-    imageUrl: imageUrl,
     isFavorite: false,
     createdAt: new Date().toISOString(),
   };

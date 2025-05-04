@@ -34,6 +34,9 @@ export const useUnsplashImages = (placeName: string, urlType: UrlTypes) => {
   const { data, isLoading, error } = useQuery({
     queryKey: [UnsplashImagesKeys.getUnsplashImages, placeName, urlType],
     queryFn: () => getUnsplashImages(placeName, urlType),
+    enabled: !!placeName,
+    staleTime: Number.POSITIVE_INFINITY,
+    gcTime: Number.POSITIVE_INFINITY,
   });
 
   return { data, isLoading, error };
