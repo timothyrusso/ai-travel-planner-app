@@ -1,8 +1,9 @@
 import type { PropsWithChildren } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
-import { SafeAreaView, StatusBar, View } from 'react-native';
+import { SafeAreaView, View } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
+import { StatusBar } from 'expo-status-bar';
 import CustomButton from '../../basic/CustomButton/CustomButton';
 import { useBasicViewLogic } from './BasicView.logic';
 
@@ -18,6 +19,7 @@ export type BasicViewProps = {
   topGradientColor?: string;
   bottomGradientColor?: string;
   isMenuVisible?: boolean;
+  statusBarStyle?: 'light' | 'dark';
 };
 
 export const BasicView = (props: PropsWithChildren<BasicViewProps>) => {
@@ -32,6 +34,7 @@ export const BasicView = (props: PropsWithChildren<BasicViewProps>) => {
     topGradientColor,
     bottomGradientColor,
     isFullScreen = false,
+    statusBarStyle = 'light',
   } = props;
 
   const { componentStyle } = useBasicViewLogic(props);
@@ -40,7 +43,7 @@ export const BasicView = (props: PropsWithChildren<BasicViewProps>) => {
 
   return (
     <Container style={[componentStyle.containerViewStyle, componentStyle.basicContainer, containerStyle]}>
-      <StatusBar translucent={true} backgroundColor={'transparent'} />
+      <StatusBar translucent={true} backgroundColor={'transparent'} style={statusBarStyle} />
       <View style={[componentStyle.containerViewStyle, viewStyle]}>
         {topGradientColor && bottomGradientColor && (
           <LinearGradient

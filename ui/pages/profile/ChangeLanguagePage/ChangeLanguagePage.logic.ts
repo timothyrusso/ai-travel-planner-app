@@ -1,5 +1,4 @@
 import { useChangeLanguage } from '@/ui/hooks/useChangeLanguage';
-import * as Localization from 'expo-localization';
 import { useEffect, useState } from 'react';
 
 export enum Languages {
@@ -8,9 +7,7 @@ export enum Languages {
 }
 
 export const useChangeLanguagePageLogic = () => {
-  const initialLanguage = Localization.getLocales()[0].languageCode ?? 'en';
-
-  const [selectedLanguage, setSelectedLanguage] = useState<Languages>(initialLanguage as Languages);
+  const [selectedLanguage, setSelectedLanguage] = useState<Languages | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const { changeLanguage, loadLanguage } = useChangeLanguage();

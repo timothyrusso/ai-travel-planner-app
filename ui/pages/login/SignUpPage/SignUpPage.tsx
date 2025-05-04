@@ -25,7 +25,7 @@ const SignUpPage = () => {
   } = useSignUpPageLogic();
 
   return (
-    <BasicView nameView={Routes.SignUp}>
+    <BasicView nameView={Routes.SignUp} statusBarStyle="dark">
       <CustomScrollView>
         <View style={styles.container}>
           <Text style={styles.subtitle}>Create a new account!</Text>

@@ -20,7 +20,7 @@ const SignInPage = () => {
     useSignInPageLogic();
 
   return (
-    <BasicView nameView={Routes.SignIn}>
+    <BasicView nameView={Routes.SignIn} statusBarStyle="dark">
       <CustomScrollView>
         <View style={styles.container}>
           <View style={styles.inputContainer}>

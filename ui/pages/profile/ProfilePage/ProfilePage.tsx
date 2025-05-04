@@ -26,13 +26,7 @@ export const ProfilePage = () => {
   } = useProfilePageLogic();
 
   return (
-    <BasicView
-      nameView={Stacks.Profile}
-      bottomButtonPress={logout}
-      bottomButtonTitle="GLOBAL.BUTTON.LOGOUT"
-      bottomButtonLoading={isLoadingLogout}
-      isMenuVisible
-    >
+    <BasicView nameView={Stacks.Profile} isMenuVisible statusBarStyle="dark">
       <CustomScrollView>
         <View style={styles.avatarContainer}>
           <View style={styles.avatar}>
@@ -63,6 +57,7 @@ export const ProfilePage = () => {
             onPress={deleteAccount}
             isLoading={isLoadingDeletingAccount}
           />
+          <CustomButton title="GLOBAL.BUTTON.LOGOUT" onPress={logout} isLoading={isLoadingLogout} />
         </View>
       </CustomScrollView>
     </BasicView>
