@@ -19,14 +19,12 @@ export default ({ config }) => {
     ios: {
       ...config.ios,
       googleServicesFile:
-        process.env.GOOGLE_SERVICES_PLIST ??
-        process.env.GOOGLE_SERVICES_PLIST_LOCAL_PATH,
+        process.env.GOOGLE_SERVICES_PLIST ?? process.env.GOOGLE_SERVICES_PLIST_LOCAL_PATH,
     },
     android: {
       ...config.android,
       googleServicesFile:
-        process.env.GOOGLE_SERVICES_JSON ??
-        process.env.GOOGLE_SERVICES_JSON_LOCAL_PATH,
+        process.env.GOOGLE_SERVICES_JSON ?? process.env.GOOGLE_SERVICES_JSON_LOCAL_PATH,
     },
   };
 };

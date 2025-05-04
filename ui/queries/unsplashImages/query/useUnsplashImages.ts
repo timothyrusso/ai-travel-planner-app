@@ -15,7 +15,7 @@ export enum UrlTypes {
 const getUnsplashImages = async (placeName: string, urlType: UrlTypes) => {
   try {
     const response = await fetch(
-      `https://api.unsplash.com/search/photos?page=1&query=${placeName}&client_id=${_unsplashAccessKey}`
+      `https://api.unsplash.com/search/photos?page=1&query=${placeName}&client_id=${_unsplashAccessKey}`,
     );
     const data = await response.json();
 
