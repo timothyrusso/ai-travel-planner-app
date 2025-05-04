@@ -32,15 +32,6 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
     npm run start
    ```
 
-## Build the app locally for testing purpose
-
-```bash
- npx eas-cli build --local --platform=android --profile=test
-```
-
-- For the _profile_ flag see the available profiles in **eas.json** file
-- _platform_ could be **android** or **ios**
-
 ## Setup Instructions
 
 To run this project, you'll need to:
