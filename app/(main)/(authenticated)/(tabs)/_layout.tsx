@@ -4,6 +4,7 @@ import { Routes, Stacks } from '@/ui/constants/routes';
 import { colors } from '@/ui/constants/style/colors';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { icons } from '@/ui/constants/style/icons';
+import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { TabList, TabSlot, TabTrigger, Tabs } from 'expo-router/ui';
 import { StyleSheet } from 'react-native';
@@ -12,6 +13,7 @@ const TabLayout = () => {
   const router = useRouter();
   const searchRoute = `/${Stacks.CreateTrip}/${Routes.Search}`;
   const handlePress = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     router.push(searchRoute);
   };
 

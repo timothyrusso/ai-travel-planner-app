@@ -11,7 +11,7 @@ const MyTripsPage = () => {
   const { lastCreatedTrip, isLoading, image, location, days, budget, travelers, tripItem } = useMyTripsPageLogic();
 
   return (
-    <BasicView nameView={Routes.MyTrips} isFullScreen isMenuVisible>
+    <BasicView nameView={Routes.MyTrips} isFullScreen isMenuVisible statusBarStyle="light">
       {isLoading ? (
         <ActivityIndicator size="large" color={colors.primary} />
       ) : lastCreatedTrip ? (

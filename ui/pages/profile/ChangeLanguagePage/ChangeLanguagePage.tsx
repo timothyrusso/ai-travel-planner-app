@@ -9,7 +9,7 @@ export const ChangeLanguagePage = () => {
   const { changeLanguageHandler, selectedLanguage, isLoading } = useChangeLanguagePageLogic();
 
   return (
-    <BasicView nameView={Routes.ChangeLanguage}>
+    <BasicView nameView={Routes.ChangeLanguage} statusBarStyle="dark">
       {isLoading ? (
         <ActivityIndicator size="large" color={colors.primary} />
       ) : (

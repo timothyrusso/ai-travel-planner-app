@@ -9,7 +9,7 @@ export const ShowAllTripsPage = () => {
   const { userTrips, isLoading } = useShowAllTripsPageLogic();
 
   return (
-    <BasicView nameView={Routes.ShowAllTrips}>
+    <BasicView nameView={Routes.ShowAllTrips} statusBarStyle="dark">
       {isLoading ? (
         <ActivityIndicator size="large" color={colors.primary} />
       ) : (
