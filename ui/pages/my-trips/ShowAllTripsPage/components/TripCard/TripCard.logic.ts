@@ -1,11 +1,14 @@
 import type { UserTrips } from '@/modules/trip/domain/dto/UserTripsDTO';
 import { Routes, Stacks } from '@/ui/constants/routes';
+import { UrlTypes, useUnsplashImages } from '@/ui/queries/unsplashImages/query/useUnsplashImages';
 import { useRouter } from 'expo-router';
 
 export const useTripCardLogic = (item: UserTrips) => {
   const router = useRouter();
 
-  const image = item.userTripData ? JSON.parse(item.userTripData).imageUrl : undefined;
+  const placeName = item.userTripData ? JSON.parse(item.userTripData).location.split(',')[0] : undefined;
+
+  const { data: imageUrl } = useUnsplashImages(placeName, UrlTypes.REGULAR);
 
   const location = item.userTripData ? JSON.parse(item.userTripData).location.split(',')[0] : undefined;
 
@@ -14,7 +17,7 @@ export const useTripCardLogic = (item: UserTrips) => {
   const itemParams = {
     ...item.tripAiResp,
     ..._userTripData,
-    image: item.userTripData ? JSON.parse(item.userTripData).imageUrl : undefined,
+    image: imageUrl,
     id: item.docId,
     isFavorite: item.isFavorite,
   };
@@ -28,5 +31,5 @@ export const useTripCardLogic = (item: UserTrips) => {
 
   const isFavorite = item.isFavorite;
 
-  return { image, location, onCardPress, isFavorite };
+  return { imageUrl, location, onCardPress, isFavorite };
 };
