@@ -7,7 +7,7 @@ export enum Languages {
 }
 
 export const useChangeLanguagePageLogic = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState<Languages | null>(null);
+  const [selectedLanguage, setSelectedLanguage] = useState<Languages>(Languages.EN);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const { changeLanguage, loadLanguage } = useChangeLanguage();

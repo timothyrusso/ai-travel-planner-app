@@ -42,7 +42,11 @@ const SignInPage = () => {
                 onChangeText={(text: string) => setPassword(text)}
                 value={password}
               />
-              <CustomTextButton title="SIGNIN.RESET_PASSWORD" onPress={handleResetPasswordModal} />
+              <CustomTextButton
+                title="SIGNIN.RESET_PASSWORD"
+                onPress={handleResetPasswordModal}
+                textStyle={styles.resetPasswordButton}
+              />
             </View>
           </View>
           <View style={styles.buttonContainer}>

@@ -1,26 +1,15 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import type { ScrollView } from 'react-native';
-import { KeyboardEvents } from 'react-native-keyboard-controller';
-import { useAnimatedStyle } from 'react-native-reanimated';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { useGradualKeyboardAnimation } from '@/ui/hooks/useGradualKeyboardAnimation';
+import { useAnimatedStyle } from 'react-native-reanimated';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export const useCustomScrollViewLogic = (resetScroll = false) => {
   const { height } = useGradualKeyboardAnimation();
   const { bottom } = useSafeAreaInsets();
 
   const scrollViewRef = useRef<ScrollView | null>(null);
-
-  useEffect(() => {
-    const show = KeyboardEvents.addListener('keyboardDidShow', () => {
-      scrollViewRef.current?.scrollToEnd({ animated: true });
-    });
-
-    return () => {
-      show.remove();
-    };
-  }, []);
 
   const scrollToTop = () => {
     if (resetScroll && scrollViewRef.current) {

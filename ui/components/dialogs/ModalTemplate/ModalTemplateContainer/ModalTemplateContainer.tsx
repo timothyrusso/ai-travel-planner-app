@@ -5,8 +5,12 @@ import { Animated } from 'react-native';
 import { useModalTemplateContainerLogic } from './ModalTemplateContainer.logic';
 import { styles } from './ModalTemplateContainer.style';
 
-const ModalContainer: FC<PropsWithChildren<ViewProps>> = ({ children, ...props }) => {
-  const { containerStyle } = useModalTemplateContainerLogic();
+type ModalContainerProps = PropsWithChildren<ViewProps> & {
+  maxHeight?: number;
+};
+
+const ModalContainer: FC<ModalContainerProps> = ({ children, maxHeight, ...props }) => {
+  const { containerStyle } = useModalTemplateContainerLogic(maxHeight);
 
   return (
     <Animated.View style={[styles.container, containerStyle]} {...props}>

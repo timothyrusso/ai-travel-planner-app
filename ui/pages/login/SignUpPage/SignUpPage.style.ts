@@ -1,6 +1,7 @@
+import { PlatformOS } from '@/ui/constants/PlatformOS';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { fonts } from '@/ui/constants/style/fonts';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   title: {
@@ -18,7 +19,7 @@ export const styles = StyleSheet.create({
     marginBottom: spacing.Single,
   },
   inputContainer: {
-    paddingTop: spacing.Triple,
+    ...(Platform.OS === PlatformOS.ios && { paddingTop: spacing.Triple }),
     width: '100%',
     paddingHorizontal: spacing.Fourfold,
   },
@@ -31,13 +32,9 @@ export const styles = StyleSheet.create({
   subtitle: {
     fontFamily: fonts.interRegular,
     fontSize: spacing.Triple,
-    marginTop: spacing.Double,
     paddingHorizontal: spacing.Fourfold,
     alignSelf: 'flex-start',
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    ...(Platform.OS === PlatformOS.ios && { marginTop: spacing.Double }),
   },
   container: {
     width: '100%',
