@@ -8,16 +8,16 @@ import { SCREEN_HEIGHT } from '@/ui/constants/style/dimensions/spacing';
 import useKeyboardEffect from '@/ui/hooks/useKeyboardEffect';
 import { DefaultAnimationDurationMs } from '../../animations';
 
-export const useModalTemplateContainerLogic = () => {
+export const useModalTemplateContainerLogic = (maxHeight?: number) => {
   const { paddingHeight, keyboardHeight, isKeyboardVisible } = useKeyboardEffect(true);
   const { top, bottom } = useSafeAreaInsets();
 
-  const baseMaxHeight = SCREEN_HEIGHT - top;
+  const baseMaxHeight = Platform.OS === PlatformOS.android ? (maxHeight ?? SCREEN_HEIGHT - top) : SCREEN_HEIGHT - top;
   const animatedMaxHeight = useRef(new Animated.Value(baseMaxHeight)).current;
 
   useEffect(() => {
     const maxHeight = match({ isKeyboardVisible, os: Platform.OS })
-      .with({ os: PlatformOS.android, isKeyboardVisible: true }, () => baseMaxHeight - keyboardHeight)
+      .with({ os: PlatformOS.android, isKeyboardVisible: true }, () => baseMaxHeight + keyboardHeight)
       .otherwise(() => baseMaxHeight);
 
     Animated.timing(animatedMaxHeight, {
@@ -28,7 +28,8 @@ export const useModalTemplateContainerLogic = () => {
   }, [isKeyboardVisible, keyboardHeight]);
 
   const containerStyle = {
-    maxHeight: animatedMaxHeight,
+    ...(Platform.OS === PlatformOS.android && { height: animatedMaxHeight }),
+    ...(Platform.OS === PlatformOS.ios && { maxHeight: animatedMaxHeight }),
     paddingBottom: isKeyboardVisible ? paddingHeight : bottom,
   };
 

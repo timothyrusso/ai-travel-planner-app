@@ -1,6 +1,7 @@
+import { PlatformOS } from '@/ui/constants/PlatformOS';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { fonts } from '@/ui/constants/style/fonts';
-import { StyleSheet } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   title: {
@@ -17,9 +18,9 @@ export const styles = StyleSheet.create({
     marginBottom: spacing.Single,
   },
   inputContainer: {
-    paddingTop: spacing.Triple,
     width: '100%',
     paddingHorizontal: spacing.Fourfold,
+    ...(Platform.OS === PlatformOS.ios && { paddingTop: spacing.Triple }),
   },
   buttonContainer: {
     paddingTop: spacing.separator40,
@@ -27,12 +28,11 @@ export const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: spacing.Fourfold,
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
   container: {
     flex: 1,
     width: '100%',
+  },
+  resetPasswordButton: {
+    fontFamily: fonts.interBold,
   },
 });

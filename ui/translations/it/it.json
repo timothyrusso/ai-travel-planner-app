@@ -89,7 +89,9 @@
     "MODERATE": "Moderato",
     "MODERATE_DESCRIPTION": "Opzioni bilanciate",
     "EXPENSIVE": "Costoso",
-    "EXPENSIVE_DESCRIPTION": "Opzioni di alta gamma"
+    "EXPENSIVE_DESCRIPTION": "Opzioni di alta gamma",
+    "LUXURY": "Lusso",
+    "LUXURY_DESCRIPTION": "Opzioni di fascia alta"
   },
   "REVIEW_TRIP": {
     "TITLE": "Rivedi il viaggio",

@@ -8,4 +8,5 @@ export const components = {
   modalFooterHeight: 90,
   tripCardImageHeight: 200,
   profileImageHeight: 150,
+  resetPasswordModalHeight: 284,
 };

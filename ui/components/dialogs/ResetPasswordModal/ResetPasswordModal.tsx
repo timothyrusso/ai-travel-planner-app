@@ -1,3 +1,4 @@
+import { components } from '@/ui/constants/style/dimensions/components';
 import ModalTemplate from '../ModalTemplate/ModalTemplate';
 import { useResetPasswordModalLogic } from './ResetPasswordModal.logic';
 import { ResetPasswordModalBody } from './components/ResetPasswordModalBody/ResetPasswordModalBody';
@@ -7,7 +8,7 @@ export const ResetPasswordModal = () => {
 
   return (
     <ModalTemplate isVisible={isVisible}>
-      <ModalTemplate.Container>
+      <ModalTemplate.Container maxHeight={components.resetPasswordModalHeight}>
         <ModalTemplate.Header title={'SIGNIN.RESET_PASSWORD_TITLE'} action={closeModal} />
         <ModalTemplate.Content>
           <ModalTemplate.Body>
