@@ -10,7 +10,8 @@ import { useSelectDatesPageLogic } from './SelectDatesPage.logic';
 import { style } from './SelectDatesPage.style';
 
 const SelectDatesPage = () => {
-  const { handleButtonPress, todayInLocalTimezone, handleDateChange, startDate } = useSelectDatesPageLogic();
+  const { handleButtonPress, todayInLocalTimezone, handleDateChange, startDate, numberOfDays } =
+    useSelectDatesPageLogic();
 
   return (
     <BasicView nameView={Routes.SelectDates}>
@@ -24,6 +25,7 @@ const SelectDatesPage = () => {
           selectedDayTextStyle={style.calendarDayText}
           width={spacing.calendarWidth}
           onDateChange={handleDateChange}
+          selectedRangeStartStyle={numberOfDays !== 1 ? style.rangeSelection : null}
         />
       </View>
       <View style={style.buttonContainer}>

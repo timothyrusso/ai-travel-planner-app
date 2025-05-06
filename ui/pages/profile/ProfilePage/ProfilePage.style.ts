@@ -65,4 +65,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
+  contentContainer: {
+    paddingBottom: spacing.separator80,
+  },
 });

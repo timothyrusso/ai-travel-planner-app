@@ -27,7 +27,7 @@ export const ProfilePage = () => {
 
   return (
     <BasicView nameView={Stacks.Profile} isMenuVisible statusBarStyle="dark">
-      <CustomScrollView>
+      <CustomScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.avatarContainer}>
           <View style={styles.avatar}>
             <SvgXml xml={avatar} width={components.profileImageHeight} height={components.profileImageHeight} />
