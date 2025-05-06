@@ -43,7 +43,6 @@ export const useProfilePageLogic = () => {
   };
 
   const avatar = createAvatar(miniavs, {
-    seed: 'Kitty',
     radius: components.profileImageHeight / 2,
   }).toString();
 

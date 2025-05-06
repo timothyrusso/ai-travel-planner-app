@@ -34,4 +34,7 @@ export const style = StyleSheet.create({
     alignSelf: 'flex-start',
     paddingHorizontal: spacing.Fourfold,
   },
+  rangeSelection: {
+    borderRadius: spacing.Quintuple,
+  },
 });

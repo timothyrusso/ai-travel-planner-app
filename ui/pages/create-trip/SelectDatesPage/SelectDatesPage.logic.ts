@@ -43,5 +43,6 @@ export const useSelectDatesPageLogic = () => {
     handleButtonPress,
     todayInLocalTimezone,
     startDate,
+    numberOfDays: calculateDifferenceInDays(),
   };
 };

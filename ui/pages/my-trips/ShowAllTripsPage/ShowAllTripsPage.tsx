@@ -5,6 +5,7 @@ import { ActivityIndicator, FlatList } from 'react-native';
 import { useShowAllTripsPageLogic } from './ShowAllTripsPage.logic';
 import { styles } from './ShowAllTripsPage.style';
 import { TripCard } from './components/TripCard/TripCard';
+
 export const ShowAllTripsPage = () => {
   const { userTrips, isLoading } = useShowAllTripsPageLogic();
 
@@ -20,6 +21,8 @@ export const ShowAllTripsPage = () => {
           numColumns={2}
           columnWrapperStyle={styles.columnWrapper}
           style={styles.container}
+          contentContainerStyle={styles.contentContainer}
+          showsVerticalScrollIndicator={false}
         />
       )}
     </BasicView>
