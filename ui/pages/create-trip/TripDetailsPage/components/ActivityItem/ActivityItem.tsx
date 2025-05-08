@@ -1,16 +1,17 @@
 import type { ScheduleItem } from '@/modules/trip/domain/dto/UserTripsDTO';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import { colors } from '@/ui/constants/style/colors';
-import type { FC } from 'react';
+import { type FC, Fragment } from 'react';
 import { ActivityIndicator, Image, View } from 'react-native';
 import { useActivityItemLogic } from './ActivityItem.logic';
 import { styles } from './ActivityItem.style';
 
 type ActivityItemProps = {
   scheduleItem: ScheduleItem;
+  day: number;
 };
-export const ActivityItem: FC<ActivityItemProps> = ({ scheduleItem }) => {
-  const { image, isLoading } = useActivityItemLogic(scheduleItem);
+export const ActivityItem: FC<ActivityItemProps> = ({ scheduleItem, day }) => {
+  const { image, isLoading, t } = useActivityItemLogic(scheduleItem);
 
   return (
     <View style={styles.container}>
@@ -19,7 +20,10 @@ export const ActivityItem: FC<ActivityItemProps> = ({ scheduleItem }) => {
           <ActivityIndicator size="large" color={colors.primaryBlack} />
         </View>
       ) : (
-        <Image source={typeof image === 'string' ? { uri: image } : image} style={styles.image} />
+        <Fragment>
+          <Image source={typeof image === 'string' ? { uri: image } : image} style={styles.image} />
+          <CustomText text={`${t('MY_TRIP.DAY')} ${day}`} style={styles.day} />
+        </Fragment>
       )}
 
       <View style={styles.content}>

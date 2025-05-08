@@ -1,4 +1,3 @@
-import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import { BasicView } from '@/ui/components/view/BasicView/BasicView';
 import { Routes } from '@/ui/constants/routes';
@@ -14,7 +13,14 @@ const SelectDatesPage = () => {
     useSelectDatesPageLogic();
 
   return (
-    <BasicView nameView={Routes.SelectDates}>
+    <BasicView
+      nameView={Routes.SelectDates}
+      statusBarStyle="dark"
+      bottomButtonTitle="SELECT_BUDGET.TITLE"
+      bottomButtonPress={handleButtonPress}
+      bottomButtonDisabled={!startDate}
+      viewStyle={style.container}
+    >
       <CustomText text="SELECT_DATES.DESCRIPTION" style={style.subtitle} />
       <View style={style.calendar}>
         <CalendarPicker
@@ -26,14 +32,6 @@ const SelectDatesPage = () => {
           width={spacing.calendarWidth}
           onDateChange={handleDateChange}
           selectedRangeStartStyle={numberOfDays !== 1 ? style.rangeSelection : null}
-        />
-      </View>
-      <View style={style.buttonContainer}>
-        <CustomButton
-          title="SELECT_BUDGET.TITLE"
-          onPress={handleButtonPress}
-          style={style.button}
-          isDisabled={!startDate}
         />
       </View>
     </BasicView>

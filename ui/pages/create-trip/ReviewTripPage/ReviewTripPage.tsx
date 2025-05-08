@@ -1,4 +1,3 @@
-import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import CardWithImage from '@/ui/components/composite/CardWithImage/CardWithImage';
 import { BasicView } from '@/ui/components/view/BasicView/BasicView';
@@ -16,7 +15,12 @@ const ReviewTripPage = () => {
     item.value !== null ? <CardWithImage title={item.title} description={item.value} icon={item.icon} /> : null;
 
   return (
-    <BasicView nameView={Routes.ReviewTrip}>
+    <BasicView
+      nameView={Routes.ReviewTrip}
+      statusBarStyle="dark"
+      bottomButtonTitle="REVIEW_TRIP.BUILD_TRIP"
+      bottomButtonPress={handleButtonPress}
+    >
       <CustomText text="REVIEW_TRIP.DESCRIPTION" style={style.subtitle} />
       <FlatList
         data={tripData}
@@ -25,9 +29,6 @@ const ReviewTripPage = () => {
         renderItem={item}
         style={style.list}
       />
-      <View style={style.buttonContainer}>
-        <CustomButton title="REVIEW_TRIP.BUILD_TRIP" onPress={handleButtonPress} style={style.button} />
-      </View>
     </BasicView>
   );
 };

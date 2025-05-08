@@ -40,10 +40,4 @@ export const styles = StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
   },
-  button: {
-    width: '60%',
-    position: 'absolute',
-    bottom: 0,
-    marginBottom: spacing.Double,
-  },
 });

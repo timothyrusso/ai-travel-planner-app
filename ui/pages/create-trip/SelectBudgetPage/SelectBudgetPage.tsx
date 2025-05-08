@@ -1,5 +1,4 @@
 import type { BudgetInfo } from '@/modules/trip/domain/entities/BudgetInfo';
-import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import { BasicView } from '@/ui/components/view/BasicView/BasicView';
 import { Routes } from '@/ui/constants/routes';
@@ -27,7 +26,12 @@ const SelectBudgetPage = () => {
     ) : null;
 
   return (
-    <BasicView nameView={Routes.SelectBudget}>
+    <BasicView
+      nameView={Routes.SelectBudget}
+      statusBarStyle="dark"
+      bottomButtonTitle="REVIEW_TRIP.TITLE"
+      bottomButtonPress={handleButtonPress}
+    >
       <CustomText text="SELECT_BUDGET.DESCRIPTION" style={style.subtitle} />
       <FlatList
         data={BudgetData}
@@ -36,9 +40,6 @@ const SelectBudgetPage = () => {
         renderItem={item}
         style={style.list}
       />
-      <View style={style.buttonContainer}>
-        <CustomButton title="SELECT_DATES.TITLE" onPress={handleButtonPress} style={style.button} />
-      </View>
     </BasicView>
   );
 };

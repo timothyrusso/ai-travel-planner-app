@@ -4,16 +4,9 @@ import { fonts } from '@/ui/constants/style/fonts';
 import { StyleSheet } from 'react-native';
 
 export const style = StyleSheet.create({
-  button: {
-    width: '60%',
-    position: 'absolute',
-    bottom: 0,
-    marginBottom: spacing.Double,
-  },
-  buttonContainer: {
+  container: {
     flex: 1,
-    alignItems: 'center',
-    marginTop: spacing.separator80,
+    justifyContent: 'flex-start',
   },
   calendar: {
     borderWidth: spacing.Minimal,
@@ -35,6 +28,9 @@ export const style = StyleSheet.create({
     paddingHorizontal: spacing.Fourfold,
   },
   rangeSelection: {
-    borderRadius: spacing.Quintuple,
+    borderTopLeftRadius: spacing.separator40,
+    borderTopRightRadius: spacing.separator40,
+    borderBottomLeftRadius: spacing.separator40,
+    borderBottomRightRadius: spacing.separator40,
   },
 });
