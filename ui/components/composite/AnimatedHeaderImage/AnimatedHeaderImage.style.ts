@@ -1,5 +1,7 @@
+import { colors } from '@/ui/constants/style/colors';
 import { images } from '@/ui/constants/style/dimensions/images';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
+import { fonts } from '@/ui/constants/style/fonts';
 import type { Animated } from 'react-native';
 import { StyleSheet } from 'react-native';
 
@@ -13,17 +15,6 @@ export const style = (
       height: images.fullScreenImageHeight,
       flex: 1,
     },
-    chipContainer: {
-      flexDirection: 'row',
-      flexWrap: 'wrap',
-      rowGap: 4,
-      gap: 4,
-      marginHorizontal: spacing.Fourfold,
-      width: '100%',
-      position: 'absolute',
-      bottom: spacing.Fourfold,
-      opacity: animatedOpacity,
-    },
     header: {
       width: '100%',
       height: animatedHeaderHeight,
@@ -32,4 +23,20 @@ export const style = (
       zIndex: 3,
     },
     iconsContainer: { zIndex: 2, width: '100%', position: 'absolute' },
+    titleContainer: {
+      position: 'absolute',
+      bottom: spacing.Quintuple,
+      left: spacing.Quintuple,
+      zIndex: 1,
+      paddingVertical: spacing.Single,
+      paddingHorizontal: spacing.Triple,
+      backgroundColor: colors.primaryWhite,
+      borderRadius: spacing.Fourfold,
+      opacity: animatedOpacity,
+    },
+    title: {
+      color: colors.primaryBlack,
+      fontSize: spacing.TripleAndHalf,
+      fontFamily: fonts.interBold,
+    },
   });

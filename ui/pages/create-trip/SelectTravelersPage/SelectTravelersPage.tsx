@@ -1,5 +1,4 @@
 import type { TravelerInfo } from '@/modules/trip/domain/entities/TravelerInfo';
-import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import { BasicView } from '@/ui/components/view/BasicView/BasicView';
 import { Routes } from '@/ui/constants/routes';
@@ -26,7 +25,12 @@ const SelectTravelersPage = () => {
     ) : null;
 
   return (
-    <BasicView nameView={Routes.SelectTraveler}>
+    <BasicView
+      nameView={Routes.SelectTraveler}
+      statusBarStyle="dark"
+      bottomButtonTitle="SELECT_DATES.TITLE"
+      bottomButtonPress={handleButtonPress}
+    >
       <CustomText text="SELECT_TRAVELERS.DESCRIPTION" style={style.subtitle} />
       <FlatList
         data={TravelerData}
@@ -35,9 +39,6 @@ const SelectTravelersPage = () => {
         renderItem={item}
         style={style.list}
       />
-      <View style={style.buttonContainer}>
-        <CustomButton title="SELECT_DATES.TITLE" onPress={handleButtonPress} style={style.button} />
-      </View>
     </BasicView>
   );
 };

@@ -13,7 +13,7 @@ const GenerateTripPage = () => {
   console.log(generateAiTrip);
 
   return (
-    <BasicView nameView={Routes.GenerateTrip}>
+    <BasicView nameView={Routes.GenerateTrip} statusBarStyle="dark">
       <CustomText text="GENERATE_TRIP.DESCRIPTION" style={style.subtitle} />
       <LottieAnimation animationPath={animation} style={style.animation} />
     </BasicView>

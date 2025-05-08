@@ -1,4 +1,3 @@
-import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import LottieAnimation from '@/ui/components/basic/LottieAnimation/LottieAnimation';
 import PlacesAutocomplete from '@/ui/components/composite/PlacesAutocomplete/PlacesAutocomplete';
@@ -12,7 +11,13 @@ const SearchPlacePage = () => {
   const { handleSearchPress, animation, handleParticipantsPress, isButtonDisabled } = useSearchPageLogic();
 
   return (
-    <BasicView nameView={Routes.Search}>
+    <BasicView
+      nameView={Routes.Search}
+      statusBarStyle="dark"
+      bottomButtonTitle="SELECT_TRAVELERS.TITLE"
+      bottomButtonPress={handleParticipantsPress}
+      bottomButtonDisabled={isButtonDisabled}
+    >
       <CustomText text="SEARCH_PLACE_PAGE.DESCRIPTION" style={styles.subtitle} />
       <View style={styles.searchContainer}>
         <View style={styles.autoCompleteContainer}>
@@ -20,14 +25,6 @@ const SearchPlacePage = () => {
         </View>
         <View style={styles.animationContainer}>
           <LottieAnimation style={styles.animation} animationPath={animation} loop={false} />
-        </View>
-        <View style={{ alignItems: 'center', height: 100 }}>
-          <CustomButton
-            title="SELECT_TRAVELERS.TITLE"
-            style={styles.button}
-            onPress={handleParticipantsPress}
-            isDisabled={isButtonDisabled}
-          />
         </View>
       </View>
     </BasicView>

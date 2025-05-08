@@ -9,10 +9,10 @@ export const styles = (paddingTop: number, paddingBottom: number) =>
     },
     buttonContainer: {
       width: '100%',
+      position: 'absolute',
       alignItems: 'center',
-      marginTop: spacing.Triple,
       paddingHorizontal: spacing.Fourfold,
-      marginBottom: spacing.Quintuple,
+      bottom: spacing.Quintuple,
     },
     gradient: {
       position: 'absolute',

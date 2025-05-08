@@ -47,4 +47,18 @@ export const styles = StyleSheet.create({
     fontSize: spacing.Triple,
     fontFamily: fonts.interBold,
   },
+  day: {
+    position: 'absolute',
+    top: spacing.Double,
+    right: spacing.Double,
+    padding: spacing.Single,
+    backgroundColor: colors.primary,
+    color: colors.primaryWhite,
+    fontSize: spacing.Double,
+    fontFamily: fonts.interBold,
+    borderRadius: spacing.Fourfold,
+    textAlign: 'center',
+    alignSelf: 'center',
+    overflow: 'hidden',
+  },
 });

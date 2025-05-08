@@ -8,7 +8,8 @@
     "SHOW_ALL_TRIPS": "Show all trips",
     "TRIP_DETAILS": "Trip Details",
     "BUDGET_NOT_AVAILABLE": "Budget not available",
-    "DAYS": "Days"
+    "DAYS": "Days",
+    "DAY": "DAY"
   },
   "PROFILE": {
     "TITLE": "Profile",

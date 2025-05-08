@@ -6,13 +6,6 @@ import { fonts } from '@/ui/constants/style/fonts';
 import { Platform, StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
-  title: {
-    marginVertical: spacing.Triple,
-    fontSize: spacing.Fourfold,
-    fontFamily: fonts.interBold,
-    paddingHorizontal: spacing.Fourfold,
-    textAlign: 'center',
-  },
   subTitle: {
     fontSize: spacing.Double,
     fontFamily: fonts.interMedium,
@@ -30,18 +23,6 @@ export const styles = StyleSheet.create({
   },
   separator: {
     height: spacing.Triple,
-  },
-  sectionTitle: {
-    marginVertical: spacing.Triple,
-    padding: spacing.Double,
-    backgroundColor: colors.primaryPink,
-    fontSize: spacing.Triple,
-    fontFamily: fonts.interBold,
-    borderRadius: spacing.Fourfold,
-    width: spacing.separator80,
-    textAlign: 'center',
-    alignSelf: 'center',
-    overflow: 'hidden',
   },
   sectionList: {
     paddingTop: images.fullScreenImageHeight,

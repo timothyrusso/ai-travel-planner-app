@@ -10,16 +10,6 @@ export const style = StyleSheet.create({
     alignSelf: 'flex-start',
     paddingHorizontal: spacing.Fourfold,
   },
-  button: {
-    width: '60%',
-    position: 'absolute',
-    bottom: 0,
-    marginBottom: spacing.Double,
-  },
-  buttonContainer: {
-    flex: 1,
-    alignItems: 'center',
-  },
   separator: {
     height: spacing.TripleAndHalf,
   },
