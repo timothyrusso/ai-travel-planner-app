@@ -75,6 +75,8 @@ jobs:
           GOOGLE_GEMINI_API_KEY: ${{ secrets.GOOGLE_GEMINI_API_KEY }}
           RAPID_API_KEY: ${{ secrets.RAPID_API_KEY }}
           UNSPLASH_ACCESS_KEY: ${{ secrets.UNSPLASH_ACCESS_KEY }}
+          GOOGLE_MAPS_API_KEY_IOS: ${{ secrets.GOOGLE_MAPS_API_KEY_IOS }}
+          GOOGLE_MAPS_API_KEY_ANDROID: ${{ secrets.GOOGLE_MAPS_API_KEY_ANDROID }}
         run: |
           # Create google-services.json from base64
           mkdir -p /home/runner/work/ai-travel-planner-app/ai-travel-planner-app/android/app

@@ -3,15 +3,19 @@ import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import { colors } from '@/ui/constants/style/colors';
 import { type FC, Fragment } from 'react';
 import { ActivityIndicator, Image, View } from 'react-native';
+import { NumberedMarker } from '../NumberedMarker/NumberedMarker';
 import { useActivityItemLogic } from './ActivityItem.logic';
 import { styles } from './ActivityItem.style';
 
 type ActivityItemProps = {
   scheduleItem: ScheduleItem;
   day: number;
+  location: string;
+  index: number;
 };
-export const ActivityItem: FC<ActivityItemProps> = ({ scheduleItem, day }) => {
-  const { image, isLoading, t } = useActivityItemLogic(scheduleItem);
+
+export const ActivityItem: FC<ActivityItemProps> = ({ scheduleItem, day, location, index }) => {
+  const { image, isLoading, t } = useActivityItemLogic(scheduleItem, location);
 
   return (
     <View style={styles.container}>
@@ -23,6 +27,7 @@ export const ActivityItem: FC<ActivityItemProps> = ({ scheduleItem, day }) => {
         <Fragment>
           <Image source={typeof image === 'string' ? { uri: image } : image} style={styles.image} />
           <CustomText text={`${t('MY_TRIP.DAY')} ${day}`} style={styles.day} />
+          <NumberedMarker number={index + 1} style={styles.marker} />
         </Fragment>
       )}
 

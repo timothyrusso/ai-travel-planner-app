@@ -1,7 +1,8 @@
 // FIXME: react-native-get-random-values must be imported before nanoid
 import { ai_prompt } from '@/ai/prompt';
+import { chatSession } from '@/configs/ai/geminiConfig';
 import { db } from '@/configs/firebaseConfig';
-import { chatSession } from '@/configs/geminiConfig';
+
 import { dbKeys } from '@/modules/trip/domain/entities/DbKeys';
 import { Routes } from '@/ui/constants/routes';
 import { useTripState } from '@/ui/state/trip';

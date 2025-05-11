@@ -19,9 +19,15 @@ export default ({ config }) => {
     ios: {
       ...config.ios,
       googleServicesFile: process.env.GOOGLE_SERVICES_PLIST ?? process.env.GOOGLE_SERVICES_PLIST_LOCAL_PATH,
+      googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY_IOS,
     },
     android: {
       ...config.android,
+      config: {
+        googleMaps: {
+          apiKey: process.env.GOOGLE_MAPS_API_KEY_ANDROID,
+        },
+      },
       googleServicesFile: process.env.GOOGLE_SERVICES_JSON ?? process.env.GOOGLE_SERVICES_JSON_LOCAL_PATH,
     },
   };
