@@ -9,4 +9,5 @@ export const components = {
   tripCardImageHeight: 200,
   profileImageHeight: 150,
   resetPasswordModalHeight: 284,
+  mapHeight: 300,
 };
