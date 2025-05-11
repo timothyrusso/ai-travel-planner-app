@@ -108,6 +108,9 @@
   "SHOW_ALL_TRIPS": {
     "TITLE": "All Trips"
   },
+  "TRIP_DETAILS": {
+    "OPEN_IN_MAPS": "Open in Maps"
+  },
   "GLOBAL": {
     "NO_IMAGE": "No image available",
     "VIEW_ALL": "View All",

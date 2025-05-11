@@ -10,4 +10,5 @@ export const components = {
   profileImageHeight: 150,
   resetPasswordModalHeight: 284,
   mapHeight: 300,
+  mapCalloutWidth: 200,
 };

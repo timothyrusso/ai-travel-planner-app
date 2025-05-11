@@ -110,6 +110,9 @@
   "SHOW_ALL_TRIPS": {
     "TITLE": "Tutti i viaggi"
   },
+  "TRIP_DETAILS": {
+    "OPEN_IN_MAPS": "Apri in Maps"
+  },
   "GLOBAL": {
     "NO_IMAGE": "Nessun immagine disponibile",
     "VIEW_ALL": "Vedi tutti",
