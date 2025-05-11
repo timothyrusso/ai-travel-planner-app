@@ -61,4 +61,9 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     overflow: 'hidden',
   },
+  marker: {
+    position: 'absolute',
+    top: spacing.Double,
+    left: spacing.Double,
+  },
 });

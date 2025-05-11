@@ -11,11 +11,11 @@ import { MapListHeaderComponent } from './components/MapListHeaderComponent/MapL
 
 const separator = () => <View style={styles.separator} />;
 
-const renderItem = ({ item }: { item: DayPlan }) => <DayItem dayPlan={item} />;
-
 export const TripDetailsPage = () => {
   const { _tripData, title, allCoordinates, scrollOffsetY, handleScroll, region, sectionData } =
     useTripDetailsPageLogic();
+
+  const renderItem = ({ item }: { item: DayPlan }) => <DayItem dayPlan={item} location={title} />;
 
   return (
     <Fragment>
