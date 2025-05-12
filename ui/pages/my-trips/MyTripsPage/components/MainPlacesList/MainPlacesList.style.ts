@@ -6,6 +6,6 @@ export const styles = StyleSheet.create({
     flex: 1,
     position: 'absolute',
     top: spacing.Sextuple + spacing.Triple,
-    right: spacing.Single,
+    right: spacing.Double,
   },
 });

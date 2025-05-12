@@ -14,4 +14,8 @@ export const styles = StyleSheet.create({
   detailsBox: {
     marginBottom: spacing.separator80 + spacing.Double,
   },
+  skeleton: {
+    width: '100%',
+    flex: 1,
+  },
 });

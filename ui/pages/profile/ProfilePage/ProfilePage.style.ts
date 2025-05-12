@@ -68,4 +68,12 @@ export const styles = StyleSheet.create({
   contentContainer: {
     paddingBottom: spacing.separator80,
   },
+  skeletonContainer: {
+    marginHorizontal: spacing.Fourfold,
+  },
+  skeleton: {
+    width: '100%',
+    height: spacing.separator80,
+    borderRadius: spacing.Fourfold,
+  },
 });

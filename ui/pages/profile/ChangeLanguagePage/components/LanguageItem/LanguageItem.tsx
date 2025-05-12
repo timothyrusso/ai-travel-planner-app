@@ -1,3 +1,4 @@
+import { BaseSkeleton } from '@/ui/components/basic/BaseSkeleton/BaseSkeleton';
 import { CustomIcon } from '@/ui/components/basic/CustomIcon/CustomIcon';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import { icons } from '@/ui/constants/style/icons';
@@ -9,10 +10,13 @@ type LanguageItemProps = {
   language: string;
   onPress: () => void;
   isSelected: boolean;
+  isLoading: boolean;
 };
 
-export const LanguageItem: FC<LanguageItemProps> = ({ language, onPress, isSelected }) => {
-  return (
+export const LanguageItem: FC<LanguageItemProps> = ({ language, onPress, isSelected, isLoading }) => {
+  return isLoading ? (
+    <BaseSkeleton style={styles.skeleton} />
+  ) : (
     <Pressable style={({ pressed }) => [styles.container, pressed ? styles.pressed : {}]} onPress={onPress}>
       <CustomText text={language} style={styles.language} />
       {isSelected && <CustomIcon name={icons.success} />}

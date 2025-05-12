@@ -1,4 +1,5 @@
-import { spacing } from '@/ui/constants/style/dimensions/spacing';
+import { components } from '@/ui/constants/style/dimensions/components';
+import { SCREEN_WIDTH, spacing } from '@/ui/constants/style/dimensions/spacing';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
@@ -13,5 +14,10 @@ export const styles = StyleSheet.create({
   columnWrapper: {
     gap: spacing.Triple,
     paddingBottom: spacing.Triple,
+  },
+  skeleton: {
+    width: (SCREEN_WIDTH - spacing.Triple * 3) / 2,
+    height: components.tripCardImageHeight,
+    borderRadius: spacing.Double,
   },
 });
