@@ -12,11 +12,12 @@ export const useBasicViewLogic = ({
   isMenuVisible = false,
   bottomButtonTitle,
   bottomButtonPress,
+  hasHeader = true,
 }: BasicViewProps) => {
   console.debug('+++++++++++++++ Render view:', nameView, ' +++++++++++++++');
 
   const paddingTop = match({ isFullScreen, platform: Platform.OS })
-    .with({ isFullScreen: false, platform: PlatformOS.android }, () => StatusBar.currentHeight ?? 0)
+    .with({ isFullScreen: false, platform: PlatformOS.android }, () => (hasHeader ? 0 : (StatusBar.currentHeight ?? 0)))
     .otherwise(() => 0);
 
   const paddingBottom = isMenuVisible && bottomButtonTitle && bottomButtonPress ? spacing.separator40 : 0;

@@ -6,7 +6,7 @@ export const icons: Record<string, keyof typeof Ionicons.glyphMap> = {
   locationOutline: 'location-outline',
   globeOutline: 'globe-outline',
   personCircleOutline: 'person-circle-outline',
-  arrowBack: 'chevron-back',
+  arrowBack: 'arrow-back',
   addCircle: 'add-circle',
   add: 'add',
   remove: 'trash',

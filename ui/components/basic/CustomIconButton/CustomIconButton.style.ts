@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 
 import { components } from '@/ui/constants/style/dimensions/components';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
+import { opacity } from '@/ui/constants/style/opacity';
 import type { ButtonState, ButtonType } from './BaseIconButton';
 
 export type ButtonStyles = {
@@ -31,7 +32,7 @@ export const styleButton = (
       backgroundColor: buttonStyles.backgroundColor,
     },
     pressed: {
-      opacity: 0.6,
+      opacity: opacity.default,
     },
   });
 };

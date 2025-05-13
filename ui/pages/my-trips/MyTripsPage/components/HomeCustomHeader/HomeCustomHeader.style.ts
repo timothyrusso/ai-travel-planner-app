@@ -1,6 +1,7 @@
 import { colors } from '@/ui/constants/style/colors';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { fonts } from '@/ui/constants/style/fonts';
+import { opacity } from '@/ui/constants/style/opacity';
 import { StyleSheet } from 'react-native';
 
 export const styles = (top: number) =>
@@ -27,6 +28,6 @@ export const styles = (top: number) =>
       fontSize: spacing.Double,
     },
     pressed: {
-      opacity: 0.5,
+      opacity: opacity.default,
     },
   });

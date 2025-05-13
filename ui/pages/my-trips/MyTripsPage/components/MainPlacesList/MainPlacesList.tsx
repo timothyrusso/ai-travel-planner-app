@@ -15,6 +15,7 @@ export const MainPlacesList = () => {
       renderItem={({ item, index }) => <MainListItem id={item?.id} index={index} />}
       style={styles.container}
       scrollEnabled={false}
+      keyExtractor={(item, index) => `${item?.id}-${index}`}
       horizontal
     />
   );

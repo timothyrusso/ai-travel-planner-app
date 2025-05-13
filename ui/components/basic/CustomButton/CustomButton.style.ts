@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { components } from '@/ui/constants/style/dimensions/components';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { fonts } from '@/ui/constants/style/fonts';
+import { opacity } from '@/ui/constants/style/opacity';
 import type { IoniconsName } from '../CustomIcon/CustomIcon';
 import { type ButtonState, ButtonType } from './CustomButton.logic';
 
@@ -51,7 +52,7 @@ export const styleButton = (
       marginRight: leftIcon ? spacing.SingleAndHalf : 0,
     },
     pressed: {
-      opacity: 0.6,
+      opacity: opacity.default,
     },
   });
 };

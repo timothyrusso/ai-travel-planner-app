@@ -14,4 +14,6 @@ export const components = {
   buttonLargeHeight: 50,
   buttonMediumHeight: 40,
   buttonSmallHeight: 30,
+  headerHeight: 70,
+  homeBoxSkeletonHeight: 200,
 };
