@@ -1,4 +1,3 @@
-import { colors } from '@/ui/constants/style/colors';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { StyleSheet } from 'react-native';
 
@@ -11,25 +10,19 @@ export const styles = StyleSheet.create({
   backIcon: {
     position: 'absolute',
     zIndex: spacing.Minimal,
-    left: spacing.Quintuple,
+    left: spacing.Fourfold,
     top: spacing.TripleAndHalf + spacing.separator40,
-    backgroundColor: colors.primaryWhite,
-    borderRadius: spacing.radius,
   },
   favoriteIcon: {
     position: 'absolute',
     zIndex: spacing.Minimal,
-    right: spacing.Quintuple,
+    right: spacing.Fourfold,
     top: spacing.TripleAndHalf + spacing.separator40,
-    backgroundColor: colors.primaryWhite,
-    borderRadius: spacing.radius,
   },
   removeIcon: {
     position: 'absolute',
     zIndex: spacing.Minimal,
     right: spacing.Quintuple + spacing.Sextuple,
     top: spacing.TripleAndHalf + spacing.separator40,
-    backgroundColor: colors.primaryWhite,
-    borderRadius: spacing.radius,
   },
 });

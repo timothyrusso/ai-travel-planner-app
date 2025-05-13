@@ -1,4 +1,4 @@
 export const images = {
   fullScreenImageHeight: 342,
-  fullScreenMinImageHeight: 110,
+  fullScreenMinImageHeight: 130,
 };

@@ -26,7 +26,7 @@ export const style = (
     titleContainer: {
       position: 'absolute',
       bottom: spacing.Quintuple,
-      left: spacing.Quintuple,
+      left: spacing.Fourfold,
       zIndex: 1,
       paddingVertical: spacing.Single,
       paddingHorizontal: spacing.Triple,
