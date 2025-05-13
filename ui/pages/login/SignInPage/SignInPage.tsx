@@ -1,4 +1,5 @@
-import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
+import { ButtonType } from '@/ui/components/basic/CustomButton/CustomButton.logic';
+import { CustomButtonLarge } from '@/ui/components/basic/CustomButton/CustomButtonLarge';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import { CustomTextButton } from '@/ui/components/basic/CustomTextButton/CustomTextButton';
 import CustomTextInput from '@/ui/components/basic/CustomTextInput/CustomTextInput';
@@ -50,8 +51,12 @@ const SignInPage = () => {
             </View>
           </View>
           <View style={styles.buttonContainer}>
-            <CustomButton title="SIGNIN.TITLE" onPress={onSignIn} isLoading={isLoading} />
-            <CustomButton title="SIGNIN.CREATE_ACCOUNT" onPress={() => router.replace(`/${Routes.SignUp}`)} outline />
+            <CustomButtonLarge title="SIGNIN.TITLE" onPress={onSignIn} isLoading={isLoading} />
+            <CustomButtonLarge
+              title="SIGNIN.CREATE_ACCOUNT"
+              onPress={() => router.replace(`/${Routes.SignUp}`)}
+              buttonType={ButtonType.Secondary}
+            />
           </View>
         </View>
         <Toast />

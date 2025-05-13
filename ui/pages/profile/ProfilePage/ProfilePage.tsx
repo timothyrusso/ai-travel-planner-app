@@ -1,5 +1,5 @@
 import { BaseSkeleton } from '@/ui/components/basic/BaseSkeleton/BaseSkeleton';
-import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
+import { CustomButtonLarge } from '@/ui/components/basic/CustomButton/CustomButtonLarge';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import CustomScrollView from '@/ui/components/composite/CustomScrollView/CustomScrollView';
 import { BasicView } from '@/ui/components/view/BasicView/BasicView';
@@ -53,13 +53,13 @@ export const ProfilePage = () => {
           </View>
         )}
         <View style={styles.settingsContainer}>
-          <CustomButton title="PROFILE.BUTTON.CHANGE_LANGUAGE" onPress={goToChangeLanguage} />
-          <CustomButton
+          <CustomButtonLarge title="PROFILE.BUTTON.CHANGE_LANGUAGE" onPress={goToChangeLanguage} />
+          <CustomButtonLarge
             title="PROFILE.BUTTON.DELETE_ACCOUNT"
             onPress={deleteAccount}
             isLoading={isLoadingDeletingAccount}
           />
-          <CustomButton title="GLOBAL.BUTTON.LOGOUT" onPress={logout} isLoading={isLoadingLogout} />
+          <CustomButtonLarge title="GLOBAL.BUTTON.LOGOUT" onPress={logout} isLoading={isLoadingLogout} />
         </View>
       </CustomScrollView>
     </BasicView>

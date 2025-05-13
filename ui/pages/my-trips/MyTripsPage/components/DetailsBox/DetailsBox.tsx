@@ -1,5 +1,5 @@
 import type { TripItem } from '@/modules/trip/domain/entities/TripItem';
-import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
+import { CustomButtonLarge } from '@/ui/components/basic/CustomButton/CustomButtonLarge';
 import { CustomIcon } from '@/ui/components/basic/CustomIcon/CustomIcon';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import { blur } from '@/ui/constants/style/blur';
@@ -54,7 +54,7 @@ export const DetailsBox: FC<DetailsBoxProps> = ({ location, days, budget, travel
       </View>
       <CustomText text={dateLabel} style={styles.date} />
       <MainPlacesList />
-      <CustomButton title="MY_TRIP.TRIP_DETAILS" onPress={handlePress} style={styles.detailsButton} />
+      <CustomButtonLarge title="MY_TRIP.TRIP_DETAILS" onPress={handlePress} style={styles.detailsButton} />
     </BlurView>
   );
 };
