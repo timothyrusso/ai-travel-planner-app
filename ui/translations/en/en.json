@@ -30,15 +30,15 @@
   },
   "WELCOME": {
     "TITLE": "Effortlessly plan your trips with AI at your fingertips!",
-    "BUTTON": "Get Started"
+    "BUTTON": "GET STARTED"
   },
   "SIGNIN": {
     "EMAIL": "Email",
     "EMAIL_PLACEHOLDER": "Enter your email",
     "PASSWORD": "Password",
     "PASSWORD_PLACEHOLDER": "Enter your password",
-    "CREATE_ACCOUNT": "Create an account",
-    "TITLE": "Sign In",
+    "CREATE_ACCOUNT": "CREATE AN ACCOUNT",
+    "TITLE": "SIGN IN",
     "RESET_PASSWORD": "Forgot your password?",
     "RESET_PASSWORD_TITLE": "Reset Password",
     "RESET_PASSWORD_SENT": "Password reset email sent",
@@ -48,7 +48,7 @@
     "EMAIL_VERIFICATION_SENT": "Email verification sent"
   },
   "SIGNUP": {
-    "TITLE": "Sign Up",
+    "TITLE": "SIGN UP",
     "SUBTITLE": "Create a new account!",
     "NAME": "Name",
     "NAME_PLACEHOLDER": "Enter your name",

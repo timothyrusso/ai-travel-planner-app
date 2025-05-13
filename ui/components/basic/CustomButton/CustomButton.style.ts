@@ -1,35 +1,57 @@
-import { colors } from '@/ui/constants/style/colors';
-import { spacing } from '@/ui/constants/style/dimensions/spacing';
-import { fonts } from '@/ui/constants/style/fonts';
 import { StyleSheet } from 'react-native';
 
-export const styles = StyleSheet.create({
-  main: {
-    width: '100%',
-    height: spacing.customButtonHeight,
-    backgroundColor: colors.primaryBlack,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: spacing.Triple,
-  },
-  text: {
-    color: colors.primaryWhite,
-    fontFamily: fonts.interBold,
-    fontSize: spacing.Triple,
-  },
-  pressed: {
-    opacity: 0.6,
-  },
-  outline: {
-    backgroundColor: colors.primaryWhite,
-    borderWidth: spacing.ThreeQuarterMinimal,
-    borderColor: colors.primaryBlack,
-  },
-  textOutline: {
-    color: colors.primaryBlack,
-  },
-  disabled: {
-    backgroundColor: colors.primaryGrey,
-  },
-});
+import { components } from '@/ui/constants/style/dimensions/components';
+import { spacing } from '@/ui/constants/style/dimensions/spacing';
+import { fonts } from '@/ui/constants/style/fonts';
+import type { IoniconsName } from '../CustomIcon/CustomIcon';
+import { type ButtonState, ButtonType } from './CustomButton.logic';
+
+export type ButtonStyles = {
+  backgroundColor: string;
+  borderColor: string;
+  textColor: string;
+};
+
+export const styleButton = (
+  buttonType: ButtonType,
+  buttonState: ButtonState,
+  getButtonStyles: (buttonType: ButtonType, buttonState: ButtonState) => ButtonStyles,
+  height = components.buttonLargeHeight,
+  leftIcon?: IoniconsName,
+  rightIcon?: IoniconsName,
+) => {
+  const buttonStyles = getButtonStyles(buttonType, buttonState);
+
+  return StyleSheet.create({
+    innerContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    button: {
+      width: '100%',
+      height: height,
+      alignItems: 'center',
+      justifyContent: 'center',
+      marginVertical: 0,
+      marginHorizontal: 0,
+      borderRadius: spacing.Triple,
+      borderWidth: spacing.Minimal,
+      borderColor: buttonStyles.borderColor,
+      backgroundColor: buttonStyles.backgroundColor,
+    },
+    text: {
+      flexShrink: 1,
+      color: buttonStyles.textColor,
+      textDecorationLine: buttonType === ButtonType.Ghost ? 'underline' : undefined,
+      fontFamily: fonts.interBold,
+      fontSize: spacing.Triple,
+    },
+    icon: {
+      marginLeft: rightIcon ? spacing.SingleAndHalf : 0,
+      marginRight: leftIcon ? spacing.SingleAndHalf : 0,
+    },
+    pressed: {
+      opacity: 0.6,
+    },
+  });
+};

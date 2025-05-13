@@ -1,7 +1,7 @@
+import { BaseSkeleton } from '@/ui/components/basic/BaseSkeleton/BaseSkeleton';
 import { BasicView } from '@/ui/components/view/BasicView/BasicView';
 import { Routes } from '@/ui/constants/routes';
-import { colors } from '@/ui/constants/style/colors';
-import { ActivityIndicator, Image, View } from 'react-native';
+import { Image, View } from 'react-native';
 import { useMyTripsPageLogic } from './MyTripsPage.logic';
 import { styles } from './MyTripsPage.style';
 import { DetailsBox } from './components/DetailsBox/DetailsBox';
@@ -13,7 +13,7 @@ const MyTripsPage = () => {
   return (
     <BasicView nameView={Routes.MyTrips} isFullScreen isMenuVisible statusBarStyle="light">
       {isLoading ? (
-        <ActivityIndicator size="large" color={colors.primary} />
+        <BaseSkeleton style={styles.skeleton} />
       ) : lastCreatedTrip ? (
         <View style={styles.container}>
           <HomeCustomHeader />

@@ -1,7 +1,7 @@
 import type { StyleProp, TextStyle } from 'react-native';
 import { View } from 'react-native';
 
-import { CustomIconButton } from '@/ui/components/basic/CustomIconButton/CustomIconButton';
+import { CustomIconButtonSmall } from '@/ui/components/basic/CustomIconButton/CustomIconButtonSmall';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { icons } from '@/ui/constants/style/icons';
@@ -22,8 +22,8 @@ const ModalHeader = ({
     <View style={styles.container}>
       <View style={styles.actionContainer}>
         {!preventClosing && (
-          <CustomIconButton
-            icon={icons.close}
+          <CustomIconButtonSmall
+            iconName={icons.close}
             iconSize={spacing.Fourfold}
             style={styles.cancelIcon}
             onPress={() => {

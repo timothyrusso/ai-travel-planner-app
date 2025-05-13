@@ -1,4 +1,4 @@
-import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
+import { CustomButtonLarge } from '@/ui/components/basic/CustomButton/CustomButtonLarge';
 import { CustomIcon } from '@/ui/components/basic/CustomIcon/CustomIcon';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import { Routes, Stacks } from '@/ui/constants/routes';
@@ -16,7 +16,7 @@ const StartNewTripCard = () => {
     <View style={style.container}>
       <CustomIcon name={icons.location} size={spacing.Quintuple} color={colors.primaryBlack} />
       <CustomText text="MY_TRIP.NO_TRIPS_PLANNED" style={style.title} />
-      <CustomButton
+      <CustomButtonLarge
         title="MY_TRIP.START_NEW_TRIP"
         onPress={() => router.push(`/${Stacks.CreateTrip}/${Routes.Search}`)}
         style={style.button}

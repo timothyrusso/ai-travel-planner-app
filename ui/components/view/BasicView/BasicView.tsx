@@ -4,7 +4,7 @@ import { SafeAreaView, View } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
-import CustomButton from '../../basic/CustomButton/CustomButton';
+import { CustomButtonLarge } from '../../basic/CustomButton/CustomButtonLarge';
 import { useBasicViewLogic } from './BasicView.logic';
 
 export type BasicViewProps = {
@@ -55,7 +55,7 @@ export const BasicView = (props: PropsWithChildren<BasicViewProps>) => {
         {children}
         {bottomButtonTitle && bottomButtonPress && (
           <View style={componentStyle.buttonContainer}>
-            <CustomButton
+            <CustomButtonLarge
               title={bottomButtonTitle}
               onPress={bottomButtonPress}
               isDisabled={bottomButtonDisabled}

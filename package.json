@@ -73,7 +73,8 @@
     "ts-pattern": "^5.6.2",
     "tsyringe": "^4.8.0",
     "zustand": "^5.0.0",
-    "react-native-maps": "1.20.1"
+    "react-native-maps": "1.20.1",
+    "expo-crypto": "~14.0.2"
   },
   "devDependencies": {
     "@arkweid/lefthook": "^0.7.7",

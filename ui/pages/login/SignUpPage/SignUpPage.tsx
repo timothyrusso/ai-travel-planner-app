@@ -1,4 +1,4 @@
-import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
+import { CustomButtonLarge } from '@/ui/components/basic/CustomButton/CustomButtonLarge';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import CustomTextInput from '@/ui/components/basic/CustomTextInput/CustomTextInput';
 import CustomScrollView from '@/ui/components/composite/CustomScrollView/CustomScrollView';
@@ -70,7 +70,7 @@ const SignUpPage = () => {
             </View>
           </View>
           <View style={styles.buttonContainer}>
-            <CustomButton title="SIGNIN.CREATE_ACCOUNT" onPress={onCreateAccount} isLoading={isLoading} />
+            <CustomButtonLarge title="SIGNIN.CREATE_ACCOUNT" onPress={onCreateAccount} isLoading={isLoading} />
           </View>
         </View>
         <Toast />

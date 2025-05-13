@@ -1,13 +1,13 @@
 import { View } from 'react-native';
 
-import CustomButton from '../../basic/CustomButton/CustomButton';
+import { ButtonType } from '../../basic/CustomButton/CustomButton.logic';
+import { CustomButtonLarge } from '../../basic/CustomButton/CustomButtonLarge';
 import { styles } from './ModalTemplate.style';
 
 const ModalFixedFooter = ({
   primaryAction,
   secondaryAction,
   primaryButtonTitle = 'GLOBAL.BUTTON.CONFIRM',
-  // primaryButtonDisabled = false,
   secondaryButtonTitle = 'GLOBAL.BUTTON.CANCEL',
 }: {
   primaryAction: () => void;
@@ -21,23 +21,18 @@ const ModalFixedFooter = ({
     <View style={[styles.footer, styles.fixedFooterContainer]}>
       {secondaryAction ? (
         <View style={styles.buttonContainer}>
-          <CustomButton
+          <CustomButtonLarge
             title={secondaryButtonTitle}
             onPress={() => {
               if (secondaryAction) secondaryAction();
             }}
             style={styles.button}
-            // isSecondary={true}
+            buttonType={ButtonType.Secondary}
           />
         </View>
       ) : null}
       <View style={styles.buttonContainer}>
-        <CustomButton
-          // disabled={primaryButtonDisabled}
-          title={primaryButtonTitle}
-          onPress={primaryAction}
-          style={styles.button}
-        />
+        <CustomButtonLarge title={primaryButtonTitle} onPress={primaryAction} style={styles.button} />
       </View>
     </View>
   );

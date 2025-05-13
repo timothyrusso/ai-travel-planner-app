@@ -22,4 +22,9 @@ export const styles = StyleSheet.create({
     fontSize: spacing.Triple,
     fontFamily: fonts.interMedium,
   },
+  skeleton: {
+    width: '100%',
+    borderRadius: spacing.Double,
+    height: spacing.separator80,
+  },
 });

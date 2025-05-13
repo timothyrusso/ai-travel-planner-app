@@ -1,8 +1,8 @@
 import type { ScheduleItem } from '@/modules/trip/domain/dto/UserTripsDTO';
+import { BaseSkeleton } from '@/ui/components/basic/BaseSkeleton/BaseSkeleton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
-import { colors } from '@/ui/constants/style/colors';
 import { type FC, Fragment } from 'react';
-import { ActivityIndicator, Image, View } from 'react-native';
+import { Image, View } from 'react-native';
 import { NumberedMarker } from '../NumberedMarker/NumberedMarker';
 import { useActivityItemLogic } from './ActivityItem.logic';
 import { styles } from './ActivityItem.style';
@@ -20,9 +20,7 @@ export const ActivityItem: FC<ActivityItemProps> = ({ scheduleItem, day, locatio
   return (
     <View style={styles.container}>
       {isLoading ? (
-        <View style={[styles.image, styles.loadingContainer]}>
-          <ActivityIndicator size="large" color={colors.primaryBlack} />
-        </View>
+        <BaseSkeleton style={styles.skeleton} />
       ) : (
         <Fragment>
           <Image source={typeof image === 'string' ? { uri: image } : image} style={styles.image} />

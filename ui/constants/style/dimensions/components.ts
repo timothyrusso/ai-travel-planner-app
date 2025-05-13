@@ -11,4 +11,7 @@ export const components = {
   resetPasswordModalHeight: 284,
   mapHeight: 300,
   mapCalloutWidth: 200,
+  buttonLargeHeight: 50,
+  buttonMediumHeight: 40,
+  buttonSmallHeight: 30,
 };

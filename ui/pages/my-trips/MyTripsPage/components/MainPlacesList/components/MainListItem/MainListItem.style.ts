@@ -23,4 +23,10 @@ export const styles = StyleSheet.create({
     fontSize: spacing.Quintuple,
     fontWeight: 'bold',
   },
+  skeleton: {
+    width: spacing.separator40,
+    height: spacing.separator40,
+    borderRadius: spacing.separator40,
+    marginRight: -spacing.Double,
+  },
 });

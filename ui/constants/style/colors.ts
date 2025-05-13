@@ -1,10 +1,12 @@
 export const colors = {
   primary: '#A01A7D',
+  primaryDisabled: '#E5B3D1',
   primaryBlack: '#000000',
+  primaryBlackDisabled: '#8E8E8F',
   primaryWhite: '#FFFFFF',
+  primaryWhiteDisabled: '#F9F9F9',
   primaryGrey: '#8E8E8F',
   secondaryGrey: '#E6E6E6',
-  secondaryWhite: '#f9f9f9',
   primaryYellow: '#FFE5D9',
   primaryGreen: '#D8E2DC',
   primaryPink: '#FFCAD4',

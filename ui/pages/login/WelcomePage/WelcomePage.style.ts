@@ -1,13 +1,13 @@
-import { PlatformOS } from '@/ui/constants/PlatformOS';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { fonts } from '@/ui/constants/style/fonts';
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Platform.OS === PlatformOS.ios ? spacing.separator80 : 0,
     width: '100%',
+    justifyContent: 'center',
+    rowGap: spacing.Quintuple,
   },
   animation: {
     width: '100%',
@@ -17,17 +17,11 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
     width: spacing.customButtonWidth,
   },
-  buttonContainer: {
-    width: '100%',
-    justifyContent: 'center',
-    rowGap: spacing.Fourfold,
-    flex: 1,
-  },
   title: {
     fontFamily: fonts.interMedium,
     fontSize: spacing.Triple,
     textAlign: 'center',
     width: '100%',
-    paddingHorizontal: spacing.Triple,
+    paddingHorizontal: spacing.Quintuple,
   },
 });

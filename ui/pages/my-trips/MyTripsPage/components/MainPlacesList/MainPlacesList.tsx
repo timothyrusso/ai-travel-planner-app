@@ -1,5 +1,5 @@
-import { colors } from '@/ui/constants/style/colors';
-import { ActivityIndicator, FlatList } from 'react-native';
+import { BaseSkeleton } from '@/ui/components/basic/BaseSkeleton/BaseSkeleton';
+import { FlatList } from 'react-native';
 import { useMainPlacesListLogic } from './MainPlacesList.logic';
 import { styles } from './MainPlacesList.style';
 import { MainListItem } from './components/MainListItem/MainListItem';
@@ -8,7 +8,7 @@ export const MainPlacesList = () => {
   const { listItems, isLoading } = useMainPlacesListLogic();
 
   return isLoading ? (
-    <ActivityIndicator size="large" color={colors.primaryBlack} />
+    <BaseSkeleton style={styles.container} />
   ) : (
     <FlatList
       data={listItems}

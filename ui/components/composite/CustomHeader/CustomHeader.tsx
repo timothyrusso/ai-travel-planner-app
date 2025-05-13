@@ -1,10 +1,10 @@
-import { CustomIconButton } from '@/ui/components/basic/CustomIconButton/CustomIconButton';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
-import { colors } from '@/ui/constants/style/colors';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import type { Ionicons } from '@expo/vector-icons';
 import type { FC } from 'react';
 import { View } from 'react-native';
+import { ButtonType } from '../../basic/CustomIconButton/BaseIconButton';
+import { CustomIconButtonLarge } from '../../basic/CustomIconButton/CustomIconButtonLarge';
 import { useCustomHeaderLogic } from './CustomHeader.logic';
 
 type CustomHeaderProps = {
@@ -20,7 +20,12 @@ const CustomHeader: FC<CustomHeaderProps> = ({ title, icon, onPress }) => {
     <View style={styleComponent.container}>
       <CustomText text={title} style={styleComponent.title} />
       {onPress && icon && (
-        <CustomIconButton icon={icon} iconSize={spacing.Quintuple} iconColor={colors.primaryBlack} onPress={onPress} />
+        <CustomIconButtonLarge
+          iconName={icon}
+          iconSize={spacing.Quintuple}
+          onPress={onPress}
+          buttonType={ButtonType.Tertiary}
+        />
       )}
     </View>
   );

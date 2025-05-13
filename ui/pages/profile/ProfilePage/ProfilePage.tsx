@@ -1,11 +1,11 @@
-import CustomButton from '@/ui/components/basic/CustomButton/CustomButton';
+import { BaseSkeleton } from '@/ui/components/basic/BaseSkeleton/BaseSkeleton';
+import { CustomButtonLarge } from '@/ui/components/basic/CustomButton/CustomButtonLarge';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import CustomScrollView from '@/ui/components/composite/CustomScrollView/CustomScrollView';
 import { BasicView } from '@/ui/components/view/BasicView/BasicView';
 import { Stacks } from '@/ui/constants/routes';
-import { colors } from '@/ui/constants/style/colors';
 import { components } from '@/ui/constants/style/dimensions/components';
-import { ActivityIndicator, View } from 'react-native';
+import { View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 import { useProfilePageLogic } from './ProfilePage.logic';
 import { styles } from './ProfilePage.style';
@@ -36,7 +36,9 @@ export const ProfilePage = () => {
         {username && <CustomText text={username} style={styles.name} />}
         {email && <CustomText text={email} style={styles.email} />}
         {isTripDataLoading ? (
-          <ActivityIndicator size="large" color={colors.primary} />
+          <View style={styles.skeletonContainer}>
+            <BaseSkeleton style={styles.skeleton} />
+          </View>
         ) : (
           <View style={styles.userDataContainer}>
             <View style={styles.userDataItem}>
@@ -51,13 +53,13 @@ export const ProfilePage = () => {
           </View>
         )}
         <View style={styles.settingsContainer}>
-          <CustomButton title="PROFILE.BUTTON.CHANGE_LANGUAGE" onPress={goToChangeLanguage} />
-          <CustomButton
+          <CustomButtonLarge title="PROFILE.BUTTON.CHANGE_LANGUAGE" onPress={goToChangeLanguage} />
+          <CustomButtonLarge
             title="PROFILE.BUTTON.DELETE_ACCOUNT"
             onPress={deleteAccount}
             isLoading={isLoadingDeletingAccount}
           />
-          <CustomButton title="GLOBAL.BUTTON.LOGOUT" onPress={logout} isLoading={isLoadingLogout} />
+          <CustomButtonLarge title="GLOBAL.BUTTON.LOGOUT" onPress={logout} isLoading={isLoadingLogout} />
         </View>
       </CustomScrollView>
     </BasicView>

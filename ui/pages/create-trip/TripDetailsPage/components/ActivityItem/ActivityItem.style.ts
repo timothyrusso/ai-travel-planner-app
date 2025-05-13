@@ -21,11 +21,6 @@ export const styles = StyleSheet.create({
     padding: spacing.Triple,
     rowGap: spacing.Double,
   },
-  loadingContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: colors.primaryWhite,
-  },
   noImageContainer: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -65,5 +60,12 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     top: spacing.Double,
     left: spacing.Double,
+  },
+  skeleton: {
+    width: '100%',
+    height: components.activityImageHeight,
+    borderTopStartRadius: spacing.Triple,
+    borderTopEndRadius: spacing.Triple,
+    borderRadius: spacing.Triple,
   },
 });

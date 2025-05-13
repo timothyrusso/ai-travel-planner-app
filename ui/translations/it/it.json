@@ -30,15 +30,15 @@
   },
   "WELCOME": {
     "TITLE": "Pianifica i tuoi viaggi senza sforzo con l'AI a portata di mano!",
-    "BUTTON": "Inizia"
+    "BUTTON": "INIZIA"
   },
   "SIGNIN": {
     "EMAIL": "Email",
     "EMAIL_PLACEHOLDER": "Inserisci la tua email",
     "PASSWORD": "Password",
     "PASSWORD_PLACEHOLDER": "Inserisci la tua password",
-    "CREATE_ACCOUNT": "Crea un account",
-    "TITLE": "Accedi",
+    "CREATE_ACCOUNT": "CREA UN ACCOUNT",
+    "TITLE": "ACCEDI",
     "RESET_PASSWORD": "Hai dimenticato la password?",
     "RESET_PASSWORD_TITLE": "Reimposta la password",
     "RESET_PASSWORD_SENT": "Email di reimpostazione password inviata",
@@ -48,7 +48,7 @@
     "EMAIL_VERIFICATION_SENT": "Email di verifica inviata"
   },
   "SIGNUP": {
-    "TITLE": "Registrati",
+    "TITLE": "REGISTRATI",
     "SUBTITLE": "Crea un nuovo account!",
     "NAME": "Nome",
     "NAME_PLACEHOLDER": "Inserisci il tuo nome",
