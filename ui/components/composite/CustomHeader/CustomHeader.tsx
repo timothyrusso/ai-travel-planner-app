@@ -24,7 +24,7 @@ const CustomHeader: FC<CustomHeaderProps> = ({ title, icon, onPress }) => {
           iconName={icon}
           iconSize={spacing.Quintuple}
           onPress={onPress}
-          buttonType={ButtonType.Secondary}
+          buttonType={ButtonType.Tertiary}
         />
       )}
     </View>

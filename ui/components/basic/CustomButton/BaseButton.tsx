@@ -64,7 +64,9 @@ export function BaseButton({
             {leftIcon && (
               <CustomIcon name={leftIcon} size={iconSize} style={[styles.icon, leftIconStyle]} color={iconColor} />
             )}
-            {title && <CustomText style={[styles.text, textStyle]} text={title} />}
+            {title && (
+              <CustomText style={[styles.text, textStyle]} text={title} numberOfLines={1} ellipsizeMode="tail" />
+            )}
             {rightIcon && (
               <CustomIcon name={rightIcon} size={iconSize} style={[styles.icon, rightIconStyle]} color={iconColor} />
             )}

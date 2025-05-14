@@ -16,21 +16,21 @@ export const HeaderIcons = () => {
         iconSize={spacing.Fourfold}
         onPress={goBackHandler}
         style={styles.backIcon}
-        buttonType={ButtonType.Secondary}
+        buttonType={ButtonType.Tertiary}
       />
       <CustomIconButtonLarge
         iconName={!isFavorite ? icons.hearth : icons.heartOutline}
         iconSize={spacing.Fourfold}
         onPress={addToFavoritesHandler}
         style={styles.favoriteIcon}
-        buttonType={ButtonType.Secondary}
+        buttonType={ButtonType.Tertiary}
       />
       <CustomIconButtonLarge
         iconName={icons.remove}
         iconSize={spacing.Fourfold}
         onPress={handleDeleteTrip}
         style={styles.removeIcon}
-        buttonType={ButtonType.Secondary}
+        buttonType={ButtonType.Tertiary}
       />
     </View>
   );

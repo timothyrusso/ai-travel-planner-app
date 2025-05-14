@@ -36,7 +36,7 @@ export const style = (
     },
     title: {
       color: colors.primaryBlack,
-      fontSize: spacing.TripleAndHalf,
+      fontSize: spacing.Triple,
       fontFamily: fonts.interBold,
     },
   });
