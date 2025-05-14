@@ -5,6 +5,8 @@ import { CustomIconButtonSmall } from '@/ui/components/basic/CustomIconButton/Cu
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { icons } from '@/ui/constants/style/icons';
+
+import { ButtonType } from '@/ui/components/basic/CustomButton/CustomButton.logic';
 import { styles } from './ModalTemplateHeader.style';
 
 const ModalHeader = ({
@@ -24,6 +26,7 @@ const ModalHeader = ({
         {!preventClosing && (
           <CustomIconButtonSmall
             iconName={icons.close}
+            buttonType={ButtonType.Tertiary}
             iconSize={spacing.Fourfold}
             style={styles.cancelIcon}
             onPress={() => {

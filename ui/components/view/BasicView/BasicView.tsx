@@ -20,6 +20,7 @@ export type BasicViewProps = {
   bottomGradientColor?: string;
   isMenuVisible?: boolean;
   statusBarStyle?: 'light' | 'dark';
+  hasHeader?: boolean;
 };
 
 export const BasicView = (props: PropsWithChildren<BasicViewProps>) => {

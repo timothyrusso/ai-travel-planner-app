@@ -1,6 +1,7 @@
 import { colors } from '@/ui/constants/style/colors';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { fonts } from '@/ui/constants/style/fonts';
+import { opacity } from '@/ui/constants/style/opacity';
 import { StyleSheet } from 'react-native';
 
 export const style = StyleSheet.create({
@@ -31,7 +32,7 @@ export const style = StyleSheet.create({
     fontFamily: fonts.interMedium,
   },
   pressed: {
-    opacity: 0.6,
+    opacity: opacity.default,
   },
   selected: {
     borderWidth: spacing.Minimal,

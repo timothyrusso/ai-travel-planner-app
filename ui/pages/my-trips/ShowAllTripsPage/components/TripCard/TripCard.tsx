@@ -18,7 +18,7 @@ export const TripCard = ({ item }: { item: UserTrips }) => {
         <CustomIcon
           name={isFavorite ? icons.heartOutline : icons.hearth}
           size={spacing.TripleAndHalf}
-          color={colors.primaryWhite}
+          color={colors.primaryBlack}
         />
       </View>
       <CustomText text={location} style={styles.title} />

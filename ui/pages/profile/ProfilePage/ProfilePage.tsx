@@ -26,7 +26,7 @@ export const ProfilePage = () => {
   } = useProfilePageLogic();
 
   return (
-    <BasicView nameView={Stacks.Profile} isMenuVisible statusBarStyle="dark">
+    <BasicView nameView={Stacks.Profile} isMenuVisible statusBarStyle="dark" hasHeader={false}>
       <CustomScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.avatarContainer}>
           <View style={styles.avatar}>

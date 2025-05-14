@@ -34,7 +34,7 @@ const AnimatedHeaderImage: FC<AnimatedHeaderImageProps> = ({ value, imageUrl, ti
   return (
     <Animated.View style={styles.header}>
       <Animated.View style={styles.titleContainer}>
-        <CustomText text={title} style={styles.title} />
+        <CustomText text={title.toUpperCase()} style={styles.title} />
       </Animated.View>
       <View style={styles.image}>{imageUrl && <Image source={{ uri: imageUrl }} style={styles.image} />}</View>
       <View style={styles.iconsContainer}>

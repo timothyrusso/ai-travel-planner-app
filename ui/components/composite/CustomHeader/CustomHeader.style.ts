@@ -13,6 +13,7 @@ export const style = (headerPaddingTop: number) =>
       paddingHorizontal: spacing.Fourfold,
       paddingTop: headerPaddingTop,
       backgroundColor: colors.primaryWhite,
+      paddingBottom: spacing.Double,
     },
     title: {
       fontSize: spacing.Fourfold,

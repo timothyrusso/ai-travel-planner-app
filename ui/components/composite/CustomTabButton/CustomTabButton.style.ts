@@ -1,6 +1,7 @@
 import { colors } from '@/ui/constants/style/colors';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { fonts } from '@/ui/constants/style/fonts';
+import { opacity } from '@/ui/constants/style/opacity';
 import { shadows } from '@/ui/constants/style/shadows';
 import { StyleSheet } from 'react-native';
 
@@ -23,6 +24,6 @@ export const styles = StyleSheet.create({
     color: colors.primary,
   },
   pressed: {
-    opacity: 0.5,
+    opacity: opacity.default,
   },
 });

@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import type { ModalProps } from 'react-native-modal';
 import Modal from 'react-native-modal';
 
+import { opacity } from '@/ui/constants/style/opacity';
 import { styles } from './ModalTemplate.style';
 import ModalBody from './ModalTemplateBody';
 import ModalContainer from './ModalTemplateContainer/ModalTemplateContainer';
@@ -17,7 +18,13 @@ type ModalTemplateProps = Partial<ModalProps> & {
 
 const ModalTemplate = ({ isVisible = false, children, ...props }: ModalTemplateProps) => {
   return (
-    <Modal useNativeDriverForBackdrop backdropOpacity={0.5} isVisible={isVisible} style={styles.modalView} {...props}>
+    <Modal
+      useNativeDriverForBackdrop
+      backdropOpacity={opacity.default}
+      isVisible={isVisible}
+      style={styles.modalView}
+      {...props}
+    >
       {children}
     </Modal>
   );

@@ -1,6 +1,7 @@
 import { colors } from '@/ui/constants/style/colors';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { fonts } from '@/ui/constants/style/fonts';
+import { opacity } from '@/ui/constants/style/opacity';
 import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
@@ -16,7 +17,7 @@ export const styles = StyleSheet.create({
     height: spacing.separator80,
   },
   pressed: {
-    opacity: 0.5,
+    opacity: opacity.default,
   },
   language: {
     fontSize: spacing.Triple,

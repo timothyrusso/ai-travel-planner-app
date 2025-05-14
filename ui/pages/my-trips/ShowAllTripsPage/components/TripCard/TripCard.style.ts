@@ -2,6 +2,7 @@ import { colors } from '@/ui/constants/style/colors';
 import { components } from '@/ui/constants/style/dimensions/components';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { fonts } from '@/ui/constants/style/fonts';
+import { opacity } from '@/ui/constants/style/opacity';
 import { shadows } from '@/ui/constants/style/shadows';
 import { StyleSheet } from 'react-native';
 
@@ -23,18 +24,20 @@ export const styles = StyleSheet.create({
     paddingTop: spacing.Double,
   },
   pressed: {
-    opacity: 0.5,
+    opacity: opacity.default,
   },
   iconContainer: {
     position: 'absolute',
     top: spacing.TripleAndHalf,
     right: spacing.TripleAndHalf,
-    backgroundColor: colors.primaryBlack,
+    backgroundColor: colors.primaryWhite,
     borderRadius: spacing.Quintuple,
     width: spacing.Quintuple,
     height: spacing.Quintuple,
     justifyContent: 'center',
     alignItems: 'center',
-    opacity: 0.4,
+    opacity: opacity.default,
+    borderWidth: 1,
+    borderColor: colors.secondaryGrey,
   },
 });
