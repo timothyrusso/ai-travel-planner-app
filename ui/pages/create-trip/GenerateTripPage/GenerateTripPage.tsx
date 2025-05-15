@@ -2,6 +2,7 @@ import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import LottieAnimation from '@/ui/components/basic/LottieAnimation/LottieAnimation';
 import { BasicView } from '@/ui/components/view/BasicView/BasicView';
 import { Routes } from '@/ui/constants/routes';
+import { View } from 'react-native';
 import { useGenerateTripPageLogic } from './GenerateTripPage.logic';
 import { style } from './GenerateTripPage.style';
 
@@ -15,7 +16,9 @@ const GenerateTripPage = () => {
   return (
     <BasicView nameView={Routes.GenerateTrip} statusBarStyle="dark">
       <CustomText text="GENERATE_TRIP.DESCRIPTION" style={style.subtitle} />
-      <LottieAnimation animationPath={animation} style={style.animation} />
+      <View style={style.animationContainer}>
+        <LottieAnimation animationPath={animation} style={style.animation} />
+      </View>
     </BasicView>
   );
 };

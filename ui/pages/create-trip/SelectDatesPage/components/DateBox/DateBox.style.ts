@@ -33,6 +33,7 @@ export const style = StyleSheet.create({
     fontSize: spacing.SingleAndHalf + spacing.HalfMinimal,
     color: colors.primaryWhite,
     textAlign: 'center',
+    width: '80%',
   },
   singleDayLabelContainer: {
     position: 'absolute',

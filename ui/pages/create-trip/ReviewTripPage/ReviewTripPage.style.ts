@@ -13,6 +13,7 @@ export const style = StyleSheet.create({
   },
   container: {
     justifyContent: 'flex-start',
+    paddingBottom: components.bottomMenuHeight,
   },
   animation: {
     width: '100%',
@@ -24,7 +25,6 @@ export const style = StyleSheet.create({
     paddingHorizontal: spacing.Fourfold,
   },
   contentScrollViewContainer: {
-    flex: 1,
     width: '100%',
   },
 });
