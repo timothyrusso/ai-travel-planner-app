@@ -1,3 +1,4 @@
+import { components } from '@/ui/constants/style/dimensions/components';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { fonts } from '@/ui/constants/style/fonts';
 import { StyleSheet } from 'react-native';
@@ -30,10 +31,11 @@ export const styles = StyleSheet.create({
     zIndex: 1,
     width: '100%',
     left: spacing.Fourfold,
+    top: spacing.Double,
   },
   animation: {
     width: '100%',
-    height: spacing.searchAnimationHeight,
+    height: components.searchAnimationHeight,
   },
   animationContainer: {
     flex: 1,

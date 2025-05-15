@@ -6,12 +6,10 @@ import { StyleSheet } from 'react-native';
 export const style = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
+    width: '100%',
   },
   calendar: {
-    borderWidth: spacing.Minimal,
-    padding: spacing.TripleAndHalf,
-    borderRadius: spacing.Double,
+    paddingVertical: spacing.TripleAndHalf,
     marginTop: spacing.Double,
   },
   calendarText: {
@@ -25,12 +23,16 @@ export const style = StyleSheet.create({
     fontSize: spacing.Triple,
     fontFamily: fonts.interMedium,
     alignSelf: 'flex-start',
-    paddingHorizontal: spacing.Fourfold,
   },
   rangeSelection: {
     borderTopLeftRadius: spacing.separator40,
     borderTopRightRadius: spacing.separator40,
     borderBottomLeftRadius: spacing.separator40,
     borderBottomRightRadius: spacing.separator40,
+  },
+  contentScrollViewContainer: {
+    flex: 1,
+    width: '100%',
+    paddingHorizontal: spacing.Fourfold,
   },
 });

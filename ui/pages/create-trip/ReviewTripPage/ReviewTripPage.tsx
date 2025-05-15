@@ -1,18 +1,15 @@
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
-import CardWithImage from '@/ui/components/composite/CardWithImage/CardWithImage';
+import LottieAnimation from '@/ui/components/basic/LottieAnimation/LottieAnimation';
+import CustomScrollView from '@/ui/components/composite/CustomScrollView/CustomScrollView';
 import { BasicView } from '@/ui/components/view/BasicView/BasicView';
 import { Routes } from '@/ui/constants/routes';
-import { FlatList, View } from 'react-native';
-import { type TripRecap, useReviewTripPageLogic } from './ReviewTripPage.logic';
+import { View } from 'react-native';
+import { useReviewTripPageLogic } from './ReviewTripPage.logic';
 import { style } from './ReviewTripPage.style';
-
-const separatorItem = () => <View style={style.separator} />;
+import { SummaryCard } from './components/SummaryCard/SummaryCard';
 
 const ReviewTripPage = () => {
-  const { handleButtonPress, tripData } = useReviewTripPageLogic();
-
-  const item = ({ item }: { item: TripRecap }) =>
-    item.value !== null ? <CardWithImage title={item.title} description={item.value} icon={item.icon} /> : null;
+  const { handleButtonPress, destination, dates, travelers, budget, animation } = useReviewTripPageLogic();
 
   return (
     <BasicView
@@ -20,15 +17,15 @@ const ReviewTripPage = () => {
       statusBarStyle="dark"
       bottomButtonTitle="REVIEW_TRIP.BUILD_TRIP"
       bottomButtonPress={handleButtonPress}
+      viewStyle={style.container}
     >
-      <CustomText text="REVIEW_TRIP.DESCRIPTION" style={style.subtitle} />
-      <FlatList
-        data={tripData}
-        keyExtractor={item => item.value}
-        ItemSeparatorComponent={separatorItem}
-        renderItem={item}
-        style={style.list}
-      />
+      <CustomScrollView contentContainerStyle={style.contentScrollViewContainer}>
+        <CustomText text="REVIEW_TRIP.DESCRIPTION" style={style.subtitle} />
+        <View style={style.summaryContainer}>
+          <SummaryCard destination={destination} dates={dates} travelers={travelers} budget={budget} />
+        </View>
+        <LottieAnimation style={style.animation} animationPath={animation} loop autoPlay />
+      </CustomScrollView>
     </BasicView>
   );
 };

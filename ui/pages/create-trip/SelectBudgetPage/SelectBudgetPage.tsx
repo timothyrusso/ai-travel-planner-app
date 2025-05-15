@@ -1,9 +1,11 @@
 import type { BudgetInfo } from '@/modules/trip/domain/entities/BudgetInfo';
+import { CardType } from '@/ui/components/basic/CustomCard/CustomCard.logic';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
+import { CustomIconTextCard } from '@/ui/components/composite/CustomIconTextCard/CustomIconTextCard';
 import { BasicView } from '@/ui/components/view/BasicView/BasicView';
 import { Routes } from '@/ui/constants/routes';
+import { colors } from '@/ui/constants/style/colors';
 import { FlatList, View } from 'react-native';
-import CardWithIcon from '../../../components/composite/CardWithIcon/CardWithIcon';
 import { BudgetData } from './SelectBudgetPage.data';
 import { useSelectBudgetPageLogic } from './SelectBudgetPage.logic';
 import { style } from './SelectBudgetPage.style';
@@ -15,13 +17,14 @@ const SelectBudgetPage = () => {
 
   const item = ({ item }: { item: BudgetInfo }) =>
     item.id !== null ? (
-      <CardWithIcon
-        id={item.id}
-        title={item.title}
-        description={item.description}
+      <CustomIconTextCard
+        cardType={CardType.Secondary}
+        label={item.title}
         icon={item.icon}
-        onPress={handleCardPress}
-        isSelected={selectedBudget === item.id}
+        style={style.twoColumnCard}
+        selected={selectedBudget === item.id}
+        onPress={() => handleCardPress(item.id ?? 0)}
+        iconColor={selectedBudget === item.id ? colors.primaryWhite : colors.primaryBlack}
       />
     ) : null;
 
@@ -35,10 +38,13 @@ const SelectBudgetPage = () => {
       <CustomText text="SELECT_BUDGET.DESCRIPTION" style={style.subtitle} />
       <FlatList
         data={BudgetData}
-        keyExtractor={item => item.id.toString()}
+        numColumns={2}
+        keyExtractor={item => item.id?.toString() ?? ''}
         ItemSeparatorComponent={separatorItem}
         renderItem={item}
         style={style.list}
+        contentContainerStyle={style.contentContainer}
+        columnWrapperStyle={style.columnWrapper}
       />
     </BasicView>
   );

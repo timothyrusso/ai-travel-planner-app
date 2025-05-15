@@ -8,7 +8,8 @@
     "SHOW_ALL_TRIPS": "Show all trips",
     "TRIP_DETAILS": "Trip Details",
     "BUDGET_NOT_AVAILABLE": "Budget not available",
-    "DAYS": "Days",
+    "DAYS": "Day",
+    "DAYS_plural": "Days",
     "DAY": "DAY"
   },
   "PROFILE": {
@@ -63,47 +64,44 @@
   },
   "SEARCH_PLACE_PAGE": {
     "TITLE": "Search",
-    "DESCRIPTION": "Search your next destination",
+    "DESCRIPTION": "Select your destination to begin planning your perfect trip.",
     "SEARCH_PLACE": "Search Place"
   },
   "SELECT_TRAVELERS": {
     "TITLE": "Select travelers",
-    "DESCRIPTION": "Choose your travelers",
+    "DESCRIPTION": "Choose your companions for your trip.",
     "JUST_ME": "Just me",
-    "JUST_ME_DESCRIPTION": "A sole traveler in exploration",
     "COUPLE": "A couple",
-    "COUPLE_DESCRIPTION": "Two travelers in tandem",
     "FAMILY": "Family",
-    "FAMILY_DESCRIPTION": "A group of fun loving people",
-    "FRIENDS": "Friends",
-    "FRIENDS_DESCRIPTION": "A bunch of thrill-seekers"
+    "FRIENDS": "Friends"
   },
   "SELECT_DATES": {
     "TITLE": "Select dates",
-    "DESCRIPTION": "Choose your travel dates"
+    "DESCRIPTION": "Choose your departure and return travel dates.",
+    "START_DATE": "Start date:",
+    "END_DATE": "Return date:",
+    "SINGLE_DAY": "Single day"
   },
   "SELECT_BUDGET": {
     "TITLE": "Select budget",
-    "DESCRIPTION": "Choose your budget",
+    "DESCRIPTION": "Choose your budget for your trip.",
+    "INEXPENSIVE": "Inexpensive",
     "CHEAP": "Cheap",
-    "CHEAP_DESCRIPTION": "Budget-friendly options",
     "MODERATE": "Moderate",
-    "MODERATE_DESCRIPTION": "Balanced options",
-    "LUXURY": "Luxury",
-    "LUXURY_DESCRIPTION": "High-end options"
+    "LUXURY": "Luxury"
   },
   "REVIEW_TRIP": {
     "TITLE": "Review your trip",
-    "DESCRIPTION": "Review your trip details",
-    "DESTINATION": "Destination",
-    "TRAVEL_DATE": "Travel Date",
-    "TRAVELERS": "Travelers",
-    "BUDGET": "Budget",
+    "DESCRIPTION": "Review your trip details and confirm your choice.",
+    "DESTINATION": "Destination:",
+    "TRAVEL_DATE": "Travel Date:",
+    "TRAVELERS": "Travelers:",
+    "BUDGET": "Budget:",
     "BUILD_TRIP": "Build Trip"
   },
   "GENERATE_TRIP": {
     "TITLE": "Generating Trip",
-    "DESCRIPTION": "We are working to generate your dream trip"
+    "DESCRIPTION": "We are working to generate your dream trip based on your preferences!"
   },
   "SHOW_ALL_TRIPS": {
     "TITLE": "All Trips"

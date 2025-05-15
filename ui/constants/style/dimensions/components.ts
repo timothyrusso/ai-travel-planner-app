@@ -16,4 +16,11 @@ export const components = {
   buttonSmallHeight: 30,
   headerHeight: 70,
   homeBoxSkeletonHeight: 200,
+  textIconCard: 136,
+  reviewPageAnimationHeight: 300,
+  cardHeight: 100,
+  customButtonWidth: 300,
+  tripAnimationHeight: 250,
+  searchAnimationHeight: 250,
+  travelAnimationHeight: 350,
 };

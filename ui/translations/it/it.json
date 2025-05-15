@@ -8,7 +8,8 @@
     "SHOW_ALL_TRIPS": "Mostra tutti i viaggi",
     "TRIP_DETAILS": "Dettagli viaggio",
     "BUDGET_NOT_AVAILABLE": "Budget non disponibile",
-    "DAYS": "Giorni",
+    "DAYS": "Giorno",
+    "DAYS_plural": "Giorni",
     "DAY": "GIORNO"
   },
   "PROFILE": {
@@ -63,49 +64,45 @@
   },
   "SEARCH_PLACE_PAGE": {
     "TITLE": "Cerca",
-    "DESCRIPTION": "Cerca la tua prossima destinazione",
+    "DESCRIPTION": "Seleziona la destinazione per iniziare a pianificare il tuo viaggio perfetto.",
     "SEARCH_PLACE": "Cerca luogo"
   },
   "SELECT_TRAVELERS": {
     "TITLE": "Seleziona i viaggiatori",
-    "DESCRIPTION": "Scegli i tuoi viaggiatori",
+    "DESCRIPTION": "Scegli i viaggiatori per il tuo viaggio.",
     "JUST_ME": "Solo io",
-    "JUST_ME_DESCRIPTION": "Un viaggiatore solitario in esplorazione",
     "COUPLE": "Coppia",
-    "COUPLE_DESCRIPTION": "Due viaggiatori in tandem",
     "FAMILY": "Famiglia",
-    "FAMILY_DESCRIPTION": "Un gruppo di persone amanti del divertimento",
-    "FRIENDS": "Amici",
-    "FRIENDS_DESCRIPTION": "Un gruppo di cercatori di emozioni"
+    "FRIENDS": "Amici"
   },
   "SELECT_DATES": {
     "TITLE": "Seleziona le date",
-    "DESCRIPTION": "Scegli le date del tuo viaggio"
+    "DESCRIPTION": "Scegli la data di partenza e di ritorno del tuo viaggio.",
+    "START_DATE": "Data di partenza:",
+    "END_DATE": "Data di ritorno:",
+    "SINGLE_DAY": "Giornata singola"
   },
   "SELECT_BUDGET": {
     "TITLE": "Seleziona il budget",
-    "DESCRIPTION": "Scegli il tuo budget",
+    "DESCRIPTION": "Scegli il budget per il tuo viaggio.",
+    "INEXPENSIVE": "Stracciato",
     "CHEAP": "Economico",
-    "CHEAP_DESCRIPTION": "Opzioni convenienti",
     "MODERATE": "Moderato",
-    "MODERATE_DESCRIPTION": "Opzioni bilanciate",
     "EXPENSIVE": "Costoso",
-    "EXPENSIVE_DESCRIPTION": "Opzioni di alta gamma",
-    "LUXURY": "Lusso",
-    "LUXURY_DESCRIPTION": "Opzioni di fascia alta"
+    "LUXURY": "Lusso"
   },
   "REVIEW_TRIP": {
     "TITLE": "Rivedi il viaggio",
-    "DESCRIPTION": "Controlla i dettagli del tuo viaggio",
-    "DESTINATION": "Destinazione",
-    "TRAVEL_DATE": "Data del viaggio",
-    "TRAVELERS": "Viaggiatori",
-    "BUDGET": "Budget",
+    "DESCRIPTION": "Controlla i dettagli del tuo viaggio e conferma la tua scelta.",
+    "DESTINATION": "Destinazione:",
+    "TRAVEL_DATE": "Data del viaggio:",
+    "TRAVELERS": "Viaggiatori:",
+    "BUDGET": "Budget:",
     "BUILD_TRIP": "Genera viaggio"
   },
   "GENERATE_TRIP": {
     "TITLE": "Creazione del viaggio",
-    "DESCRIPTION": "Stiamo lavorando per creare il viaggio dei tuoi sogni"
+    "DESCRIPTION": "Stiamo lavorando per creare il viaggio dei tuoi sogni in base alle tue preferenze!"
   },
   "SHOW_ALL_TRIPS": {
     "TITLE": "Tutti i viaggi"
