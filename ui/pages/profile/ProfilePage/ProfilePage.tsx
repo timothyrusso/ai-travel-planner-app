@@ -1,15 +1,17 @@
 import { BaseSkeleton } from '@/ui/components/basic/BaseSkeleton/BaseSkeleton';
-import { CustomButtonLarge } from '@/ui/components/basic/CustomButton/CustomButtonLarge';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import CustomScrollView from '@/ui/components/composite/CustomScrollView/CustomScrollView';
 import { BasicView } from '@/ui/components/view/BasicView/BasicView';
 import { Stacks } from '@/ui/constants/routes';
 import { components } from '@/ui/constants/style/dimensions/components';
+
+import { icons } from '@/ui/constants/style/icons';
 import { View } from 'react-native';
 import { SvgXml } from 'react-native-svg';
 import { useProfilePageLogic } from './ProfilePage.logic';
 import { styles } from './ProfilePage.style';
-
+import { ButtonsContainer } from './components/ButtonsContainer/ButtonsContainer';
+import { UserDataBox } from './components/UserDataBox/UserDataBox';
 export const ProfilePage = () => {
   const {
     logout,
@@ -21,8 +23,7 @@ export const ProfilePage = () => {
     favoriteTrips,
     isTripDataLoading,
     goToChangeLanguage,
-    isLoadingDeletingAccount,
-    isLoadingLogout,
+    goToShowAllTrips,
   } = useProfilePageLogic();
 
   return (
@@ -40,26 +41,20 @@ export const ProfilePage = () => {
             <BaseSkeleton style={styles.skeleton} />
           </View>
         ) : (
-          <View style={styles.userDataContainer}>
-            <View style={styles.userDataItem}>
-              <CustomText text="PROFILE.LABEL.TOTAL_TRIPS" style={styles.userDataLabel} />
-              <CustomText text={totalTrips?.toString() ?? '0'} style={styles.userDataValue} />
-            </View>
-            <View style={styles.divider} />
-            <View style={styles.userDataItem}>
-              <CustomText text="PROFILE.LABEL.FAVORITE_TRIPS" style={styles.userDataLabel} />
-              <CustomText text={favoriteTrips?.length?.toString() ?? '0'} style={styles.userDataValue} />
-            </View>
-          </View>
+          <UserDataBox totalTrips={totalTrips} favoriteTrips={favoriteTrips} onPress={goToShowAllTrips} />
         )}
         <View style={styles.settingsContainer}>
-          <CustomButtonLarge title="PROFILE.BUTTON.CHANGE_LANGUAGE" onPress={goToChangeLanguage} />
-          <CustomButtonLarge
-            title="PROFILE.BUTTON.DELETE_ACCOUNT"
-            onPress={deleteAccount}
-            isLoading={isLoadingDeletingAccount}
+          <ButtonsContainer
+            firstTitle="PROFILE.BUTTON.CHANGE_LANGUAGE"
+            firstOnPress={goToChangeLanguage}
+            firstIcon={icons.language}
+            secondTitle="PROFILE.BUTTON.DELETE_ACCOUNT"
+            secondOnPress={deleteAccount}
+            secondIcon={icons.delete}
+            thirdTitle="GLOBAL.BUTTON.LOGOUT"
+            thirdOnPress={logout}
+            thirdIcon={icons.logout}
           />
-          <CustomButtonLarge title="GLOBAL.BUTTON.LOGOUT" onPress={logout} isLoading={isLoadingLogout} />
         </View>
       </CustomScrollView>
     </BasicView>

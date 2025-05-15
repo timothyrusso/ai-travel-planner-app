@@ -17,9 +17,9 @@ export const useDetailsBoxLogic = (tripItem: TripItem, budget: string, travelers
   const budgetLabel =
     budget === 'MY_TRIP.BUDGET_NOT_AVAILABLE'
       ? t('MY_TRIP.BUDGET_NOT_AVAILABLE')
-      : `${t('REVIEW_TRIP.BUDGET')}: ${budget}`;
+      : `${t('REVIEW_TRIP.BUDGET')} ${budget}`;
 
-  const travelersLabel = `${t('REVIEW_TRIP.TRAVELERS')}: ${travelers}`;
+  const travelersLabel = `${t('REVIEW_TRIP.TRAVELERS')} ${travelers}`;
   const daysLabel = `${t('MY_TRIP.DAYS')}: ${days}`;
 
   const dateLabel = convertFromUTCToLocaleUseCase(tripItem?.startDate);
