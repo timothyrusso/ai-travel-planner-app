@@ -20,7 +20,7 @@ export const components = {
   reviewPageAnimationHeight: 300,
   cardHeight: 100,
   customButtonWidth: 300,
-  tripAnimationHeight: 250,
+  tripAnimationHeight: 200,
   searchAnimationHeight: 250,
   travelAnimationHeight: 350,
 };

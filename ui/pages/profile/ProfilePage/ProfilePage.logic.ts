@@ -5,15 +5,11 @@ import { miniavs } from '@dicebear/collection';
 import { createAvatar } from '@dicebear/core';
 import auth from '@react-native-firebase/auth';
 import { router } from 'expo-router';
-import { useState } from 'react';
 
 export const useProfilePageLogic = () => {
   const { data, isLoading } = useGetUserTripsQuery();
-  const [isLoadingDeletingAccount, setIsLoadingDeletingAccount] = useState<boolean>(false);
-  const [isLoadingLogout, setIsLoadingLogout] = useState<boolean>(false);
 
   const logout = () => {
-    setIsLoadingLogout(true);
     auth()
       .signOut()
       .then(() => {
@@ -21,14 +17,10 @@ export const useProfilePageLogic = () => {
       })
       .catch(error => {
         console.error(error);
-      })
-      .finally(() => {
-        setIsLoadingLogout(false);
       });
   };
 
   const deleteAccount = () => {
-    setIsLoadingDeletingAccount(true);
     auth()
       .currentUser?.delete()
       .then(() => {
@@ -36,24 +28,26 @@ export const useProfilePageLogic = () => {
       })
       .catch(error => {
         console.error(error);
-      })
-      .finally(() => {
-        setIsLoadingDeletingAccount(false);
       });
   };
 
   const avatar = createAvatar(miniavs, {
     radius: components.profileImageHeight / 2,
+    seed: auth().currentUser?.uid,
   }).toString();
 
   const username = auth().currentUser?.displayName;
   const email = auth().currentUser?.email;
 
-  const totalTrips = data?.totalTrips;
-  const favoriteTrips = data?.favoriteTrips;
+  const totalTrips = data?.totalTrips ?? 0;
+  const favoriteTrips = data?.favoriteTrips ?? [];
 
   const goToChangeLanguage = () => {
     router.push(`/${Stacks.Profile}/${Routes.ChangeLanguage}`);
+  };
+
+  const goToShowAllTrips = () => {
+    router.push(`/${Stacks.MyTrips}/${Routes.ShowAllTrips}`);
   };
 
   return {
@@ -66,7 +60,6 @@ export const useProfilePageLogic = () => {
     favoriteTrips,
     isTripDataLoading: isLoading,
     goToChangeLanguage,
-    isLoadingDeletingAccount,
-    isLoadingLogout,
+    goToShowAllTrips,
   };
 };

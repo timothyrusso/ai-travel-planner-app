@@ -16,7 +16,8 @@
     "TITLE": "Profile",
     "LABEL": {
       "TOTAL_TRIPS": "Total Trips",
-      "FAVORITE_TRIPS": "Favorite Trips"
+      "FAVORITE_TRIPS": "Favorite Trips",
+      "MONTHLY_TRIPS_CAP": "Monthly Trips Cap"
     },
     "BUTTON": {
       "CHANGE_LANGUAGE": "Change Language",

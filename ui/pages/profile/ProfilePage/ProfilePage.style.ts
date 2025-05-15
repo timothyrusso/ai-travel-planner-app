@@ -30,40 +30,9 @@ export const styles = StyleSheet.create({
     paddingTop: spacing.Triple,
     paddingBottom: spacing.Fourfold,
   },
-  userDataContainer: {
-    paddingVertical: spacing.Triple,
-    paddingHorizontal: spacing.Double,
-    borderRadius: spacing.Fourfold,
-    backgroundColor: colors.primaryGreen,
-    marginHorizontal: spacing.Fourfold,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  userDataLabel: {
-    fontSize: spacing.Triple,
-    fontFamily: fonts.interMedium,
-    textAlign: 'center',
-  },
-  userDataValue: {
-    fontSize: spacing.Double,
-    fontFamily: fonts.interBold,
-    textAlign: 'center',
-    paddingTop: spacing.Triple,
-    color: colors.primaryBlack,
-  },
   settingsContainer: {
     marginHorizontal: spacing.Fourfold,
     marginTop: spacing.Quintuple,
-    rowGap: spacing.Triple,
-  },
-  divider: {
-    width: 2,
-    backgroundColor: colors.primaryBlack,
-    height: '100%',
-  },
-  userDataItem: {
-    flex: 1,
-    alignItems: 'center',
   },
   contentContainer: {
     paddingBottom: spacing.separator80,

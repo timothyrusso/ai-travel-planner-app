@@ -23,4 +23,9 @@ export const style = StyleSheet.create({
     alignSelf: 'flex-start',
     paddingHorizontal: spacing.Fourfold,
   },
+  animationContainer: {
+    flex: 1,
+    width: '100%',
+    paddingHorizontal: spacing.Fourfold,
+  },
 });

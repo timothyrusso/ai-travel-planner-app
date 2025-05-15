@@ -16,7 +16,8 @@
     "TITLE": "Profilo",
     "LABEL": {
       "TOTAL_TRIPS": "Totale viaggi",
-      "FAVORITE_TRIPS": "Viaggi preferiti"
+      "FAVORITE_TRIPS": "Viaggi preferiti",
+      "MONTHLY_TRIPS_CAP": "Limite viaggi mensile"
     },
     "BUTTON": {
       "CHANGE_LANGUAGE": "Cambia lingua",
