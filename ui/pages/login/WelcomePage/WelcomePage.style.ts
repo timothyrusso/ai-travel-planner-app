@@ -1,3 +1,4 @@
+import { components } from '@/ui/constants/style/dimensions/components';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { fonts } from '@/ui/constants/style/fonts';
 import { StyleSheet } from 'react-native';
@@ -11,11 +12,11 @@ export const styles = StyleSheet.create({
   },
   animation: {
     width: '100%',
-    height: spacing.travelAnimationHeight,
+    height: components.travelAnimationHeight,
   },
   button: {
     alignSelf: 'center',
-    width: spacing.customButtonWidth,
+    width: components.customButtonWidth,
   },
   title: {
     fontFamily: fonts.interMedium,

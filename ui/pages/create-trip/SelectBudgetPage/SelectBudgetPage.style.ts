@@ -1,4 +1,4 @@
-import { spacing } from '@/ui/constants/style/dimensions/spacing';
+import { SCREEN_WIDTH, spacing } from '@/ui/constants/style/dimensions/spacing';
 import { fonts } from '@/ui/constants/style/fonts';
 import { StyleSheet } from 'react-native';
 
@@ -15,7 +15,15 @@ export const style = StyleSheet.create({
   },
   list: {
     paddingHorizontal: spacing.Fourfold,
-    width: '100%',
     paddingTop: spacing.Double,
+  },
+  contentContainer: {
+    paddingBottom: spacing.Triple,
+  },
+  columnWrapper: {
+    gap: spacing.Triple,
+  },
+  twoColumnCard: {
+    width: (SCREEN_WIDTH - spacing.Fourfold * 3) / 2,
   },
 });

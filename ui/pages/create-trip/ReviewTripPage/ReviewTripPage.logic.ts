@@ -13,40 +13,23 @@ export const useReviewTripPageLogic = () => {
   const { tripSelectors } = useTripState();
 
   const getTripDates = () => {
-    const { startDate, endDate, totalNoOfDays } = tripSelectors.datesInfo();
-    return (
-      startDate &&
-      `${format(startDate, 'dd MMM yyyy')}${endDate ? ` to ${format(endDate, 'dd MMM yy')}` : ''} - (${totalNoOfDays})`
-    );
+    const { startDate, endDate } = tripSelectors.datesInfo();
+    return startDate && `${format(startDate, 'dd MMM yyyy')}${endDate ? ` to ${format(endDate, 'dd MMM yy')}` : ''}`;
   };
-
-  const getTripRecap = (): TripRecap[] => [
-    {
-      title: 'REVIEW_TRIP.DESTINATION',
-      value: tripSelectors.locationInfo().name,
-      icon: '📍',
-    },
-    {
-      title: 'REVIEW_TRIP.TRAVEL_DATE',
-      value: getTripDates() ?? '',
-      icon: '🗓️',
-    },
-    {
-      title: 'REVIEW_TRIP.TRAVELERS',
-      value: tripSelectors.travelerInfo(),
-      icon: '🚌',
-    },
-    {
-      title: 'REVIEW_TRIP.BUDGET',
-      value: tripSelectors.budgetInfo(),
-      icon: '💰',
-    },
-  ];
 
   const handleButtonPress = () => {
     router.dismissAll();
     router.replace(`/${Stacks.CreateTrip}/${Routes.GenerateTrip}`);
   };
 
-  return { handleButtonPress, tripData: getTripRecap() };
+  const animation = require('../../../assets/lottie/photo_animation.json');
+
+  return {
+    handleButtonPress,
+    destination: tripSelectors.locationInfo().name,
+    dates: getTripDates() ?? '',
+    travelers: tripSelectors.travelerInfo(),
+    budget: tripSelectors.budgetInfo(),
+    animation,
+  };
 };

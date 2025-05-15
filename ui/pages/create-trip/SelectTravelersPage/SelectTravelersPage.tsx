@@ -1,9 +1,11 @@
 import type { TravelerInfo } from '@/modules/trip/domain/entities/TravelerInfo';
+import { CardType } from '@/ui/components/basic/CustomCard/CustomCard.logic';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
+import { CustomIconTextCard } from '@/ui/components/composite/CustomIconTextCard/CustomIconTextCard';
 import { BasicView } from '@/ui/components/view/BasicView/BasicView';
 import { Routes } from '@/ui/constants/routes';
+import { colors } from '@/ui/constants/style/colors';
 import { FlatList, View } from 'react-native';
-import CardWithIcon from '../../../components/composite/CardWithIcon/CardWithIcon';
 import { useSelectTravelersPageLogic } from './SelectTravelersPage.logic';
 import { style } from './SelectTravelersPage.style';
 
@@ -12,15 +14,16 @@ const separatorItem = () => <View style={style.separator} />;
 const SelectTravelersPage = () => {
   const { TravelerData, handleCardPress, selectedTravelers, handleButtonPress } = useSelectTravelersPageLogic();
 
-  const item = ({ item }: { item: TravelerInfo }) =>
+  const renderItem = ({ item }: { item: TravelerInfo }) =>
     item.id !== null ? (
-      <CardWithIcon
-        id={item.id}
-        title={item.title}
-        description={item.description}
+      <CustomIconTextCard
+        cardType={CardType.Secondary}
+        label={item.title}
         icon={item.icon}
-        onPress={handleCardPress}
-        isSelected={selectedTravelers === item.id}
+        style={style.twoColumnCard}
+        selected={selectedTravelers === item.id}
+        onPress={() => handleCardPress(item.id ?? 0)}
+        iconColor={selectedTravelers === item.id ? colors.primaryWhite : colors.primaryBlack}
       />
     ) : null;
 
@@ -34,10 +37,13 @@ const SelectTravelersPage = () => {
       <CustomText text="SELECT_TRAVELERS.DESCRIPTION" style={style.subtitle} />
       <FlatList
         data={TravelerData}
-        keyExtractor={item => item.id.toString()}
+        numColumns={2}
+        keyExtractor={item => item.id?.toString() ?? ''}
         ItemSeparatorComponent={separatorItem}
-        renderItem={item}
+        renderItem={renderItem}
         style={style.list}
+        contentContainerStyle={style.contentContainer}
+        columnWrapperStyle={style.columnWrapper}
       />
     </BasicView>
   );

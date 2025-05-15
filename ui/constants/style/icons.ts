@@ -15,6 +15,13 @@ export const icons: Record<string, keyof typeof Ionicons.glyphMap> = {
   success: 'checkmark-circle-sharp',
   list: 'list-circle-sharp',
   calendar: 'calendar-number-outline',
+  calendarOutline: 'calendar-outline',
   cash: 'cash-outline',
   people: 'people-outline',
+  airplane: 'airplane-sharp',
+  boat: 'boat',
+  home: 'home',
+  diamond: 'diamond-outline',
+  bag: 'bag',
+  card: 'card-outline',
 };

@@ -41,11 +41,13 @@ export const styleButton = (
       backgroundColor: buttonStyles.backgroundColor,
     },
     text: {
-      flexShrink: 1,
+      width: '100%',
       color: buttonStyles.textColor,
       textDecorationLine: buttonType === ButtonType.Ghost ? 'underline' : undefined,
       fontFamily: fonts.interBold,
       fontSize: spacing.Triple,
+      textAlign: 'center',
+      textTransform: 'uppercase',
     },
     icon: {
       marginLeft: rightIcon ? spacing.SingleAndHalf : 0,

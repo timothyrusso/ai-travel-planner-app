@@ -20,15 +20,6 @@ export const spacing = {
 
   separator40: 40,
   separator80: 80,
-
-  radius: 50,
-
-  travelAnimationHeight: 350,
-  searchAnimationHeight: 250,
-  tripAnimationHeight: 250,
-  mainLogoSize: 200,
-  customButtonHeight: 50,
-  customButtonWidth: 300,
-  CardWithIconHeight: 100,
-  calendarWidth: 350,
+  separator120: 120,
+  separator160: 160,
 };

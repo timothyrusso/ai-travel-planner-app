@@ -1,4 +1,5 @@
 import { colors } from '@/ui/constants/style/colors';
+import { components } from '@/ui/constants/style/dimensions/components';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { fonts } from '@/ui/constants/style/fonts';
 import { StyleSheet } from 'react-native';
@@ -7,7 +8,7 @@ export const style = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row',
-    height: spacing.CardWithIconHeight,
+    height: components.cardHeight,
     alignItems: 'center',
     paddingHorizontal: spacing.Double,
     columnGap: spacing.Fourfold,

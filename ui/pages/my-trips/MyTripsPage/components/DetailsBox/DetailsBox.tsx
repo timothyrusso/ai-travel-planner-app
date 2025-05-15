@@ -1,4 +1,5 @@
 import type { TripItem } from '@/modules/trip/domain/entities/TripItem';
+import { ButtonType } from '@/ui/components/basic/CustomButton/CustomButton.logic';
 import { CustomButtonLarge } from '@/ui/components/basic/CustomButton/CustomButtonLarge';
 import { CustomIcon } from '@/ui/components/basic/CustomIcon/CustomIcon';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
@@ -12,7 +13,6 @@ import { type StyleProp, View, type ViewStyle } from 'react-native';
 import { MainPlacesList } from '../MainPlacesList/MainPlacesList';
 import { useDetailsBoxLogic } from './DetailsBox.logic';
 import { styles } from './DetailsBox.style';
-
 type DetailsBoxProps = {
   location: string;
   days: number;
@@ -54,7 +54,12 @@ export const DetailsBox: FC<DetailsBoxProps> = ({ location, days, budget, travel
       </View>
       <CustomText text={dateLabel} style={styles.date} />
       <MainPlacesList />
-      <CustomButtonLarge title="MY_TRIP.TRIP_DETAILS" onPress={handlePress} style={styles.detailsButton} />
+      <CustomButtonLarge
+        title="MY_TRIP.TRIP_DETAILS"
+        onPress={handlePress}
+        style={styles.detailsButton}
+        buttonType={ButtonType.Main}
+      />
     </BlurView>
   );
 };

@@ -1,3 +1,4 @@
+import { components } from '@/ui/constants/style/dimensions/components';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { fonts } from '@/ui/constants/style/fonts';
 import { StyleSheet } from 'react-native';
@@ -10,12 +11,20 @@ export const style = StyleSheet.create({
     alignSelf: 'flex-start',
     paddingHorizontal: spacing.Fourfold,
   },
-  separator: {
-    height: spacing.TripleAndHalf,
+  container: {
+    justifyContent: 'flex-start',
   },
-  list: {
-    paddingHorizontal: spacing.Fourfold,
+  animation: {
     width: '100%',
-    paddingTop: spacing.Double,
+    height: components.reviewPageAnimationHeight,
+    marginTop: spacing.Quintuple,
+  },
+  summaryContainer: {
+    width: '100%',
+    paddingHorizontal: spacing.Fourfold,
+  },
+  contentScrollViewContainer: {
+    flex: 1,
+    width: '100%',
   },
 });
