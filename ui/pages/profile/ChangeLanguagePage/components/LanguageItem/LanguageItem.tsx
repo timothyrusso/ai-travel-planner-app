@@ -4,7 +4,7 @@ import CustomText from '@/ui/components/basic/CustomText/CustomText';
 import { icons } from '@/ui/constants/style/icons';
 import type { FC } from 'react';
 import { Pressable } from 'react-native';
-import { styles } from './LanguageItem.style';
+import { styles as stylesFactory } from './LanguageItem.style';
 
 type LanguageItemProps = {
   language: string;
@@ -14,6 +14,8 @@ type LanguageItemProps = {
 };
 
 export const LanguageItem: FC<LanguageItemProps> = ({ language, onPress, isSelected, isLoading }) => {
+  const styles = stylesFactory(isSelected);
+
   return isLoading ? (
     <BaseSkeleton style={styles.skeleton} />
   ) : (

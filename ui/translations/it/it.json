@@ -5,7 +5,7 @@
     "NEWEST_DESTINATIONS": "Destinazioni più recenti",
     "TITLE": "I miei viaggi",
     "CREATE_NEW_TRIP": "Crea nuovo viaggio",
-    "SHOW_ALL_TRIPS": "Mostra tutti i viaggi",
+    "SHOW_ALL_TRIPS": "VEDI TUTTI",
     "TRIP_DETAILS": "Dettagli viaggio",
     "BUDGET_NOT_AVAILABLE": "Budget non disponibile",
     "DAYS": "Giorno",
@@ -86,7 +86,7 @@
   "SELECT_BUDGET": {
     "TITLE": "Seleziona il budget",
     "DESCRIPTION": "Scegli il budget per il tuo viaggio.",
-    "INEXPENSIVE": "Stracciato",
+    "BASIC": "Essenziale",
     "CHEAP": "Economico",
     "MODERATE": "Moderato",
     "EXPENSIVE": "Costoso",
@@ -110,8 +110,9 @@
   },
   "TRIP_DETAILS": {
     "OPEN_IN_MAPS": "Apri in Maps",
-    "BUDGET_NOTES": "Note sul budget",
-    "TRANSPORTATION_NOTES": "Note sul trasporto"
+    "BUDGET_NOTES": "NOTE SUL BUDGET",
+    "TRANSPORTATION_NOTES": "NOTE SUL TRASPORTO",
+    "BEST_TIME_TO_VISIT": "Miglior momento per visitare"
   },
   "GLOBAL": {
     "NO_IMAGE": "Nessun immagine disponibile",

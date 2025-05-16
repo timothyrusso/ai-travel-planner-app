@@ -22,13 +22,23 @@ export const TripDetailsPage = () => {
     sectionData,
     budgetNotes,
     transportationNotes,
+    travelers,
+    budget,
+    date,
   } = useTripDetailsPageLogic();
 
   const renderItem = ({ item }: { item: DayPlan }) => <DayItem dayPlan={item} location={title} />;
 
   return (
     <Fragment>
-      <AnimatedHeaderImage value={scrollOffsetY} imageUrl={_tripData.image} title={title} />
+      <AnimatedHeaderImage
+        value={scrollOffsetY}
+        imageUrl={_tripData.image}
+        title={title}
+        travelers={travelers}
+        budget={budget}
+        date={date}
+      />
       <BasicView nameView={Routes.TripDetails} containerStyle={styles.basicViewContainer} isFullScreen>
         <SectionList
           sections={sectionData}

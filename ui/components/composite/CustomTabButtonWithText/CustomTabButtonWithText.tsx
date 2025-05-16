@@ -2,8 +2,9 @@ import { colors } from '@/ui/constants/style/colors';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import type { TabTriggerSlotProps } from 'expo-router/ui';
 import * as React from 'react';
-import { Pressable, Text, type View } from 'react-native';
+import { Pressable, type View } from 'react-native';
 import { CustomIcon, type IoniconsName } from '../../basic/CustomIcon/CustomIcon';
+import CustomText from '../../basic/CustomText/CustomText';
 import { styles } from './CustomTabButtonWithText.style';
 interface CustomTabButtonWithTextProps extends React.PropsWithChildren, TabTriggerSlotProps {
   icon: IoniconsName;
@@ -17,7 +18,7 @@ export const CustomTabButtonWithText = React.forwardRef<View, CustomTabButtonWit
         size={spacing.Fourfold}
         color={props.isFocused ? colors.primary : colors.primaryGrey}
       />
-      <Text style={[styles.text, props.isFocused && styles.focusedText]}>{props.children}</Text>
+      <CustomText style={[styles.text, props.isFocused && styles.focusedText]} text={props.children as string} />
     </Pressable>
   );
 });

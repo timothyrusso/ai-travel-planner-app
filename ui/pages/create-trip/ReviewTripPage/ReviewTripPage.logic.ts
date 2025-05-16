@@ -26,7 +26,7 @@ export const useReviewTripPageLogic = () => {
 
   return {
     handleButtonPress,
-    destination: tripSelectors.locationInfo().name,
+    destination: tripSelectors.locationInfo().name.split(',')[0],
     dates: getTripDates() ?? '',
     travelers: tripSelectors.travelerInfo(),
     budget: tripSelectors.budgetInfo(),

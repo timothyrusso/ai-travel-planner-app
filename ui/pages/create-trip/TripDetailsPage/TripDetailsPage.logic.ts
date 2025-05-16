@@ -87,6 +87,10 @@ export const useTripDetailsPageLogic = () => {
   const budgetNotes = _tripData.budgetNotes;
   const transportationNotes = _tripData.transportationNotes;
 
+  const travelers = _tripData.tripDetails.travelers;
+  const budget = _tripData.tripDetails.budget;
+  const date = _tripData.tripDetails.durationDays;
+
   return {
     _tripData,
     _tripDays,
@@ -98,5 +102,8 @@ export const useTripDetailsPageLogic = () => {
     sectionData,
     budgetNotes,
     transportationNotes,
+    travelers,
+    budget,
+    date,
   };
 };

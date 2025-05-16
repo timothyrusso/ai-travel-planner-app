@@ -4,7 +4,7 @@ import { icons } from '@/ui/constants/style/icons';
 export const BudgetData: BudgetInfo[] = [
   {
     id: 0,
-    title: 'SELECT_BUDGET.INEXPENSIVE',
+    title: 'SELECT_BUDGET.BASIC',
     icon: icons.cash,
   },
   {

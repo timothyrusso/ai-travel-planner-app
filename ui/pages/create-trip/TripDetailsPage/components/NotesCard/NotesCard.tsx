@@ -28,13 +28,13 @@ export const NotesCard: FC<NotesCardProps> = ({
       <View style={styles.header}>
         {isTitleInverted ? (
           <Fragment>
-            <CustomText text={title.toUpperCase()} style={styles.title} />
+            <CustomText text={title} style={styles.title} />
             <CustomIcon name={icon} size={spacing.Triple} />
           </Fragment>
         ) : (
           <Fragment>
             <CustomIcon name={icon} size={spacing.Triple} />
-            <CustomText text={title.toUpperCase()} style={styles.title} />
+            <CustomText text={title} style={styles.title} />
           </Fragment>
         )}
       </View>
