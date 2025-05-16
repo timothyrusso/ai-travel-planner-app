@@ -1,4 +1,3 @@
-import { BaseSkeleton } from '@/ui/components/basic/BaseSkeleton/BaseSkeleton';
 import { CustomIcon } from '@/ui/components/basic/CustomIcon/CustomIcon';
 import { colors } from '@/ui/constants/style/colors';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
@@ -13,14 +12,10 @@ type MainListItemProps = {
   index?: number;
 };
 
-const MIN_MAIN_LIST_ITEM_INDEX = 3;
-
 export const MainListItem: FC<MainListItemProps> = ({ id, index }) => {
-  const { data, isLoading } = useMainListItemLogic(id);
+  const { data, MIN_MAIN_LIST_ITEM_INDEX } = useMainListItemLogic(id);
 
-  return isLoading ? (
-    <BaseSkeleton style={styles.skeleton} />
-  ) : index === MIN_MAIN_LIST_ITEM_INDEX ? (
+  return index === MIN_MAIN_LIST_ITEM_INDEX ? (
     <View style={styles.lastItem}>
       <CustomIcon name={icons.add} size={spacing.Triple} color={colors.primaryBlack} />
     </View>

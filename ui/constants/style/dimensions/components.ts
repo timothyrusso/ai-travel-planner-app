@@ -23,4 +23,5 @@ export const components = {
   tripAnimationHeight: 200,
   searchAnimationHeight: 250,
   travelAnimationHeight: 350,
+  welcomePageBackgroundTextHeight: 180,
 };

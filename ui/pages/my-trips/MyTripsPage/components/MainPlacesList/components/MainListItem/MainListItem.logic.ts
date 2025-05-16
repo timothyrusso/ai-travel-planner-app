@@ -1,7 +1,9 @@
 import { useGooglePlaceImagesQuery } from '@/ui/queries/googlePlaceImages/query/useGooglePlaceImagesQuery';
 
 export const useMainListItemLogic = (id?: string) => {
-  const { data, isLoading } = useGooglePlaceImagesQuery(id ?? '', 50);
+  const { data } = useGooglePlaceImagesQuery(id ?? '', 50);
 
-  return { data, isLoading };
+  const MIN_MAIN_LIST_ITEM_INDEX = 3;
+
+  return { data, MIN_MAIN_LIST_ITEM_INDEX };
 };
