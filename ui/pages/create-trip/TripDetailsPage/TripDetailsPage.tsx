@@ -7,13 +7,22 @@ import { SectionList, View } from 'react-native';
 import { useTripDetailsPageLogic } from './TripDetailsPage.logic';
 import { styles } from './TripDetailsPage.style';
 import { DayItem } from './components/DayItem/DayItem';
-import { MapListHeaderComponent } from './components/MapListHeaderComponent/MapListHeaderComponent';
+import { ListHeaderComponent } from './components/ListHeaderComponent/ListHeaderComponent';
 
 const separator = () => <View style={styles.separator} />;
 
 export const TripDetailsPage = () => {
-  const { _tripData, title, allCoordinates, scrollOffsetY, handleScroll, region, sectionData } =
-    useTripDetailsPageLogic();
+  const {
+    _tripData,
+    title,
+    allCoordinates,
+    scrollOffsetY,
+    handleScroll,
+    region,
+    sectionData,
+    budgetNotes,
+    transportationNotes,
+  } = useTripDetailsPageLogic();
 
   const renderItem = ({ item }: { item: DayPlan }) => <DayItem dayPlan={item} location={title} />;
 
@@ -31,7 +40,14 @@ export const TripDetailsPage = () => {
           onScroll={handleScroll}
           style={styles.sectionList}
           stickySectionHeadersEnabled={false}
-          ListHeaderComponent={() => <MapListHeaderComponent region={region} allCoordinates={allCoordinates} />}
+          ListHeaderComponent={() => (
+            <ListHeaderComponent
+              region={region}
+              allCoordinates={allCoordinates}
+              budgetNotes={budgetNotes}
+              transportationNotes={transportationNotes}
+            />
+          )}
         />
       </BasicView>
     </Fragment>

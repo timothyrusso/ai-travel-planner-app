@@ -109,7 +109,9 @@
     "TITLE": "Tutti i viaggi"
   },
   "TRIP_DETAILS": {
-    "OPEN_IN_MAPS": "Apri in Maps"
+    "OPEN_IN_MAPS": "Apri in Maps",
+    "BUDGET_NOTES": "Note sul budget",
+    "TRANSPORTATION_NOTES": "Note sul trasporto"
   },
   "GLOBAL": {
     "NO_IMAGE": "Nessun immagine disponibile",

@@ -1,8 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
+import Constants from 'expo-constants';
 import { GooglePlaceImagesKeys } from '../GooglePlaceImagesKeys';
 
-export const useGooglePlaceImagesQuery = (placeName: string, maxWidthPx = 1000) => {
-  const _googleApiKey = process.env.EXPO_PUBLIC_GOOGLE_PLACES_API_KEY || '';
+export const useGooglePlaceImagesQuery = (placeName: string, maxWidthPx = 500) => {
+  const _googleApiKey = Constants.expoConfig?.extra?.googlePlacesApiKey || '';
 
   const noImage = require('../../../assets/images/no-image-placeholder.jpg');
 

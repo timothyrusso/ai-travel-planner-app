@@ -25,7 +25,6 @@ const PlacesAutocomplete: FC<PlacesAutocompleteProps> = ({
         onPress({
           name: data.description,
           coordinates: details?.geometry.location,
-          // Use this to show photos of the places with photoRef e EXPO_PUBLIC_GOOGLE_PLACES_API_KEY: https://developers.google.com/maps/documentation/places/web-service/photos
           // @ts-ignore
           photoRef: details?.photos?.[0].photo_reference,
           url: details?.url,

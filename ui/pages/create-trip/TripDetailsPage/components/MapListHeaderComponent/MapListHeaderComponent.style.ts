@@ -8,7 +8,6 @@ export const styles = StyleSheet.create({
     marginHorizontal: spacing.Fourfold,
     borderRadius: spacing.Triple,
     overflow: 'hidden',
-    marginBottom: spacing.Double,
   },
   map: {
     height: '100%',

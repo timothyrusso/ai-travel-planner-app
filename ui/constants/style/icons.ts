@@ -28,4 +28,5 @@ export const icons: Record<string, keyof typeof Ionicons.glyphMap> = {
   language: 'language-outline',
   delete: 'trash-outline',
   logout: 'log-out-outline',
+  bus: 'bus-outline',
 };

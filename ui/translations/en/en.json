@@ -108,7 +108,9 @@
     "TITLE": "All Trips"
   },
   "TRIP_DETAILS": {
-    "OPEN_IN_MAPS": "Open in Maps"
+    "OPEN_IN_MAPS": "Open in Maps",
+    "BUDGET_NOTES": "Budget Notes",
+    "TRANSPORTATION_NOTES": "Transportation Notes"
   },
   "GLOBAL": {
     "NO_IMAGE": "No image available",

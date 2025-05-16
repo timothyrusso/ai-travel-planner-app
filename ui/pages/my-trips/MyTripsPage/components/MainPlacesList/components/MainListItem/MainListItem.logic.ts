@@ -1,7 +1,7 @@
-import { UrlTypes, useUnsplashImages } from '@/ui/queries/unsplashImages/query/useUnsplashImages';
+import { useGooglePlaceImagesQuery } from '@/ui/queries/googlePlaceImages/query/useGooglePlaceImagesQuery';
 
 export const useMainListItemLogic = (id?: string) => {
-  const { data, isLoading } = useUnsplashImages(id ?? '', UrlTypes.THUMB);
+  const { data, isLoading } = useGooglePlaceImagesQuery(id ?? '', 50);
 
   return { data, isLoading };
 };

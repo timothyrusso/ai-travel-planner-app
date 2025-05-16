@@ -84,5 +84,19 @@ export const useTripDetailsPageLogic = () => {
     data: [plan],
   }));
 
-  return { _tripData, _tripDays, title, allCoordinates, region, scrollOffsetY, handleScroll, sectionData };
+  const budgetNotes = _tripData.budgetNotes;
+  const transportationNotes = _tripData.transportationNotes;
+
+  return {
+    _tripData,
+    _tripDays,
+    title,
+    allCoordinates,
+    region,
+    scrollOffsetY,
+    handleScroll,
+    sectionData,
+    budgetNotes,
+    transportationNotes,
+  };
 };

@@ -11,10 +11,9 @@ type ActivityItemProps = {
   scheduleItem: ScheduleItem;
   day: number;
   location: string;
-  index: number;
 };
 
-export const ActivityItem: FC<ActivityItemProps> = ({ scheduleItem, day, location, index }) => {
+export const ActivityItem: FC<ActivityItemProps> = ({ scheduleItem, day, location }) => {
   const { image, isLoading, t } = useActivityItemLogic(scheduleItem, location);
 
   return (
@@ -25,7 +24,7 @@ export const ActivityItem: FC<ActivityItemProps> = ({ scheduleItem, day, locatio
         <Fragment>
           <Image source={typeof image === 'string' ? { uri: image } : image} style={styles.image} />
           <CustomText text={`${t('MY_TRIP.DAY')} ${day}`} style={styles.day} />
-          <NumberedMarker number={index + 1} style={styles.marker} />
+          <NumberedMarker number={scheduleItem.placeNumberID} style={styles.marker} />
         </Fragment>
       )}
 

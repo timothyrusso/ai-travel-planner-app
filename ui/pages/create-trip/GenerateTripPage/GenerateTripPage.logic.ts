@@ -17,7 +17,6 @@ export const useGenerateTripPageLogic = () => {
   const { tripSelectors } = useTripState();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const userEmail = auth().currentUser?.email;
   const userId = auth().currentUser?.uid;
 
   const userTripData = {
@@ -53,7 +52,6 @@ export const useGenerateTripPageLogic = () => {
       const tripAiResp = JSON.parse(responseText);
 
       await setDoc(doc(db, `${dbKeys.userTrips}/${userId}/trips`, docId), {
-        userEmail,
         tripAiResp,
         userTripData: JSON.stringify(userTripData),
         docId,
