@@ -5,10 +5,10 @@ import { styles } from './MainPlacesList.style';
 import { MainListItem } from './components/MainListItem/MainListItem';
 
 export const MainPlacesList = () => {
-  const { listItems, isLoading } = useMainPlacesListLogic();
+  const { listItems, isFetching } = useMainPlacesListLogic();
 
-  return isLoading ? (
-    <BaseSkeleton style={styles.container} />
+  return isFetching ? (
+    <BaseSkeleton style={styles.skeleton} />
   ) : (
     <FlatList
       data={listItems}

@@ -19,10 +19,11 @@ export const styles = StyleSheet.create({
     width: components.customButtonWidth,
   },
   title: {
-    fontFamily: fonts.interMedium,
-    fontSize: spacing.Triple,
+    fontFamily: fonts.interBold,
+    fontSize: spacing.Fourfold,
     textAlign: 'center',
     width: '100%',
     paddingHorizontal: spacing.Quintuple,
+    lineHeight: spacing.Quintuple,
   },
 });
