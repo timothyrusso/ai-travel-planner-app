@@ -1,6 +1,10 @@
 import type { ScheduleItem } from '@/modules/trip/domain/dto/UserTripsDTO';
 import { BaseSkeleton } from '@/ui/components/basic/BaseSkeleton/BaseSkeleton';
+import { CustomIcon } from '@/ui/components/basic/CustomIcon/CustomIcon';
 import CustomText from '@/ui/components/basic/CustomText/CustomText';
+import { colors } from '@/ui/constants/style/colors';
+import { spacing } from '@/ui/constants/style/dimensions/spacing';
+import { icons } from '@/ui/constants/style/icons';
 import { type FC, Fragment } from 'react';
 import { Image, View } from 'react-native';
 import { NumberedMarker } from '../NumberedMarker/NumberedMarker';
@@ -11,10 +15,9 @@ type ActivityItemProps = {
   scheduleItem: ScheduleItem;
   day: number;
   location: string;
-  index: number;
 };
 
-export const ActivityItem: FC<ActivityItemProps> = ({ scheduleItem, day, location, index }) => {
+export const ActivityItem: FC<ActivityItemProps> = ({ scheduleItem, day, location }) => {
   const { image, isLoading, t } = useActivityItemLogic(scheduleItem, location);
 
   return (
@@ -25,15 +28,35 @@ export const ActivityItem: FC<ActivityItemProps> = ({ scheduleItem, day, locatio
         <Fragment>
           <Image source={typeof image === 'string' ? { uri: image } : image} style={styles.image} />
           <CustomText text={`${t('MY_TRIP.DAY')} ${day}`} style={styles.day} />
-          <NumberedMarker number={index + 1} style={styles.marker} />
+          <NumberedMarker number={scheduleItem.placeNumberID} style={styles.marker} />
         </Fragment>
       )}
 
       <View style={styles.content}>
-        <CustomText text={`🕗 ${scheduleItem.bestTimeToVisit}`} style={styles.time} />
+        <View style={styles.headerContainer}>
+          <View style={styles.timeContainer}>
+            <CustomIcon name={icons.clock} size={spacing.Fourfold} color={colors.primaryBlack} />
+            <CustomText text={scheduleItem.bestTimeToVisit} style={styles.time} />
+          </View>
+          <View style={styles.ratingContainer}>
+            <CustomText text={scheduleItem.rating.toString()} style={styles.rating} />
+            <CustomIcon
+              name={icons.star}
+              size={spacing.Double + spacing.MinimalDouble}
+              color={colors.primaryBlack}
+              style={styles.star}
+            />
+          </View>
+        </View>
         <CustomText text={scheduleItem.activity} style={styles.place} />
         <CustomText text={scheduleItem.placeDetails} style={styles.description} />
-        <CustomText text={`💲 ${scheduleItem.ticketPricing.toString()}`} style={styles.price} />
+        <View style={styles.priceContainer}>
+          <CustomIcon name={icons.card} size={spacing.Fourfold} color={colors.primaryBlack} />
+          <CustomText
+            text={`${scheduleItem.ticketPricing}${Number(scheduleItem.ticketPricing.toString()) > 0 ? '$' : ''}`}
+            style={styles.price}
+          />
+        </View>
       </View>
     </View>
   );

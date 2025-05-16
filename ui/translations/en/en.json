@@ -5,7 +5,7 @@
     "NEWEST_DESTINATIONS": "Newest destinations",
     "TITLE": "My Trips",
     "CREATE_NEW_TRIP": "Create new trip",
-    "SHOW_ALL_TRIPS": "Show all trips",
+    "SHOW_ALL_TRIPS": "SHOW ALL",
     "TRIP_DETAILS": "Trip Details",
     "BUDGET_NOT_AVAILABLE": "Budget not available",
     "DAYS": "Day",
@@ -86,7 +86,7 @@
   "SELECT_BUDGET": {
     "TITLE": "Select budget",
     "DESCRIPTION": "Choose your budget for your trip.",
-    "INEXPENSIVE": "Inexpensive",
+    "BASIC": "Basic",
     "CHEAP": "Cheap",
     "MODERATE": "Moderate",
     "LUXURY": "Luxury"
@@ -108,7 +108,10 @@
     "TITLE": "All Trips"
   },
   "TRIP_DETAILS": {
-    "OPEN_IN_MAPS": "Open in Maps"
+    "OPEN_IN_MAPS": "Open in Maps",
+    "BUDGET_NOTES": "BUDGET NOTES",
+    "TRANSPORTATION_NOTES": "TRANSPORTATION NOTES",
+    "BEST_TIME_TO_VISIT": "Best time to visit"
   },
   "GLOBAL": {
     "NO_IMAGE": "No image available",

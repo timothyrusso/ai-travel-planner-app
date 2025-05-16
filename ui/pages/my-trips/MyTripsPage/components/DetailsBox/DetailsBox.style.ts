@@ -28,11 +28,13 @@ export const styles = StyleSheet.create({
   },
   detailsButton: {
     marginTop: spacing.Triple,
+    width: '70%',
+    alignSelf: 'center',
   },
   label: {
     color: colors.primaryWhite,
     fontFamily: fonts.interBold,
-    fontSize: spacing.Double,
+    fontSize: spacing.Double + spacing.Minimal,
     alignSelf: 'flex-start',
   },
   date: {
@@ -42,5 +44,13 @@ export const styles = StyleSheet.create({
     color: colors.primaryWhite,
     fontFamily: fonts.interBold,
     fontSize: spacing.Double,
+  },
+  labelDetailsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    columnGap: spacing.Single,
+  },
+  detailsBoxContainer: {
+    rowGap: spacing.Single,
   },
 });

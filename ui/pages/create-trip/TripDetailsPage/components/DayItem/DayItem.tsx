@@ -17,9 +17,7 @@ export const DayItem: FC<DayItemProps> = ({ dayPlan, location }) => {
       <FlatList
         data={dayPlan.schedule}
         keyExtractor={(item, index) => `${item.placeName}-${index}-${item.activity}`}
-        renderItem={({ item, index }) => (
-          <ActivityItem scheduleItem={item} day={dayPlan.day} location={location} index={index} />
-        )}
+        renderItem={({ item }) => <ActivityItem scheduleItem={item} day={dayPlan.day} location={location} />}
         ItemSeparatorComponent={separator}
         style={styles.list}
       />

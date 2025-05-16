@@ -40,17 +40,19 @@ export const DetailsBox: FC<DetailsBoxProps> = ({ location, days, budget, travel
       <View style={styles.labelContainer}>
         <CustomText text={location} style={styles.location} />
       </View>
-      <View style={styles.labelContainer}>
-        <CustomIcon name={icons.calendar} size={spacing.Double} color={colors.primaryWhite} />
-        <CustomText text={daysLabel} style={styles.label} />
-      </View>
-      <View style={styles.labelContainer}>
-        <CustomIcon name={icons.cash} size={spacing.Double} color={colors.primaryWhite} />
-        <CustomText text={budgetLabel} style={styles.label} />
-      </View>
-      <View style={styles.labelContainer}>
-        <CustomIcon name={icons.people} size={spacing.Double} color={colors.primaryWhite} />
-        <CustomText text={travelersLabel} style={styles.label} />
+      <View style={styles.detailsBoxContainer}>
+        <View style={styles.labelDetailsContainer}>
+          <CustomIcon name={icons.calendar} size={spacing.TripleAndHalf} color={colors.primaryWhite} />
+          <CustomText text={daysLabel.toString()} style={styles.label} />
+        </View>
+        <View style={styles.labelDetailsContainer}>
+          <CustomIcon name={icons.card} size={spacing.TripleAndHalf} color={colors.primaryWhite} />
+          <CustomText text={budgetLabel} style={styles.label} />
+        </View>
+        <View style={styles.labelDetailsContainer}>
+          <CustomIcon name={icons.people} size={spacing.TripleAndHalf} color={colors.primaryWhite} />
+          <CustomText text={travelersLabel.toString()} style={styles.label} />
+        </View>
       </View>
       <CustomText text={dateLabel} style={styles.date} />
       <MainPlacesList />

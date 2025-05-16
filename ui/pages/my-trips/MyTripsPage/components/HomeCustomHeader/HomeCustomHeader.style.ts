@@ -15,7 +15,8 @@ export const styles = (top: number) =>
       zIndex: 2,
     },
     showAllTripsContainer: {
-      padding: spacing.SingleAndHalf,
+      paddingHorizontal: spacing.SingleAndHalf,
+      paddingVertical: spacing.Single,
       borderRadius: spacing.Fourfold,
       overflow: 'hidden',
       flexDirection: 'row',

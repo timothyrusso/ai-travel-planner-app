@@ -4,49 +4,22 @@ interface GeoCoordinates {
 }
 
 export interface ScheduleItem {
-  time: string;
+  placeNumberID: number;
   bestTimeToVisit: string;
+  rating: number;
   ticketPricing: string | number;
   placeDetails: string;
+  placeDetailsLongDescription: string;
+  placeSecretsAndInsights: string;
   geoCoordinates: GeoCoordinates;
   placeName: string;
-  placeImageUrl: string;
   activity: string;
-  travelTimeFromHotel?: string;
 }
 
 export interface DayPlan {
   schedule: ScheduleItem[];
   day: number;
   theme: string;
-}
-
-interface FlightInfo {
-  airline: string;
-  flightNumber: string;
-  departureAirport: string;
-  arrivalAirport: string;
-  flightPrice: number;
-  bookingUrl: string;
-  departureTime?: string;
-  arrivalTime?: string;
-}
-
-interface FlightDetails {
-  notes: string;
-  arrival: FlightInfo;
-  departure: FlightInfo;
-}
-
-interface HotelOption {
-  hotelName: string;
-  description: string;
-  rating: number;
-  geoCoordinates: GeoCoordinates;
-  nearbyPlaces: string[];
-  hotelAddress: string;
-  hotelImageUrl: string;
-  price: number;
 }
 
 export interface TripDetails {
@@ -60,9 +33,6 @@ export interface TripDetails {
 export interface TripAiResp {
   budgetNotes: string;
   dayPlans: DayPlan[];
-  flightDetails: FlightDetails;
-  importantNotes: string;
-  hotelOptions: HotelOption[];
   transportationNotes: string;
   tripDetails: TripDetails;
 }
@@ -70,7 +40,6 @@ export interface TripAiResp {
 export interface UserTrips {
   docId: string;
   tripAiResp: TripAiResp;
-  userEmail: string;
   userTripData: string;
   isFavorite: boolean;
 }

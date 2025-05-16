@@ -10,12 +10,12 @@ export const styles = StyleSheet.create({
     height: components.activityImageHeight,
     borderTopStartRadius: spacing.Triple,
     borderTopEndRadius: spacing.Triple,
-    borderRadius: spacing.Triple,
   },
   container: {
-    backgroundColor: colors.primaryYellow,
+    backgroundColor: colors.primaryGreen,
     borderRadius: spacing.Triple,
     width: '100%',
+    overflow: 'hidden',
   },
   content: {
     padding: spacing.Triple,
@@ -27,8 +27,8 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.primaryWhite,
   },
   time: {
-    fontSize: spacing.Triple,
-    fontFamily: fonts.interRegular,
+    fontSize: spacing.Double,
+    fontFamily: fonts.interMedium,
   },
   place: {
     fontSize: spacing.Triple,
@@ -39,8 +39,8 @@ export const styles = StyleSheet.create({
     fontFamily: fonts.interMedium,
   },
   price: {
-    fontSize: spacing.Triple,
-    fontFamily: fonts.interBold,
+    fontSize: spacing.Double,
+    fontFamily: fonts.interMedium,
   },
   day: {
     position: 'absolute',
@@ -67,5 +67,32 @@ export const styles = StyleSheet.create({
     borderTopStartRadius: spacing.Triple,
     borderTopEndRadius: spacing.Triple,
     borderRadius: spacing.Triple,
+  },
+  timeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.Single,
+  },
+  priceContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.Single,
+  },
+  ratingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.MinimalDouble,
+  },
+  rating: {
+    fontSize: spacing.Double,
+    fontFamily: fonts.interMedium,
+  },
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  star: {
+    marginBottom: spacing.Minimal,
   },
 });
