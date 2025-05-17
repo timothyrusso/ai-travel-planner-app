@@ -7,6 +7,8 @@ import { SectionList, View } from 'react-native';
 import { useTripDetailsPageLogic } from './TripDetailsPage.logic';
 import { styles } from './TripDetailsPage.style';
 import { DayItem } from './components/DayItem/DayItem';
+import { HeaderChips } from './components/HeaderChips/HeaderChips';
+import { HeaderIcons } from './components/HeaderIcons/HeaderIcons';
 import { ListHeaderComponent } from './components/ListHeaderComponent/ListHeaderComponent';
 
 const separator = () => <View style={styles.separator} />;
@@ -27,7 +29,7 @@ export const TripDetailsPage = () => {
     date,
   } = useTripDetailsPageLogic();
 
-  const renderItem = ({ item }: { item: DayPlan }) => <DayItem dayPlan={item} location={title} />;
+  const renderItem = ({ item }: { item: DayPlan }) => <DayItem dayPlan={item} location={title} tripId={_tripData.id} />;
 
   return (
     <Fragment>
@@ -35,9 +37,8 @@ export const TripDetailsPage = () => {
         value={scrollOffsetY}
         imageUrl={_tripData.image}
         title={title}
-        travelers={travelers}
-        budget={budget}
-        date={date}
+        chips={<HeaderChips travelers={travelers} budget={budget} date={date} />}
+        headerIcons={<HeaderIcons />}
       />
       <BasicView nameView={Routes.TripDetails} containerStyle={styles.basicViewContainer} isFullScreen>
         <SectionList

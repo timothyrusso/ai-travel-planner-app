@@ -12,6 +12,7 @@ export enum Routes {
   TripDetails = 'trip-details',
   ShowAllTrips = 'show-all-trips',
   ChangeLanguage = 'change-language',
+  ActivityDetails = 'activity-details',
 }
 
 export enum Stacks {

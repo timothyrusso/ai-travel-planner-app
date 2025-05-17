@@ -58,6 +58,12 @@ export default function CreateTripLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name={Routes.ActivityDetails}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }

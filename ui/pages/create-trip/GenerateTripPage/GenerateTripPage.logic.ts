@@ -1,6 +1,6 @@
-// FIXME: react-native-get-random-values must be imported before nanoid
-import { ai_prompt } from '@/ai/prompt';
 import { chatSession } from '@/configs/ai/geminiConfig';
+// FIXME: react-native-get-random-values must be imported before nanoid
+import { ai_prompt } from '@/configs/ai/prompt';
 import { db } from '@/configs/firebaseConfig';
 
 import { dbKeys } from '@/modules/trip/domain/entities/DbKeys';

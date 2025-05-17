@@ -52,6 +52,17 @@ export const useGetUserTripsQuery = () => {
 
         return dateB.getTime() - dateA.getTime();
       })[0],
+      selectActivityById: (tripId: string, activityId: number) => {
+        return data
+          ?.find(trip => trip.docId === tripId)
+          ?.tripAiResp.dayPlans.find(dayPlan =>
+            dayPlan.schedule.find(activity => activity.placeNumberID === activityId),
+          )
+          ?.schedule.find(activity => activity.placeNumberID === activityId);
+      },
+      selectTripById: (tripId: string) => {
+        return data?.find(trip => trip.docId === tripId);
+      },
     }),
   });
 

@@ -6,7 +6,7 @@ import { colors } from '@/ui/constants/style/colors';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { icons } from '@/ui/constants/style/icons';
 import { type FC, Fragment } from 'react';
-import { Image, View } from 'react-native';
+import { Image, Pressable, View } from 'react-native';
 import { NumberedMarker } from '../NumberedMarker/NumberedMarker';
 import { useActivityItemLogic } from './ActivityItem.logic';
 import { styles } from './ActivityItem.style';
@@ -15,13 +15,14 @@ type ActivityItemProps = {
   scheduleItem: ScheduleItem;
   day: number;
   location: string;
+  tripId: string;
 };
 
-export const ActivityItem: FC<ActivityItemProps> = ({ scheduleItem, day, location }) => {
-  const { image, isLoading, t } = useActivityItemLogic(scheduleItem, location);
+export const ActivityItem: FC<ActivityItemProps> = ({ scheduleItem, day, location, tripId }) => {
+  const { image, isLoading, t, handlePress } = useActivityItemLogic(scheduleItem, location, tripId);
 
   return (
-    <View style={styles.container}>
+    <Pressable style={({ pressed }) => [styles.container, pressed && styles.pressed]} onPress={handlePress}>
       {isLoading ? (
         <BaseSkeleton style={styles.skeleton} />
       ) : (
@@ -58,6 +59,6 @@ export const ActivityItem: FC<ActivityItemProps> = ({ scheduleItem, day, locatio
           />
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 };

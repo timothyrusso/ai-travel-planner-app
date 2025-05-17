@@ -31,4 +31,5 @@ export const icons: Record<string, keyof typeof Ionicons.glyphMap> = {
   bus: 'bus-outline',
   clock: 'time-outline',
   star: 'star',
+  info: 'information-circle-outline',
 };
