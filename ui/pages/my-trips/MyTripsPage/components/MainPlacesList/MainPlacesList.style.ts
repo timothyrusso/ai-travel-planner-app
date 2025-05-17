@@ -17,6 +17,6 @@ export const styles = StyleSheet.create({
     backgroundColor: colors.primaryBlack,
     borderRadius: spacing.Double,
     height: spacing.separator40,
-    width: spacing.separator160,
+    width: spacing.separator120 + spacing.SingleAndHalf,
   },
 });

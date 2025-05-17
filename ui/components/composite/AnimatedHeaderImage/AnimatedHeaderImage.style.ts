@@ -2,10 +2,11 @@ import { colors } from '@/ui/constants/style/colors';
 import { images } from '@/ui/constants/style/dimensions/images';
 import { spacing } from '@/ui/constants/style/dimensions/spacing';
 import { fonts } from '@/ui/constants/style/fonts';
-import type { Animated } from 'react-native';
+import type { Animated, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 
 export const style = (
+  chipsAlignment: ViewStyle['justifyContent'],
   animatedHeaderHeight?: Animated.AnimatedInterpolation<string | number>,
   animatedOpacity?: Animated.AnimatedInterpolation<string | number>,
 ) =>
@@ -44,7 +45,7 @@ export const style = (
       flexDirection: 'row',
       gap: spacing.Single,
       width: '100%',
-      justifyContent: 'space-between',
+      justifyContent: chipsAlignment,
       alignItems: 'center',
     },
     detailsChipRow: {
@@ -79,5 +80,10 @@ export const style = (
       paddingVertical: spacing.Single,
       paddingHorizontal: spacing.Triple,
       height: spacing.Quintuple,
+    },
+    imageSkeleton: {
+      width: '100%',
+      height: images.fullScreenImageHeight,
+      backgroundColor: colors.primaryGrey,
     },
   });
