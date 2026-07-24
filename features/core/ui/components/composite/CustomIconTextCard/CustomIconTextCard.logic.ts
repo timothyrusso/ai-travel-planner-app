@@ -13,6 +13,8 @@ export const useCustomIconTextCardLogic = ({ selected = false, iconBackground }:
   const componentStyle = styles(labelColor, iconBackgroundColor);
 
   return {
-    componentStyle,
+    derived: {
+      componentStyle,
+    },
   };
 };

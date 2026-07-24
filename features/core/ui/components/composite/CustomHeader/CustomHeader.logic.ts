@@ -21,6 +21,8 @@ export const useCustomHeaderLogic = () => {
   const styleComponent = style(headerPaddingTop);
 
   return {
-    styleComponent,
+    derived: {
+      styleComponent,
+    },
   };
 };

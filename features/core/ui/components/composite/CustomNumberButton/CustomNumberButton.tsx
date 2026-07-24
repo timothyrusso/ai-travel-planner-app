@@ -13,10 +13,10 @@ export type CustomNumberButtonProps = CustomNumberButtonLogicProps &
   };
 
 export const CustomNumberButton = ({ label, style, ...rest }: CustomNumberButtonProps) => {
-  const { componentStyle } = useCustomNumberButtonLogic(rest);
+  const { derived } = useCustomNumberButtonLogic(rest);
   return (
-    <CustomCard style={[componentStyle.card, style]} {...rest}>
-      <CustomText style={componentStyle.label} text={label} numberOfLines={2} ellipsizeMode="tail" />
+    <CustomCard style={[derived.componentStyle.card, style]} {...rest}>
+      <CustomText style={derived.componentStyle.label} text={label} numberOfLines={2} ellipsizeMode="tail" />
     </CustomCard>
   );
 };
