@@ -7,7 +7,7 @@ export const meta = {
   phases: [
     { title: 'Explore', detail: 'explorer maps the issue onto the architecture (default on)' },
     { title: 'Build', detail: 'feature-builder implements + opens PR' },
-    { title: 'Wire PR', detail: 'assign PR + add to project + verify agent-device current (best-effort)' },
+    { title: 'Wire PR', detail: 'assign PR + add to project + check agent-device available (best-effort)' },
     { title: 'Review', detail: 'code-reviewer checks the diff against the rules (parallel with QA)' },
     { title: 'QA', detail: 'qa-engineer drives the app on the agent-device (default on, parallel with Review)' },
     { title: 'Vet', detail: 'one skeptic per blocking finding tries to refute it before it can trigger a fix' },
@@ -343,7 +343,7 @@ const reviewPrompt = `Review the change on branch feature/${issue} (issue #${iss
 const qaPrompt = deviceReady =>
   `Run device QA for issue #${issue} on branch feature/${issue} via agent-device per your process (baseline checks + acceptance criteria). Do NOT post any PR comment. Return the structured result mirroring your report: items[] (one entry per test item — id, the acceptance criterion it verifies verbatim, class, per-item verdict, one-line note with evidence path on FAIL), baseline[] ({check, pass} per baseline check), blockingFindings (empty if none), notPerformedReason ONLY if the app could not be run, and your full QA report markdown as \`report\`. Do NOT compute an overall verdict — the pipeline derives it from the items. Every acceptance criterion must appear in items; if one could not be exercised, report it as BLOCKED with the reason.${
     deviceReady
-      ? ' The agent-device CLI has already been verified current in this run — skip your version/update check entirely.'
+      ? ' The agent-device CLI has already been verified available in this run — skip your own version check entirely.'
       : ''
   }${EPOCH_INSTR}`
 
@@ -494,7 +494,7 @@ log(`Built issue #${issue} → ${build.prUrl}`)
 const wirePrompt = `PR wiring + environment pre-check for the pull request ${build.prUrl}. Change PR METADATA ONLY — never edit the PR body or title (those are owned by the setup-pr workflow), and do not add issue-linking. Do exactly three things:
 1. Assign the PR to timothyrusso: \`gh pr edit ${build.prUrl} --add-assignee timothyrusso\`.
 2. Add the PR to GitHub Project #1: \`gh project item-add 1 --owner timothyrusso --url ${build.prUrl}\`. This needs the \`project\` scope on the gh token, which is currently MISSING. If step 2 fails with a scope/authorization error, do NOT abort and do NOT undo step 1 — note the exact remediation \`gh auth refresh -s project\` and treat the run as fine. Step 1 must still stand.
-3. Verify the agent-device CLI is current: \`agent-device --version\`; if missing or outdated, run \`npm i -g agent-device@latest\` and re-check. Return \`agentDeviceReady: true\` ONLY if you verified it is current (or successfully updated it); \`false\` on any doubt or failure.
+3. Check the agent-device CLI is available (read-only — do NOT install, update, or add any package): \`agent-device --version\`. Return \`agentDeviceReady: true\` if it reports a version; \`false\` if the command is missing or errors. Keeping the CLI up to date is handled by environment provisioning outside this run, never by this stage.
 Summarise the outcome of all three in \`note\`.${EPOCH_INSTR}`
 
 let agentDeviceReady = false
