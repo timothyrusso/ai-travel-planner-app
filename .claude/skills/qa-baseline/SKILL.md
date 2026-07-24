@@ -25,7 +25,9 @@ and no secret to store.
 **If the app is signed out, sign in before running feature tests:**
 
 1. From the Welcome screen, open the sign-in / sign-up screen (primary CTA).
-2. Enter the test email **`holidai-qa+clerk_test@example.com`** and continue.
+2. Read the test email from the **`QA_TEST_EMAIL`** env var (in the gitignored `.env`; see
+   `.env.sample`) — e.g. `grep '^QA_TEST_EMAIL=' .env | cut -d= -f2`. It is a Clerk
+   `+clerk_test` address. Enter it and continue.
 3. When asked for the email verification code, enter **`424242`** — Clerk's fixed test-mode
    OTP. It works ONLY for `+clerk_test` emails on a `pk_test` dev instance and sends no real
    email. (A plain email such as `qa-test@example.com` gets a real code and will reject

@@ -14,7 +14,8 @@ Read at the start of every QA run. Append only under the rules in
   before recording a FAIL for "element not tappable".
 - [2026-07-24] Post-login screens (Profile, Account, anything past the Clerk sign-in wall):
   if the shared sim is signed out, DO sign in — the app is a Clerk `pk_test` dev instance,
-  so use a TEST identifier: email `holidai-qa+clerk_test@example.com`, OTP `424242`. The
+  so use a TEST identifier: email from the `QA_TEST_EMAIL` env var (gitignored `.env`; see
+  `.env.sample`), OTP `424242`. The
   fixed `424242` only works for `+clerk_test` emails; a plain email like `qa-test@example.com`
   gets a real code and rejects `424242` (that was the earlier "Incorrect code" failure — a
   wrong-identifier mistake, NOT a broken account, so do not report these screens BLOCKED for
