@@ -5,7 +5,7 @@ import { useTripGenerationState } from '@/features/trip-generation/state/useTrip
 
 const animation = require('@/features/core/ui/assets/lottie/search_animation.json');
 
-export const useSearchPageLogic = () => {
+export const useSearchPlacePageLogic = () => {
   const { tripActions } = useTripGenerationState();
   const [locationInfo, setLocationInfo] = useState<LocationInfo>();
 
@@ -19,9 +19,15 @@ export const useSearchPageLogic = () => {
   const isButtonDisabled = !locationInfo;
 
   return {
-    handleSearchPress,
-    animation,
-    handleParticipantsPress,
-    isButtonDisabled,
+    state: {
+      animation,
+    },
+    derived: {
+      isButtonDisabled,
+    },
+    effects: {
+      handleSearchPress,
+      handleParticipantsPress,
+    },
   };
 };
