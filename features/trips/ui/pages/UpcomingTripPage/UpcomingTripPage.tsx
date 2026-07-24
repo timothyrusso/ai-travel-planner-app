@@ -1,4 +1,3 @@
-import { useRef } from 'react';
 import { Platform, View } from 'react-native';
 import { Routes } from '@/features/core/navigation';
 import { BasicView, PlatformOS } from '@/features/core/ui';
@@ -17,21 +16,9 @@ const basicViewProps = {
 } as const;
 
 export const UpcomingTripPage = () => {
-  const {
-    lastCreatedTrip,
-    isLoading,
-    image,
-    imageBlurHash,
-    location,
-    tripId,
-    tripStartDate,
-    totalTrips,
-    retryCoverImage,
-  } = useUpcomingTripPageLogic();
+  const { state, derived, effects } = useUpcomingTripPageLogic();
 
-  const blurTargetRef = useRef<View | null>(null);
-
-  if (isLoading) {
+  if (state.isLoading) {
     return (
       <BasicView {...basicViewProps}>
         <HomeSkeleton />
@@ -39,7 +26,7 @@ export const UpcomingTripPage = () => {
     );
   }
 
-  if (!lastCreatedTrip) {
+  if (!state.lastCreatedTrip) {
     return (
       <BasicView {...basicViewProps}>
         <EmptyListContainer />
@@ -51,18 +38,18 @@ export const UpcomingTripPage = () => {
     <BasicView {...basicViewProps}>
       <View style={styles.container}>
         <HeroImage
-          image={image}
-          imageBlurHash={imageBlurHash}
-          blurTargetRef={blurTargetRef}
-          onError={retryCoverImage}
+          image={state.image}
+          imageBlurHash={state.imageBlurHash}
+          blurTargetRef={state.blurTargetRef}
+          onError={effects.retryCoverImage}
         />
         <DetailsBox
-          location={location}
-          tripId={tripId}
-          tripStartDate={tripStartDate}
+          location={derived.location}
+          tripId={state.tripId}
+          tripStartDate={state.tripStartDate}
           style={styles.detailsBox}
-          totalTrips={totalTrips}
-          blurTargetRef={Platform.OS === PlatformOS.android ? blurTargetRef : undefined}
+          totalTrips={state.totalTrips}
+          blurTargetRef={Platform.OS === PlatformOS.android ? state.blurTargetRef : undefined}
         />
       </View>
     </BasicView>

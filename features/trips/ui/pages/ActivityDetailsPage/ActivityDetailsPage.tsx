@@ -19,65 +19,49 @@ import { styles } from '@/features/trips/ui/pages/ActivityDetailsPage/ActivityDe
 import { ActivityImageCarousel } from '@/features/trips/ui/pages/ActivityDetailsPage/components/ActivityImageCarousel/ActivityImageCarousel';
 
 export const ActivityDetailsPage = () => {
-  const {
-    scrollOffsetY,
-    handleScroll,
-    locationTitle,
-    imageData,
-    mainDescription,
-    activityInsights,
-    goBackHandler,
-    rating,
-    bestTimeToVisit,
-    ticketPricing,
-    currency,
-    latitude,
-    longitude,
-    carouselImages,
-    retryActivityImage,
-  } = useActivityDetailsPageLogic();
+  const { state, derived, effects } = useActivityDetailsPageLogic();
 
   return (
     <Fragment>
       <AnimatedHeaderImage
-        value={scrollOffsetY}
-        imageUrl={imageData}
-        title={locationTitle}
+        value={state.scrollOffsetY}
+        imageUrl={derived.imageData}
+        title={state.locationTitle}
         chipsAlignment="flex-end"
-        onError={retryActivityImage}
+        onError={effects.retryActivityImage}
         headerIcons={
           <CustomIconButtonMedium
             iconName={icons.arrowBack}
             iconSize={spacing.Fourfold}
-            onPress={goBackHandler}
+            onPress={effects.goBackHandler}
             style={styles.backIcon}
             buttonType={ButtonType.Tertiary}
           />
         }
       />
       <BasicView nameView={Routes.ActivityDetails} containerStyle={styles.basicViewContainer} isFullScreen>
-        <CustomScrollView onScroll={handleScroll} style={styles.scrollView}>
+        <CustomScrollView onScroll={effects.handleScroll} style={styles.scrollView}>
           <View style={styles.container}>
             <ActivityDetailsBox
-              rating={rating}
-              bestTimeToVisit={bestTimeToVisit}
-              ticketPricing={ticketPricing}
-              currency={currency}
-              locationTitle={locationTitle}
-              latitude={latitude}
-              longitude={longitude}
+              rating={state.rating}
+              bestTimeToVisit={state.bestTimeToVisit}
+              ticketPricing={state.ticketPricing}
+              currency={state.currency}
+              locationTitle={state.locationTitle}
+              latitude={state.latitude}
+              longitude={state.longitude}
             />
-            {mainDescription && <CustomText text={mainDescription} style={styles.description} />}
-            {activityInsights && (
+            {state.mainDescription && <CustomText text={state.mainDescription} style={styles.description} />}
+            {state.activityInsights && (
               <View style={styles.insightsContainer}>
                 <View style={styles.insightHeader}>
                   <CustomIcon name={icons.diamond} size={spacing.Triple} color={colors.primaryBlack} />
                   <CustomText text="ACTIVITY_DETAILS.USEFUL_TIPS" style={styles.insightTitle} />
                 </View>
-                <CustomText text={activityInsights} style={styles.insightDescription} />
+                <CustomText text={state.activityInsights} style={styles.insightDescription} />
               </View>
             )}
-            <ActivityImageCarousel images={carouselImages} />
+            <ActivityImageCarousel images={derived.carouselImages} />
           </View>
         </CustomScrollView>
       </BasicView>

@@ -105,20 +105,26 @@ export const useTripDetailsPageLogic = () => {
   };
 
   return {
-    location,
-    allCoordinates,
-    region,
-    scrollOffsetY,
-    handleScroll,
-    sectionData,
-    budgetNotes,
-    transportationNotes,
-    tripDetails,
-    weather,
-    id: trip?._id ?? '',
-    imageUrl,
-    imageBlurHash,
-    food,
-    currency: trip?.tripAiResp.tripDetails.currency ?? 'N/A',
+    state: {
+      scrollOffsetY,
+      budgetNotes,
+      transportationNotes,
+      weather,
+      id: trip?._id ?? '',
+      imageUrl,
+      imageBlurHash,
+      food,
+      currency: trip?.tripAiResp.tripDetails.currency ?? 'N/A',
+    },
+    derived: {
+      location,
+      allCoordinates,
+      region,
+      sectionData,
+      tripDetails,
+    },
+    effects: {
+      handleScroll,
+    },
   };
 };
