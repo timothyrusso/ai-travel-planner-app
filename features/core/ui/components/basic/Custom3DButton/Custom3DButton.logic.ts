@@ -61,5 +61,10 @@ export const useCustom3DButtonLogic = ({ onPress, disabled, isLoading, raiseLeve
     return { transform: [{ translateY }] };
   });
 
-  return { tapGesture, contentAnimatedStyle };
+  return {
+    derived: {
+      tapGesture,
+      contentAnimatedStyle,
+    },
+  };
 };

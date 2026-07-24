@@ -40,8 +40,12 @@ export const useCustomImageLogic = ({
   };
 
   return {
-    resolvedPlaceholder,
-    resolvedSource: hasError || !source ? fallbackImage : source,
-    onError,
+    derived: {
+      resolvedPlaceholder,
+      resolvedSource: hasError || !source ? fallbackImage : source,
+    },
+    effects: {
+      onError,
+    },
   };
 };

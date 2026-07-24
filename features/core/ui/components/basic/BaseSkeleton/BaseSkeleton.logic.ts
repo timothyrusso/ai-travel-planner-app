@@ -10,5 +10,9 @@ export const useBaseSkeletonLogic = () => {
     backgroundColor: colors.primaryGrey,
   }));
 
-  return { animatedStyle };
+  return {
+    derived: {
+      animatedStyle,
+    },
+  };
 };

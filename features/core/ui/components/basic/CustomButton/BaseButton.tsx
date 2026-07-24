@@ -49,11 +49,11 @@ export function BaseButton({
     .with({ isLoading: true }, () => ButtonState.Disabled)
     .otherwise(() => ButtonState.Active);
 
-  const { styleIconColor, getButtonStyles } = useCustomButtonLogic();
+  const { derived } = useCustomButtonLogic();
 
-  const styles = styleButton(buttonType, buttonState, getButtonStyles, size, leftIcon, rightIcon);
+  const styles = styleButton(buttonType, buttonState, derived.getButtonStyles, size, leftIcon, rightIcon);
 
-  const iconColor = styleIconColor(buttonType, buttonState);
+  const iconColor = derived.styleIconColor(buttonType, buttonState);
 
   return (
     <CustomPressable disabled={isDisabled || isLoading} onPress={onPress} style={[styles.button, style]}>

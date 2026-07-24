@@ -22,12 +22,12 @@ export const CustomCard = ({
   onPress,
   ...rest
 }: PropsWithChildren<CustomCardProps>) => {
-  const { componentStyle } = useCustomCardLogic({ selected, cardType });
+  const { derived } = useCustomCardLogic({ selected, cardType });
 
   return (
     <Pressable
       {...rest}
-      style={({ pressed }) => [componentStyle.pressable, style, pressed && componentStyle.pressed]}
+      style={({ pressed }) => [derived.componentStyle.pressable, style, pressed && derived.componentStyle.pressed]}
       onPress={onPress}
     >
       {children}

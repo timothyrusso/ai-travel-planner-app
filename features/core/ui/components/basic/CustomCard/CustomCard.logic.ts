@@ -34,6 +34,8 @@ export const useCustomCardLogic = ({ selected = false, cardType = CardType.Defau
   const componentStyle = styles(cardStyle);
 
   return {
-    componentStyle,
+    derived: {
+      componentStyle,
+    },
   };
 };
