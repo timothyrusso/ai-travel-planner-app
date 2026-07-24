@@ -1,11 +1,8 @@
 // @ts-check
 'use strict';
 
-// Standalone RuleTester spec for `viewmodel-return-shape`. Run via `npm run test:eslint-rules`
-// (the runner shims RuleTester's describe/it so cases execute inline and throw on failure).
-// The filename deliberately avoids the `.test.`/`.spec.` tokens: the repo's jest-expo preset
-// provides a React Native environment unsuited to running ESLint's RuleTester, so these must
-// NOT be picked up by `jest`.
+// RuleTester spec, run via `npm run test:eslint-rules`. NOT named `*.test.js`: the jest-expo preset
+// can't run RuleTester, so these must stay outside jest's testMatch.
 
 const { RuleTester } = require('eslint');
 const tsParser = require('@typescript-eslint/parser');

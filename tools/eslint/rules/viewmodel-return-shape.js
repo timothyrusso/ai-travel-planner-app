@@ -1,14 +1,8 @@
 // @ts-check
 'use strict';
 
-// A ViewModel (`*.logic.ts`) hook must return one of:
-//   - an object literal whose top-level keys are a non-empty subset of { state, derived, effects }
-//     (`state` = raw/local/external state the view renders; `derived` = values computed from state;
-//      `effects` = handlers/commands the view invokes), or
-//   - nothing (void) — effect-only ViewModels are valid.
-// The rule is filename-triggered (any `*.logic.ts`) and hook-name-agnostic, so a mis-named hook
-// cannot dodge it. Only the hook's OWN returns are inspected — returns inside nested functions
-// (e.g. a `useEffect` cleanup) are ignored.
+// ESLint rule: a ViewModel (`*.logic.ts`) hook must return `{ state, derived?, effects }` or nothing.
+// Full contract and rationale: wiki/docs/ARCHITECTURE.md (ui/ — The ViewModel contract).
 
 const ALLOWED = new Set(['state', 'derived', 'effects']);
 const SHAPE = '{ state, derived?, effects }';

@@ -1,8 +1,7 @@
 // @ts-check
 'use strict';
 
-// Local ESLint plugin `holidai` — mechanizes the View↔ViewModel contract.
-// See wiki/docs/ARCHITECTURE.md and the individual rule files for rationale.
+// Local ESLint plugin `holidai` — the View↔ViewModel contract rules. See wiki/docs/ARCHITECTURE.md.
 
 const viewmodelReturnShape = require('./rules/viewmodel-return-shape');
 const preferViewmodel = require('./rules/prefer-viewmodel');

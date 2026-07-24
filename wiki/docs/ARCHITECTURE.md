@@ -1269,6 +1269,28 @@ PageName/
 
 `PageName.tsx` never imports repositories, use cases, facades, hooks, or runtime values from `domain/`. All logic lives in `PageName.logic.ts`, which **is** the page's **ViewModel** — a custom hook that provides everything the view needs: data, derived state, and action handlers. The only direct `domain/` import allowed in `.tsx` is `import type` for prop annotations — it is erased at compile time and introduces no runtime coupling.
 
+#### The ViewModel contract
+
+Two conventions keep a View a thin projection of its ViewModel. Both are enforced by the local `holidai` ESLint plugin (`tools/eslint/`) — registered at `warn` during rollout and flipped to `error` once every ViewModel is migrated (issue #404).
+
+**A ViewModel's return shape** — `holidai/viewmodel-return-shape`, on every `*.logic.ts`. The hook must return either nothing (effect-only ViewModels are valid) or an object whose top-level keys are a non-empty subset of:
+
+- `state` — raw local/external state the view renders
+- `derived` — values computed from state (labels, counts, formatted data)
+- `effects` — handlers and commands the view invokes
+
+```ts
+return {
+  state:   { startDate, calendarKey, userTokens },
+  derived: { numberOfDays, startDateLabel },
+  effects: { handleDateChange, handleButtonPress },
+};
+```
+
+The rule triggers on the `.logic.ts` filename (not the hook name), so a mis-named hook cannot dodge it, and it unwraps TS wrappers (`as const`, `satisfies`, `!`) before checking. Top-level spreads and computed keys are rejected — they could inject keys that can't be statically verified.
+
+**One ViewModel per View** — `holidai/prefer-viewmodel`, on every `*.tsx`. A component backed by a ViewModel may call **only its own ViewModel hook, at most once, and no other `use*` hooks**; all other hook usage belongs inside the ViewModel. The ViewModel hook is identified structurally — it is whatever the `.tsx` imports from a module path ending in `.logic`. A `.tsx` with no `.logic` import is a pure presentational component and is exempt. Sanctioned shared hooks can be permitted via the rule's `allow` option.
+
 ---
 
 ## DI Container

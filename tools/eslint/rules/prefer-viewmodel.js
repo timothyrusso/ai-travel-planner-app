@@ -1,16 +1,8 @@
 // @ts-check
 'use strict';
 
-// A component (`*.tsx`) that is backed by a ViewModel must delegate all logic to it: it may call
-// ONLY its own ViewModel hook, AT MOST ONCE, and no other `use*` hooks. This keeps the View a pure
-// projection of the ViewModel (analog of chicio-blog's `prefer-component-store`).
-//
-// The ViewModel hook is identified structurally, not by name: it is whatever the file imports from a
-// module path ending in `.logic` (e.g. `import { useSelectDatesPageLogic } from '@/.../SelectDatesPage.logic'`).
-// A `.tsx` with no `.logic` import has no ViewModel and is exempt (pure presentational component).
-//
-// Sanctioned exceptions (shared primitive hooks a View may call directly) are configurable via the
-// `allow` option, e.g. `["holidai/prefer-viewmodel", { "allow": ["useGlassmorphism"] }]`.
+// ESLint rule: a `*.tsx` backed by a ViewModel may call only its own ViewModel hook, once.
+// Full contract and rationale: wiki/docs/ARCHITECTURE.md (ui/ — The ViewModel contract).
 
 /** @type {import('eslint').Rule.RuleModule} */
 const rule = {
@@ -42,6 +34,7 @@ const rule = {
     }
 
     const options = context.options[0] ?? {};
+    // `allow`: hook names a View may call directly despite the one-hook rule (e.g. shared primitives).
     const allow = new Set(options.allow ?? []);
 
     /** @type {Set<string>} */

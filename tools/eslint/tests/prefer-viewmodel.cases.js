@@ -1,7 +1,8 @@
 // @ts-check
 'use strict';
 
-// Standalone RuleTester spec for `prefer-viewmodel`. See viewmodel-return-shape.cases.js header.
+// RuleTester spec, run via `npm run test:eslint-rules`. NOT named `*.test.js`: the jest-expo preset
+// can't run RuleTester, so these must stay outside jest's testMatch.
 
 const { RuleTester } = require('eslint');
 const tsParser = require('@typescript-eslint/parser');
