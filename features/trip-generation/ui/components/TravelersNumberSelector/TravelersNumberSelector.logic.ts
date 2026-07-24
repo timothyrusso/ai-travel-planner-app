@@ -11,8 +11,12 @@ export const useTravelersNumberSelectorLogic = () => {
   };
 
   return {
-    handleCardPress,
-    travelersNumber,
-    data: TRAVELERS_NUMBER_OPTIONS,
+    state: {
+      travelersNumber,
+      data: TRAVELERS_NUMBER_OPTIONS,
+    },
+    effects: {
+      handleCardPress,
+    },
   };
 };
