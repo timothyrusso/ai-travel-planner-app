@@ -23,5 +23,13 @@ export const useChangeLanguagePageLogic = () => {
     setSelectedLanguage(lang);
   };
 
-  return { changeLanguageHandler, selectedLanguage, isLoading };
+  return {
+    state: {
+      selectedLanguage,
+      isLoading,
+    },
+    effects: {
+      changeLanguageHandler,
+    },
+  };
 };

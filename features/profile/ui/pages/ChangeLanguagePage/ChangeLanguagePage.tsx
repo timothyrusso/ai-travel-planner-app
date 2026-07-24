@@ -9,22 +9,22 @@ import {
 import { styles } from '@/features/profile/ui/pages/ChangeLanguagePage/ChangeLanguagePage.style';
 
 export const ChangeLanguagePage = () => {
-  const { changeLanguageHandler, selectedLanguage, isLoading } = useChangeLanguagePageLogic();
+  const { state, effects } = useChangeLanguagePageLogic();
 
   return (
     <BasicView nameView={Routes.ChangeLanguage} statusBarStyle="dark">
       <View style={styles.container}>
         <LanguageItem
           language="CHANGE_LANGUAGE.BUTTON.EN"
-          onPress={() => changeLanguageHandler(Languages.EN)}
-          isSelected={selectedLanguage === Languages.EN}
-          isLoading={isLoading}
+          onPress={() => effects.changeLanguageHandler(Languages.EN)}
+          isSelected={state.selectedLanguage === Languages.EN}
+          isLoading={state.isLoading}
         />
         <LanguageItem
           language="CHANGE_LANGUAGE.BUTTON.IT"
-          onPress={() => changeLanguageHandler(Languages.IT)}
-          isSelected={selectedLanguage === Languages.IT}
-          isLoading={isLoading}
+          onPress={() => effects.changeLanguageHandler(Languages.IT)}
+          isSelected={state.selectedLanguage === Languages.IT}
+          isLoading={state.isLoading}
         />
       </View>
     </BasicView>

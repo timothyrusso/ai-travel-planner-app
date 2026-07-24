@@ -22,15 +22,21 @@ export const useProfilePageLogic = () => {
   const profileImage = `${profileImageUrl}?height=${components.profileImageHeight}&width=${components.profileImageHeight}&quality=100&fit=crop`;
 
   return {
-    isUserLoading,
-    username,
-    profileImage,
-    totalTrips,
-    favoriteTrips,
-    isTripDataLoading: isTripsLoading,
-    userTokens,
-    goToChangeLanguage,
-    goToShowAllTrips,
-    goToAccountSettings,
+    state: {
+      username,
+      totalTrips,
+      favoriteTrips,
+      isTripDataLoading: isTripsLoading,
+      userTokens,
+    },
+    derived: {
+      isUserLoading,
+      profileImage,
+    },
+    effects: {
+      goToChangeLanguage,
+      goToShowAllTrips,
+      goToAccountSettings,
+    },
   };
 };
