@@ -31,6 +31,8 @@ jobs:
       - run: npm install --package-lock-only
       - run: npm ci
       - run: npm run lint
+      - run: npm run test:eslint-rules
+      - run: npm run lint:compiler
       - run: npx tsc --noEmit
 
       - name: Architecture check
