@@ -10,7 +10,7 @@ import { style } from '@/features/trip-generation/ui/pages/SelectBudgetPage/Sele
 const SeparatorItem = () => <View style={style.separator} />;
 
 export const SelectBudgetPage = () => {
-  const { selectedBudget, handleCardPress, handleButtonPress } = useSelectBudgetPageLogic();
+  const { state, effects } = useSelectBudgetPageLogic();
 
   const renderBudgetItem = ({ item }: { item: (typeof BudgetData)[number] }) =>
     item.id !== null ? (
@@ -19,9 +19,9 @@ export const SelectBudgetPage = () => {
         label={item.title}
         icon={item.icon}
         style={style.twoColumnCard}
-        selected={selectedBudget === item.id}
-        onPress={() => handleCardPress(item.id ?? 0)}
-        iconColor={selectedBudget === item.id ? colors.primaryWhite : colors.primaryBlack}
+        selected={state.selectedBudget === item.id}
+        onPress={() => effects.handleCardPress(item.id ?? 0)}
+        iconColor={state.selectedBudget === item.id ? colors.primaryWhite : colors.primaryBlack}
       />
     ) : null;
 
@@ -30,7 +30,7 @@ export const SelectBudgetPage = () => {
       nameView={Routes.SelectBudget}
       statusBarStyle="dark"
       bottomButtonTitle="REVIEW_TRIP.TITLE"
-      bottomButtonPress={handleButtonPress}
+      bottomButtonPress={effects.handleButtonPress}
     >
       <CustomText text="SELECT_BUDGET.DESCRIPTION" style={style.subtitle} />
       <FlatList

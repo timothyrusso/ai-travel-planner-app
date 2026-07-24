@@ -23,8 +23,12 @@ export const useSelectBudgetPageLogic = () => {
   };
 
   return {
-    selectedBudget,
-    handleCardPress,
-    handleButtonPress,
+    state: {
+      selectedBudget,
+    },
+    effects: {
+      handleCardPress,
+      handleButtonPress,
+    },
   };
 };

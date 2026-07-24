@@ -6,22 +6,27 @@ import { useReviewTripPageLogic } from '@/features/trip-generation/ui/pages/Revi
 import { style } from '@/features/trip-generation/ui/pages/ReviewTripPage/ReviewTripPage.style';
 
 export const ReviewTripPage = () => {
-  const { handleButtonPress, destination, dates, travelers, budget, animation } = useReviewTripPageLogic();
+  const { state, derived, effects } = useReviewTripPageLogic();
 
   return (
     <BasicView
       nameView={Routes.ReviewTrip}
       statusBarStyle="dark"
       bottomButtonTitle="REVIEW_TRIP.BUILD_TRIP"
-      bottomButtonPress={handleButtonPress}
+      bottomButtonPress={effects.handleButtonPress}
       viewStyle={style.container}
     >
       <CustomScrollView contentContainerStyle={style.contentScrollViewContainer}>
         <CustomText text="REVIEW_TRIP.DESCRIPTION" style={style.subtitle} />
         <View style={style.summaryContainer}>
-          <SummaryCard destination={destination} dates={dates} travelers={travelers} budget={budget} />
+          <SummaryCard
+            destination={derived.destination}
+            dates={derived.dates}
+            travelers={state.travelers}
+            budget={state.budget}
+          />
         </View>
-        <LottieAnimation style={style.animation} animationPath={animation} loop autoPlay />
+        <LottieAnimation style={style.animation} animationPath={state.animation} loop autoPlay />
       </CustomScrollView>
     </BasicView>
   );
