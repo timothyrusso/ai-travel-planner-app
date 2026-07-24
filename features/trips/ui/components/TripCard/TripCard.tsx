@@ -5,24 +5,24 @@ import { useTripCardLogic } from '@/features/trips/ui/components/TripCard/TripCa
 import { styles } from '@/features/trips/ui/components/TripCard/TripCard.style';
 
 export const TripCard = ({ item }: { item: Trip }) => {
-  const { imageUrl, imageBlurHash, location, onCardPress, isFavorite, retryCoverImage } = useTripCardLogic(item);
+  const { state, derived, effects } = useTripCardLogic(item);
 
   return (
-    <Pressable style={({ pressed }) => [styles.container, pressed ? styles.pressed : {}]} onPress={onCardPress}>
+    <Pressable style={({ pressed }) => [styles.container, pressed ? styles.pressed : {}]} onPress={effects.onCardPress}>
       <CustomImage
-        source={typeof imageUrl === 'string' ? { uri: imageUrl } : imageUrl}
+        source={typeof state.imageUrl === 'string' ? { uri: state.imageUrl } : state.imageUrl}
         style={styles.image}
-        placeholder={imageBlurHash ? { blurhash: imageBlurHash } : undefined}
-        onError={retryCoverImage}
+        placeholder={state.imageBlurHash ? { blurhash: state.imageBlurHash } : undefined}
+        onError={effects.retryCoverImage}
       />
       <View style={styles.iconContainer}>
         <CustomIcon
-          name={isFavorite ? icons.heartOutline : icons.hearth}
+          name={state.isFavorite ? icons.heartOutline : icons.hearth}
           size={spacing.TripleAndHalf}
           color={colors.primaryBlack}
         />
       </View>
-      <CustomText text={location} style={styles.title} />
+      <CustomText text={derived.location} style={styles.title} />
     </Pressable>
   );
 };

@@ -11,7 +11,7 @@ type TypicalDishesModalHeaderProps = {
 };
 
 export const TypicalDishesModalHeader: FC<TypicalDishesModalHeaderProps> = ({ location, dishNumber, onClose }) => {
-  const { dishLabel } = useTypicalDishesModalHeaderLogic(dishNumber);
+  const { derived } = useTypicalDishesModalHeaderLogic(dishNumber);
 
   return (
     <View style={styles.headerRow}>
@@ -20,7 +20,7 @@ export const TypicalDishesModalHeader: FC<TypicalDishesModalHeaderProps> = ({ lo
         <View style={styles.locationRow}>
           <CustomIcon name={icons.location} size={spacing.Triple} color={colors.secondaryGreen} />
           <CustomText text={location} style={styles.location} numberOfLines={1} ellipsizeMode="tail" />
-          <CustomText text={`✦  ${dishNumber} ${dishLabel}`} style={styles.dishNumber} />
+          <CustomText text={`✦  ${dishNumber} ${derived.dishLabel}`} style={styles.dishNumber} />
         </View>
       </View>
       <CustomIconButtonMedium iconName={icons.close} buttonType={ButtonType.Quaternary} onPress={onClose} />

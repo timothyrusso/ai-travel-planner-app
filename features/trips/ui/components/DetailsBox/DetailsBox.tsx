@@ -24,17 +24,17 @@ export const DetailsBox: FC<DetailsBoxProps> = ({
   style,
   blurTargetRef,
 }) => {
-  const { handlePress, dateLabel, handleShowAllTripsButton } = useDetailsBoxLogic(tripId, tripStartDate);
+  const { derived, effects } = useDetailsBoxLogic(tripId, tripStartDate);
 
   const content = (
     <View style={styles.contentContainer}>
       <CustomText text={location} style={styles.location} numberOfLines={1} ellipsizeMode="tail" />
 
       <View style={styles.titleContainer}>
-        <CustomText text={dateLabel} style={styles.date} numberOfLines={1} ellipsizeMode="tail" />
+        <CustomText text={derived.dateLabel} style={styles.date} numberOfLines={1} ellipsizeMode="tail" />
         <CustomButtonMedium
           title="MY_TRIP.TRIP_DETAILS"
-          onPress={handlePress}
+          onPress={effects.handlePress}
           buttonType={ButtonType.Primary}
           textStyle={styles.buttonsText}
           style={styles.titleButton}
@@ -47,7 +47,7 @@ export const DetailsBox: FC<DetailsBoxProps> = ({
         {totalTrips > 0 && (
           <CustomButtonMedium
             title="MY_TRIP.SHOW_ALL_TRIPS"
-            onPress={handleShowAllTripsButton}
+            onPress={effects.handleShowAllTripsButton}
             buttonType={ButtonType.Secondary}
             textStyle={styles.buttonsText}
             style={styles.footerButton}

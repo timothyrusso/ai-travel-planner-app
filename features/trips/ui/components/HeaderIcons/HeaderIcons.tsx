@@ -4,30 +4,30 @@ import { useHeaderIconsLogic } from '@/features/trips/ui/components/HeaderIcons/
 import { heartPulseStyle, styles } from '@/features/trips/ui/components/HeaderIcons/HeaderIcons.style';
 
 export const HeaderIcons = () => {
-  const { goBackHandler, addToFavoritesHandler, handleDeleteTrip, isFavorite, shouldAnimate } = useHeaderIconsLogic();
+  const { state, effects } = useHeaderIconsLogic();
 
   return (
     <View style={styles.container}>
       <CustomIconButtonMedium
         iconName={icons.arrowBack}
         iconSize={spacing.Fourfold}
-        onPress={goBackHandler}
+        onPress={effects.goBackHandler}
         style={styles.backIcon}
         buttonType={ButtonType.Quaternary}
       />
       <CustomIconButtonMedium
-        iconName={!isFavorite ? icons.hearth : icons.heartOutline}
+        iconName={!state.isFavorite ? icons.hearth : icons.heartOutline}
         iconSize={spacing.Fourfold}
-        onPress={addToFavoritesHandler}
+        onPress={effects.addToFavoritesHandler}
         style={styles.favoriteIcon}
         buttonType={ButtonType.Quaternary}
-        animatedIconStyle={shouldAnimate ? heartPulseStyle : undefined}
+        animatedIconStyle={state.shouldAnimate ? heartPulseStyle : undefined}
         noPressedStyle
       />
       <CustomIconButtonMedium
         iconName={icons.remove}
         iconSize={spacing.Fourfold}
-        onPress={handleDeleteTrip}
+        onPress={effects.handleDeleteTrip}
         style={styles.removeIcon}
         buttonType={ButtonType.Quaternary}
       />

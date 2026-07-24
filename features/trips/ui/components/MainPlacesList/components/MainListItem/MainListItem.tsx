@@ -10,13 +10,16 @@ type MainListItemProps = {
 };
 
 export const MainListItem: FC<MainListItemProps> = ({ index, photoResourceName }) => {
-  const { data, MIN_MAIN_LIST_ITEM_INDEX } = useMainListItemLogic(photoResourceName);
+  const { state, derived } = useMainListItemLogic(photoResourceName);
 
-  return index === MIN_MAIN_LIST_ITEM_INDEX ? (
+  return index === state.MIN_MAIN_LIST_ITEM_INDEX ? (
     <View style={styles.lastItem}>
       <CustomIcon name={icons.star} size={spacing.Triple} color={colors.primaryBlack} />
     </View>
   ) : (
-    <CustomImage source={typeof data === 'string' ? { uri: data } : data} style={styles.image} />
+    <CustomImage
+      source={typeof derived.data === 'string' ? { uri: derived.data } : derived.data}
+      style={styles.image}
+    />
   );
 };

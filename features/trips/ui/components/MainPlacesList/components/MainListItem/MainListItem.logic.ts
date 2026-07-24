@@ -6,5 +6,8 @@ export const useMainListItemLogic = (photoResourceName: string | undefined) => {
   const data = photoResourceName
     ? buildPlacePhotoUrlUseCase.execute(photoResourceName, IMAGE_RESOLUTION.thumbnail)
     : undefined;
-  return { data, MIN_MAIN_LIST_ITEM_INDEX };
+  return {
+    state: { MIN_MAIN_LIST_ITEM_INDEX },
+    derived: { data },
+  };
 };

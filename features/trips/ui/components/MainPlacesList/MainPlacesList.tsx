@@ -5,13 +5,13 @@ import { useMainPlacesListLogic } from '@/features/trips/ui/components/MainPlace
 import { styles } from '@/features/trips/ui/components/MainPlacesList/MainPlacesList.style';
 
 export const MainPlacesList = () => {
-  const { listItems, isLoading } = useMainPlacesListLogic();
+  const { state, derived } = useMainPlacesListLogic();
 
-  return isLoading ? (
+  return state.isLoading ? (
     <BaseSkeleton style={styles.skeleton} />
   ) : (
     <FlatList
-      data={listItems}
+      data={derived.listItems}
       renderItem={({ item, index }) => <MainListItem index={index} photoResourceName={item?.photoResourceName} />}
       style={styles.container}
       scrollEnabled={false}

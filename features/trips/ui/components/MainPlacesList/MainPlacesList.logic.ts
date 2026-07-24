@@ -12,5 +12,8 @@ export const useMainPlacesListLogic = () => {
       ]
     : [];
 
-  return { listItems, isLoading };
+  return {
+    state: { isLoading },
+    derived: { listItems },
+  };
 };
