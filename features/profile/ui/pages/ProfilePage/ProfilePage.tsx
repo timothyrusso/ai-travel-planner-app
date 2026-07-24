@@ -7,23 +7,12 @@ import { useProfilePageLogic } from '@/features/profile/ui/pages/ProfilePage/Pro
 import { styles } from '@/features/profile/ui/pages/ProfilePage/ProfilePage.style';
 
 export const ProfilePage = () => {
-  const {
-    isUserLoading,
-    username,
-    totalTrips,
-    favoriteTrips,
-    isTripDataLoading,
-    goToChangeLanguage,
-    goToShowAllTrips,
-    userTokens,
-    goToAccountSettings,
-    profileImage,
-  } = useProfilePageLogic();
+  const { state, derived, effects } = useProfilePageLogic();
 
   return (
     <BasicView nameView={Stacks.Profile} isMenuVisible statusBarStyle="dark" hasHeader={false}>
       <CustomScrollView contentContainerStyle={styles.contentContainer}>
-        {isUserLoading ? (
+        {derived.isUserLoading ? (
           <View style={styles.avatarContainer}>
             <BaseSkeleton style={styles.avatarSkeleton} />
             <BaseSkeleton style={styles.nameSkeleton} />
@@ -31,30 +20,30 @@ export const ProfilePage = () => {
         ) : (
           <>
             <View style={styles.avatar}>
-              <CustomImage source={{ uri: profileImage }} style={styles.avatarImage} />
+              <CustomImage source={{ uri: derived.profileImage }} style={styles.avatarImage} />
             </View>
-            {username && <CustomText text={username} style={styles.name} />}
+            {state.username && <CustomText text={state.username} style={styles.name} />}
           </>
         )}
-        {isTripDataLoading ? (
+        {state.isTripDataLoading ? (
           <View style={styles.skeletonContainer}>
             <BaseSkeleton style={styles.skeleton} />
           </View>
         ) : (
           <UserDataBox
-            totalTrips={totalTrips}
-            favoriteTrips={favoriteTrips}
-            userTokens={userTokens}
-            onPress={goToShowAllTrips}
+            totalTrips={state.totalTrips}
+            favoriteTrips={state.favoriteTrips}
+            userTokens={state.userTokens}
+            onPress={effects.goToShowAllTrips}
           />
         )}
         <View style={styles.settingsContainer}>
           <ButtonsContainer
             firstTitle="PROFILE.BUTTON.CHANGE_LANGUAGE"
-            firstOnPress={goToChangeLanguage}
+            firstOnPress={effects.goToChangeLanguage}
             firstIcon={icons.language}
             secondTitle="PROFILE.BUTTON.ACCOUNT_SETTINGS"
-            secondOnPress={goToAccountSettings}
+            secondOnPress={effects.goToAccountSettings}
             secondIcon={icons.settings}
           />
         </View>
