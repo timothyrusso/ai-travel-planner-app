@@ -22,3 +22,10 @@ Read at the start of every QA run. Append only under the rules in
   signs out must sign back in with these creds before finishing.
 - [2026-07-24] The android real device "Pixel 9a" (booted=true in `list-devices`) shows a
   black screenshot (locked/screen-off) — not usable for QA; don't spend time on it.
+- [2026-07-24] Profile/Account screens: after `--settle`, refs from the pre-action snapshot can
+  resolve to the WRONG element (stale coordinates from a layout that already shifted, e.g.
+  clicking a "Cambia lingua"/back-button ref lands on a neighboring row instead) — this cost
+  several misnavigations. Also, this app's custom circular back-buttons and profile list rows
+  never show `hittable:true` in the iOS a11y tree (same family as the layered-control quirk
+  above). Mitigation: after any nav change, pull a FRESH `snapshot -i --raw`, read the target's
+  `rect`, and tap the computed center point directly rather than trusting a carried-over ref.
