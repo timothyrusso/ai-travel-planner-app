@@ -13,5 +13,13 @@ export const useRootAppCrashViewLogic = ({ error, retry }: ErrorBoundaryProps) =
   }
 
   const message = t('ERRORS.GENERIC');
-  return { message, retry, t };
+  return {
+    state: {
+      message,
+      t,
+    },
+    effects: {
+      retry,
+    },
+  };
 };
