@@ -46,7 +46,9 @@ export const useBasicViewLogic = ({
   const componentStyle = styles(paddingTop, paddingBottom);
 
   return {
-    componentStyle,
+    derived: {
+      componentStyle,
+    },
   };
 };
 
