@@ -30,3 +30,10 @@ Read at the start of every QA run. Append only under the rules in
   never show `hittable:true` in the iOS a11y tree (same family as the layered-control quirk
   above). Mitigation: after any nav change, pull a FRESH `snapshot -i --raw`, read the target's
   `rect`, and tap the computed center point directly rather than trusting a carried-over ref.
+- [2026-07-24] `agent-device metro reload` can 500 even with Metro healthy and reachable
+  (JS-only diff, correct project root) — fall back to `open <app> --platform ios --device
+  <name> --relaunch`; it re-fetches the bundle from the same Metro (shows "Downloading
+  100%…") and is an equally valid attach+reload for the JS-only path.
+- [2026-07-24] Clerk sign-in: if the identifier field is pre-filled via "Last Used", Clerk
+  may default to a PASSWORD prompt instead of emailing an OTP. Tap "Use another method" →
+  "Email code to <address>" to get the `+clerk_test` OTP field, then enter `424242`.
