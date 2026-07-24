@@ -11,5 +11,8 @@ export const useDetailsBoxLogic = (tripId: string, tripStartDate: string) => {
 
   const handleShowAllTripsButton = () => navigationService.toTripList();
 
-  return { handlePress, dateLabel, handleShowAllTripsButton };
+  return {
+    derived: { dateLabel },
+    effects: { handlePress, handleShowAllTripsButton },
+  };
 };

@@ -20,14 +20,20 @@ export const useActivityItemLogic = (scheduleItem: ScheduleItem, tripId: string,
         : `${scheduleItem.ticketPricing} ${currency}`;
 
   return {
-    image: resourceName ? buildPlacePhotoUrlUseCase.execute(resourceName, IMAGE_RESOLUTION.medium) : undefined,
-    t,
-    handlePress,
-    placeNumberID: scheduleItem.placeNumberID,
-    placeName: scheduleItem.placeName,
-    bestTimeToVisit: scheduleItem.bestTimeToVisit,
-    rating: scheduleItem.rating.toString(),
-    priceLabel,
-    placeDetails: scheduleItem.placeDetails,
+    state: {
+      t,
+      placeNumberID: scheduleItem.placeNumberID,
+      placeName: scheduleItem.placeName,
+      bestTimeToVisit: scheduleItem.bestTimeToVisit,
+      placeDetails: scheduleItem.placeDetails,
+    },
+    derived: {
+      image: resourceName ? buildPlacePhotoUrlUseCase.execute(resourceName, IMAGE_RESOLUTION.medium) : undefined,
+      rating: scheduleItem.rating.toString(),
+      priceLabel,
+    },
+    effects: {
+      handlePress,
+    },
   };
 };

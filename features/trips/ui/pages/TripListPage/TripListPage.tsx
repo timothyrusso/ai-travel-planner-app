@@ -13,12 +13,12 @@ const renderItem = (item: Trip | UniqueItem) => {
 };
 
 export const TripListPage = () => {
-  const { userTrips } = useTripListPageLogic();
+  const { derived } = useTripListPageLogic();
 
   return (
     <BasicView nameView={Routes.ShowAllTrips} statusBarStyle="dark">
       <FlatList<Trip | UniqueItem>
-        data={userTrips}
+        data={derived.userTrips}
         renderItem={({ item }) => renderItem(item)}
         keyExtractor={item => ('_id' in item ? item._id : item.uuid)}
         numColumns={2}

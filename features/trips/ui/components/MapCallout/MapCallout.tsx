@@ -15,10 +15,13 @@ type MapCalloutProps = {
 };
 
 export const MapCallout: FC<MapCalloutProps> = ({ coord }) => {
-  const { handleOpenMaps } = useMapCalloutLogic();
+  const { effects } = useMapCalloutLogic();
 
   return (
-    <Callout onPress={() => handleOpenMaps(coord.latitude, coord.longitude, coord.title)} style={styles.callout}>
+    <Callout
+      onPress={() => effects.handleOpenMaps(coord.latitude, coord.longitude, coord.title)}
+      style={styles.callout}
+    >
       <View style={styles.calloutContent}>
         <CustomText text={coord.title} style={styles.calloutTitle} />
         <CustomText text={coord.description} style={styles.calloutDescription} />

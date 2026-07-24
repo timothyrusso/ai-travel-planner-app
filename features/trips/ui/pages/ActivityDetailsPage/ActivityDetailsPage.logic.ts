@@ -46,20 +46,26 @@ export const useActivityDetailsPageLogic = () => {
   };
 
   return {
-    scrollOffsetY,
-    handleScroll,
-    locationTitle: activity?.placeName,
-    imageData: mainPhotoUrl,
-    mainDescription: activity?.placeDetailsLongDescription,
-    activityInsights: activity?.placeSecretsAndInsights,
-    goBackHandler,
-    rating: activity?.rating,
-    bestTimeToVisit: activity?.bestTimeToVisit,
-    ticketPricing,
-    currency,
-    latitude: activity?.geoCoordinates.latitude,
-    longitude: activity?.geoCoordinates.longitude,
-    carouselImages,
-    retryActivityImage,
+    state: {
+      scrollOffsetY,
+      locationTitle: activity?.placeName,
+      mainDescription: activity?.placeDetailsLongDescription,
+      activityInsights: activity?.placeSecretsAndInsights,
+      rating: activity?.rating,
+      bestTimeToVisit: activity?.bestTimeToVisit,
+      ticketPricing,
+      currency,
+      latitude: activity?.geoCoordinates.latitude,
+      longitude: activity?.geoCoordinates.longitude,
+    },
+    derived: {
+      imageData: mainPhotoUrl,
+      carouselImages,
+    },
+    effects: {
+      handleScroll,
+      goBackHandler,
+      retryActivityImage,
+    },
   };
 };

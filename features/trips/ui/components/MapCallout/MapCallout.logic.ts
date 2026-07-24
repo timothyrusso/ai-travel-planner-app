@@ -6,6 +6,6 @@ export const useMapCalloutLogic = () => {
   };
 
   return {
-    handleOpenMaps,
+    effects: { handleOpenMaps },
   };
 };

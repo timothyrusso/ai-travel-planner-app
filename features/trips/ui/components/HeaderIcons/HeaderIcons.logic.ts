@@ -35,10 +35,14 @@ export const useHeaderIconsLogic = () => {
   };
 
   return {
-    goBackHandler,
-    addToFavoritesHandler,
-    handleDeleteTrip,
-    isFavorite: trip?.isFavorite ?? false,
-    shouldAnimate,
+    state: {
+      isFavorite: trip?.isFavorite ?? false,
+      shouldAnimate,
+    },
+    effects: {
+      goBackHandler,
+      addToFavoritesHandler,
+      handleDeleteTrip,
+    },
   };
 };

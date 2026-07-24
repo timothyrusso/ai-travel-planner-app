@@ -19,17 +19,21 @@ export const useDishDetailsModalPageLogic = () => {
   const handleClose = () => navigationService.back();
 
   return {
-    dishName: dish?.name ?? '',
-    dishDescription: dish?.description ?? '',
-    dishIngredients: dish?.ingredients ?? [],
-    handleClose,
-    image: dish?.imageUrl,
-    isVegetarian: dish?.isVegetarian ?? false,
-    isGlutenFree: dish?.isGlutenFree ?? false,
-    isVegan: dish?.isVegan ?? false,
-    glutenFreeImage,
-    veganImage,
-    vegetarianImage,
-    retryDishImage,
+    state: {
+      dishName: dish?.name ?? '',
+      dishDescription: dish?.description ?? '',
+      dishIngredients: dish?.ingredients ?? [],
+      image: dish?.imageUrl,
+      isVegetarian: dish?.isVegetarian ?? false,
+      isGlutenFree: dish?.isGlutenFree ?? false,
+      isVegan: dish?.isVegan ?? false,
+      glutenFreeImage,
+      veganImage,
+      vegetarianImage,
+    },
+    effects: {
+      handleClose,
+      retryDishImage,
+    },
   };
 };

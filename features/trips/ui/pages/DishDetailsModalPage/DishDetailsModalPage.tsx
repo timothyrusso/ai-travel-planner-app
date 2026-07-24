@@ -5,46 +5,38 @@ import { useDishDetailsModalPageLogic } from '@/features/trips/ui/pages/DishDeta
 import { styles } from '@/features/trips/ui/pages/DishDetailsModalPage/DishDetailsModalPage.style';
 
 export const DishDetailsModalPage = () => {
-  const {
-    dishName,
-    dishDescription,
-    dishIngredients,
-    handleClose,
-    image,
-    isVegetarian,
-    isGlutenFree,
-    isVegan,
-    glutenFreeImage,
-    veganImage,
-    vegetarianImage,
-    retryDishImage,
-  } = useDishDetailsModalPageLogic();
+  const { state, effects } = useDishDetailsModalPageLogic();
 
   return (
     <ScrollView contentContainerStyle={styles.contentContainer} style={styles.container}>
-      <BottomSheetHeader title={dishName} onClose={handleClose} />
+      <BottomSheetHeader title={state.dishName} onClose={effects.handleClose} />
       <View style={styles.bodyContainer}>
         <CustomImage
-          source={typeof image === 'string' ? { uri: image } : image}
+          source={typeof state.image === 'string' ? { uri: state.image } : state.image}
           style={styles.image}
-          onError={retryDishImage}
+          onError={effects.retryDishImage}
         />
-        <IngredientsList title="MY_TRIP.INGREDIENTS" ingredients={dishIngredients} />
+        <IngredientsList title="MY_TRIP.INGREDIENTS" ingredients={state.dishIngredients} />
       </View>
-      <CustomText text={dishDescription} style={styles.description} />
+      <CustomText text={state.dishDescription} style={styles.description} />
       <View style={styles.badgesContainer}>
         <Badge
           label="MY_TRIP.GLUTEN_FREE"
-          image={glutenFreeImage}
+          image={state.glutenFreeImage}
           backgroundColor={colors.tertiaryGreen}
-          active={isGlutenFree}
+          active={state.isGlutenFree}
         />
-        <Badge label="MY_TRIP.VEGAN" image={veganImage} backgroundColor={colors.tertiaryGreen} active={isVegan} />
+        <Badge
+          label="MY_TRIP.VEGAN"
+          image={state.veganImage}
+          backgroundColor={colors.tertiaryGreen}
+          active={state.isVegan}
+        />
         <Badge
           label="MY_TRIP.VEGETARIAN"
-          image={vegetarianImage}
+          image={state.vegetarianImage}
           backgroundColor={colors.tertiaryGreen}
-          active={isVegetarian}
+          active={state.isVegetarian}
         />
       </View>
     </ScrollView>

@@ -12,7 +12,7 @@ type FoodCardProps = {
 };
 
 export const FoodCard: FC<FoodCardProps> = ({ food, tripId }) => {
-  const { handleOpenModal } = useFoodCardLogic(tripId);
+  const { effects } = useFoodCardLogic(tripId);
 
   return (
     <View style={styles.container}>
@@ -38,7 +38,7 @@ export const FoodCard: FC<FoodCardProps> = ({ food, tripId }) => {
         <CustomText text={food.foodGeneralNotes} style={styles.contentValue} />
         <Pressable
           style={({ pressed }) => [styles.typicalDishesBox, pressed && styles.pressed]}
-          onPress={handleOpenModal}
+          onPress={effects.handleOpenModal}
         >
           <View style={styles.titleContainer}>
             <CustomIcon name={icons.cafe} size={spacing.Triple} color={colors.secondaryGreen} />

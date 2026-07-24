@@ -13,5 +13,9 @@ export const useTypicalDishesModalPageLogic = () => {
   const handleClose = () => navigationService.back();
   const handleDishPress = (searchTerm: string) => navigationService.toDishDetailsModal({ tripId, searchTerm });
 
-  return { handleClose, handleDishPress, location, dishNumber, dishItems: food?.typicalDishes };
+  return {
+    state: { dishItems: food?.typicalDishes },
+    derived: { location, dishNumber },
+    effects: { handleClose, handleDishPress },
+  };
 };

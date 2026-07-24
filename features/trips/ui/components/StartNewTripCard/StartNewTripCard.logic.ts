@@ -8,5 +8,7 @@ export const useStartNewTripCardLogic = () => {
     if (canStart()) navigationService.toSearch();
   };
 
-  return { handleStartNewTrip };
+  return {
+    effects: { handleStartNewTrip },
+  };
 };

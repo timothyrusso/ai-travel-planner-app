@@ -15,5 +15,9 @@ export const useTripCardLogic = (item: Trip) => {
 
   const isFavorite = item.isFavorite;
 
-  return { imageUrl, imageBlurHash, location, onCardPress, isFavorite, retryCoverImage };
+  return {
+    state: { imageUrl, imageBlurHash, isFavorite },
+    derived: { location },
+    effects: { onCardPress, retryCoverImage },
+  };
 };

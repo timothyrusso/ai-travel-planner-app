@@ -17,5 +17,7 @@ export const useTripListPageLogic = () => {
     }
   }, [isLoading, totalTrips]);
 
-  return { userTrips };
+  return {
+    derived: { userTrips },
+  };
 };

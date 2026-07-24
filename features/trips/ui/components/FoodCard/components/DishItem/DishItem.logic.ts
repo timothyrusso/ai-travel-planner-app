@@ -8,18 +8,22 @@ export const useDishItemLogic = (dish: TypicalDish) => {
   const hasBadge = dish.isGlutenFree || dish.isVegan || dish.isVegetarian;
 
   return {
-    name: dish.name,
-    description: dish.description,
-    image: dish.imageUrl,
-    glutenFreeImage,
-    veganImage,
-    vegetarianImage,
-    hasBadge,
-    isGlutenFree: dish.isGlutenFree,
-    isVegan: dish.isVegan,
-    isVegetarian: dish.isVegetarian,
-    glutenFreeLabel: 'MY_TRIP.GLUTEN_FREE',
-    veganLabel: 'MY_TRIP.VEGAN',
-    vegetarianLabel: 'MY_TRIP.VEGETARIAN',
+    state: {
+      name: dish.name,
+      description: dish.description,
+      image: dish.imageUrl,
+      glutenFreeImage,
+      veganImage,
+      vegetarianImage,
+      isGlutenFree: dish.isGlutenFree,
+      isVegan: dish.isVegan,
+      isVegetarian: dish.isVegetarian,
+      glutenFreeLabel: 'MY_TRIP.GLUTEN_FREE',
+      veganLabel: 'MY_TRIP.VEGAN',
+      vegetarianLabel: 'MY_TRIP.VEGETARIAN',
+    },
+    derived: {
+      hasBadge,
+    },
   };
 };
