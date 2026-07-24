@@ -16,6 +16,29 @@ then run the feature's own acceptance criteria.
 - Assume the feature branch is checked out and the app is installed/buildable on the
   agent-device.
 
+## Authenticated QA (Clerk test credentials)
+
+Many screens sit behind the Clerk sign-in wall. The app runs on a Clerk **development**
+instance (`pk_test`), which supports deterministic **test identifiers** — no real email/OTP
+and no secret to store.
+
+**If the app is signed out, sign in before running feature tests:**
+
+1. From the Welcome screen, open the sign-in / sign-up screen (primary CTA).
+2. Enter the test email **`holidai-qa+clerk_test@example.com`** and continue.
+3. When asked for the email verification code, enter **`424242`** — Clerk's fixed test-mode
+   OTP. It works ONLY for `+clerk_test` emails on a `pk_test` dev instance and sends no real
+   email. (A plain email such as `qa-test@example.com` gets a real code and will reject
+   `424242` — that is not a broken account, just the wrong identifier.)
+4. Complete any first-run onboarding to reach the main screen.
+
+**Restore state:** any test that signs the user OUT (e.g. verifying the auth/sign-in flow
+itself) MUST sign back in with the credentials above before finishing, so it does not strand
+the next QA run behind the sign-in wall.
+
+Because the app uses Clerk `tokenCache`, the session persists across relaunches — once signed
+in with the test user, subsequent runs normally start already authenticated.
+
 ## Checks
 
 ### 1. App startup (critical regression flow)
