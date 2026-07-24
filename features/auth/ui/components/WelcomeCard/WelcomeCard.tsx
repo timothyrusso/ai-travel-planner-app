@@ -31,7 +31,7 @@ export const WelcomeCard: FC<WelcomeCardProps> = ({
   floatDuration = 1800,
   photoEffect = false,
 }) => {
-  const { cardStyle, floatStyle } = useWelcomeCardLogic(
+  const { derived } = useWelcomeCardLogic(
     size,
     withPadding,
     withBorderRadius,
@@ -45,8 +45,8 @@ export const WelcomeCard: FC<WelcomeCardProps> = ({
   );
 
   return (
-    <Animated.View style={[cardStyle.container, floatStyle]}>
-      <CustomImage source={image} style={cardStyle.image} useBlur={true} />
+    <Animated.View style={[derived.cardStyle.container, derived.floatStyle]}>
+      <CustomImage source={image} style={derived.cardStyle.image} useBlur={true} />
     </Animated.View>
   );
 };

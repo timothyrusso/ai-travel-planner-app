@@ -45,7 +45,9 @@ export const useWelcomeCardLogic = (
   const cardStyle = styles(height(), width(), withPadding, withBorderRadius, top, left, bottom, right, photoEffect);
 
   return {
-    cardStyle,
-    floatStyle,
+    derived: {
+      cardStyle,
+      floatStyle,
+    },
   };
 };
