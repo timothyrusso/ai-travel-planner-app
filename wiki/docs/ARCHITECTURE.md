@@ -1289,7 +1289,7 @@ return {
 
 The rule triggers on the `.logic.ts` filename (not the hook name), so a mis-named hook cannot dodge it, and it unwraps TS wrappers (`as const`, `satisfies`, `!`) before checking. Top-level spreads and computed keys are rejected — they could inject keys that can't be statically verified.
 
-**One ViewModel per View** — `holidai/prefer-viewmodel`, on every `*.tsx`. A component backed by a ViewModel may call **only its own ViewModel hook, at most once, and no other `use*` hooks**; all other hook usage belongs inside the ViewModel. The ViewModel hook is identified structurally — it is whatever the `.tsx` imports from a module path ending in `.logic`. A `.tsx` with no `.logic` import is a pure presentational component and is exempt. Sanctioned shared hooks can be permitted via the rule's `allow` option.
+**One ViewModel per View** — `holidai/prefer-viewmodel`, on every `*.tsx`. A component backed by a ViewModel may call **only its own ViewModel hook, at most once, and no other `use*` hooks**; all other hook usage belongs inside the ViewModel. A View's own ViewModel is identified structurally: it is the hook imported from the sibling `.logic` module with the **same basename** (`SelectDatesPage.tsx` ↔ `SelectDatesPage.logic`). A hook imported from any other `.logic` module is another View's ViewModel and is treated as foreign. A `.tsx` with no matching `.logic` import is a pure presentational component and is exempt, as are test files (`*.test.tsx` / `*.spec.tsx`). Sanctioned shared hooks can be permitted via the rule's `allow` option.
 
 ---
 

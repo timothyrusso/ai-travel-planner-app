@@ -33,6 +33,11 @@ const rule = {
       return {};
     }
 
+    // A View's own ViewModel is the sibling `.logic` module with the SAME basename
+    // (SelectDatesPage.tsx <-> SelectDatesPage.logic). Hooks imported from any other `.logic`
+    // module are another View's ViewModel, and therefore foreign.
+    const fileBase = filename.slice(filename.lastIndexOf('/') + 1).replace(/\.tsx$/, '');
+
     const options = context.options[0] ?? {};
     // `allow`: hook names a View may call directly despite the one-hook rule (e.g. shared primitives).
     const allow = new Set(options.allow ?? []);
@@ -54,6 +59,9 @@ const rule = {
       ImportDeclaration(node) {
         const source = typeof node.source.value === 'string' ? node.source.value : '';
         if (!/\.logic$/.test(source)) return;
+        // Only the sibling `.logic` module (same basename) is this View's own ViewModel.
+        const moduleBase = source.slice(source.lastIndexOf('/') + 1).replace(/\.logic$/, '');
+        if (moduleBase !== fileBase) return;
         for (const spec of node.specifiers) {
           // named: `import { useXLogic }` / default: `import useXLogic`
           if (spec.type === 'ImportSpecifier' || spec.type === 'ImportDefaultSpecifier') {

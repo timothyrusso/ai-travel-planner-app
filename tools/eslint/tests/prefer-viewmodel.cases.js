@@ -45,17 +45,6 @@ module.exports = function run() {
         import { useState } from 'react';
         export const SelectDatesPage = () => { const [x] = useState(0); return null; };`,
       },
-      // Multiple ViewModel hooks from different `.logic` modules, each called once.
-      {
-        filename: TSX,
-        code: `${IMPORT}
-        import { useSelectGuestsPageLogic } from '@/features/x/SelectGuestsPage.logic';
-        export const SelectDatesPage = () => {
-          const { state: dates } = useSelectDatesPageLogic();
-          const { state: guests } = useSelectGuestsPageLogic();
-          return null;
-        };`,
-      },
       // The `.logic` import is hoisted below the component; classification in Program:exit still
       // recognizes the ViewModel hook, so no false foreign-hook is reported.
       {
@@ -128,7 +117,19 @@ module.exports = function run() {
         };`,
         errors: [{ messageId: 'calledTwice' }],
       },
-      // Multiple ViewModel hooks, one of them called twice => calledTwice for that hook.
+      // Another View's ViewModel (imported from a different-basename `.logic` module) is foreign.
+      {
+        filename: TSX,
+        code: `${IMPORT}
+        import { useSelectGuestsPageLogic } from '@/features/x/SelectGuestsPage.logic';
+        export const SelectDatesPage = () => {
+          const { state } = useSelectDatesPageLogic();
+          const { state: guests } = useSelectGuestsPageLogic();
+          return null;
+        };`,
+        errors: [{ messageId: 'foreignHook' }],
+      },
+      // Foreign ViewModel call plus the own hook called twice => both violations reported.
       {
         filename: TSX,
         code: `${IMPORT}
@@ -139,7 +140,7 @@ module.exports = function run() {
           const b = useSelectDatesPageLogic();
           return null;
         };`,
-        errors: [{ messageId: 'calledTwice' }],
+        errors: [{ messageId: 'foreignHook' }, { messageId: 'calledTwice' }],
       },
       // Foreign hook not covered by the allowlist.
       {
