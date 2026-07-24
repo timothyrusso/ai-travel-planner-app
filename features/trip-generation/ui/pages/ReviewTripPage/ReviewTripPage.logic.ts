@@ -28,14 +28,20 @@ export const useReviewTripPageLogic = () => {
   };
 
   return {
-    handleButtonPress,
-    destination: tripSelectors.locationInfo().name.split(',')[0],
-    dates: getTripDates() ?? '',
-    travelers: {
-      travelersNumber: tripSelectors.travelersNumber(),
-      travelersType: tripSelectors.travelerType(),
+    state: {
+      travelers: {
+        travelersNumber: tripSelectors.travelersNumber(),
+        travelersType: tripSelectors.travelerType(),
+      },
+      budget: tripSelectors.budgetInfo(),
+      animation,
     },
-    budget: tripSelectors.budgetInfo(),
-    animation,
+    derived: {
+      destination: tripSelectors.locationInfo().name.split(',')[0],
+      dates: getTripDates() ?? '',
+    },
+    effects: {
+      handleButtonPress,
+    },
   };
 };

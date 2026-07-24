@@ -92,5 +92,5 @@ export const useGenerateTripPageLogic = () => {
     generateTrip();
   }, []);
 
-  return { isLoading };
+  return { state: { isLoading } };
 };

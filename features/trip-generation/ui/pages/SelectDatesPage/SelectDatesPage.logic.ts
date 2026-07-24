@@ -66,15 +66,21 @@ export const useSelectDatesPageLogic = () => {
   };
 
   return {
-    handleDateChange,
-    handleButtonPress,
-    todayInLocalTimezone,
-    startDate,
-    numberOfDays: calculateDifferenceInDays(),
-    startDateLabel,
-    endDateLabel,
-    removeDates,
-    calendarKey,
-    userTokens,
+    state: {
+      startDate,
+      calendarKey,
+      userTokens,
+    },
+    derived: {
+      todayInLocalTimezone,
+      numberOfDays: calculateDifferenceInDays(),
+      startDateLabel,
+      endDateLabel,
+    },
+    effects: {
+      handleDateChange,
+      handleButtonPress,
+      removeDates,
+    },
   };
 };
