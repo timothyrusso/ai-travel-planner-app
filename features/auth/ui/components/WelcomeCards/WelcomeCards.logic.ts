@@ -86,4 +86,4 @@ const cards: CardConfig[] = [
   },
 ];
 
-export const useWelcomeCardsLogic = () => ({ cards });
+export const useWelcomeCardsLogic = () => ({ state: { cards } });

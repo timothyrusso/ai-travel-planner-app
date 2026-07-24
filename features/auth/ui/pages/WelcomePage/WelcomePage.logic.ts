@@ -60,11 +60,17 @@ export const useWelcomePageLogic = () => {
   };
 
   return {
-    handlePress,
-    logoRound,
-    subtitleAnimatedStyle,
-    cardsAnimatedStyle,
-    textContainerAnimatedStyle,
-    textElementsAnimatedStyle,
+    state: {
+      logoRound,
+    },
+    derived: {
+      subtitleAnimatedStyle,
+      cardsAnimatedStyle,
+      textContainerAnimatedStyle,
+      textElementsAnimatedStyle,
+    },
+    effects: {
+      handlePress,
+    },
   };
 };

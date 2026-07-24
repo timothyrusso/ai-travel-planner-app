@@ -3,7 +3,7 @@ import { useRouter } from 'expo-router';
 import { useEffect } from 'react';
 import { Routes } from '@/features/core/navigation';
 
-export const useSignInPageLogic = () => {
+export const useSignInOrUpPageLogic = () => {
   const { isSignedIn } = useAuth({ treatPendingAsSignedOut: false });
   const router = useRouter();
 

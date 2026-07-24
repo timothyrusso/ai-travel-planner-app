@@ -2,11 +2,11 @@ import { WelcomeCard } from '@/features/auth/ui/components/WelcomeCard/WelcomeCa
 import { useWelcomeCardsLogic } from '@/features/auth/ui/components/WelcomeCards/WelcomeCards.logic';
 
 export const WelcomeCards = () => {
-  const { cards } = useWelcomeCardsLogic();
+  const { state } = useWelcomeCardsLogic();
 
   return (
     <>
-      {cards.map(card => (
+      {state.cards.map(card => (
         <WelcomeCard key={card.id} {...card} />
       ))}
     </>
