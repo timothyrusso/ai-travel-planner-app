@@ -32,19 +32,20 @@ module.exports = defineConfig([
     },
   },
   {
-    // ViewModel contract rules — see tools/eslint. Registered at `warn` during rollout (issue #403);
-    // flipped to `error` once every ViewModel is migrated (issue #404).
+    // ViewModel contract rules — see tools/eslint and wiki/docs/ARCHITECTURE.md (ui/ — The
+    // ViewModel contract). Rolled out at `warn` (issue #403), then enforced as `error` once every
+    // feature's ViewModels were migrated (issue #404). A violation is now unmergeable.
     files: ['**/*.logic.ts'],
     plugins: { holidai },
     rules: {
-      'holidai/viewmodel-return-shape': 'warn',
+      'holidai/viewmodel-return-shape': 'error',
     },
   },
   {
     files: ['**/*.tsx'],
     plugins: { holidai },
     rules: {
-      'holidai/prefer-viewmodel': 'warn',
+      'holidai/prefer-viewmodel': 'error',
     },
   },
   {
