@@ -1,4 +1,5 @@
 import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { ImageSourcePropType } from 'react-native';
 import { View } from 'react-native';
 import { CustomIcon } from '@/features/core/ui/components/basic/CustomIcon/CustomIcon';
@@ -17,13 +18,14 @@ type BadgeProps = {
 };
 
 export const Badge: FC<BadgeProps> = ({ label, image, backgroundColor, active }) => {
+  const { t } = useTranslation();
   const styles = badgeStyle(active, backgroundColor);
 
   return (
     <View style={styles.container}>
       <View style={styles.circleWrapper}>
         <View style={styles.circle}>
-          <CustomImage source={image} style={styles.badgeImage} accessibilityLabel={label} />
+          <CustomImage source={image} style={styles.badgeImage} accessibilityLabel={t(label)} />
         </View>
         <View style={styles.checkBadge}>
           <CustomIcon
