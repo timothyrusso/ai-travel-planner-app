@@ -15,6 +15,7 @@ Deep architecture references live in `wiki/docs/` — consult the relevant one (
 - IoC repositories → only inside `useCases/`. Never in facades, hooks, `.logic.ts`, or UI.
 - Hook-based repositories → only inside `facades/`. Never in `.logic.ts` or UI.
 - `.tsx` files → only import the ViewModel (`.logic.ts`), UI components, and styles.
+- A ViewModel (`.logic.ts` hook, named `useXxxLogic`) must return `{ state, derived?, effects }` or nothing (void), and its `.tsx` may call only its own ViewModel hook, once. Enforced by `holidai/viewmodel-return-shape` + `holidai/prefer-viewmodel` (see `wiki/docs/ARCHITECTURE.md` — ui/ — The ViewModel contract).
 - `domain/` → pure TypeScript only. No external library imports, no framework code, no side effects.
 - Never reach into another feature's internal folders. Only import from its `index.ts` or from a `features/core/<sub-module>` via its `index.ts`.
 - Never use `new` to instantiate IoC classes. Always resolve from the feature's `di/resolve.ts`.
@@ -47,3 +48,4 @@ Deep architecture references live in `wiki/docs/` — consult the relevant one (
 | Adapter | `xxxAdapter.ts` |
 | Schema | `XxxSchema.ts` |
 | Page / component files | `Name.tsx` + `Name.logic.ts` + `Name.style.ts` |
+| ViewModel hook (`.logic.ts`) | `useXxxLogic` — returns `{ state, derived?, effects }` or nothing (void) |
