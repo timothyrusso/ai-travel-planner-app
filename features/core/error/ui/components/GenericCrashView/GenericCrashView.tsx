@@ -9,13 +9,13 @@ type GenericCrashViewProps = ErrorBoundaryProps & {
 };
 
 export const GenericCrashView = (props: GenericCrashViewProps) => {
-  const { message, handleRetry, t } = useGenericCrashViewLogic(props);
+  const { state, effects } = useGenericCrashViewLogic(props);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.message}>{message}</Text>
-      <Pressable style={styles.button} onPress={handleRetry}>
-        <Text style={styles.buttonText}>{t('ERRORS.BUTTONS.TRY_AGAIN')}</Text>
+      <Text style={styles.message}>{state.message}</Text>
+      <Pressable style={styles.button} onPress={effects.handleRetry}>
+        <Text style={styles.buttonText}>{state.t('ERRORS.BUTTONS.TRY_AGAIN')}</Text>
       </Pressable>
     </View>
   );

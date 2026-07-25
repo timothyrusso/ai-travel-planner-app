@@ -11,6 +11,8 @@ export const useCustomNumberButtonLogic = ({ selected = false }: CustomNumberBut
   const componentStyle = styles(labelColor);
 
   return {
-    componentStyle,
+    derived: {
+      componentStyle,
+    },
   };
 };

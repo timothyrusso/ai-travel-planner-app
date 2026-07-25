@@ -17,11 +17,7 @@ export const CustomImage: FC<CustomImageProps> = ({
   onError,
   ...props
 }) => {
-  const {
-    resolvedPlaceholder,
-    resolvedSource,
-    onError: handleError,
-  } = useCustomImageLogic({
+  const { derived, effects } = useCustomImageLogic({
     useBlur,
     blurhash,
     placeholder,
@@ -34,10 +30,10 @@ export const CustomImage: FC<CustomImageProps> = ({
     <BaseSkeleton style={style} />
   ) : (
     <Image
-      placeholder={resolvedPlaceholder}
+      placeholder={derived.resolvedPlaceholder}
       transition={200}
-      source={resolvedSource}
-      onError={handleError}
+      source={derived.resolvedSource}
+      onError={effects.onError}
       style={style}
       {...props}
     />

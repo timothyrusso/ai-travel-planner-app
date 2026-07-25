@@ -25,13 +25,13 @@ export const CustomScrollView: FC<PropsWithChildren<CustomScrollViewProps>> = ({
   onScroll,
   scrollEventThrottle,
 }) => {
-  const { scrollViewRef, scrollToTop, keyboardViewStyle } = useCustomScrollViewLogic(resetScroll);
+  const { state, derived, effects } = useCustomScrollViewLogic(resetScroll);
 
   return (
     <View style={styles.container}>
       <ScrollView
-        ref={scrollViewRef}
-        onContentSizeChange={scrollToTop}
+        ref={state.scrollViewRef}
+        onContentSizeChange={effects.scrollToTop}
         style={[styles.basicScrollView, style]}
         automaticallyAdjustKeyboardInsets={true}
         contentContainerStyle={[styles.basicContentStyle, contentContainerStyle]}
@@ -42,7 +42,7 @@ export const CustomScrollView: FC<PropsWithChildren<CustomScrollViewProps>> = ({
       >
         <View style={[styles.basicView, styles.childrenContainer, childrenStyle]}>{children}</View>
       </ScrollView>
-      <Animated.View style={keyboardViewStyle} />
+      <Animated.View style={derived.keyboardViewStyle} />
     </View>
   );
 };

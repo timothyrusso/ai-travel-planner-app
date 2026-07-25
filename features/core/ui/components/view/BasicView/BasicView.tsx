@@ -23,24 +23,26 @@ export const BasicView = (props: PropsWithChildren<BasicViewProps>) => {
     hasHeader = true,
   } = props;
 
-  const { componentStyle } = useBasicViewLogic(props);
+  const { derived } = useBasicViewLogic(props);
 
   const Container = isFullScreen || hasHeader ? View : SafeAreaView;
 
   return (
-    <Container style={[componentStyle.containerViewStyle, componentStyle.basicContainer, containerStyle]}>
+    <Container
+      style={[derived.componentStyle.containerViewStyle, derived.componentStyle.basicContainer, containerStyle]}
+    >
       <StatusBar style={statusBarStyle} />
-      <View style={[componentStyle.containerViewStyle, viewStyle]}>
+      <View style={[derived.componentStyle.containerViewStyle, viewStyle]}>
         {topGradientColor && bottomGradientColor && (
           <LinearGradient
             colors={[topGradientColor, bottomGradientColor]}
-            style={componentStyle.gradient}
+            style={derived.componentStyle.gradient}
             locations={[0.5, 0.5]}
           />
         )}
         {children}
         {bottomButtonTitle && bottomButtonPress && (
-          <View style={componentStyle.buttonContainer}>
+          <View style={derived.componentStyle.buttonContainer}>
             <CustomButtonLarge
               title={bottomButtonTitle}
               onPress={bottomButtonPress}

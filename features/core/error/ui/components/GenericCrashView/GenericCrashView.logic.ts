@@ -23,5 +23,13 @@ export const useGenericCrashViewLogic = ({ error, retry, redirectTo }: GenericCr
   };
 
   const message = t('ERRORS.GENERIC');
-  return { message, handleRetry, t };
+  return {
+    state: {
+      message,
+      t,
+    },
+    effects: {
+      handleRetry,
+    },
+  };
 };

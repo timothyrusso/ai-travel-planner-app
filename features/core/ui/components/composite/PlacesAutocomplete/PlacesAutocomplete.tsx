@@ -15,11 +15,11 @@ export const PlacesAutocomplete: FC<PlacesAutocompleteProps> = ({
   onPress,
   placeholder = 'SEARCH_PLACE_PAGE.SEARCH_PLACE',
 }) => {
-  const { translatedPlaceholder, language, handleFail, handleTimeout } = usePlacesAutocompleteLogic(placeholder);
+  const { state, derived, effects } = usePlacesAutocompleteLogic(placeholder);
 
   return (
     <GooglePlacesAutocomplete
-      placeholder={translatedPlaceholder}
+      placeholder={derived.translatedPlaceholder}
       fetchDetails={true}
       onPress={(data, details = null) => {
         onPress({
@@ -32,7 +32,7 @@ export const PlacesAutocomplete: FC<PlacesAutocompleteProps> = ({
       }}
       query={{
         key: Constants.expoConfig?.extra?.googlePlacesApiKey,
-        language,
+        language: state.language,
         types: 'geocode',
       }}
       styles={{
@@ -45,8 +45,8 @@ export const PlacesAutocomplete: FC<PlacesAutocompleteProps> = ({
           backgroundColor: colors.primaryWhite,
         },
       }}
-      onFail={handleFail}
-      onTimeout={handleTimeout}
+      onFail={effects.handleFail}
+      onTimeout={effects.handleTimeout}
       autoFillOnNotFound={false}
       currentLocation={false}
       currentLocationLabel="Current location"

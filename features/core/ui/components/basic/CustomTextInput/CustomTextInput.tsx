@@ -19,22 +19,22 @@ export const CustomTextInput: FC<CustomTextInputProps> = ({
   isPassword = false,
   ...TextInputProps
 }) => {
-  const { isPasswordVisible, setIsPasswordVisible, t } = useCustomTextInputLogic();
+  const { state, effects } = useCustomTextInputLogic();
   const styles = inputStyles(isPassword);
 
   return (
     <View style={styles.container}>
       <TextInput
-        placeholder={t(placeholder)}
+        placeholder={state.t(placeholder)}
         placeholderTextColor={placeholderTextColor}
         style={[styles.input]}
-        secureTextEntry={isPassword ? !isPasswordVisible : false}
+        secureTextEntry={isPassword ? !state.isPasswordVisible : false}
         {...TextInputProps}
       />
       {isPassword && (
         <CustomIconButtonMedium
-          iconName={isPasswordVisible ? icons.eye : icons.eyeOff}
-          onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+          iconName={state.isPasswordVisible ? icons.eye : icons.eyeOff}
+          onPress={() => effects.setIsPasswordVisible(!state.isPasswordVisible)}
           buttonType={ButtonType.Ghost}
           style={styles.eyeButton}
         />

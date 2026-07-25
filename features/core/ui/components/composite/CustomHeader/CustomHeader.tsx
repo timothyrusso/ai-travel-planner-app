@@ -14,20 +14,20 @@ type CustomHeaderProps = {
 };
 
 export const CustomHeader: FC<CustomHeaderProps> = ({ title, icon, onPress }) => {
-  const { styleComponent } = useCustomHeaderLogic();
+  const { derived } = useCustomHeaderLogic();
 
   return (
-    <View style={styleComponent.container}>
+    <View style={derived.styleComponent.container}>
       {onPress && icon && (
         <CustomIconButtonMedium
           iconName={icon}
           iconSize={spacing.Quintuple}
           onPress={onPress}
           buttonType={ButtonType.Quaternary}
-          style={styleComponent.icon}
+          style={derived.styleComponent.icon}
         />
       )}
-      {title && <CustomText text={title} style={styleComponent.title} />}
+      {title && <CustomText text={title} style={derived.styleComponent.title} />}
     </View>
   );
 };

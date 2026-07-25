@@ -24,8 +24,14 @@ export const useCustomScrollViewLogic = (resetScroll = false) => {
   }, []);
 
   return {
-    scrollViewRef,
-    keyboardViewStyle,
-    scrollToTop,
+    state: {
+      scrollViewRef,
+    },
+    derived: {
+      keyboardViewStyle,
+    },
+    effects: {
+      scrollToTop,
+    },
   };
 };

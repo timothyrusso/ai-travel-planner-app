@@ -53,7 +53,7 @@ export const Custom3DButton = ({
   textSize = CUSTOM_3D_BUTTON_DEFAULTS.textSize,
   textFontFamily = CUSTOM_3D_BUTTON_DEFAULTS.textFontFamily,
 }: Custom3DButtonProps) => {
-  const { tapGesture, contentAnimatedStyle } = useCustom3DButtonLogic({
+  const { derived } = useCustom3DButtonLogic({
     onPress,
     disabled,
     isLoading,
@@ -77,10 +77,10 @@ export const Custom3DButton = ({
   });
 
   return (
-    <GestureDetector gesture={tapGesture}>
+    <GestureDetector gesture={derived.tapGesture}>
       <View style={styles.container}>
         <View style={styles.bottomFace} />
-        <Animated.View style={[styles.content, contentAnimatedStyle]}>
+        <Animated.View style={[styles.content, derived.contentAnimatedStyle]}>
           <View style={styles.topFace}>
             {isLoading ? (
               <ActivityIndicator color={textColor} />

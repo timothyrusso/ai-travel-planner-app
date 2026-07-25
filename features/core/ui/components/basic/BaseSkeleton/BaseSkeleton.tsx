@@ -9,10 +9,10 @@ export type BaseSkeletonProps = ViewProps & {
 };
 
 export const BaseSkeleton = ({ children, style, ...props }: BaseSkeletonProps) => {
-  const { animatedStyle } = useBaseSkeletonLogic();
+  const { derived } = useBaseSkeletonLogic();
 
   return (
-    <Animated.View style={[animatedStyle, style]} {...props}>
+    <Animated.View style={[derived.animatedStyle, style]} {...props}>
       {children}
     </Animated.View>
   );

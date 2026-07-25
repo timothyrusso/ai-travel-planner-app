@@ -40,10 +40,10 @@ export function BaseIconButton({
 }: CustomIconButtonProps) {
   const buttonState = isDisabled ? ButtonState.Disabled : ButtonState.Active;
 
-  const { styleIconColor, getButtonStyles } = useCustomButtonLogic();
+  const { derived } = useCustomButtonLogic();
 
-  const styles = styleButton(buttonType, buttonState, getButtonStyles, size);
-  const iconColor = styleIconColor(buttonType, buttonState);
+  const styles = styleButton(buttonType, buttonState, derived.getButtonStyles, size);
+  const iconColor = derived.styleIconColor(buttonType, buttonState);
 
   const icon = <CustomIcon name={iconName} size={iconSize} style={iconStyle} color={iconColor} />;
 

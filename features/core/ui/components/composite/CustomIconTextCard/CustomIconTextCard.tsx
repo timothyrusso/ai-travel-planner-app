@@ -17,11 +17,17 @@ export type CustomIconTextCardProps = CustomIconCardLogicProps &
   };
 
 export const CustomIconTextCard = ({ icon, label, style, iconColor, ...rest }: CustomIconTextCardProps) => {
-  const { componentStyle } = useCustomIconTextCardLogic(rest);
+  const { derived } = useCustomIconTextCardLogic(rest);
   return (
-    <CustomCard style={[componentStyle.card, style]} {...rest}>
-      <CustomIcon style={componentStyle.icon} size={spacing.Fourfold} name={icon} isOutlined color={iconColor} />
-      <CustomText style={componentStyle.label} text={label} numberOfLines={2} ellipsizeMode="tail" />
+    <CustomCard style={[derived.componentStyle.card, style]} {...rest}>
+      <CustomIcon
+        style={derived.componentStyle.icon}
+        size={spacing.Fourfold}
+        name={icon}
+        isOutlined
+        color={iconColor}
+      />
+      <CustomText style={derived.componentStyle.label} text={label} numberOfLines={2} ellipsizeMode="tail" />
     </CustomCard>
   );
 };

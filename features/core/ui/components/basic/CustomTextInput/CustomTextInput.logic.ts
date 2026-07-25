@@ -6,8 +6,12 @@ export const useCustomTextInputLogic = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
   return {
-    isPasswordVisible,
-    setIsPasswordVisible,
-    t,
+    state: {
+      isPasswordVisible,
+      t,
+    },
+    effects: {
+      setIsPasswordVisible,
+    },
   };
 };

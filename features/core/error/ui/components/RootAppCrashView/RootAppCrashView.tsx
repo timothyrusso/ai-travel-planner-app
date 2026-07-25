@@ -4,13 +4,13 @@ import { useRootAppCrashViewLogic } from '@/features/core/error/ui/components/Ro
 import { styles } from '@/features/core/error/ui/components/RootAppCrashView/RootAppCrashView.style';
 
 export const RootAppCrashView = (props: ErrorBoundaryProps) => {
-  const { message, retry, t } = useRootAppCrashViewLogic(props);
+  const { state, effects } = useRootAppCrashViewLogic(props);
 
   return (
     <View style={styles.container}>
-      <Text style={styles.message}>{message}</Text>
-      <Pressable style={styles.button} onPress={retry}>
-        <Text style={styles.buttonText}>{t('ERRORS.BUTTONS.TRY_AGAIN')}</Text>
+      <Text style={styles.message}>{state.message}</Text>
+      <Pressable style={styles.button} onPress={effects.retry}>
+        <Text style={styles.buttonText}>{state.t('ERRORS.BUTTONS.TRY_AGAIN')}</Text>
       </Pressable>
     </View>
   );

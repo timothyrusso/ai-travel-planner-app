@@ -105,7 +105,9 @@ export const useCustomButtonLogic = () => {
   };
 
   return {
-    styleIconColor,
-    getButtonStyles,
+    derived: {
+      styleIconColor,
+      getButtonStyles,
+    },
   };
 };
