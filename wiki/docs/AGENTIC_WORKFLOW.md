@@ -236,7 +236,7 @@ unverifiable device claims needing human eyes; `refuted` = findings the vetter d
 
 ## The `/triage-pr` loop
 
-After the pipeline opens a PR, the AI review bots (coderabbit, sourcery, cubic, gemini)
+After the pipeline opens a PR, the AI review bots (coderabbit, sourcery, cubic)
 comment on their own schedule. `/triage-pr <pr>` is a **main-thread skill** (it contains
 human gates, so it cannot be a workflow) that drives those threads to zero:
 

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import type { TypicalDish } from '@/features/trips/domain/entities/TypicalDish';
 
 const glutenFreeImage = require('@/features/core/ui/assets/images/gluten_free.png');
@@ -5,6 +6,7 @@ const veganImage = require('@/features/core/ui/assets/images/vegan.png');
 const vegetarianImage = require('@/features/core/ui/assets/images/vegetarian.png');
 
 export const useDishItemLogic = (dish: TypicalDish) => {
+  const { t } = useTranslation();
   const hasBadge = dish.isGlutenFree || dish.isVegan || dish.isVegetarian;
 
   return {
@@ -18,9 +20,9 @@ export const useDishItemLogic = (dish: TypicalDish) => {
       isGlutenFree: dish.isGlutenFree,
       isVegan: dish.isVegan,
       isVegetarian: dish.isVegetarian,
-      glutenFreeLabel: 'MY_TRIP.GLUTEN_FREE',
-      veganLabel: 'MY_TRIP.VEGAN',
-      vegetarianLabel: 'MY_TRIP.VEGETARIAN',
+      glutenFreeLabel: t('MY_TRIP.GLUTEN_FREE'),
+      veganLabel: t('MY_TRIP.VEGAN'),
+      vegetarianLabel: t('MY_TRIP.VEGETARIAN'),
     },
     derived: {
       hasBadge,

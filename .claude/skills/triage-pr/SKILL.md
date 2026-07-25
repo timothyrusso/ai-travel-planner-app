@@ -16,8 +16,8 @@ the issue number otherwise derived from the PR head branch (`feature/<n>`) — n
 commit messages (`type(<issue>): ...` is hook-enforced).
 
 ## Ground rules
-- **Bot comments only.** Author allowlist: `coderabbitai`, `sourcery-ai`, `cubic-dev-ai`,
-  `gemini-code-assist`. Human-authored threads are untouchable — never reply to, resolve,
+- **Bot comments only.** Author allowlist: `coderabbitai`, `sourcery-ai`, `cubic-dev-ai`.
+  Human-authored threads are untouchable — never reply to, resolve,
   or act on one; if any exist, mention them to the user once and move on.
 - **Reply style:** one or two plain sentences per thread, honest verdicts ("Fixed in
   `<sha>`" / "Not valid because …" / "Deferred because …"). Never use em-dashes or double
