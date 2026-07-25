@@ -37,3 +37,10 @@ Read at the start of every QA run. Append only under the rules in
 - [2026-07-24] Clerk sign-in: if the identifier field is pre-filled via "Last Used", Clerk
   may default to a PASSWORD prompt instead of emailing an OTP. Tap "Use another method" →
   "Email code to <address>" to get the `+clerk_test` OTP field, then enter `424242`.
+- [2026-07-25] TripDetailsPage (itinerary/food/weather list) scroll is highly unreliable:
+  `scroll down/up <amount>` has wildly variable actual travel (fling momentum, 3x-6x+ the
+  requested pixels) and `scroll up`/`scroll top` are effectively broken (no-op or silently
+  wrong). To reach an off-screen target: relaunch (resets to true top), `scroll down
+  --pixels N` once, then check exact position via `find "<text>" click --debug` (reports
+  `rect.y` relative to viewport in the error) and correct with more small DOWN-only scrolls;
+  never rely on up/top to walk back — just relaunch and retry from top with smaller N.
