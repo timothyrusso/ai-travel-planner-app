@@ -29,15 +29,30 @@ those agents yourself. Your job ends where the workflow begins.
   `### Acceptance criteria`). If not, tell the user and ask how to proceed.
 
 ## Stage 1 — Judge (the only routing decision)
-Read the Description + Acceptance criteria critically. Look for genuine ambiguities, gaps,
-contradictions, or risky assumptions that would change what gets built.
+Read the Description + Acceptance criteria critically through **two independent lenses**.
+Both are selective: raise something only when it has real teeth, and stay silent otherwise —
+signal is only signal when it is scarce.
 
-- **If the issue is crisp and complete:** say so and move on — do NOT manufacture questions,
-  and do NOT wait for approval. PR review is the approval gate for crisp issues.
-- **If there are real doubts:** run the `grilling` skill — interview the user one question at
-  a time until the issue would be unambiguous to an agent building it with no further
-  questions. When a question can be answered by reading the codebase, explore instead of
-  asking. Stay focused on what affects the implementation and the acceptance criteria.
+- **Lens 1 — Disambiguation ("is this clear enough to build?"):** look for genuine
+  ambiguities, gaps, contradictions, or risky assumptions that would change what gets built.
+- **Lens 2 — Challenge ("set aside clarity — is this a good idea?"):** an issue can be
+  perfectly crisp and still be the wrong thing to build. Look for a hidden risk the issue
+  ignores, or a materially cheaper/better alternative that achieves the same goal. This is
+  the merit of the work, not its clarity — do NOT infer doubts from your own preferences,
+  and do NOT manufacture a critique to look diligent. Most sound issues clear this lens in
+  silence.
+
+Route on the combined result:
+
+- **If both lenses come up empty (clear AND sound):** say so and move on — do NOT manufacture
+  questions or objections, and do NOT wait for approval. PR review is the approval gate for
+  crisp issues.
+- **If either lens surfaces something with real teeth:** run the `grilling` skill — interview
+  the user one question at a time until both the ambiguity is resolved AND any substantive
+  challenge is either addressed or consciously accepted by the user. When a question can be
+  answered by reading the codebase, explore instead of asking. Stay focused on what affects
+  the implementation and the acceptance criteria; a challenge the user overrules is settled —
+  record their decision and proceed, don't relitigate.
 
 **Fold clarifications back into the issue body** (only if grilling happened):
 - Rewrite the issue so it is the single improved source of truth: update `### Description`
@@ -53,7 +68,7 @@ contradictions, or risky assumptions that would change what gets built.
 ## Stage 2 — Announce, don't ask
 - **If you grilled:** the synthesis at the end of the grilling conversation ("so I'll build
   X, Y, Z") already served as the announcement — proceed directly to Stage 3.
-- **If the issue was crisp:** state your reading in ONE short message — the acceptance
+- **If you did not grill (issue was clear and sound):** state your reading in ONE short message — the acceptance
   criteria as you understand them, the feature/area you expect it to touch, and any flags
   in effect — then IMMEDIATELY proceed to Stage 3 without waiting for a reply. The user
   interrupts if the reading is wrong; silence is consent.
