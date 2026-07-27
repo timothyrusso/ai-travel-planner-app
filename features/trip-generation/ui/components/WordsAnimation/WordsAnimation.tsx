@@ -1,6 +1,6 @@
 import { Text, View } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { wordKeyframes } from '@/features/core/ui';
+import { wordKeyframes } from '@/features/core/design-system';
 import { styles } from '@/features/trip-generation/ui/components/WordsAnimation/WordsAnimation.style';
 
 const LOADING_WORDS = ['discovering', 'exploring', 'mapping', 'wandering', 'dreaming', 'your', 'perfect', 'journey'];

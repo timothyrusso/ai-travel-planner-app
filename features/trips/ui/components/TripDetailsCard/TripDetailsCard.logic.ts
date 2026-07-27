@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-import { colors } from '@/features/core/ui';
+import { colors } from '@/features/core/design-system';
 import type { TripDetails } from '@/features/trips/domain/entities/TripDetails';
 import { useBudgetColorsMap } from '@/features/trips/hooks/useBudgetColorsMap';
 

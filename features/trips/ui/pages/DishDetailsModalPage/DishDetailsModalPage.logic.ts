@@ -4,9 +4,9 @@ import { navigationService } from '@/features/core/navigation';
 import { useGetTripById } from '@/features/trips/facades/useGetTripById';
 import { useRetryDishImage } from '@/features/trips/facades/useRetryDishImage';
 
-const glutenFreeImage = require('@/features/core/ui/assets/images/gluten_free.png');
-const veganImage = require('@/features/core/ui/assets/images/vegan.png');
-const vegetarianImage = require('@/features/core/ui/assets/images/vegetarian.png');
+const glutenFreeImage = require('@/features/core/design-system/assets/images/gluten_free.png');
+const veganImage = require('@/features/core/design-system/assets/images/vegan.png');
+const vegetarianImage = require('@/features/core/design-system/assets/images/vegetarian.png');
 
 export const useDishDetailsModalPageLogic = () => {
   const { tripId, searchTerm } = useLocalSearchParams<{ tripId: string; searchTerm: string }>();

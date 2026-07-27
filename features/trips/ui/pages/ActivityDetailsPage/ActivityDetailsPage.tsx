@@ -1,6 +1,5 @@
 import { Fragment } from 'react';
 import { View } from 'react-native';
-import { Routes } from '@/features/core/navigation';
 import {
   AnimatedHeaderImage,
   BasicView,
@@ -12,7 +11,8 @@ import {
   colors,
   icons,
   spacing,
-} from '@/features/core/ui';
+} from '@/features/core/design-system';
+import { Routes } from '@/features/core/navigation';
 import { ActivityDetailsBox } from '@/features/trips/ui/components/ActivityDetailsBox/ActivityDetailsBox';
 import { useActivityDetailsPageLogic } from '@/features/trips/ui/pages/ActivityDetailsPage/ActivityDetailsPage.logic';
 import { styles } from '@/features/trips/ui/pages/ActivityDetailsPage/ActivityDetailsPage.style';

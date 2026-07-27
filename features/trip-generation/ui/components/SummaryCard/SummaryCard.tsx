@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { View } from 'react-native';
-import { CustomIcon, CustomText, colors, icons, spacing } from '@/features/core/ui';
+import { CustomIcon, CustomText, colors, icons, spacing } from '@/features/core/design-system';
 import type { TravelerInfo } from '@/features/trip-generation/domain/entities/TravelerInfo';
 import { style } from '@/features/trip-generation/ui/components/SummaryCard/SummaryCard.style';
 

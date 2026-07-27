@@ -1,5 +1,5 @@
 import { FlatList, View } from 'react-native';
-import { CardType, CustomNumberButton } from '@/features/core/ui';
+import { CardType, CustomNumberButton } from '@/features/core/design-system';
 import { useTravelersNumberSelectorLogic } from '@/features/trip-generation/ui/components/TravelersNumberSelector/TravelersNumberSelector.logic';
 import { styles } from '@/features/trip-generation/ui/components/TravelersNumberSelector/TravelersNumberSelector.style';
 

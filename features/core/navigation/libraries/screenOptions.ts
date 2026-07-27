@@ -1,6 +1,6 @@
 import type { NativeStackNavigationOptions } from 'expo-router';
 import { Platform } from 'react-native';
-import { colors, PlatformOS } from '@/features/core/ui';
+import { colors, PlatformOS } from '@/features/core/design-system';
 
 export const screenOptions: NativeStackNavigationOptions = {
   headerShown: false,

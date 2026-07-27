@@ -1,4 +1,4 @@
-import { icons } from '@/features/core/ui';
+import { icons } from '@/features/core/design-system';
 import { TravelerOptions } from '@/features/trip-generation/domain/entities/TravelerOptions';
 
 const travelerIcons = [icons.airplane, icons.heartOutline, icons.home, icons.boat];

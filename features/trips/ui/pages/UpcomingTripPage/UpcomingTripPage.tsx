@@ -1,6 +1,6 @@
 import { Platform, View } from 'react-native';
+import { BasicView, PlatformOS } from '@/features/core/design-system';
 import { Routes } from '@/features/core/navigation';
-import { BasicView, PlatformOS } from '@/features/core/ui';
 import { DetailsBox } from '@/features/trips/ui/components/DetailsBox/DetailsBox';
 import { EmptyListContainer } from '@/features/trips/ui/components/EmptyListContainer/EmptyListContainer';
 import { HeroImage } from '@/features/trips/ui/components/HeroImage/HeroImage';

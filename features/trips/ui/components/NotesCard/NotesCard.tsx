@@ -1,6 +1,6 @@
 import { type FC, Fragment } from 'react';
 import { View } from 'react-native';
-import { CustomIcon, CustomText, colors, type IoniconsName, spacing } from '@/features/core/ui';
+import { CustomIcon, CustomText, colors, type IoniconsName, spacing } from '@/features/core/design-system';
 import { styles as stylesFactory } from '@/features/trips/ui/components/NotesCard/NotesCard.style';
 
 type NotesCardProps = {

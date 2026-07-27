@@ -1,5 +1,5 @@
+import { components } from '@/features/core/design-system';
 import { navigationService } from '@/features/core/navigation';
-import { components } from '@/features/core/ui';
 import { useProfileData } from '@/features/profile/facades/useProfileData';
 
 export const useProfilePageLogic = () => {

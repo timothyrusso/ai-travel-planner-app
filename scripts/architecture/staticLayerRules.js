@@ -23,23 +23,23 @@ const staticLayerRules = [
   {
     name: 'tsx-no-cross-feature-public-api',
     comment:
-      '.tsx files must not import runtime values from a cross-feature public API (index.ts) — all cross-feature runtime values must flow through the ViewModel (.logic.ts). import type from any feature index.ts is allowed for prop annotations. Exceptions: features/core/navigation is allowed for Routes/Stacks constants used directly in BasicView; features/core/ui is allowed because UI components are the natural direct consumer of the component library; app/ route and layout files are thin entry points that are expected to import feature public APIs directly.',
+      '.tsx files must not import runtime values from a cross-feature public API (index.ts) — all cross-feature runtime values must flow through the ViewModel (.logic.ts). import type from any feature index.ts is allowed for prop annotations. Exceptions: features/core/navigation is allowed for Routes/Stacks constants used directly in BasicView; features/core/design-system is allowed because UI components are the natural direct consumer of the component library; app/ route and layout files are thin entry points that are expected to import feature public APIs directly.',
     severity: 'error',
     from: { path: '\\.tsx$', pathNot: '^app/' },
     to: {
       path: '^features/.*/index\\.ts$',
-      pathNot: '^features/core/(navigation|ui)/',
+      pathNot: '^features/core/(navigation|design-system)/',
       dependencyTypesNot: ['type-only'],
     },
   },
   {
     name: 'domain-no-outer-layer-import',
     comment:
-      'domain/ is the innermost layer — must not import from data/, useCases/, facades/, ui/, state/, hooks/, libraries/, di/, or mappers/',
+      'domain/ is the innermost layer — must not import from data/, useCases/, facades/, ui/, state/, hooks/, libraries/, di/, or mappers/, nor from the shared UI module features/core/design-system/',
     severity: 'error',
     from: { path: '/domain/' },
     to: {
-      path: '/(data|useCases|facades|ui|state|hooks|libraries|di|mappers)/',
+      path: '/(data|useCases|facades|ui|state|hooks|libraries|di|mappers|design-system)/',
     },
   },
   {

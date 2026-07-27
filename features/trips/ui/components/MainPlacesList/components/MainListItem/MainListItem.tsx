@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { View } from 'react-native';
-import { CustomIcon, CustomImage, colors, icons, spacing } from '@/features/core/ui';
+import { CustomIcon, CustomImage, colors, icons, spacing } from '@/features/core/design-system';
 import { useMainListItemLogic } from '@/features/trips/ui/components/MainPlacesList/components/MainListItem/MainListItem.logic';
 import { styles } from '@/features/trips/ui/components/MainPlacesList/components/MainListItem/MainListItem.style';
 
