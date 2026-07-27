@@ -35,11 +35,11 @@ const staticLayerRules = [
   {
     name: 'domain-no-outer-layer-import',
     comment:
-      'domain/ is the innermost layer — must not import from data/, useCases/, facades/, ui/, state/, hooks/, libraries/, di/, or mappers/',
+      'domain/ is the innermost layer — must not import from data/, useCases/, facades/, ui/, state/, hooks/, libraries/, di/, or mappers/, nor from the shared UI module features/core/design-system/',
     severity: 'error',
     from: { path: '/domain/' },
     to: {
-      path: '/(data|useCases|facades|ui|state|hooks|libraries|di|mappers)/',
+      path: '/(data|useCases|facades|ui|state|hooks|libraries|di|mappers|design-system)/',
     },
   },
   {
