@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { components, spacing } from '@/features/core/ui';
+import { components, spacing } from '@/features/core/design-system';
 
 const BORDER_SIZE = 15;
 

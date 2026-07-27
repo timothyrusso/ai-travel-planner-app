@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import type { TypicalDish } from '@/features/trips/domain/entities/TypicalDish';
 
-const glutenFreeImage = require('@/features/core/ui/assets/images/gluten_free.png');
-const veganImage = require('@/features/core/ui/assets/images/vegan.png');
-const vegetarianImage = require('@/features/core/ui/assets/images/vegetarian.png');
+const glutenFreeImage = require('@/features/core/design-system/assets/images/gluten_free.png');
+const veganImage = require('@/features/core/design-system/assets/images/vegan.png');
+const vegetarianImage = require('@/features/core/design-system/assets/images/vegetarian.png');
 
 export const useDishItemLogic = (dish: TypicalDish) => {
   const { t } = useTranslation();

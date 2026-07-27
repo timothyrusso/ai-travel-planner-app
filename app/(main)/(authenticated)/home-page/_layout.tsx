@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router';
+import { CustomHeader, icons } from '@/features/core/design-system';
 import { navigationService, Routes } from '@/features/core/navigation';
-import { CustomHeader, icons } from '@/features/core/ui';
 
 export default function HomePageLayout() {
   return (

@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import { ButtonType, CustomIconButtonMedium, icons, spacing } from '@/features/core/ui';
+import { ButtonType, CustomIconButtonMedium, icons, spacing } from '@/features/core/design-system';
 import { useHeaderIconsLogic } from '@/features/trips/ui/components/HeaderIcons/HeaderIcons.logic';
 import { heartPulseStyle, styles } from '@/features/trips/ui/components/HeaderIcons/HeaderIcons.style';
 

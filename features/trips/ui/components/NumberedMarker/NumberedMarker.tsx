@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { type StyleProp, View, type ViewStyle } from 'react-native';
-import { CustomText } from '@/features/core/ui';
+import { CustomText } from '@/features/core/design-system';
 import { styles } from '@/features/trips/ui/components/NumberedMarker/NumberedMarker.style';
 
 type NumberedMarkerProps = {

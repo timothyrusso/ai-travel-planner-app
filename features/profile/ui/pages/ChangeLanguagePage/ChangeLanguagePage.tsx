@@ -1,6 +1,6 @@
 import { View } from 'react-native';
+import { BasicView } from '@/features/core/design-system';
 import { Routes } from '@/features/core/navigation';
-import { BasicView } from '@/features/core/ui';
 import { LanguageItem } from '@/features/profile/ui/components/LanguageItem/LanguageItem';
 import {
   Languages,

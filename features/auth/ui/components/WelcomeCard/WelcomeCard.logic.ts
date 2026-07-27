@@ -1,7 +1,7 @@
 import { Easing, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 import { match } from 'ts-pattern';
 import { styles } from '@/features/auth/ui/components/WelcomeCard/WelcomeCard.style';
-import { components } from '@/features/core/ui';
+import { components } from '@/features/core/design-system';
 
 const FLOAT_AMPLITUDE = 6;
 

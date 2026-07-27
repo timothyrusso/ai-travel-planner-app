@@ -1,5 +1,5 @@
 import { ScrollView, View } from 'react-native';
-import { Badge, BottomSheetHeader, CustomImage, CustomText, colors } from '@/features/core/ui';
+import { Badge, BottomSheetHeader, CustomImage, CustomText, colors } from '@/features/core/design-system';
 import { IngredientsList } from '@/features/trips/ui/components/IngredientsList/IngredientsList';
 import { useDishDetailsModalPageLogic } from '@/features/trips/ui/pages/DishDetailsModalPage/DishDetailsModalPage.logic';
 import { styles } from '@/features/trips/ui/pages/DishDetailsModalPage/DishDetailsModalPage.style';

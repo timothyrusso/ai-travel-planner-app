@@ -1,0 +1,23 @@
+import { StyleSheet, type TextStyle, type ViewStyle } from 'react-native';
+import { components } from '@/features/core/design-system/style/dimensions/components';
+import { fontSize } from '@/features/core/design-system/style/dimensions/fontSize';
+import { spacing } from '@/features/core/design-system/style/dimensions/spacing';
+import { fontFamily } from '@/features/core/design-system/style/fontFamily';
+
+export const styles = (labelColor: TextStyle['color'], iconBackgroundColor: ViewStyle['backgroundColor']) =>
+  StyleSheet.create({
+    card: {
+      height: components.textIconCard,
+      justifyContent: 'space-between',
+      padding: spacing.Triple,
+    },
+    icon: {
+      alignSelf: 'flex-start',
+      backgroundColor: iconBackgroundColor,
+    },
+    label: {
+      fontFamily: fontFamily.interBold,
+      fontSize: fontSize.XL2,
+      color: labelColor,
+    },
+  });

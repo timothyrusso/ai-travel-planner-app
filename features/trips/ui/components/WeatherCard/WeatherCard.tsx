@@ -1,7 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import type { FC } from 'react';
 import { View } from 'react-native';
-import { CustomIcon, CustomText, colors, icons, spacing } from '@/features/core/ui';
+import { CustomIcon, CustomText, colors, icons, spacing } from '@/features/core/design-system';
 import type { Weather } from '@/features/trips/domain/entities/Weather';
 import { styles } from '@/features/trips/ui/components/WeatherCard/WeatherCard.style';
 

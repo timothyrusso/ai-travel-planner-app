@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { colors } from '@/features/core/ui';
+import { colors } from '@/features/core/design-system';
 import { BudgetOptions } from '@/features/trips/domain/entities/BudgetOptions';
 
 export const useBudgetColorsMap = () => {

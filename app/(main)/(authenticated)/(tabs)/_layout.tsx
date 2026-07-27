@@ -2,8 +2,15 @@ import * as Haptics from 'expo-haptics';
 import { TabList, TabSlot, Tabs, TabTrigger } from 'expo-router/ui';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet } from 'react-native';
+import {
+  CustomTabButton,
+  CustomTabButtonWithText,
+  colors,
+  icons,
+  shadows,
+  spacing,
+} from '@/features/core/design-system';
 import { navigationService } from '@/features/core/navigation';
-import { CustomTabButton, CustomTabButtonWithText, colors, icons, shadows, spacing } from '@/features/core/ui';
 import { useStartNewTrip } from '@/features/trips';
 
 const TabLayout = () => {

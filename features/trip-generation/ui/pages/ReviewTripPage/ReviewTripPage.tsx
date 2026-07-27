@@ -1,6 +1,6 @@
 import { View } from 'react-native';
+import { BasicView, CustomScrollView, CustomText, LottieAnimation } from '@/features/core/design-system';
 import { Routes } from '@/features/core/navigation';
-import { BasicView, CustomScrollView, CustomText, LottieAnimation } from '@/features/core/ui';
 import { SummaryCard } from '@/features/trip-generation/ui/components/SummaryCard/SummaryCard';
 import { useReviewTripPageLogic } from '@/features/trip-generation/ui/pages/ReviewTripPage/ReviewTripPage.logic';
 import { style } from '@/features/trip-generation/ui/pages/ReviewTripPage/ReviewTripPage.style';

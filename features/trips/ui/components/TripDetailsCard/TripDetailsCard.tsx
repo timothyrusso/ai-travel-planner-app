@@ -1,7 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import type { FC } from 'react';
 import { View } from 'react-native';
-import { CustomIcon, CustomText, colors, icons, spacing } from '@/features/core/ui';
+import { CustomIcon, CustomText, colors, icons, spacing } from '@/features/core/design-system';
 import type { TripDetails } from '@/features/trips/domain/entities/TripDetails';
 import { useTripDetailsCardLogic } from '@/features/trips/ui/components/TripDetailsCard/TripDetailsCard.logic';
 import { styles } from '@/features/trips/ui/components/TripDetailsCard/TripDetailsCard.style';

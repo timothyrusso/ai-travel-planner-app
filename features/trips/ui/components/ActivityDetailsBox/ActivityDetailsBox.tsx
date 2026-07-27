@@ -1,7 +1,7 @@
 import { type FC, Fragment } from 'react';
 import { View } from 'react-native';
 import { showLocation } from 'react-native-map-link';
-import { CustomIcon, CustomText, colors, icons, spacing } from '@/features/core/ui';
+import { CustomIcon, CustomText, colors, icons, spacing } from '@/features/core/design-system';
 import { styles } from '@/features/trips/ui/components/ActivityDetailsBox/ActivityDetailsBox.style';
 import { OpenMapButton } from '@/features/trips/ui/components/OpenMapButton/OpenMapButton';
 

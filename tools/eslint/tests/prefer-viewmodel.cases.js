@@ -59,7 +59,7 @@ module.exports = function run() {
       {
         filename: TSX,
         code: `${IMPORT}
-        import { useGlassmorphism } from '@/features/core/ui';
+        import { useGlassmorphism } from '@/features/core/design-system';
         export const SelectDatesPage = () => {
           const { state } = useSelectDatesPageLogic();
           const cls = useGlassmorphism();
@@ -146,7 +146,7 @@ module.exports = function run() {
       {
         filename: TSX,
         code: `${IMPORT}
-        import { useGlassmorphism } from '@/features/core/ui';
+        import { useGlassmorphism } from '@/features/core/design-system';
         export const SelectDatesPage = () => {
           const { state } = useSelectDatesPageLogic();
           const cls = useGlassmorphism();
