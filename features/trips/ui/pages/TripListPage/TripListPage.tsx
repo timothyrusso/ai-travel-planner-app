@@ -1,6 +1,6 @@
 import { FlatList } from 'react-native';
+import { BaseSkeleton, BasicView } from '@/features/core/design-system';
 import { Routes } from '@/features/core/navigation';
-import { BaseSkeleton, BasicView } from '@/features/core/ui';
 import type { Trip } from '@/features/trips/domain/entities/Trip';
 import type { UniqueItem } from '@/features/trips/domain/entities/UniqueItem';
 import { TripCard } from '@/features/trips/ui/components/TripCard/TripCard';

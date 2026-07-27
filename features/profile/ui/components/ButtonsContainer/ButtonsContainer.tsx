@@ -1,6 +1,6 @@
 import { type FC, Fragment } from 'react';
 import { ActivityIndicator, Pressable, View } from 'react-native';
-import { CustomIcon, CustomText, colors, type IoniconsName, icons, spacing } from '@/features/core/ui';
+import { CustomIcon, CustomText, colors, type IoniconsName, icons, spacing } from '@/features/core/design-system';
 import { style } from '@/features/profile/ui/components/ButtonsContainer/ButtonsContainer.style';
 
 type ButtonsContainerProps = {

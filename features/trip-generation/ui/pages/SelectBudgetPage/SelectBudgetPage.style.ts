@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { fontFamily, fontSize, SCREEN_WIDTH, spacing } from '@/features/core/ui';
+import { fontFamily, fontSize, SCREEN_WIDTH, spacing } from '@/features/core/design-system';
 
 export const style = StyleSheet.create({
   subtitle: {

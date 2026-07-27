@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 import { Pressable, View } from 'react-native';
-import { CustomImage, CustomText } from '@/features/core/ui';
+import { CustomImage, CustomText } from '@/features/core/design-system';
 import type { TypicalDish } from '@/features/trips/domain/entities/TypicalDish';
 import { useDishItemLogic } from '@/features/trips/ui/components/FoodCard/components/DishItem/DishItem.logic';
 import { styles } from '@/features/trips/ui/components/FoodCard/components/DishItem/DishItem.style';

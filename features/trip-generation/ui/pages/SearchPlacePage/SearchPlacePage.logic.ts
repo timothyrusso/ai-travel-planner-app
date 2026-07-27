@@ -3,7 +3,7 @@ import { navigationService } from '@/features/core/navigation';
 import type { LocationInfo } from '@/features/trip-generation/domain/entities/LocationInfo';
 import { useTripGenerationState } from '@/features/trip-generation/state/useTripGenerationState';
 
-const animation = require('@/features/core/ui/assets/lottie/search_animation.json');
+const animation = require('@/features/core/design-system/assets/lottie/search_animation.json');
 
 export const useSearchPlacePageLogic = () => {
   const { tripActions } = useTripGenerationState();

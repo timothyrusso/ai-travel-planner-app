@@ -1,7 +1,7 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import type { FC } from 'react';
 import { Pressable, View } from 'react-native';
-import { CustomIcon, CustomText, colors, icons, spacing } from '@/features/core/ui';
+import { CustomIcon, CustomText, colors, icons, spacing } from '@/features/core/design-system';
 import type { Food } from '@/features/trips/domain/entities/Food';
 import { useFoodCardLogic } from '@/features/trips/ui/components/FoodCard/FoodCard.logic';
 import { styles } from '@/features/trips/ui/components/FoodCard/FoodCard.style';

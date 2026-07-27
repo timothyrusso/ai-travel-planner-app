@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import type { ListRenderItemInfo } from 'react-native';
 import { FlatList } from 'react-native';
+import { CustomImage } from '@/features/core/design-system';
 import type { ImageResult } from '@/features/core/images';
-import { CustomImage } from '@/features/core/ui';
 import { styles } from '@/features/trips/ui/pages/ActivityDetailsPage/components/ActivityImageCarousel/ActivityImageCarousel.style';
 
 const MIN_IMAGES = 2;

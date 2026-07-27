@@ -1,6 +1,6 @@
 import { View } from 'react-native';
+import { BasicView, CustomText, LottieAnimation, PlacesAutocomplete } from '@/features/core/design-system';
 import { Routes } from '@/features/core/navigation';
-import { BasicView, CustomText, LottieAnimation, PlacesAutocomplete } from '@/features/core/ui';
 import { useSearchPlacePageLogic } from '@/features/trip-generation/ui/pages/SearchPlacePage/SearchPlacePage.logic';
 import { styles } from '@/features/trip-generation/ui/pages/SearchPlacePage/SearchPlacePage.style';
 

@@ -1,6 +1,6 @@
 import { FlatList, View } from 'react-native';
+import { BasicView, CardType, CustomIconTextCard, CustomText, colors } from '@/features/core/design-system';
 import { Routes } from '@/features/core/navigation';
-import { BasicView, CardType, CustomIconTextCard, CustomText, colors } from '@/features/core/ui';
 import { TravelersNumberSelector } from '@/features/trip-generation/ui/components/TravelersNumberSelector/TravelersNumberSelector';
 import {
   TravelerData,

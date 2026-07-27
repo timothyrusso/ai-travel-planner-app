@@ -1,6 +1,6 @@
 import { type FC, memo } from 'react';
 import { Pressable, View } from 'react-native';
-import { CustomIcon, CustomImage, CustomText, colors, icons, spacing } from '@/features/core/ui';
+import { CustomIcon, CustomImage, CustomText, colors, icons, spacing } from '@/features/core/design-system';
 import type { ScheduleItem } from '@/features/trips/domain/entities/ScheduleItem';
 import { useActivityItemLogic } from '@/features/trips/ui/components/ActivityItem/ActivityItem.logic';
 import { styles } from '@/features/trips/ui/components/ActivityItem/ActivityItem.style';

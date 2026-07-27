@@ -1,5 +1,5 @@
 import { View } from 'react-native';
-import { CustomButtonLarge, CustomIcon, CustomText, colors, icons, spacing } from '@/features/core/ui';
+import { CustomButtonLarge, CustomIcon, CustomText, colors, icons, spacing } from '@/features/core/design-system';
 import { useStartNewTripCardLogic } from '@/features/trips/ui/components/StartNewTripCard/StartNewTripCard.logic';
 import { style } from '@/features/trips/ui/components/StartNewTripCard/StartNewTripCard.style';
 

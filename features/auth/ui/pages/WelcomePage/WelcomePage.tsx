@@ -3,7 +3,6 @@ import Animated from 'react-native-reanimated';
 import { WelcomeCards } from '@/features/auth/ui/components/WelcomeCards/WelcomeCards';
 import { useWelcomePageLogic } from '@/features/auth/ui/pages/WelcomePage/WelcomePage.logic';
 import { styles } from '@/features/auth/ui/pages/WelcomePage/WelcomePage.style';
-import { Routes } from '@/features/core/navigation';
 import {
   BasicView,
   ButtonType,
@@ -11,7 +10,8 @@ import {
   CustomImage,
   CustomScrollView,
   CustomText,
-} from '@/features/core/ui';
+} from '@/features/core/design-system';
+import { Routes } from '@/features/core/navigation';
 
 export const WelcomePage = () => {
   const { state, derived, effects } = useWelcomePageLogic();

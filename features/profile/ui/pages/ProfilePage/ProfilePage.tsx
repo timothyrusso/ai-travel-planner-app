@@ -1,6 +1,13 @@
 import { View } from 'react-native';
+import {
+  BaseSkeleton,
+  BasicView,
+  CustomImage,
+  CustomScrollView,
+  CustomText,
+  icons,
+} from '@/features/core/design-system';
 import { Stacks } from '@/features/core/navigation';
-import { BaseSkeleton, BasicView, CustomImage, CustomScrollView, CustomText, icons } from '@/features/core/ui';
 import { ButtonsContainer } from '@/features/profile/ui/components/ButtonsContainer/ButtonsContainer';
 import { UserDataBox } from '@/features/profile/ui/components/UserDataBox/UserDataBox';
 import { useProfilePageLogic } from '@/features/profile/ui/pages/ProfilePage/ProfilePage.logic';

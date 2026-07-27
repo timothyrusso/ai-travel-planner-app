@@ -1,5 +1,5 @@
 import { Pressable, View } from 'react-native';
-import { CustomIcon, CustomImage, CustomText, colors, icons, spacing } from '@/features/core/ui';
+import { CustomIcon, CustomImage, CustomText, colors, icons, spacing } from '@/features/core/design-system';
 import type { Trip } from '@/features/trips/domain/entities/Trip';
 import { useTripCardLogic } from '@/features/trips/ui/components/TripCard/TripCard.logic';
 import { styles } from '@/features/trips/ui/components/TripCard/TripCard.style';

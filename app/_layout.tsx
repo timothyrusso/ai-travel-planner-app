@@ -12,12 +12,12 @@ import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
+import { fontsConfig, ToastProvider } from '@/features/core/design-system';
 import { RootAppCrashView } from '@/features/core/error/pages';
 import { Stacks, screenOptions } from '@/features/core/navigation';
 import { queryClient } from '@/features/core/query';
 import { initSentry, registerNavigationContainer, wrap } from '@/features/core/sentry';
 import { initI18n } from '@/features/core/translations';
-import { fontsConfig, ToastProvider } from '@/features/core/ui';
 
 initSentry();
 initI18n();
@@ -55,13 +55,13 @@ export default wrap(function RootLayout() {
   });
 
   const [welcomeAssets, welcomeAssetsError] = useAssets([
-    require('@/features/core/ui/assets/images/welcome_1.jpg'),
-    require('@/features/core/ui/assets/images/welcome_2.jpg'),
-    require('@/features/core/ui/assets/images/welcome_3.jpg'),
-    require('@/features/core/ui/assets/images/welcome_4.jpg'),
-    require('@/features/core/ui/assets/images/welcome_5.jpg'),
-    require('@/features/core/ui/assets/images/welcome_6.jpg'),
-    require('@/features/core/ui/assets/images/logo_round.png'),
+    require('@/features/core/design-system/assets/images/welcome_1.jpg'),
+    require('@/features/core/design-system/assets/images/welcome_2.jpg'),
+    require('@/features/core/design-system/assets/images/welcome_3.jpg'),
+    require('@/features/core/design-system/assets/images/welcome_4.jpg'),
+    require('@/features/core/design-system/assets/images/welcome_5.jpg'),
+    require('@/features/core/design-system/assets/images/welcome_6.jpg'),
+    require('@/features/core/design-system/assets/images/logo_round.png'),
   ]);
 
   const appReady = fontsLoaded && (!!welcomeAssets || !!welcomeAssetsError);

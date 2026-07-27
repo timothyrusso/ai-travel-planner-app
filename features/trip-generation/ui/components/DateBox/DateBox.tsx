@@ -1,7 +1,15 @@
 import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { View } from 'react-native';
-import { ButtonType, CustomIcon, CustomIconButtonMedium, CustomText, colors, icons, spacing } from '@/features/core/ui';
+import {
+  ButtonType,
+  CustomIcon,
+  CustomIconButtonMedium,
+  CustomText,
+  colors,
+  icons,
+  spacing,
+} from '@/features/core/design-system';
 import { style } from '@/features/trip-generation/ui/components/DateBox/DateBox.style';
 
 type DateBoxProps = {

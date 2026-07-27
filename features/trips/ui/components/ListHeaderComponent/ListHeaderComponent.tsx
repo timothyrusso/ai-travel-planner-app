@@ -1,7 +1,7 @@
 import { type FC, memo } from 'react';
 import { View } from 'react-native';
 import type { Region } from 'react-native-maps';
-import { colors, icons } from '@/features/core/ui';
+import { colors, icons } from '@/features/core/design-system';
 import type { Food } from '@/features/trips/domain/entities/Food';
 import type { TripDetails } from '@/features/trips/domain/entities/TripDetails';
 import type { Weather } from '@/features/trips/domain/entities/Weather';

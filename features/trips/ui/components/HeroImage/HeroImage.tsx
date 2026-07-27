@@ -1,7 +1,7 @@
 import { BlurTargetView } from 'expo-blur';
 import type { FC, RefObject } from 'react';
 import { Platform, type View } from 'react-native';
-import { CustomImage, PlatformOS } from '@/features/core/ui';
+import { CustomImage, PlatformOS } from '@/features/core/design-system';
 import { styles } from '@/features/trips/ui/components/HeroImage/HeroImage.style';
 
 type HeroImageProps = {

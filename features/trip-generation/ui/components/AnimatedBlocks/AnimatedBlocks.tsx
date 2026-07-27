@@ -1,6 +1,6 @@
 import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { rotate } from '@/features/core/ui';
+import { rotate } from '@/features/core/design-system';
 import { styles } from '@/features/trip-generation/ui/components/AnimatedBlocks/AnimatedBlocks.style';
 
 const COLORS = ['#fa7f7c', '#b58df1', '#ffe780', '#82cab2', '#87cce8'];

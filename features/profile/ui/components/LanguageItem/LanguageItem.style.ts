@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, fontFamily, fontSize, opacity, spacing } from '@/features/core/ui';
+import { colors, fontFamily, fontSize, opacity, spacing } from '@/features/core/design-system';
 
 export const styles = (isSelected: boolean) =>
   StyleSheet.create({
