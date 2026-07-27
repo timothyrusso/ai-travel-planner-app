@@ -48,8 +48,8 @@ Route on the combined result:
   questions or objections, and do NOT wait for approval. PR review is the approval gate for
   crisp issues.
 - **If either lens surfaces something with real teeth:** run the `grilling` skill — interview
-  the user one question at a time until both the ambiguity is resolved AND any substantive
-  challenge is either addressed or consciously accepted by the user. When a question can be
+  the user one question at a time until any identified ambiguity is resolved AND any
+  substantive challenge is either addressed or consciously accepted by the user. When a question can be
   answered by reading the codebase, explore instead of asking. Stay focused on what affects
   the implementation and the acceptance criteria; a challenge the user overrules is settled —
   record their decision and proceed, don't relitigate.
