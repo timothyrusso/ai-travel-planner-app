@@ -149,15 +149,16 @@ approval gate.
 - **Title:** meaningful. **Body:** empty (other GitHub reviewer automation overwrites it).
 - **ONE pipeline comment**, posted at run end — even when a stage aborts the run: a short
   status header (verdicts, fix rounds, wall-clock) plus collapsible sections carrying the
-  full build, review, device-QA, vetting, and run-metrics reports. Agents never post their
-  own comments.
+  full build, review, mobile-QA, web-QA, vetting, and run-metrics reports. Agents never post
+  their own comments.
 
 ---
 
 ## The `implement-issue-pipeline` workflow
 
 The single deterministic encoding of the build pipeline: explore → build → wire PR →
-review ∥ device QA (parallel — independent stages) → finding vetting → bounded auto-fix →
+review ∥ mobile QA ∥ web QA (parallel — independent stages, each QA lane running only when
+the issue has that surface) → finding vetting → bounded auto-fix →
 one consolidated run comment (best-effort, attempted even when a post-build stage aborts
 the run), with schema-validated verdicts and a hard fix-loop cap. It is **gate-free** —
 any clarification happens in `/implement-issue` before it launches; approval happens at PR
@@ -286,6 +287,7 @@ human gates, so it cannot be a workflow) that drives those threads to zero:
 3. Once the AI review bots have commented on the fresh PR, optionally run
    `/triage-pr <pr>` — it drives the bot threads to zero and consults you in chat only
    where judgment lives.
-4. Review the resulting PR — the build, review, device-QA, vetting, and run-metrics reports
-   all live in ONE pipeline comment, as collapsible sections under a short status header.
+4. Review the resulting PR — the build, review, mobile-QA, web-QA, vetting, and run-metrics
+   reports all live in ONE pipeline comment, as collapsible sections under a short status
+   header.
 5. Merge when satisfied. The pipeline never merges for you.
