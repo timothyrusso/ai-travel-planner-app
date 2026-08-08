@@ -11,6 +11,16 @@ const main: StorybookConfig = {
     options: {
       // Ships untranspiled RN sources, so Vite has to run it through the RNW transform.
       modulesToTranspile: ['@react-native-vector-icons'],
+      pluginReactOptions: {
+        babel: {
+          // `CustomPressable` (rendered by every button) calls `useAnimatedStyle`, which throws on
+          // web unless Reanimated's Babel plugin has turned the callback into a worklet. Metro gets
+          // it from `babel-preset-expo`; Vite has no Babel config of its own here (the framework
+          // sets `babelrc: false` / `configFile: false`), so the plugin is wired up explicitly.
+          // Reanimated 4 re-exports it from `react-native-worklets`, which owns it.
+          plugins: ['react-native-worklets/plugin'],
+        },
+      },
     },
   },
   typescript: {

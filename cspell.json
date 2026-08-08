@@ -26,7 +26,8 @@
     "ondevice",
     "autodocs",
     "untranspiled",
-    "ellipsize"
+    "ellipsize",
+    "worklets"
   ],
   "flagWords": [
     "hte"
