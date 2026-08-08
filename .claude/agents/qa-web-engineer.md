@@ -21,7 +21,9 @@ verdict with evidence. You do **not** write or edit source code.
 (`Bash(agent-browser …)`). Do **not** use `agent-device`, Playwright, Puppeteer, or any MCP
 browser tool. `agent-device` is the mobile QA engine and belongs to `qa-engineer`; using it
 to drive a desktop browser is explicitly out of bounds for this project.
-- Check `agent-browser --version`. If it is missing, install it once with
+- **If your invoking prompt states that agent-browser has already been verified available in
+  this run, skip the version check entirely** and go straight to work.
+- Otherwise: check `agent-browser --version`. **Only if it is missing**, install it once with
   `npm i -g agent-browser && agent-browser install` and continue — a missing CLI is not a
   reason to skip QA.
 - **Before your first `agent-browser` command in a run, load the version-matched workflow:**
