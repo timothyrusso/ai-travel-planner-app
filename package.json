@@ -12,6 +12,8 @@
     "web": "expo start --web",
     "test": "jest --watchAll",
     "e2e": "maestro test ./maestro",
+    "storybook": "storybook dev -p 6006",
+    "storybook:build": "storybook build",
     "storybook:generate": "sb-rn-get-stories --config-path ./.rnstorybook",
     "storybook:ios": "npm run storybook:generate && EXPO_PUBLIC_STORYBOOK_ENABLED=true expo run:ios",
     "storybook:android": "npm run storybook:generate && EXPO_PUBLIC_STORYBOOK_ENABLED=true expo run:android",
