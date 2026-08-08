@@ -1,10 +1,12 @@
 import type { Decorator, Preview } from '@storybook/react-native';
+import { useFonts } from 'expo-font';
 import { createInstance } from 'i18next';
 import { type PropsWithChildren, useEffect } from 'react';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useGlobals } from 'storybook/preview-api';
 
+import { fontsConfig } from '@/features/core/design-system/style/fontFamily';
 import translationEn from '@/features/core/translations/libraries/locales/en.json';
 import translationIt from '@/features/core/translations/libraries/locales/it.json';
 
@@ -41,9 +43,19 @@ type StoryFrameProps = PropsWithChildren<{
 }>;
 
 function StoryFrame({ locale, onLocaleChange, children }: StoryFrameProps) {
+  // Storybook bypasses `expo-router/entry`, so `app/_layout.tsx` — where the app calls
+  // `useFonts(fontsConfig)` — never runs. Without this the design-system's `inter-*` families
+  // are unknown to the renderer and every label silently falls back to the system font, which
+  // makes the catalogue lie about typography.
+  const [fontsLoaded] = useFonts(fontsConfig);
+
   useEffect(() => {
     void storybookI18n.changeLanguage(locale);
   }, [locale]);
+
+  // Render nothing until Inter is registered: a first paint in the fallback font would be a
+  // misleading screenshot for any visual check.
+  if (!fontsLoaded) return null;
 
   return (
     <I18nextProvider i18n={storybookI18n}>
