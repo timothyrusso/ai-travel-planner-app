@@ -1,6 +1,6 @@
 {
   "name": "holidai",
-  "main": "expo-router/entry",
+  "main": "index.js",
   "version": "1.0.0",
   "engines": {
     "node": ">=22.13"
@@ -12,6 +12,9 @@
     "web": "expo start --web",
     "test": "jest --watchAll",
     "e2e": "maestro test ./maestro",
+    "storybook:generate": "sb-rn-get-stories --config-path ./.rnstorybook",
+    "storybook:ios": "npm run storybook:generate && EXPO_PUBLIC_STORYBOOK_ENABLED=true expo run:ios",
+    "storybook:android": "npm run storybook:generate && EXPO_PUBLIC_STORYBOOK_ENABLED=true expo run:android",
     "spell-check": "cspell link add @cspell/dict-it-it && cspell lint .",
     "format": "npx @biomejs/biome format --write",
     "lint": "npx @biomejs/biome check --no-errors-on-unmatched --files-ignore-unknown=true",
