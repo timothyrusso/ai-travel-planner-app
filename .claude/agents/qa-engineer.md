@@ -52,27 +52,27 @@ A GitHub issue number. Everything else you derive:
 
 ## Process
 1. **Get the code under test.** `git checkout feature/<issue-number>`.
-2. **Select the device — do this before deciding how to build.** The only supported build
-   target is iOS (`npm run ios`), so enumerate iOS candidates with
-   `agent-device devices --platform ios --json` (each entry carries `kind`, `name`, `id`,
-   `booted`). Choose among iOS devices/simulators by this precedence, then **pin** the choice:
-   - **Connected physical iOS device** (a `kind` other than a simulator) → use it, don't ask.
-   - Else an **already-booted iOS simulator** → reuse it. Never boot a second device when a
-     usable one is already running.
-   - Else **boot exactly one** iOS simulator and use that.
-
-   **iOS gate:** if the only device available (or the one selected) is NOT an iOS target —
-   e.g. an Android phone/emulator, or no iOS device can be obtained — stop and report
-   `QA NOT PERFORMED` with the reason: Android build/run is not yet supported (tracked out
-   of scope for #427).
+2. **Select the device — do this before deciding how to build.** Enumerate every candidate
+   with `agent-device devices --json` (each entry carries `platform`, `kind`, `name`, `id`,
+   `booted`). Choose by this precedence, then **pin** the choice:
+   - **Connected physical device — iOS or Android** → use it, don't ask. (If both a physical
+     iOS and a physical Android device are connected, prefer the iOS one.)
+   - Else prefer an **iOS simulator** — reuse an already-booted one, otherwise boot exactly
+     one. iOS is preferred over Android here because Android emulators are more often flaky.
+   - Else fall back to an **Android emulator** — reuse an already-booted one, otherwise boot
+     one.
+   - Else, if no device can be obtained (nothing boots, or the Android emulator is
+     broken/unusable), stop and report `QA NOT PERFORMED` with the reason. This is a
+     **non-blocking** outcome, not a failure.
 
    Once chosen, **pin every subsequent `agent-device` command to it with `--device <id>`**
-   so the whole run targets one device. A build / Metro / red-box / crash error is a code
-   or build problem, **NOT** a reason to switch devices — fix it on the same pinned device.
-   Switch or escalate only when the device itself is broken or the wrong model; if no
-   usable device can be obtained, stop and report `QA NOT PERFORMED` with the reason.
-   Record the selected device (physical vs. simulator + its name/id) — it goes in the
-   report's Environment line.
+   so the whole run targets one device, and note its **platform** (iOS vs Android) — it
+   decides the full-build command below and the report's Environment line. A build / Metro /
+   red-box / crash error is a code or build problem, **NOT** a reason to switch devices — fix
+   it on the same pinned device. Switch or escalate only when the device itself is broken or
+   the wrong model.
+   Record the selected device (platform + physical device vs. simulator/emulator + its
+   name/id) — it goes in the report's Environment line.
 3. **Build strategy on the pinned device — follow this decision tree, do not research build
    strategies:**
 
@@ -80,15 +80,17 @@ A GitHub issue number. Everything else you derive:
    JS-only iff every changed file is `.ts/.tsx/.js/.jsx` or a non-config `.json`, and
    NONE is `package.json`, `app.json`/`app.config.*`, or under `ios/`, `android/`,
    `.claude/`-external native config. When in doubt → treat as NOT JS-only.)
-   - **Not JS-only** → full build: `npm run ios -- --device <id>` (forward the pinned device
-     id so the build installs/launches on the same device SELECT chose — `npm run ios` maps
-     to `expo run:ios`, which otherwise picks its own default device and breaks the
-     one-device guarantee).
+   - **Not JS-only** → full native build for the pinned device's platform, forwarding the
+     pinned device id: iOS → `npm run ios -- --device <id>`, Android →
+     `npm run android -- --device <id>`. Forward the device so the build installs/launches on
+     the same device SELECT chose — `npm run ios`/`npm run android` map to
+     `expo run:ios`/`expo run:android`, which otherwise pick their own default device and
+     break the one-device guarantee.
    - **Bundler config changed while the app is running or installed** (`metro.config.*`,
      `babel.config.*`, `.babelrc*` in the diff) — takes precedence over the two branches
      below: still no native build, but a running Metro holds that config stale from
      startup — ALWAYS restart Metro from the checkout with its cache cleared (`--clear`)
-     before launching/reloading; never plain-attach in this case. On a fresh simulator
+     before launching/reloading; never plain-attach in this case. On a fresh device
      (app NOT installed) this rule does NOT apply — the full-build branch below already
      starts Metro with fresh config.
    - **JS-only + app running on the target device** → first verify the running Metro server's
@@ -97,12 +99,13 @@ A GitHub issue number. Everything else you derive:
      from the checked-out branch. Then attach and reload JS — no native build.
    - **JS-only + app installed but not running** → start Metro from the checked-out
      branch, launch the installed binary, reload — no native build.
-   - **JS-only + app NOT installed** (cold cache — first run on this device) → full build
-     with the pinned device: `npm run ios -- --device <id>`; this is a cold cache, paid
-     once per device, not a failure.
+   - **JS-only + app NOT installed** (cold cache — first run on this device) → full build for
+     the pinned device's platform, forwarding the device (`npm run ios -- --device <id>` or
+     `npm run android -- --device <id>`); this is a cold cache, paid once per device, not a
+     failure.
    - **Self-heal:** if a reloaded app red-boxes at startup (e.g. "native module not
      found" — stale binary), fall back to a full build instead of reporting FAIL.
-   - If nothing works (no simulator, build fails), **stop and report `QA NOT PERFORMED`**
+   - If nothing works (no device, build fails), **stop and report `QA NOT PERFORMED`**
      with the reason. This is a **non-blocking** outcome, not a failure.
    - **Record which path you took** (full-build | attach | launch+reload) — it goes in the
      report's Environment line.
@@ -171,7 +174,7 @@ comment — do not overwrite others). Structure:
 | --- | --- | --- | --- | --- |
 | N | N | N | N | N |
 
-**Environment** — <physical device | iOS simulator> · <device name/id> · app source: full-build | attached | launch+reload (fast path)
+**Environment** — <physical iOS device | iOS simulator | physical Android device | Android emulator> · <device name/id> · app source: full-build | attached | launch+reload (fast path)
 
 ### Baseline checks
 - App startup — ✅/❌ · <note>

@@ -187,22 +187,23 @@ net under the builder's once-per-round self-check.
 
 #### Device-readiness fast path (QA stage)
 
-The qa-engineer first **selects and pins one iOS device** (iOS is the only supported build
-target) — a connected physical iOS device wins, else an already-booted iOS simulator is
-reused, else exactly one iOS simulator is booted — and pins it with `--device <id>` for the
-whole run. If no iOS target can be obtained (e.g. only an Android device is present) it
-stops with `QA NOT PERFORMED` — Android build/run is out of scope. It then decides between a
-Metro reload and a full native build: a JS-only diff on a warm device skips the ~10-minute
-`xcodebuild` entirely. A full build forwards the pinned device (`npm run ios -- --device
-<id>`) so SELECT and the build/QA run stay on one device.
+The qa-engineer first **selects and pins one device** — a connected physical device (iOS or
+Android) wins; else an iOS simulator is preferred (reuse a booted one, else boot one), since
+Android emulators are flakier; else an Android emulator is used; else, if nothing can be
+obtained, it stops with `QA NOT PERFORMED`. It pins the choice with `--device <id>` for the
+whole run and remembers its platform. It then decides between a Metro reload and a full
+native build: a JS-only diff on a warm device skips the ~10-minute native build entirely. A
+full build forwards the pinned device and uses the platform's build command
+(`npm run ios -- --device <id>` or `npm run android -- --device <id>`) so SELECT and the
+build/QA run stay on one device.
 
 ```mermaid
 flowchart TD
-    START["Get code under test:<br/>checkout feature branch"] --> SELECT["Select + pin iOS device:<br/>physical iOS → booted sim → boot one<br/>(--device id on every command)"]
-    SELECT --> IOS{"iOS target available?"}
-    IOS -->|"no (Android / none)"| NOTPERF["QA NOT PERFORMED<br/>(Android out of scope)"]
-    IOS -->|"yes"| JS{"Diff JS-only?<br/>(no native, no package.json,<br/>no app config)"}
-    JS -->|"no, or in doubt"| FULL["Full build:<br/>npm run ios -- --device id"]
+    START["Get code under test:<br/>checkout feature branch"] --> SELECT["Select + pin device:<br/>physical (iOS/Android) → iOS sim →<br/>Android emulator (--device id everywhere)"]
+    SELECT --> AVAIL{"A device available?"}
+    AVAIL -->|"no (nothing boots)"| NOTPERF["QA NOT PERFORMED<br/>(non-blocking)"]
+    AVAIL -->|"yes"| JS{"Diff JS-only?<br/>(no native, no package.json,<br/>no app config)"}
+    JS -->|"no, or in doubt"| FULL["Full build (per platform):<br/>npm run ios/android -- --device id"]
     JS -->|"yes"| BC{"Bundler config changed?<br/>(metro / babel)"}
     BC -->|"yes, app running or installed"| RESTART["Restart Metro from checkout<br/>with cleared cache,<br/>then launch + reload"]
     BC -->|"yes, app not installed"| FULL
