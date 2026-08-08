@@ -50,15 +50,17 @@ function StoryFrame({ locale, onLocaleChange, children }: StoryFrameProps) {
   // `useFonts(fontsConfig)` — never runs. Without this the design-system's `inter-*` families
   // are unknown to the renderer and every label silently falls back to the system font, which
   // makes the catalogue lie about typography.
-  const [fontsLoaded] = useFonts(fontsConfig);
+  const [fontsLoaded, fontsError] = useFonts(fontsConfig);
 
   useEffect(() => {
     void storybookI18n.changeLanguage(locale);
   }, [locale]);
 
-  // Render nothing until Inter is registered: a first paint in the fallback font would be a
-  // misleading screenshot for any visual check.
-  if (!fontsLoaded) return null;
+  // Render nothing WHILE loading: a first paint in the fallback font would be a misleading
+  // screenshot for any visual check. A load FAILURE is a different story — it never resolves, so
+  // bailing out on it too would leave the catalogue blank forever with nothing to look at. Render
+  // the story with degraded typography instead: a visibly wrong font is a readable symptom.
+  if (!fontsLoaded && !fontsError) return null;
 
   return (
     <I18nextProvider i18n={storybookI18n}>

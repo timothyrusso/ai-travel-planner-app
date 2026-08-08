@@ -49,7 +49,7 @@ function StoryFrame({ locale, children }: StoryFrameProps) {
   // `@react-native-vector-icons/ionicons` config plugin links the font natively, but nothing
   // does that in a browser, so every `CustomIcon` renders as a blank/tofu glyph. The family name
   // must match the icon set's `postScriptName` ('Ionicons').
-  const [fontsLoaded] = useFonts({
+  const [fontsLoaded, fontsError] = useFonts({
     ...fontsConfig,
     Ionicons: require('@react-native-vector-icons/ionicons/fonts/Ionicons.ttf'),
   });
@@ -58,9 +58,11 @@ function StoryFrame({ locale, children }: StoryFrameProps) {
     void storybookI18n.changeLanguage(locale);
   }, [locale]);
 
-  // Render nothing until Inter is registered: a first paint in the fallback font would be a
-  // misleading screenshot for any visual check.
-  if (!fontsLoaded) return null;
+  // Render nothing WHILE loading: a first paint in the fallback font would be a misleading
+  // screenshot for any visual check. A load FAILURE is a different story — it never resolves, so
+  // bailing out on it too would leave the catalogue blank forever with nothing to look at. Render
+  // the story with degraded typography instead: a visibly wrong font is a readable symptom.
+  if (!fontsLoaded && !fontsError) return null;
 
   return (
     <I18nextProvider i18n={storybookI18n}>
