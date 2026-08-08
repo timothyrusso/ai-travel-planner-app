@@ -26,8 +26,7 @@ Read at the start of every QA run. Append only under the rules in
 - [2026-08-08] `agent-device devices --json` can list a physical iOS device as `booted:true`
   even when it's not actually connected (matches `xcrun devicectl list devices` showing
   "unavailable"). Confirm reachability with a cheap `agent-device open <bundleId> --platform
-  ios --device "<Name>"` before committing to it; `--device` on real hardware takes the
-  device NAME, not the UDID from `devices --json`.
+  ios --device "<Name>"` before committing to it.
 - [2026-08-08] Do NOT QA web targets from this agent. Driving Chrome via `agent-device
   --platform macos` was tried and is unreliable (Chrome loses frontmost focus between
   commands so presses land on the wrong window; `snapshot -i` sees only the "Agent Device

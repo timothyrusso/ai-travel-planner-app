@@ -72,8 +72,10 @@ A GitHub issue number. Everything else you derive:
      broken/unusable), stop and report `QA NOT PERFORMED` with the reason. This is a
      **non-blocking** outcome, not a failure.
 
-   Once chosen, **pin every subsequent `agent-device` command to it with `--device <id>`**
-   so the whole run targets one device, and note its **platform** (iOS vs Android) — it
+   Once chosen, **pin every subsequent `agent-device` command to it with `--device`** so the
+   whole run targets one device: pass the `id` for a simulator or an emulator, and the `name`
+   for a physical device (real hardware is addressed by name, not by the UDID that
+   `devices --json` reports). Note its **platform** (iOS vs Android) too — it
    decides the full-build command below and the report's Environment line. A build / Metro /
    red-box / crash error is a code or build problem, **NOT** a reason to switch devices — fix
    it on the same pinned device. Switch or escalate only when the device itself is broken or
