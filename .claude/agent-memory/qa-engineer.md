@@ -28,17 +28,20 @@ Read at the start of every QA run. Append only under the rules in
   "unavailable"). Confirm reachability with a cheap `agent-device open <bundleId> --platform
   ios --device "<Name>"` before committing to it; `--device` on real hardware takes the
   device NAME, not the UDID from `devices --json`.
-- [2026-08-08] `agent-device` can drive a desktop browser via `--platform macos`: `open
-  "Google Chrome"`, then `open "<url>"`, then screenshot + coordinate press (snapshot -i on
-  Chrome only sees the "Agent Device Runner" helper window, not page content — AX tree is
-  unavailable for web content). Chrome loses frontmost focus between commands — re-run
-  `open "Google Chrome" --platform macos` before every press or the tap lands on the wrong
-  window. Useful for QA-ing a repo's web target (e.g. web Storybook) with the mandated CLI.
-- [2026-08-08] This machine's Xcode 26.6 fails to compile RN 0.86's prebuilt
-  `ReactNativeDependencies` pod (folly `New.h` aligned-new/aligned-delete mismatch) on any
-  branch — a pre-existing local toolchain incompatibility, not something a PR's JS/pod-minor
-  bumps cause. Confirm via: react-native version unchanged from main, error persists after
-  `rm -rf DerivedData` + a compliant Node. Blocks all iOS native builds until Xcode is fixed.
+- [2026-08-08] Do NOT QA web targets from this agent. Driving Chrome via `agent-device
+  --platform macos` was tried and is unreliable (Chrome loses frontmost focus between
+  commands so presses land on the wrong window; `snapshot -i` sees only the "Agent Device
+  Runner" helper window, never page content). Web Storybook / `expo start --web` now belong
+  to the `qa-web-engineer` agent, which uses `agent-browser`. Mark browser-only criteria
+  BLOCKED and move on.
+- [2026-08-08] FIXED — Xcode 26.6 could not compile RN 0.86's *prebuilt*
+  `ReactNativeDependencies` pod (folly `New.h` aligned-new/aligned-delete mismatch, xcodebuild
+  exit 65). Resolved by `ios.buildReactNativeFromSource: true` +
+  `usePrecompiledModules: false` in the `expo-build-properties` plugin in `app.json`, which
+  makes the Podfile set `RCT_USE_RN_DEP=0` / `RCT_USE_PREBUILT_RNCORE=0` so folly builds with
+  the local toolchain. Xcode did NOT need downgrading. Cost: clean iOS builds are slower
+  (RN compiles from source). If iOS builds ever fail this way again, check those flags
+  survived a prebuild before blaming Xcode or the PR.
 - [2026-07-24] `agent-device metro reload` can 500 even with Metro healthy/reachable —
   fall back to `open <app> --platform ios --device <name> --relaunch`.
 - [2026-07-25] Long RN ScrollViews: `scroll down/up`/`scroll top` are unreliable (huge
