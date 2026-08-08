@@ -37,6 +37,9 @@ ios/
 # test / QA coverage output
 coverage/
 
+# Playwright MCP session artifacts (never commit)
+.playwright-mcp/
+
 google-services.json
 GoogleService-Info.plist
 **/google-services.json
