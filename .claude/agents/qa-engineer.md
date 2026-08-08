@@ -52,7 +52,24 @@ A GitHub issue number. Everything else you derive:
 
 ## Process
 1. **Get the code under test.** `git checkout feature/<issue-number>`.
-2. **Device readiness — follow this decision tree, do not research build strategies:**
+2. **Select the device — do this before deciding how to build.** Enumerate the candidates
+   with `agent-device devices --platform <ios|android> --json` (each entry carries `kind`,
+   `name`, `id`, `booted`). Choose by this precedence, then **pin** the choice:
+   - **Connected physical device** (a `kind` other than a simulator) → use it, don't ask.
+   - Else an **already-booted simulator** → reuse it. Never boot a second device when a
+     usable one is already running.
+   - Else **boot exactly one** simulator and use that.
+
+   Once chosen, **pin every subsequent `agent-device` command to it with `--device <id>`**
+   so the whole run targets one device. A build / Metro / red-box / crash error is a code
+   or build problem, **NOT** a reason to switch devices — fix it on the same pinned device.
+   Switch or escalate only when the device itself is broken or the wrong model; if no
+   usable device can be obtained, stop and report `QA NOT PERFORMED` with the reason.
+   Record the selected device (physical vs. simulator + its name/id) — it goes in the
+   report's Environment line. Selection is platform-aware, but the full-build path below is
+   iOS-only (`npm run ios`) for now, so default to an iOS target unless told otherwise.
+3. **Build strategy on the pinned device — follow this decision tree, do not research build
+   strategies:**
 
    Is the diff JS-only? (`git diff --name-only origin/main...feature/<issue-number>` —
    JS-only iff every changed file is `.ts/.tsx/.js/.jsx` or a non-config `.json`, and
@@ -66,7 +83,7 @@ A GitHub issue number. Everything else you derive:
      before launching/reloading; never plain-attach in this case. On a fresh simulator
      (app NOT installed) this rule does NOT apply — the full-build branch below already
      starts Metro with fresh config.
-   - **JS-only + app running on a simulator** → first verify the running Metro server's
+   - **JS-only + app running on the target device** → first verify the running Metro server's
      project root is THIS checkout — reloading against someone else's Metro session tests
      the wrong code while looking green. If it isn't (or you can't tell), restart Metro
      from the checked-out branch. Then attach and reload JS — no native build.
@@ -80,20 +97,20 @@ A GitHub issue number. Everything else you derive:
      with the reason. This is a **non-blocking** outcome, not a failure.
    - **Record which path you took** (full-build | attach | launch+reload) — it goes in the
      report's Environment line.
-3. **Read the acceptance criteria.** `gh issue view <number>` → parse the
+4. **Read the acceptance criteria.** `gh issue view <number>` → parse the
    `### Acceptance criteria` section (each line is a candidate test case) and
    `### Screens affected`. If a screen isn't listed, infer the touched area from
    `git diff main...feature/<issue-number> --name-only`.
-4. **Run the baseline checks** (the `qa-baseline` skill): app startup, touched screen
+5. **Run the baseline checks** (the `qa-baseline` skill): app startup, touched screen
    renders, primary navigation. These run for every feature regardless of the criteria.
-5. **Derive feature test items** from the acceptance criteria. Give each an ID (T01, T02…),
+6. **Derive feature test items** from the acceptance criteria. Give each an ID (T01, T02…),
    the area, a class, concrete steps, and an expected result. Classes:
    - `flow` — a happy path the feature must satisfy.
    - `edge` — a corner/negative case (empty, error + retry, boundary data, rapid taps).
    - `ux` — usability: loading resolves, no clipping/overlap/layout shift, copy correct.
    Go beyond "the screen renders": exercise the meaningful controls and states of the
    changed area, and add the edge cases that genuinely apply. Don't pad.
-6. **Exercise each item.** Loop: `open → snapshot/-i → find/get/press/fill/scroll/wait →
+7. **Exercise each item.** Loop: `open → snapshot/-i → find/get/press/fill/scroll/wait →
    verify → close`. Never guess coordinates — always work from a fresh `snapshot -i`.
    Capture evidence: screenshots to `coverage/qa/<issue-number>/<ID>-<label>.png`, plus
    relevant logs (crashes, JS errors, failed network calls). Findings must come from
@@ -117,7 +134,7 @@ A GitHub issue number. Everything else you derive:
    Read the extracted frames. Recording is CAPTURE ONLY; all device interaction still
    goes exclusively through agent-device. Reference both the .mov and the decisive
    frame(s) as evidence.
-7. **Judge** each item and assign a per-item verdict.
+8. **Judge** each item and assign a per-item verdict.
 
 ## Verdict model
 Per item: **PASS** (target reached, renders, no crash/red-box/error, and the class-specific
@@ -145,7 +162,7 @@ comment — do not overwrite others). Structure:
 | --- | --- | --- | --- | --- |
 | N | N | N | N | N |
 
-**Environment** — iOS simulator / <device> · app source: full-build | attached | launch+reload (fast path)
+**Environment** — <physical device | iOS simulator> · <device name/id> · app source: full-build | attached | launch+reload (fast path)
 
 ### Baseline checks
 - App startup — ✅/❌ · <note>

@@ -187,12 +187,15 @@ net under the builder's once-per-round self-check.
 
 #### Device-readiness fast path (QA stage)
 
-How the qa-engineer decides between a Metro reload and a full native build — a JS-only
-diff on a warm simulator skips the ~10-minute `xcodebuild` entirely:
+The qa-engineer first **selects and pins one device** — a connected physical device wins,
+else an already-booted simulator is reused, else exactly one simulator is booted — and pins
+it with `--device <id>` for the whole run. It then decides between a Metro reload and a full
+native build: a JS-only diff on a warm device skips the ~10-minute `xcodebuild` entirely.
 
 ```mermaid
 flowchart TD
-    START["Get code under test:<br/>checkout feature branch"] --> JS{"Diff JS-only?<br/>(no native, no package.json,<br/>no app config)"}
+    START["Get code under test:<br/>checkout feature branch"] --> SELECT["Select + pin device:<br/>physical → booted sim → boot one<br/>(--device id on every command)"]
+    SELECT --> JS{"Diff JS-only?<br/>(no native, no package.json,<br/>no app config)"}
     JS -->|"no, or in doubt"| FULL["Full build:<br/>npm run ios"]
     JS -->|"yes"| BC{"Bundler config changed?<br/>(metro / babel)"}
     BC -->|"yes, app running or installed"| RESTART["Restart Metro from checkout<br/>with cleared cache,<br/>then launch + reload"]
