@@ -187,22 +187,32 @@ net under the builder's once-per-round self-check.
 
 #### Device-readiness fast path (QA stage)
 
-How the qa-engineer decides between a Metro reload and a full native build — a JS-only
-diff on a warm simulator skips the ~10-minute `xcodebuild` entirely:
+The qa-engineer first **selects and pins one device** — a connected physical device (iOS or
+Android) wins; else an iOS simulator is preferred (reuse a booted one, else boot one), since
+Android emulators are flakier; else an Android emulator is used; else, if nothing can be
+obtained, it stops with `QA NOT PERFORMED`. It pins the choice with `--device <id>` for the
+whole run and remembers its platform. It then decides between a Metro reload and a full
+native build: a JS-only diff on a warm device skips the ~10-minute native build entirely. A
+full build forwards the pinned device and uses the platform's build command
+(`npm run ios -- --device <id>` or `npm run android -- --device <id>`) so SELECT and the
+build/QA run stay on one device.
 
 ```mermaid
 flowchart TD
-    START["Get code under test:<br/>checkout feature branch"] --> JS{"Diff JS-only?<br/>(no native, no package.json,<br/>no app config)"}
-    JS -->|"no, or in doubt"| FULL["Full build:<br/>npm run ios"]
+    START["Get code under test:<br/>checkout feature branch"] --> SELECT["Select + pin device:<br/>physical (iOS/Android) → iOS sim →<br/>Android emulator (--device id everywhere)"]
+    SELECT --> AVAIL{"A device available?"}
+    AVAIL -->|"no (nothing boots)"| NOTPERF["QA NOT PERFORMED<br/>(non-blocking)"]
+    AVAIL -->|"yes"| JS{"Diff JS-only?<br/>(no native, no package.json,<br/>no app config)"}
+    JS -->|"no, or in doubt"| FULL["Full build (per platform):<br/>npm run ios/android -- --device id"]
     JS -->|"yes"| BC{"Bundler config changed?<br/>(metro / babel)"}
     BC -->|"yes, app running or installed"| RESTART["Restart Metro from checkout<br/>with cleared cache,<br/>then launch + reload"]
     BC -->|"yes, app not installed"| FULL
-    BC -->|"no"| STATE{"App state<br/>on simulator"}
+    BC -->|"no"| STATE{"App state<br/>on device"}
     STATE -->|"running"| ROOT{"Running Metro rooted<br/>at THIS checkout?"}
     ROOT -->|"yes"| ATTACH["Attach + Metro reload"]
     ROOT -->|"no / unsure"| RESTART
     STATE -->|"installed,<br/>not running"| LAUNCH["Start Metro from checkout,<br/>launch installed binary, reload"]
-    STATE -->|"not installed<br/>(fresh simulator)"| FULL
+    STATE -->|"not installed<br/>(cold cache —<br/>first run on this device)"| FULL
     FULL --> TEST["Baseline checks +<br/>per-criterion test items"]
     ATTACH --> TEST
     LAUNCH --> TEST
