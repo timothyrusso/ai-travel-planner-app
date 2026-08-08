@@ -17,7 +17,11 @@
     "codegraph",
     "figma",
     "mcp",
-    "viewmodel"
+    "viewmodel",
+    "storybook",
+    "rnstorybook",
+    "gorhom",
+    "docgen"
   ],
   "flagWords": [
     "hte"
