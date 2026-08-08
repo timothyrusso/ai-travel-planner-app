@@ -27,7 +27,12 @@ jobs:
               - '**/*.stories.tsx'
               - '.storybook/**'
               - '.rnstorybook/**'
+              # The stories import the design system, so a change in there can break the
+              # bundle even when no story file is touched. Deliberately not `features/**`:
+              # that would run this job on nearly every pull request.
+              - 'features/core/design-system/**'
               - 'package.json'
+              - 'package-lock.json'
 
   storybook:
     needs: storybook-changes
@@ -46,7 +51,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
 
-      - run: npm install --package-lock-only
+      # `npm ci` only — no `npm install --package-lock-only` first: regenerating the lockfile
+      # would let a manifest/lockfile mismatch pass here that a clean install rejects.
       - run: npm ci
       - run: npm run storybook:build
 
