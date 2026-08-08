@@ -66,11 +66,31 @@ export const States: Story = {
   ),
 };
 
+/**
+ * Every icon combination, so the horizontal spacing of a lone icon is as visible as a pair. The
+ * outer side of an icon must never sit flush against the pill's rounded edge — the group is
+ * centred, with `spacing.Single` between an icon and the label.
+ */
 export const WithIcons: Story = {
-  args: {
-    leftIcon: 'airplane-outline',
-    rightIcon: 'arrow-forward-outline',
-  },
+  render: args => (
+    <View style={styles.stack}>
+      <CustomButtonLarge {...args} leftIcon="airplane-outline" rightIcon="arrow-forward-outline" />
+      <CustomButtonLarge {...args} leftIcon="airplane-outline" />
+      <CustomButtonLarge {...args} rightIcon="arrow-forward-outline" />
+      <CustomButtonLarge {...args} />
+    </View>
+  ),
+};
+
+/** The three states crossed with icons — icon spacing must survive disabled and loading too. */
+export const WithIconsStates: Story = {
+  render: args => (
+    <View style={styles.stack}>
+      <CustomButtonLarge {...args} leftIcon="airplane-outline" rightIcon="arrow-forward-outline" />
+      <CustomButtonLarge {...args} leftIcon="airplane-outline" rightIcon="arrow-forward-outline" isDisabled />
+      <CustomButtonLarge {...args} leftIcon="airplane-outline" rightIcon="arrow-forward-outline" isLoading />
+    </View>
+  ),
 };
 
 /** Exercises `BaseButton`'s `numberOfLines={1} ellipsizeMode="tail"` truncation. */
