@@ -21,7 +21,12 @@
     "storybook",
     "rnstorybook",
     "gorhom",
-    "docgen"
+    "docgen",
+    "vite",
+    "ondevice",
+    "autodocs",
+    "untranspiled",
+    "ellipsize"
   ],
   "flagWords": [
     "hte"
