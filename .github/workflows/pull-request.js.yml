@@ -10,6 +10,46 @@ on:
     branches: ["main", "test", "development"]
 
 jobs:
+  # Kept separate from `build` on purpose: a Storybook bundling failure must not bury a
+  # lint/tsc failure in the same log. The existing checks already type-check and lint the story
+  # files; what they cannot see is whether the Vite + react-native-web pipeline can bundle them.
+  storybook-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      storybook: ${{ steps.filter.outputs.storybook }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            storybook:
+              - '**/*.stories.tsx'
+              - '.storybook/**'
+              - '.rnstorybook/**'
+              - 'package.json'
+
+  storybook:
+    needs: storybook-changes
+    if: needs.storybook-changes.outputs.storybook == 'true'
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [22.x]
+
+    steps:
+      - uses: actions/checkout@v6
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - run: npm install --package-lock-only
+      - run: npm ci
+      - run: npm run storybook:build
+
   build:
     runs-on: ubuntu-latest
     permissions:
