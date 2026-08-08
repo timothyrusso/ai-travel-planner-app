@@ -11,9 +11,12 @@ fig_exported_at: 2026-08-07T12:00:31.713Z
 fig_file: holidai basic flows.fig
 ```
 
-**Refresh rule:** if the attached fig's `exported_at` is newer than the stamp, re-extract the DS
-canvas (`HolidAI Cartman System` — cards titled `HolidAI <Component>`), update this file, and
-report the diff. Where this file and the fig disagree on a token value, **the fig wins after a
+**Refresh rule:** compare the attached fig's `meta.json → exported_at` against `fig_exported_at`
+above. If the fig is newer, re-extract the DS canvas (`HolidAI Cartman System` — cards titled
+`HolidAI <Component>`), update this file, and report the diff. Every refresh must update **both**
+metadata fields from the actual attached export — `fig_exported_at` from its `exported_at` and
+`fig_file` from its filename — so provenance can never go stale when a differently-named export
+is passed. Where this file and the fig disagree on a token value, **the fig wins after a
 refresh; this file wins mid-run** (it is the curated extraction).
 
 ---
@@ -92,7 +95,7 @@ aligned) · **sb** = Storybook story. Update on refresh and at phase flip.
 | Progress bars | linear + stepped; per size only height/radius change | ✓ | ✗ | ✗ |
 | Spinner | circular 270° arc; diameter + stroke scale together | ✓ | ✗ | ✗ |
 | **Segmented control** | track h48 `radius/28` pad 4 (fill per surface temperature); thumb h40 `radius/28` white, soft shadow, **w = (track−8)/N**, own layer, slides; labels **Inter Bold 14 title case** (≠ button default), selected `#000`, unselected `#8E8E8F`; each segment IS a DS button; equal width, never content-hugging; N = 2 or 3 max; sizes Small 38 (thumb 30, label 12) / **Medium 48 default** — no Large (width-locked); disabled = 40% opacity on the whole control; never disable a single segment — drop it and reduce N; segments never shrink on press — the thumb travelling is the feedback; spring ~250–300ms slight overshoot, label colour-crossfade, reduced-motion = instant | ✓ | ✗ | ✗ |
-| **Weather badge** | 6 conditions, square, 24/32/48, two-tone from the ramps. Tone roles: **family** paints "the cloud body, the sun's rays"; **detail** paints "drops, flake, the sun's core"; severe = Red 500. Sunny = Lime · Partly cloudy = Lime+Neutral (`#ABC669 #DBFE87 #8E8E8F`) · Cloudy = Neutral · Rain/Snow = Cyan (`#01C5C0 #01FDF6`) · Storm = Neutral+Red. Glyphs = **real Ionicons geometry** (`partly-sunny` etc. — fetch path data from unpkg ionicons), recoloured per role — never hand-drawn approximations. `Mostly sunny` → Partly cloudy | ✓ | ✗ | ✗ |
+| **Weather badge** | 6 conditions, square, 24/32/48, two-tone from the ramps. Tone roles: **family** paints "the cloud body, the sun's rays"; **detail** paints "drops, flake, the sun's core"; severe = Red 500. Sunny = Lime · Partly cloudy = Lime+Neutral (`#ABC669 #DBFE87 #8E8E8F`) · Cloudy = Neutral · Rain/Snow = Cyan (`#01C5C0 #01FDF6`) · Storm = Neutral+Red. Glyphs = **real Ionicons geometry**, recoloured per role — never hand-drawn approximations; path data for all six conditions is stored locally in `reference/weather-glyphs.md` (no network fetch). `Mostly sunny` → Partly cloudy | ✓ | ✗ | ✗ |
 | **Checkbox** | circular; states **Checked / Unchecked / Empty** (Empty = hairline `#EEE9E0` circle — use for the not-yet-created row in add flows; Unchecked = `#C7C1B5` border); check auto-contrasts: white on purple/red/black, black on lime/cyan; Static variant = always-checked non-interactive; Blur variant for photography. Every checkable row uses THIS — no ad-hoc ticks | ✓ | ✗ | ✗ |
 | Bottom tab bar | **iOS Liquid Glass only** (never the Android variant): capsule, glass recipe, specular top highlight (`inset 0 1px 0 rgba(255,255,255,.7)`), structure `bar → tab → tabicon + tablabel`; tabs **Home · Trips · Activities · Profile**; active black, inactive Grey 500 | ✓ | legacy (2 tabs) | ✗ |
 
@@ -141,8 +144,8 @@ future session, **updating this list is part of that run**.
   **caption below** (placeholder notes, modal context).
 - Canvas: plain CSS grid `repeat(<frames>, 393px)`, gap ~36px, background `#F5F5F5`, small page
   header. **Native browser zoom only** — no pan/zoom code, no canvas chrome.
-- One self-contained file: all CSS/JS inline. Google-Fonts Inter link + Unsplash photo URLs are
-  the only external requests, and **no text may depend on an image loading** — every photo sits
+- One self-contained file: all CSS/JS inline. The Google Fonts Inter link + Unsplash photo URLs
+  are the only external requests, and **no text may depend on an image loading** — every photo sits
   on a `purple-900` (city/cards) or `#220059` (space) base with a token-driven gradient scrim.
 - JS only for deterministic stamping (icon map, tab bar, repeated lists, sheet template) — no
   interactivity needed.
@@ -150,6 +153,11 @@ future session, **updating this list is part of that run**.
 ## Verify mechanics (what worked)
 
 - Headless Chrome full-canvas shot: size `--window-size` to the whole canvas, `--hide-scrollbars`.
+  Resolve the executable portably: `$CHROME_BIN` if set, else the first available of
+  `google-chrome` / `chromium` / the macOS app path; stop with a clear error if none exists.
+- Write `shot.png` and all PIL crops to the **session scratchpad/temp dir, never the repo** —
+  `.gitignore` only covers `design/mockups/`, so stray artifacts elsewhere would show up as
+  untracked files.
 - Crop with PIL to inspect regions (`im.crop(...)`) — full-res screenshots hide defects; crops
   found a real grid-collision bug. Verify every user-requested change visually before reporting.
 - Playwright MCP may fail against the user's running Chrome profile — the CLI path is the

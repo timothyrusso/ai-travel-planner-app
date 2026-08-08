@@ -53,10 +53,12 @@ beyond strings (exact sizes, fills), the full kiwi decoder technique is in auto-
 
 ### 2. Refresh the reference if the fig is newer
 
-Compare `exported_at` with the stamp at the top of `reference/design-system.md`. If the fig is
-newer: re-extract the DS canvas (new `HolidAI <X>` cards, changed specs, new annotations), update
-the reference file — token tables, component inventory, parity table, stamp — **as part of this
-run**, and tell the user what changed. The reference must never silently go stale.
+Compare the fig's `meta.json → exported_at` with the `fig_exported_at` stamp at the top of
+`reference/design-system.md`. If the fig is newer: re-extract the DS canvas (new `HolidAI <X>`
+cards, changed specs, new annotations), update the reference file — token tables, component
+inventory, parity table, **and both provenance fields (`fig_exported_at` + `fig_file`) from the
+actual attached export** — as part of this run, and tell the user what changed. The reference
+must never silently go stale.
 
 ### 3. Extract the screen and checkpoint with the user
 
@@ -80,6 +82,9 @@ user before building.** This is the single mandatory checkpoint.
 ### 4. Build
 
 - Output: `design/mockups/holidai-<screen>.html` (folder is gitignored; `mkdir -p` if missing).
+  `<screen>` is the **slugified** canvas name — lowercase, spaces/`·` → `-`, strip everything
+  outside `[a-z0-9-]` (so no `/`, `..`, or spaces). The output must resolve inside
+  `design/mockups/`; a name that doesn't slugify cleanly gets renamed, not obeyed.
 - One row of frames in the **house style**; columns = states, plus one standalone frame per
   modal/sheet. With `explore N`: N rows (directions) instead, each a defensible design.
 - Follow **every rule in `reference/design-system.md`**: tokens only, component specs exactly,
@@ -93,10 +98,16 @@ user before building.** This is the single mandatory checkpoint.
 ### 5. Verify — mandatory, before reporting anything as done
 
 ```bash
-"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless --disable-gpu \
-  --screenshot=shot.png --window-size=<canvas W>,<canvas H> --hide-scrollbars "file://<output>"
+# resolve a headless-capable browser portably; fail loudly if none is found
+CHROME="${CHROME_BIN:-$(command -v google-chrome || command -v chromium || \
+  echo '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')}"
+[ -x "$CHROME" ] || { echo "No headless Chrome/Chromium found — set CHROME_BIN"; exit 1; }
+"$CHROME" --headless --disable-gpu --screenshot=<scratchpad>/shot.png \
+  --window-size=<canvas W>,<canvas H> --hide-scrollbars "file://<output>"
 ```
 
+- Write `shot.png` and every PIL crop to the **session scratchpad, never the repo** — the
+  gitignore only covers `design/mockups/`.
 - Screenshot the **full canvas** (size the window to fit — no scroll), then **crop with PIL**
   to inspect: each new component's first use, dense text rows, anything with absolute
   positioning. Never judge from the full-res image alone; never skip because it "looks simple".
