@@ -5,6 +5,7 @@ import { type PropsWithChildren, useEffect } from 'react';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { StyleSheet, View } from 'react-native';
 
+import { spacing } from '@/features/core/design-system/style/dimensions/spacing';
 import { fontsConfig } from '@/features/core/design-system/style/fontFamily';
 import translationEn from '@/features/core/translations/libraries/locales/en.json';
 import translationIt from '@/features/core/translations/libraries/locales/it.json';
@@ -43,7 +44,15 @@ function StoryFrame({ locale, children }: StoryFrameProps) {
   // `useFonts(fontsConfig)` — never runs. Without this the design-system's `inter-*` families
   // are unknown to the renderer and every label silently falls back (a serif on web, the system
   // font on device), which makes the catalogue lie about typography.
-  const [fontsLoaded] = useFonts(fontsConfig);
+  //
+  // `Ionicons` is loaded here too, and only on web: on iOS/Android the
+  // `@react-native-vector-icons/ionicons` config plugin links the font natively, but nothing
+  // does that in a browser, so every `CustomIcon` renders as a blank/tofu glyph. The family name
+  // must match the icon set's `postScriptName` ('Ionicons').
+  const [fontsLoaded] = useFonts({
+    ...fontsConfig,
+    Ionicons: require('@react-native-vector-icons/ionicons/fonts/Ionicons.ttf'),
+  });
 
   useEffect(() => {
     void storybookI18n.changeLanguage(locale);
@@ -66,11 +75,20 @@ const withI18n: Decorator = (Story, context) => (
   </StoryFrame>
 );
 
+/**
+ * Not a design token: the app has no width breakpoint, and `Dimensions.get('window')` returns the
+ * browser width on web. This only caps the canvas so a full-width button is framed like a phone
+ * screen instead of stretching across a desktop viewport.
+ */
+const PHONE_VIEWPORT_WIDTH = 360;
+
 const styles = StyleSheet.create({
   container: {
-    // Buttons are full-width by design; a phone-ish cap keeps them readable in a browser viewport.
-    maxWidth: 360,
-    padding: 16,
+    maxWidth: PHONE_VIEWPORT_WIDTH,
+    // `spacing.Fourfold` is the app's dominant screen padding, so a full-width button is inset here
+    // exactly as it is on a real screen. Hardcoding a different value made the catalogue render
+    // buttons at a width the app never produces.
+    padding: spacing.Fourfold,
     width: '100%',
   },
 });

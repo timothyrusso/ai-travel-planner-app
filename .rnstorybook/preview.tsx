@@ -6,7 +6,10 @@ import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useGlobals } from 'storybook/preview-api';
 
-import { fontsConfig } from '@/features/core/design-system/style/fontFamily';
+import { colors } from '@/features/core/design-system/style/colors';
+import { fontSize } from '@/features/core/design-system/style/dimensions/fontSize';
+import { spacing } from '@/features/core/design-system/style/dimensions/spacing';
+import { fontFamily, fontsConfig } from '@/features/core/design-system/style/fontFamily';
 import translationEn from '@/features/core/translations/libraries/locales/en.json';
 import translationIt from '@/features/core/translations/libraries/locales/it.json';
 
@@ -99,31 +102,35 @@ const withI18n: Decorator = (Story, context) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    gap: 16,
-    padding: 16,
+    gap: spacing.Triple,
+    // `spacing.Fourfold` is the app's dominant screen padding, so a full-width button is inset here
+    // exactly as it is on a real screen. Hardcoding a different value made the catalogue render
+    // buttons at a width the app never produces.
+    padding: spacing.Fourfold,
   },
   localeBar: {
     flexDirection: 'row',
-    gap: 8,
+    gap: spacing.SingleAndHalf,
   },
   localeButton: {
-    borderColor: '#CCCCCC',
-    borderRadius: 6,
-    borderWidth: 1,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    // `primaryGrey`, not `secondaryGrey` — the latter is #f5f5f5 and would be invisible as a border.
+    borderColor: colors.primaryGrey,
+    borderRadius: spacing.Single,
+    borderWidth: spacing.HalfMinimal,
+    paddingHorizontal: spacing.Double,
+    paddingVertical: spacing.Single,
   },
   localeButtonSelected: {
-    backgroundColor: '#000000',
-    borderColor: '#000000',
+    backgroundColor: colors.primaryBlack,
+    borderColor: colors.primaryBlack,
   },
   localeLabel: {
-    color: '#000000',
-    fontSize: 12,
-    fontWeight: '600',
+    color: colors.primaryBlack,
+    fontFamily: fontFamily.interMedium,
+    fontSize: fontSize.SM,
   },
   localeLabelSelected: {
-    color: '#FFFFFF',
+    color: colors.primaryWhite,
   },
 });
 

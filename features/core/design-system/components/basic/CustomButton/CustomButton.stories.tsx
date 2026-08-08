@@ -6,6 +6,7 @@ import { ButtonType } from '@/features/core/design-system/components/basic/Custo
 import { CustomButtonLarge } from '@/features/core/design-system/components/basic/CustomButton/CustomButtonLarge';
 import { CustomButtonMedium } from '@/features/core/design-system/components/basic/CustomButton/CustomButtonMedium';
 import { CustomButtonSmall } from '@/features/core/design-system/components/basic/CustomButton/CustomButtonSmall';
+import { spacing } from '@/features/core/design-system/style/dimensions/spacing';
 
 const meta = {
   title: 'Design System/CustomButton',
@@ -81,6 +82,6 @@ export const LongTitle: Story = {
 
 const styles = StyleSheet.create({
   stack: {
-    gap: 12,
+    gap: spacing.Double,
   },
 });

@@ -6,6 +6,7 @@ import { ButtonType } from '@/features/core/design-system/components/basic/Custo
 import { CustomIconButtonLarge } from '@/features/core/design-system/components/basic/CustomIconButton/CustomIconButtonLarge';
 import { CustomIconButtonMedium } from '@/features/core/design-system/components/basic/CustomIconButton/CustomIconButtonMedium';
 import { CustomIconButtonSmall } from '@/features/core/design-system/components/basic/CustomIconButton/CustomIconButtonSmall';
+import { spacing } from '@/features/core/design-system/style/dimensions/spacing';
 
 const meta = {
   title: 'Design System/CustomIconButton',
@@ -70,6 +71,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 12,
+    gap: spacing.Double,
   },
 });
