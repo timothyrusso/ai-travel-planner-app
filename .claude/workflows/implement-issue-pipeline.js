@@ -651,12 +651,20 @@ REPORT>>>`
 
 if (abortError) throw abortError
 
+// Each QA lane reports for itself: a lane that was never selected returns 'skipped' (not
+// null), so a caller can tell "no mobile surface to verify" apart from "mobile QA ran and
+// could not be performed".
+const ranMobileQa = doQa && qaTargets.includes('mobile')
+const ranWebQa = doQa && qaTargets.includes('web')
+
 return {
   prUrl: build.prUrl,
   explored: Boolean(explorerReport),
   reviewVerdict: doReview ? review.verdict : 'skipped',
-  qaVerdict: doQa ? qaVerdictFrom(qa) : 'skipped',
-  qaItems: doQa && qa ? qa.items : [],
+  qaVerdict: ranMobileQa ? qaVerdictFrom(qa) : 'skipped',
+  qaItems: ranMobileQa && qa ? qa.items : [],
+  qaWebVerdict: ranWebQa ? qaVerdictFrom(qaWeb) : 'skipped',
+  qaWebItems: ranWebQa && qaWeb ? qaWeb.items : [],
   fixAttempts,
   stuck,
   passed: outstanding.length === 0 && vetted.suspect.length === 0,

@@ -241,11 +241,14 @@ workflow owns these canonical defaults; callers pass only overrides:
 | `maxFix` | `2` | max auto-fix rounds (hard counter; convergence detection stops earlier when a round makes no progress) |
 | `startedAt` | — | Unix epoch (seconds) of run start (`date +%s`), supplied by the caller — fills the wall-clock column in the metrics report |
 
-Returns `{ prUrl, explored, reviewVerdict, qaVerdict, qaItems, fixAttempts, stuck, passed,
-outstanding, suspects, refuted }` — `outstanding` = confirmed findings left after the fix
-loop; `stuck` = the loop stopped early because a round made no progress; `suspects` =
-unverifiable device claims needing human eyes; `refuted` = findings the vetter dismissed
-(spot-check them).
+Returns `{ prUrl, explored, reviewVerdict, qaVerdict, qaItems, qaWebVerdict, qaWebItems,
+fixAttempts, stuck, passed, outstanding, suspects, refuted }` — each QA lane reports for
+itself: `qaVerdict`/`qaItems` cover mobile QA, `qaWebVerdict`/`qaWebItems` cover web QA, and
+a lane that was not selected (or QA switched off entirely) reads `'skipped'` rather than
+`null`, so "no surface to verify" never looks like "QA ran and could not be performed".
+`outstanding` = confirmed findings left after the fix loop; `stuck` = the loop stopped early
+because a round made no progress; `suspects` = unverifiable runtime claims needing human
+eyes; `refuted` = findings the vetter dismissed (spot-check them).
 
 ---
 
