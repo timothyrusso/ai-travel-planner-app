@@ -52,13 +52,19 @@ A GitHub issue number. Everything else you derive:
 
 ## Process
 1. **Get the code under test.** `git checkout feature/<issue-number>`.
-2. **Select the device — do this before deciding how to build.** Enumerate the candidates
-   with `agent-device devices --platform <ios|android> --json` (each entry carries `kind`,
-   `name`, `id`, `booted`). Choose by this precedence, then **pin** the choice:
-   - **Connected physical device** (a `kind` other than a simulator) → use it, don't ask.
-   - Else an **already-booted simulator** → reuse it. Never boot a second device when a
+2. **Select the device — do this before deciding how to build.** The only supported build
+   target is iOS (`npm run ios`), so enumerate iOS candidates with
+   `agent-device devices --platform ios --json` (each entry carries `kind`, `name`, `id`,
+   `booted`). Choose among iOS devices/simulators by this precedence, then **pin** the choice:
+   - **Connected physical iOS device** (a `kind` other than a simulator) → use it, don't ask.
+   - Else an **already-booted iOS simulator** → reuse it. Never boot a second device when a
      usable one is already running.
-   - Else **boot exactly one** simulator and use that.
+   - Else **boot exactly one** iOS simulator and use that.
+
+   **iOS gate:** if the only device available (or the one selected) is NOT an iOS target —
+   e.g. an Android phone/emulator, or no iOS device can be obtained — stop and report
+   `QA NOT PERFORMED` with the reason: Android build/run is not yet supported (tracked out
+   of scope for #427).
 
    Once chosen, **pin every subsequent `agent-device` command to it with `--device <id>`**
    so the whole run targets one device. A build / Metro / red-box / crash error is a code
@@ -66,8 +72,7 @@ A GitHub issue number. Everything else you derive:
    Switch or escalate only when the device itself is broken or the wrong model; if no
    usable device can be obtained, stop and report `QA NOT PERFORMED` with the reason.
    Record the selected device (physical vs. simulator + its name/id) — it goes in the
-   report's Environment line. Selection is platform-aware, but the full-build path below is
-   iOS-only (`npm run ios`) for now, so default to an iOS target unless told otherwise.
+   report's Environment line.
 3. **Build strategy on the pinned device — follow this decision tree, do not research build
    strategies:**
 
@@ -75,7 +80,10 @@ A GitHub issue number. Everything else you derive:
    JS-only iff every changed file is `.ts/.tsx/.js/.jsx` or a non-config `.json`, and
    NONE is `package.json`, `app.json`/`app.config.*`, or under `ios/`, `android/`,
    `.claude/`-external native config. When in doubt → treat as NOT JS-only.)
-   - **Not JS-only** → full build: `npm run ios`.
+   - **Not JS-only** → full build: `npm run ios -- --device <id>` (forward the pinned device
+     id so the build installs/launches on the same device SELECT chose — `npm run ios` maps
+     to `expo run:ios`, which otherwise picks its own default device and breaks the
+     one-device guarantee).
    - **Bundler config changed while the app is running or installed** (`metro.config.*`,
      `babel.config.*`, `.babelrc*` in the diff) — takes precedence over the two branches
      below: still no native build, but a running Metro holds that config stale from
@@ -89,8 +97,9 @@ A GitHub issue number. Everything else you derive:
      from the checked-out branch. Then attach and reload JS — no native build.
    - **JS-only + app installed but not running** → start Metro from the checked-out
      branch, launch the installed binary, reload — no native build.
-   - **JS-only + app NOT installed** (fresh simulator) → full build; this is a cold cache,
-     paid once per simulator, not a failure.
+   - **JS-only + app NOT installed** (cold cache — first run on this device) → full build
+     with the pinned device: `npm run ios -- --device <id>`; this is a cold cache, paid
+     once per device, not a failure.
    - **Self-heal:** if a reloaded app red-boxes at startup (e.g. "native module not
      found" — stale binary), fall back to a full build instead of reporting FAIL.
    - If nothing works (no simulator, build fails), **stop and report `QA NOT PERFORMED`**
