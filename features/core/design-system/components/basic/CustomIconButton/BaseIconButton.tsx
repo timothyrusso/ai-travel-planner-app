@@ -39,9 +39,6 @@ export function BaseIconButton({
   animatedIconStyle,
   noPressedStyle = false,
 }: CustomIconButtonProps) {
-  // Loading maps to Disabled, matching BaseButton. Both components already pass
-  // `disabled={isDisabled || isLoading}` to CustomPressable, so a loading button cannot be pressed;
-  // rendering it in the Active style made it look pressable while silently ignoring taps.
   const buttonState = match({ isDisabled, isLoading })
     .with({ isDisabled: true }, () => ButtonState.Disabled)
     .with({ isLoading: true }, () => ButtonState.Disabled)

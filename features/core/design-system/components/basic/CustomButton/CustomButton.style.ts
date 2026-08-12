@@ -44,10 +44,6 @@ export const styleButton = (
       backgroundColor: buttonStyles.backgroundColor,
     },
     text: {
-      // `flexShrink` rather than `width: '100%'`: a full-width label absorbs every spare pixel in
-      // the row, which pinned any icon hard against the pill's rounded edge no matter what margin
-      // it carried. Shrinking instead lets `justifyContent: 'center'` centre the whole
-      // icon/label/icon group, and still lets `numberOfLines`/`ellipsizeMode` truncate a long title.
       flexShrink: 1,
       color: buttonStyles.textColor,
       textDecorationLine: buttonType === ButtonType.Ghost ? 'underline' : undefined,
@@ -56,9 +52,6 @@ export const styleButton = (
       textAlign: 'center',
       textTransform: 'uppercase',
     },
-    // One style per side, mirroring Custom3DButton. A single shared style could not express this:
-    // it was applied to BOTH icons, so each got the left AND right margin, while the outer side of
-    // a lone icon got none — which is why a single icon sat flush against the edge.
     leftIcon: {
       marginRight: spacing.Single,
     },
