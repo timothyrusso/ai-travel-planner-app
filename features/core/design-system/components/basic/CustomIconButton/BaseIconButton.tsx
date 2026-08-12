@@ -1,5 +1,6 @@
 import { ActivityIndicator, type StyleProp, type ViewProps, type ViewStyle } from 'react-native';
 import Animated, { type AnimatedStyle } from 'react-native-reanimated';
+import { match } from 'ts-pattern';
 
 import {
   ButtonState,
@@ -38,7 +39,10 @@ export function BaseIconButton({
   animatedIconStyle,
   noPressedStyle = false,
 }: CustomIconButtonProps) {
-  const buttonState = isDisabled ? ButtonState.Disabled : ButtonState.Active;
+  const buttonState = match({ isDisabled, isLoading })
+    .with({ isDisabled: true }, () => ButtonState.Disabled)
+    .with({ isLoading: true }, () => ButtonState.Disabled)
+    .otherwise(() => ButtonState.Active);
 
   const { derived } = useCustomButtonLogic();
 

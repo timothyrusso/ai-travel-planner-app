@@ -4,7 +4,6 @@ import {
   type ButtonState,
   ButtonType,
 } from '@/features/core/design-system/components/basic/CustomButton/CustomButton.logic';
-import type { IoniconsName } from '@/features/core/design-system/components/basic/CustomIcon/CustomIcon';
 import { components } from '@/features/core/design-system/style/dimensions/components';
 import { fontSize } from '@/features/core/design-system/style/dimensions/fontSize';
 import { spacing } from '@/features/core/design-system/style/dimensions/spacing';
@@ -21,8 +20,6 @@ export const styleButton = (
   buttonState: ButtonState,
   getButtonStyles: (buttonType: ButtonType, buttonState: ButtonState) => ButtonStyles,
   height: number = components.buttonLargeHeight,
-  leftIcon?: IoniconsName,
-  rightIcon?: IoniconsName,
 ) => {
   const buttonStyles = getButtonStyles(buttonType, buttonState);
 
@@ -47,7 +44,7 @@ export const styleButton = (
       backgroundColor: buttonStyles.backgroundColor,
     },
     text: {
-      width: '100%',
+      flexShrink: 1,
       color: buttonStyles.textColor,
       textDecorationLine: buttonType === ButtonType.Ghost ? 'underline' : undefined,
       fontFamily: fontFamily.interBold,
@@ -55,9 +52,11 @@ export const styleButton = (
       textAlign: 'center',
       textTransform: 'uppercase',
     },
-    icon: {
-      marginLeft: rightIcon ? spacing.SingleAndHalf : 0,
-      marginRight: leftIcon ? spacing.SingleAndHalf : 0,
+    leftIcon: {
+      marginRight: spacing.Single,
+    },
+    rightIcon: {
+      marginLeft: spacing.Single,
     },
   });
 };

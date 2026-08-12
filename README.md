@@ -103,6 +103,10 @@ To obtain these values:
 - `CONVEX_URL`: URL for your Convex deployment
 - `OPEN_AI_API_KEY`: API key for OpenAI (optional, for alternative AI features)
 - `SENTRY_DSN`: Sentry DSN for error monitoring/session replay
+- `EXPO_PUBLIC_STORYBOOK_ENABLED`: boots Storybook instead of the app (see [Storybook](#storybook))
+  - Not a value you normally put in `.env`. The `storybook:ios` / `storybook:android` scripts pass it
+    inline for a single command. Setting it to `true` in `.env` makes every `npm run ios` /
+    `npm run android` boot Storybook instead of the app, so it stays commented out in `.env.sample`.
 
 ## Get started with the development build
 
@@ -130,6 +134,46 @@ To obtain these values:
    npx expo start --clear --ios
    npx expo start --clear --android
    ```
+
+## Storybook
+
+The design-system components have a Storybook catalogue that runs in **two** places, sharing
+the same `*.stories.tsx` files (co-located next to each component).
+
+> **Node ≥ 22.13 is required** (`engines.node`). An older Node makes the dev servers fail with
+> errors that look like code bugs (`ERR_REQUIRE_ESM`, Storybook refusing to start). Check with
+> `node --version` and switch with `nvm use 22.20.0` before anything below.
+
+### Web (browser)
+
+```bash
+npm run storybook          # dev server on http://localhost:6006
+npm run storybook:build    # static build, same check CI runs
+```
+
+Runs through Vite + react-native-web. Fastest loop, and the only one with the Docs (prop
+tables) and a11y panels.
+
+### On-device (iOS / Android simulator)
+
+```bash
+npm run storybook:ios
+npm run storybook:android
+```
+
+True native rendering — reanimated springs and Ionicons behave exactly as in the app, and the
+on-device Controls panel lets you flip props live on the device.
+
+**How the switch works:** these scripts set `EXPO_PUBLIC_STORYBOOK_ENABLED=true`, which makes
+`index.js` boot Storybook instead of `expo-router/entry`. You get Storybook **or** the app, not
+both. Running plain `npm run ios` / `npm run android` (no flag) launches the normal app, and
+Metro strips Storybook from the bundle entirely — so it can never ship to production.
+
+Both runtimes use a Storybook-local i18n instance (the app's own `initI18n` is deliberately not
+reused — it pulls in MMKV, which has no web support), so button titles render real translated
+copy rather than raw keys. Switch `en ⇄ it` to check text truncation: on **web** via the globe
+icon in the toolbar, on **device** via the `EN`/`IT` buttons drawn at the top of the canvas —
+the on-device UI has no toolbar chrome.
 
 ## Documentation
 
