@@ -103,6 +103,10 @@ To obtain these values:
 - `CONVEX_URL`: URL for your Convex deployment
 - `OPEN_AI_API_KEY`: API key for OpenAI (optional, for alternative AI features)
 - `SENTRY_DSN`: Sentry DSN for error monitoring/session replay
+- `EXPO_PUBLIC_STORYBOOK_ENABLED`: boots Storybook instead of the app (see [Storybook](#storybook))
+  - Not a value you normally put in `.env`. The `storybook:ios` / `storybook:android` scripts pass it
+    inline for a single command. Setting it to `true` in `.env` makes every `npm run ios` /
+    `npm run android` boot Storybook instead of the app, so it stays commented out in `.env.sample`.
 
 ## Get started with the development build
 
