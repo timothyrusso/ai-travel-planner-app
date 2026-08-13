@@ -1,8 +1,9 @@
-import { FlatList } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { BaseSkeleton, BasicView, CustomHeader } from '@/features/core/design-system';
 import { Routes } from '@/features/core/navigation';
 import type { Trip } from '@/features/trips/domain/entities/Trip';
 import type { UniqueItem } from '@/features/trips/domain/entities/UniqueItem';
+import { StartNewTripCard } from '@/features/trips/ui/components/StartNewTripCard/StartNewTripCard';
 import { TripCard } from '@/features/trips/ui/components/TripCard/TripCard';
 import { useTripListPageLogic } from '@/features/trips/ui/pages/TripListPage/TripListPage.logic';
 import { styles } from '@/features/trips/ui/pages/TripListPage/TripListPage.style';
@@ -30,6 +31,14 @@ export const TripListPage = () => {
         style={styles.container}
         contentContainerStyle={styles.contentContainer}
         showsVerticalScrollIndicator={false}
+        // A tab root has nowhere to redirect to when the user has no trips, so the empty state lives in the
+        // grid. `EmptyListContainer` is not reused here: its fixed top padding and bottom-anchored animation
+        // are tuned for the full-screen Home empty state and collide under this page's header.
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <StartNewTripCard />
+          </View>
+        }
       />
     </BasicView>
   );
