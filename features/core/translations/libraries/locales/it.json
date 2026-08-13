@@ -154,8 +154,11 @@
   "GENERATE_TRIP": {
     "ERROR": "Errore nella generazione del viaggio, riprova"
   },
-  "SHOW_ALL_TRIPS": {
+  "TRIPS": {
     "TITLE": "Tutti i viaggi"
+  },
+  "ACTIVITIES": {
+    "TITLE": "Attività"
   },
   "TRIP_DETAILS": {
     "OPEN_IN_MAPS": "Apri in Maps",
