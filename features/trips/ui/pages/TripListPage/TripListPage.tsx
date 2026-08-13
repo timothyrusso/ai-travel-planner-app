@@ -1,5 +1,5 @@
 import { FlatList } from 'react-native';
-import { BaseSkeleton, BasicView } from '@/features/core/design-system';
+import { BaseSkeleton, BasicView, CustomHeader } from '@/features/core/design-system';
 import { Routes } from '@/features/core/navigation';
 import type { Trip } from '@/features/trips/domain/entities/Trip';
 import type { UniqueItem } from '@/features/trips/domain/entities/UniqueItem';
@@ -16,7 +16,11 @@ export const TripListPage = () => {
   const { derived } = useTripListPageLogic();
 
   return (
-    <BasicView nameView={Routes.ShowAllTrips} statusBarStyle="dark">
+    // `isFullScreen` keeps BasicView from adding its own Android status-bar padding: as a tab root
+    // this page renders the header itself, and CustomHeader already applies the top inset.
+    <BasicView nameView={Routes.Trips} statusBarStyle="dark" isFullScreen>
+      {/* A tab root has nothing to pop, so the header is title-only — no back arrow. */}
+      <CustomHeader title="TRIPS.TITLE" />
       <FlatList<Trip | UniqueItem>
         data={derived.userTrips}
         renderItem={({ item }) => renderItem(item)}
