@@ -21,3 +21,13 @@ Read at the start of every web QA run. Append only under the rules in
   used without a dependency array or Babel plugin" and fail to render at all. If a story
   renders a hard error rather than the component, check the Storybook Vite Babel config
   before reporting a component bug.
+- [2026-08-13] `agent-browser fill` on a range `<input type=range>` slider doesn't set the
+  value reliably (it appended digits, e.g. 30+"60" -> 36). Use `focus @ref` then
+  `press Home`/`press End`/arrow keys instead to hit min/max deterministically.
+- [2026-08-13] React Native Web's `ScrollView` renders all children unvirtualized in the DOM
+  on web, so `agent-browser eval "document.body.innerText"` on a story's iframe captures
+  every off-screen cell's text in one call — faster than scrolling+screenshotting to verify
+  full-list counts/ordering (used for the CustomIcon `AllIcons` catalogue, 44 cells).
+- [2026-08-13] `agent-browser frame @eN` switches `snapshot`/`click` context into an iframe, but
+  `eval --stdin` still runs against the top-level document regardless — use `snapshot` (not
+  `eval`) to read text/DOM state inside a Storybook preview iframe.
