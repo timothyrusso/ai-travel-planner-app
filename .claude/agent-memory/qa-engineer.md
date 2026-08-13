@@ -22,9 +22,9 @@ Read at the start of every QA run. Append only under the rules in
 - [2026-08-08] `agent-device devices --json` can list a physical iOS device as `booted:true`
   even when disconnected. Confirm reachability with a cheap `open <bundleId> --device "<Name>"`
   before committing to it.
-- [2026-08-08] Do NOT QA web targets from this agent — driving Chrome via `--platform macos` is
-  unreliable (loses focus, `snapshot -i` sees only the runner window). Web belongs to
-  `qa-web-engineer` (`agent-browser`). Mark browser-only criteria BLOCKED and move on.
+- [2026-08-08] Driving Chrome via `agent-device --platform macos` loses frontmost focus between
+  commands and `snapshot -i` only ever sees the runner window, never page content (the web-scope
+  rule itself is in the agent definition).
 - [2026-07-24] `agent-device metro reload` can 500 even with Metro healthy — fall back to
   `open <app> --device <name> --relaunch`.
 - [2026-07-25] Long RN ScrollViews: `scroll down/up/top` are unreliable. Prefer manual
