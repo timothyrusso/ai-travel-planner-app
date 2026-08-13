@@ -32,8 +32,6 @@ export * from '@/features/core/design-system/components/composite/CustomHeader/C
 export * from '@/features/core/design-system/components/composite/CustomIconTextCard/CustomIconTextCard';
 export * from '@/features/core/design-system/components/composite/CustomNumberButton/CustomNumberButton';
 export * from '@/features/core/design-system/components/composite/CustomScrollView/CustomScrollView';
-export * from '@/features/core/design-system/components/composite/CustomTabButton/CustomTabButton';
-export * from '@/features/core/design-system/components/composite/CustomTabButtonWithText/CustomTabButtonWithText';
 export * from '@/features/core/design-system/components/composite/PlacesAutocomplete/PlacesAutocomplete';
 // Providers
 export * from '@/features/core/design-system/components/providers/ToastProvider';
