@@ -28,3 +28,6 @@ Read at the start of every web QA run. Append only under the rules in
   on web, so `agent-browser eval "document.body.innerText"` on a story's iframe captures
   every off-screen cell's text in one call — faster than scrolling+screenshotting to verify
   full-list counts/ordering (used for the CustomIcon `AllIcons` catalogue, 44 cells).
+- [2026-08-13] `agent-browser frame @eN` switches `snapshot`/`click` context into an iframe, but
+  `eval --stdin` still runs against the top-level document regardless — use `snapshot` (not
+  `eval`) to read text/DOM state inside a Storybook preview iframe.
