@@ -17,7 +17,7 @@ export const ProfilePage = () => {
   const { state, derived, effects } = useProfilePageLogic();
 
   return (
-    <BasicView nameView={Stacks.Profile} isMenuVisible statusBarStyle="dark" hasHeader={false}>
+    <BasicView nameView={Stacks.Profile} statusBarStyle="dark" hasHeader={false}>
       <CustomScrollView contentContainerStyle={styles.contentContainer}>
         {derived.isUserLoading ? (
           <View style={styles.avatarContainer}>

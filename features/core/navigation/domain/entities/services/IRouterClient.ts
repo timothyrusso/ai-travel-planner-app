@@ -2,6 +2,7 @@ export type NavigationHref = string | { pathname: string; params?: Record<string
 
 export interface IRouterClient {
   push(href: NavigationHref): void;
+  navigate(href: NavigationHref): void;
   replace(href: NavigationHref): void;
   back(): void;
   dismissAll(): void;

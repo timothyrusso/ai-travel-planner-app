@@ -154,8 +154,11 @@
   "GENERATE_TRIP": {
     "ERROR": "Error generating AI trip, try again"
   },
-  "SHOW_ALL_TRIPS": {
+  "TRIPS": {
     "TITLE": "All Trips"
+  },
+  "ACTIVITIES": {
+    "TITLE": "Activities"
   },
   "TRIP_DETAILS": {
     "OPEN_IN_MAPS": "Open in Maps",
@@ -177,7 +180,8 @@
     }
   },
   "ACCESSIBILITY": {
-    "LOADING": "Loading content"
+    "LOADING": "Loading content",
+    "START_NEW_TRIP": "Plan a new trip"
   },
   "ERRORS": {
     "GENERIC": "Something went wrong",

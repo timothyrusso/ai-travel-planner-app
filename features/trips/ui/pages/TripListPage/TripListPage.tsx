@@ -1,8 +1,9 @@
-import { FlatList } from 'react-native';
-import { BaseSkeleton, BasicView } from '@/features/core/design-system';
+import { FlatList, View } from 'react-native';
+import { BaseSkeleton, BasicView, CustomHeader } from '@/features/core/design-system';
 import { Routes } from '@/features/core/navigation';
 import type { Trip } from '@/features/trips/domain/entities/Trip';
 import type { UniqueItem } from '@/features/trips/domain/entities/UniqueItem';
+import { StartNewTripCard } from '@/features/trips/ui/components/StartNewTripCard/StartNewTripCard';
 import { TripCard } from '@/features/trips/ui/components/TripCard/TripCard';
 import { useTripListPageLogic } from '@/features/trips/ui/pages/TripListPage/TripListPage.logic';
 import { styles } from '@/features/trips/ui/pages/TripListPage/TripListPage.style';
@@ -16,7 +17,11 @@ export const TripListPage = () => {
   const { derived } = useTripListPageLogic();
 
   return (
-    <BasicView nameView={Routes.ShowAllTrips} statusBarStyle="dark">
+    // `isFullScreen` keeps BasicView from adding its own Android status-bar padding: as a tab root
+    // this page renders the header itself, and CustomHeader already applies the top inset.
+    <BasicView nameView={Routes.Trips} statusBarStyle="dark" isFullScreen>
+      {/* A tab root has nothing to pop, so the header is title-only — no back arrow. */}
+      <CustomHeader title="TRIPS.TITLE" />
       <FlatList<Trip | UniqueItem>
         data={derived.userTrips}
         renderItem={({ item }) => renderItem(item)}
@@ -26,6 +31,11 @@ export const TripListPage = () => {
         style={styles.container}
         contentContainerStyle={styles.contentContainer}
         showsVerticalScrollIndicator={false}
+        ListEmptyComponent={
+          <View style={styles.emptyContainer}>
+            <StartNewTripCard />
+          </View>
+        }
       />
     </BasicView>
   );

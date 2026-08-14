@@ -7,8 +7,14 @@ export const styles = StyleSheet.create({
     width: '100%',
   },
   contentContainer: {
+    flexGrow: 1,
     paddingHorizontal: spacing.Triple,
     paddingVertical: spacing.separator40,
+  },
+  emptyContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   columnWrapper: {
     gap: spacing.Triple,
