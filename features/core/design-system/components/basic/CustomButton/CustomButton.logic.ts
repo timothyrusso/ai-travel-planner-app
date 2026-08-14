@@ -6,8 +6,8 @@ import { opacity } from '@/features/core/design-system/style/opacity';
 /**
  * The palette has no disabled tint of its own: the Figma board states disabled controls with
  * opacity, so `Main` keeps its enabled fill and fades it. It is composed into an 8-digit hex rather
- * than applied as a container `opacity` on purpose — fading the whole button would take the white
- * label down with the fill and leave nothing legible on it.
+ * than applied as a container `opacity` on purpose, so only the fill fades. The label and icon go
+ * black on this state because the lightened fill resolves to a pale purple that white cannot survive.
  */
 const MAIN_DISABLED_FILL = `${colors.purple900}${Math.round(opacity.opacity40 * 0xff)
   .toString(16)
@@ -36,7 +36,7 @@ export const useCustomButtonLogic = () => {
       .with({ buttonType: ButtonType.Main, isDisabled: true }, () => ({
         backgroundColor: MAIN_DISABLED_FILL,
         borderColor: MAIN_DISABLED_FILL,
-        textColor: colors.primaryWhite,
+        textColor: colors.primaryBlack,
       }))
       .with({ buttonType: ButtonType.Main, isDisabled: false }, () => ({
         backgroundColor: colors.purple900,
@@ -100,7 +100,7 @@ export const useCustomButtonLogic = () => {
     const isDisabled = buttonState === ButtonState.Disabled;
 
     return match({ buttonType, isDisabled })
-      .with({ buttonType: ButtonType.Main, isDisabled: true }, () => colors.primaryWhiteDisabled)
+      .with({ buttonType: ButtonType.Main, isDisabled: true }, () => colors.primaryBlack)
       .with({ buttonType: ButtonType.Main, isDisabled: false }, () => colors.primaryWhite)
       .with({ buttonType: ButtonType.Primary, isDisabled: true }, () => colors.primaryWhiteDisabled)
       .with({ buttonType: ButtonType.Primary, isDisabled: false }, () => colors.primaryWhite)
