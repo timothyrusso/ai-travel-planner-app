@@ -1,5 +1,6 @@
 import * as Haptics from 'expo-haptics';
 import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Platform, type View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PlatformOS, spacing } from '@/features/core/design-system';
@@ -11,6 +12,7 @@ import { useStartNewTrip } from '@/features/trips/facades/useStartNewTrip';
 import { styles } from '@/features/trips/ui/pages/UpcomingTripPage/UpcomingTripPage.style';
 
 export const useUpcomingTripPageLogic = () => {
+  const { t } = useTranslation();
   const { upcomingTrip, isLoading } = useGetUpcomingTrip();
   const { totalTrips } = useGetTrips();
   const { canStart } = useStartNewTrip();
@@ -53,6 +55,8 @@ export const useUpcomingTripPageLogic = () => {
     },
     derived: {
       location,
+      // The add-trip button is icon only, so screen readers need a name for it.
+      addTripButtonLabel: t('ACCESSIBILITY.START_NEW_TRIP'),
       componentStyle: styles(addTripButtonTop, detailsBoxMarginBottom),
     },
     effects: {

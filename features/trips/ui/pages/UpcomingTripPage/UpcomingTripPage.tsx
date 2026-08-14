@@ -46,6 +46,8 @@ export const UpcomingTripPage = () => {
           buttonType={ButtonType.Primary}
           onPress={effects.startNewTrip}
           style={derived.componentStyle.addTripButton}
+          accessibilityRole="button"
+          accessibilityLabel={derived.addTripButtonLabel}
         />
         <DetailsBox
           location={derived.location}
