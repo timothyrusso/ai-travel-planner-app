@@ -33,13 +33,8 @@ export const useUpcomingTripPageLogic = () => {
     navigationService.toSearch();
   };
 
-  // The page is full screen, so nothing insets it: the button clears the status bar / notch itself.
   const addTripButtonTop = top + spacing.Triple;
 
-  // The native tab bar replaces the old floating capsule, so its 120px clearance is gone. On iOS the
-  // screen sits behind the translucent bar and its height arrives as the bottom safe-area inset,
-  // which has to be cleared by hand; on Android the Material bar already insets the screen content,
-  // so only breathing room is left.
   const detailsBoxMarginBottom = spacing.Triple + (Platform.OS === PlatformOS.ios ? bottom : 0);
 
   return {
@@ -55,7 +50,6 @@ export const useUpcomingTripPageLogic = () => {
     },
     derived: {
       location,
-      // The add-trip button is icon only, so screen readers need a name for it.
       addTripButtonLabel: t('ACCESSIBILITY.START_NEW_TRIP'),
       componentStyle: styles(addTripButtonTop, detailsBoxMarginBottom),
     },

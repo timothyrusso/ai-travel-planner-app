@@ -31,9 +31,6 @@ export const TripListPage = () => {
         style={styles.container}
         contentContainerStyle={styles.contentContainer}
         showsVerticalScrollIndicator={false}
-        // A tab root has nowhere to redirect to when the user has no trips, so the empty state lives in the
-        // grid. `EmptyListContainer` is not reused here: its fixed top padding and bottom-anchored animation
-        // are tuned for the full-screen Home empty state and collide under this page's header.
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
             <StartNewTripCard />

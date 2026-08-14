@@ -26,8 +26,6 @@ export const styleButton = (
   return StyleSheet.create({
     innerContainer: {
       flexDirection: 'row',
-      // See CustomPressable.style.ts: stretch to the pressable's resolved width instead of asking a
-      // percentage to resolve against a base that may be indefinite.
       alignSelf: 'stretch',
       height: '100%',
       alignItems: 'center',
