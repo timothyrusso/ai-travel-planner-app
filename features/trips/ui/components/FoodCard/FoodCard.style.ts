@@ -1,5 +1,5 @@
-import { colors, fontFamily, fontSize, opacity, spacing } from '@/features/core/ui';
 import { StyleSheet } from 'react-native';
+import { colors, fontFamily, fontSize, opacity, spacing } from '@/features/core/design-system';
 
 export const styles = StyleSheet.create({
   container: {
@@ -69,7 +69,7 @@ export const styles = StyleSheet.create({
     marginHorizontal: spacing.Double,
   },
   pressed: {
-    opacity: opacity.default,
+    opacity: opacity.opacity60,
   },
   boxText: {
     fontFamily: fontFamily.interMedium,

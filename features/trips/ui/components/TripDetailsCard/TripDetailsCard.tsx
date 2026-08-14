@@ -1,17 +1,17 @@
-import { CustomIcon, CustomText, colors, icons, spacing } from '@/features/core/ui';
-import type { TripDetails } from '@/features/trips/domain/entities/TripDetails';
-import { useTripDetailsCard } from '@/features/trips/ui/components/TripDetailsCard/TripDetailsCard.logic';
-import { styles } from '@/features/trips/ui/components/TripDetailsCard/TripDetailsCard.style';
 import { LinearGradient } from 'expo-linear-gradient';
 import type { FC } from 'react';
 import { View } from 'react-native';
+import { CustomIcon, CustomText, colors, icons, spacing } from '@/features/core/design-system';
+import type { TripDetails } from '@/features/trips/domain/entities/TripDetails';
+import { useTripDetailsCardLogic } from '@/features/trips/ui/components/TripDetailsCard/TripDetailsCard.logic';
+import { styles } from '@/features/trips/ui/components/TripDetailsCard/TripDetailsCard.style';
 
 type TripDetailsCardProps = {
   tripDetails: Omit<TripDetails, 'locale' | 'location'>;
 };
 
 export const TripDetailsCard: FC<TripDetailsCardProps> = ({ tripDetails }) => {
-  const { dateLabel, durationLabel, budgetColor } = useTripDetailsCard({ tripDetails });
+  const { derived } = useTripDetailsCardLogic({ tripDetails });
 
   return (
     <View style={styles.container}>
@@ -24,7 +24,7 @@ export const TripDetailsCard: FC<TripDetailsCardProps> = ({ tripDetails }) => {
         />
         <CustomText text="MY_TRIP.TRIP_DETAILS" style={styles.headerText} />
         <View style={styles.headerChipContainer}>
-          <CustomText text={durationLabel} style={styles.headerChipText} />
+          <CustomText text={derived.durationLabel} style={styles.headerChipText} />
         </View>
       </View>
       <View style={styles.contentContainer}>
@@ -33,7 +33,7 @@ export const TripDetailsCard: FC<TripDetailsCardProps> = ({ tripDetails }) => {
           <CustomText text="MY_TRIP.TRAVEL_DATES" style={styles.subtitle} />
         </View>
         {tripDetails.startDate && tripDetails.endDate ? (
-          <CustomText text={dateLabel} style={styles.contentValue} />
+          <CustomText text={derived.dateLabel} style={styles.contentValue} />
         ) : (
           <CustomText text={tripDetails.startDate} style={styles.contentValue} />
         )}
@@ -50,7 +50,10 @@ export const TripDetailsCard: FC<TripDetailsCardProps> = ({ tripDetails }) => {
               <CustomIcon name={icons.card} size={spacing.Triple} color={colors.secondaryBlue} />
               <CustomText text="MY_TRIP.BUDGET" style={styles.subtitle} />
             </View>
-            <CustomText text={tripDetails.budget} style={[styles.budgetValue, { backgroundColor: budgetColor }]} />
+            <CustomText
+              text={tripDetails.budget}
+              style={[styles.budgetValue, { backgroundColor: derived.budgetColor }]}
+            />
           </View>
         </View>
       </View>

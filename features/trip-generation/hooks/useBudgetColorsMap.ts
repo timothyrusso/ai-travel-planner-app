@@ -1,6 +1,6 @@
-import { colors } from '@/features/core/ui';
-import { BudgetOptions } from '@/features/trips';
 import { useTranslation } from 'react-i18next';
+import { colors } from '@/features/core/design-system';
+import { BudgetOptions } from '@/features/trips';
 
 export const useBudgetColorsMap = () => {
   const { t } = useTranslation();

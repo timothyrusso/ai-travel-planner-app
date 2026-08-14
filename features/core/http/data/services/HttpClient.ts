@@ -1,7 +1,7 @@
+import { injectable } from 'inversify';
 import type { Result } from '@/features/core/error';
 import { BaseError, ErrorCode, ensureError, fail, ok } from '@/features/core/error';
 import type { IHttpClient } from '@/features/core/http/domain/entities/services/IHttpClient';
-import { injectable } from 'inversify';
 
 const DEFAULT_TIMEOUT_MS = 10_000;
 
@@ -20,9 +20,9 @@ export class HttpClient implements IHttpClient {
         );
       }
       return ok((await response.json()) as T);
-    } catch (e) {
-      const error = ensureError(e);
-      if (error.name === 'AbortError') {
+    } catch (err) {
+      const error = ensureError(err);
+      if (controller.signal.aborted) {
         return fail(new BaseError('Request timed out', ErrorCode.NetworkFailure, { cause: error, context: { url } }));
       }
       return fail(

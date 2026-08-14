@@ -1,5 +1,5 @@
-import { colors, fontFamily, fontSize, opacity, spacing } from '@/features/core/ui';
 import { StyleSheet } from 'react-native';
+import { colors, fontFamily, fontSize, opacity, spacing } from '@/features/core/design-system';
 
 export const styles = StyleSheet.create({
   userDataContainer: {
@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
     bottom: 0,
   },
   pressed: {
-    opacity: opacity.default,
+    opacity: opacity.opacity60,
   },
   capStatusContainer: {
     backgroundColor: colors.primary,

@@ -1,5 +1,5 @@
-import { colors, fontFamily, fontSize, opacity, spacing } from '@/features/core/ui';
 import { StyleSheet } from 'react-native';
+import { colors, fontFamily, fontSize, opacity, spacing } from '@/features/core/design-system';
 
 export const styles = (isSelected: boolean) =>
   StyleSheet.create({
@@ -15,7 +15,7 @@ export const styles = (isSelected: boolean) =>
       height: spacing.separator80,
     },
     pressed: {
-      opacity: opacity.default,
+      opacity: opacity.opacity60,
     },
     language: {
       fontSize: fontSize.LG,

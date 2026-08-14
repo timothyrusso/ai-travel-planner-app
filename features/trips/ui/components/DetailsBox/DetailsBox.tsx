@@ -1,11 +1,11 @@
-import { ButtonType, CustomButtonMedium, CustomText, PlatformOS, blur } from '@/features/core/ui';
-import { useDetailsBoxLogic } from '@/features/trips/ui/components/DetailsBox/DetailsBox.logic';
-import { styles } from '@/features/trips/ui/components/DetailsBox/DetailsBox.style';
-import { MainPlacesList } from '@/features/trips/ui/components/MainPlacesList/MainPlacesList';
 import MaskedView from '@react-native-masked-view/masked-view';
 import { BlurView } from 'expo-blur';
 import type { FC, RefObject } from 'react';
 import { Platform, type StyleProp, View, type ViewStyle } from 'react-native';
+import { ButtonType, blur, CustomButtonMedium, CustomText, PlatformOS } from '@/features/core/design-system';
+import { useDetailsBoxLogic } from '@/features/trips/ui/components/DetailsBox/DetailsBox.logic';
+import { styles } from '@/features/trips/ui/components/DetailsBox/DetailsBox.style';
+import { MainPlacesList } from '@/features/trips/ui/components/MainPlacesList/MainPlacesList';
 
 type DetailsBoxProps = {
   location: string;
@@ -24,17 +24,17 @@ export const DetailsBox: FC<DetailsBoxProps> = ({
   style,
   blurTargetRef,
 }) => {
-  const { handlePress, dateLabel, handleShowAllTripsButton } = useDetailsBoxLogic(tripId, tripStartDate);
+  const { derived, effects } = useDetailsBoxLogic(tripId, tripStartDate);
 
   const content = (
     <View style={styles.contentContainer}>
       <CustomText text={location} style={styles.location} numberOfLines={1} ellipsizeMode="tail" />
 
       <View style={styles.titleContainer}>
-        <CustomText text={dateLabel} style={styles.date} numberOfLines={1} ellipsizeMode="tail" />
+        <CustomText text={derived.dateLabel} style={styles.date} numberOfLines={1} ellipsizeMode="tail" />
         <CustomButtonMedium
           title="MY_TRIP.TRIP_DETAILS"
-          onPress={handlePress}
+          onPress={effects.handlePress}
           buttonType={ButtonType.Primary}
           textStyle={styles.buttonsText}
           style={styles.titleButton}
@@ -47,7 +47,7 @@ export const DetailsBox: FC<DetailsBoxProps> = ({
         {totalTrips > 0 && (
           <CustomButtonMedium
             title="MY_TRIP.SHOW_ALL_TRIPS"
-            onPress={handleShowAllTripsButton}
+            onPress={effects.handleShowAllTripsButton}
             buttonType={ButtonType.Secondary}
             textStyle={styles.buttonsText}
             style={styles.footerButton}
@@ -61,7 +61,7 @@ export const DetailsBox: FC<DetailsBoxProps> = ({
     return (
       <MaskedView style={[styles.androidWrapper, style]} maskElement={<View style={styles.mask} />}>
         <BlurView
-          intensity={blur.high}
+          intensity={blur.intensity50}
           style={styles.androidBlur}
           blurMethod="dimezisBlurView"
           blurTarget={blurTargetRef}
@@ -74,7 +74,12 @@ export const DetailsBox: FC<DetailsBoxProps> = ({
   }
 
   return (
-    <BlurView intensity={blur.high} style={[styles.detailsContainer, style]} blurMethod="dimezisBlurView" tint="dark">
+    <BlurView
+      intensity={blur.intensity50}
+      style={[styles.detailsContainer, style]}
+      blurMethod="dimezisBlurView"
+      tint="dark"
+    >
       {content}
     </BlurView>
   );

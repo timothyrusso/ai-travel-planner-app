@@ -1,5 +1,5 @@
-import { colors, fontFamily, fontSize, opacity, spacing } from '@/features/core/ui';
 import { StyleSheet } from 'react-native';
+import { colors, fontFamily, fontSize, opacity, spacing } from '@/features/core/design-system';
 
 export const styles = StyleSheet.create({
   container: {
@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     columnGap: spacing.SingleAndHalf,
   },
   icon: {
-    backgroundColor: colors.primaryBlue,
+    backgroundColor: colors.tertiaryBlue,
     borderRadius: spacing.Triple,
     padding: spacing.Single,
   },
@@ -23,6 +23,6 @@ export const styles = StyleSheet.create({
     color: colors.primaryBlack,
   },
   pressed: {
-    opacity: opacity.default,
+    opacity: opacity.opacity60,
   },
 });

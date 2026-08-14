@@ -1,14 +1,14 @@
-import type { TripDetails } from '@/features/trips/domain/entities/TripDetails';
-
-import { colors } from '@/features/core/ui';
-import { useBudgetColorsMap } from '@/features/trips/hooks/useBudgetColorsMap';
 import { useTranslation } from 'react-i18next';
+
+import { colors } from '@/features/core/design-system';
+import type { TripDetails } from '@/features/trips/domain/entities/TripDetails';
+import { useBudgetColorsMap } from '@/features/trips/hooks/useBudgetColorsMap';
 
 type UseTripDetailsCardParams = {
   tripDetails: Omit<TripDetails, 'locale' | 'location'>;
 };
 
-export const useTripDetailsCard = ({ tripDetails }: UseTripDetailsCardParams) => {
+export const useTripDetailsCardLogic = ({ tripDetails }: UseTripDetailsCardParams) => {
   const { t } = useTranslation();
   const { budgetColorsMap } = useBudgetColorsMap();
 
@@ -24,5 +24,7 @@ export const useTripDetailsCard = ({ tripDetails }: UseTripDetailsCardParams) =>
 
   const budgetColor = budgetColorsMap[tripDetails.budget] ?? colors.primaryGreen;
 
-  return { dateLabel, durationLabel, budgetColor };
+  return {
+    derived: { dateLabel, durationLabel, budgetColor },
+  };
 };

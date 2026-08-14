@@ -4,14 +4,9 @@
     "slug": "holidai",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./features/core/ui/assets/images/icon.png",
+    "icon": "./features/core/design-system/assets/images/icon.png",
     "scheme": "holidai",
     "userInterfaceStyle": "automatic",
-    "splash": {
-      "image": "./features/core/ui/assets/images/logo.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#220059"
-    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.app.travelplanner",
@@ -21,14 +16,14 @@
       "package": "com.app.travelplanner",
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
-        "foregroundImage": "./features/core/ui/assets/images/android-icon.png",
+        "foregroundImage": "./features/core/design-system/assets/images/android-icon.png",
         "backgroundColor": "#220059"
       }
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./features/core/ui/assets/images/favicon.png"
+      "favicon": "./features/core/design-system/assets/images/favicon.png"
     },
     "plugins": [
       "expo-router",
@@ -36,16 +31,31 @@
       "react-native-map-link",
       "expo-font",
       "expo-secure-store",
+      "@react-native-vector-icons/ionicons",
       [
         "expo-build-properties",
         {
           "ios": {
-            "useFrameworks": "static"
+            "deploymentTarget": "17.0",
+            "useFrameworks": "static",
+            "buildReactNativeFromSource": true,
+            "usePrecompiledModules": false,
+            "extraPods": [
+              {
+                "name": "GoogleUtilities",
+                "modular_headers": true
+              },
+              {
+                "name": "RecaptchaInterop",
+                "modular_headers": true
+              }
+            ]
           },
           "android": {
-            "compileSdkVersion": 35,
-            "targetSdkVersion": 34,
-            "buildToolsVersion": "35.0.0"
+            "compileSdkVersion": 36,
+            "targetSdkVersion": 36,
+            "buildToolsVersion": "36.0.0",
+            "usePrecompiledHeaders": true
           }
         }
       ],
@@ -53,10 +63,10 @@
         "expo-splash-screen",
         {
           "backgroundColor": "#220059",
-          "image": "./features/core/ui/assets/images/logo.png",
+          "image": "./features/core/design-system/assets/images/logo.png",
           "imageWidth": 150,
           "dark": {
-            "image": "./features/core/ui/assets/images/logo.png",
+            "image": "./features/core/design-system/assets/images/logo.png",
             "backgroundColor": "#220059"
           },
           "ios": {

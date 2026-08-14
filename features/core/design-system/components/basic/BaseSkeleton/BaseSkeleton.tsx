@@ -1,0 +1,19 @@
+import type { ReactElement } from 'react';
+import type { StyleProp, ViewProps, ViewStyle } from 'react-native';
+import Animated from 'react-native-reanimated';
+import { useBaseSkeletonLogic } from '@/features/core/design-system/components/basic/BaseSkeleton/BaseSkeleton.logic';
+
+export type BaseSkeletonProps = ViewProps & {
+  children?: ReactElement;
+  style?: StyleProp<ViewStyle>;
+};
+
+export const BaseSkeleton = ({ children, style, ...props }: BaseSkeletonProps) => {
+  const { derived } = useBaseSkeletonLogic();
+
+  return (
+    <Animated.View style={[derived.animatedStyle, style]} {...props}>
+      {children}
+    </Animated.View>
+  );
+};

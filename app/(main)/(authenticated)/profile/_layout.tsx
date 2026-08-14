@@ -1,6 +1,6 @@
-import { Routes, navigationService } from '@/features/core/navigation';
-import { CustomHeader, icons } from '@/features/core/ui';
 import { Stack } from 'expo-router';
+import { CustomHeader, icons } from '@/features/core/design-system';
+import { navigationService, Routes } from '@/features/core/navigation';
 
 export default function ProfileLayout() {
   return (
@@ -15,6 +15,12 @@ export default function ProfileLayout() {
               onPress={() => navigationService.back()}
             />
           ),
+        }}
+      />
+      <Stack.Screen
+        name={Routes.AccountSettings}
+        options={{
+          header: () => <CustomHeader icon={icons.arrowBack} onPress={() => navigationService.back()} />,
         }}
       />
     </Stack>

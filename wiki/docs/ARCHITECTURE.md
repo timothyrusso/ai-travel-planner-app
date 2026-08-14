@@ -144,7 +144,7 @@ Not every feature needs an `index.ts` — only create one when another feature a
 | `di/resolve.ts` exports                  | DI internals — IoC resolution is always local to the owning feature                                |
 | State stores                             | Internal UI state — other features have no business reading or writing another feature's state     |
 | `libraries/` wrappers                    | Internal infrastructure — third-party library wrappers are an implementation detail                |
-| UI components                            | Promoted to `features/core/ui/components/` when truly shared — never exported from a feature's public API |
+| UI components                            | Promoted to `features/core/design-system/components/` when truly shared — never exported from a feature's public API |
 | Repository interfaces (`IXxxRepository`) | Internal contracts — the consuming feature needs the facade, not the plumbing behind it            |
 
 
@@ -202,8 +202,8 @@ export { useGetImage } from './facades/useGetImage';    // facade
 | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Foundational infrastructure needed by many features (logging, storage, HTTP, error types) | Move to the relevant `features/core/<sub-module>/`                                                                                                                                                                                                                          |
 | Logic or type needed by one specific feature                                              | Expose via `index.ts` of the owning feature                                                                                                                                                                                                                                 |
-| UI component needed by many features                                                      | Promote to `features/core/ui/components/`                                                                                                                                                                                                                                   |
-| UI component needed by one other feature                                                  | Before sharing, ask: does the other feature need the component itself, or just the data? If it just needs the data, it can build its own version. If the component is truly needed as-is, promote it to `features/core/ui/components/` — never export UI components via `index.ts` |
+| UI component needed by many features                                                      | Promote to `features/core/design-system/components/`                                                                                                                                                                                                                                   |
+| UI component needed by one other feature                                                  | Before sharing, ask: does the other feature need the component itself, or just the data? If it just needs the data, it can build its own version. If the component is truly needed as-is, promote it to `features/core/design-system/components/` — never export UI components via `index.ts` |
 
 > **When the consumer is a same-tier feature:** the table above does not apply — same-tier features cannot import from each other regardless of what is being shared. Extract the shared concept to a lower-tier feature, move it to `features/core/` if it is infrastructural, or introduce a Tier 3 orchestration feature. See [Feature Dependency Tiers](#feature-dependency-tiers).
 
@@ -1254,7 +1254,7 @@ ComponentName/
 └── ComponentName.style.ts   → StyleSheet definitions
 ```
 
-Feature-specific React Native components. They follow a **promotion rule**: a component always starts in the feature that needs it. The moment a second feature needs the same component, it gets promoted to `features/core/ui/components/`. This prevents premature abstraction while keeping duplication visible — before building a new component, check `features/core/ui/components/` first, then the feature you're drawing inspiration from.
+Feature-specific React Native components. They follow a **promotion rule**: a component always starts in the feature that needs it. The moment a second feature needs the same component, it gets promoted to `features/core/design-system/components/`. This prevents premature abstraction while keeping duplication visible — before building a new component, check `features/core/design-system/components/` first, then the feature you're drawing inspiration from.
 
 #### `ui/pages/`
 
@@ -1268,6 +1268,28 @@ PageName/
 ```
 
 `PageName.tsx` never imports repositories, use cases, facades, hooks, or runtime values from `domain/`. All logic lives in `PageName.logic.ts`, which **is** the page's **ViewModel** — a custom hook that provides everything the view needs: data, derived state, and action handlers. The only direct `domain/` import allowed in `.tsx` is `import type` for prop annotations — it is erased at compile time and introduces no runtime coupling.
+
+#### The ViewModel contract
+
+Two conventions keep a View a thin projection of its ViewModel. Both are enforced by the local `holidai` ESLint plugin (`tools/eslint/`) — registered at `warn` during rollout and flipped to `error` once every ViewModel is migrated (issue #404).
+
+**A ViewModel's return shape** — `holidai/viewmodel-return-shape`, on every `*.logic.ts`. The hook must return either nothing (effect-only ViewModels are valid) or an object whose top-level keys are a non-empty subset of:
+
+- `state` — raw local/external state the view renders
+- `derived` — values computed from state (labels, counts, formatted data)
+- `effects` — handlers and commands the view invokes
+
+```ts
+return {
+  state:   { startDate, calendarKey, userTokens },
+  derived: { numberOfDays, startDateLabel },
+  effects: { handleDateChange, handleButtonPress },
+};
+```
+
+The rule triggers on the `.logic.ts` filename (not the hook name), so a mis-named hook cannot dodge it, and it unwraps TS wrappers (`as const`, `satisfies`, `!`) before checking. Top-level spreads and computed keys are rejected — they could inject keys that can't be statically verified.
+
+**One ViewModel per View** — `holidai/prefer-viewmodel`, on every `*.tsx`. A component backed by a ViewModel may call **only its own ViewModel hook, at most once, and no other `use*` hooks**; all other hook usage belongs inside the ViewModel. A View's own ViewModel is identified structurally: it is the hook imported from the sibling `.logic` module with the **same basename** (`SelectDatesPage.tsx` ↔ `SelectDatesPage.logic`). A hook imported from any other `.logic` module is another View's ViewModel and is treated as foreign. A `.tsx` with no matching `.logic` import is a pure presentational component and is exempt, as are test files (`*.test.tsx` / `*.spec.tsx`). Sanctioned shared hooks can be permitted via the rule's `allow` option.
 
 ---
 
@@ -1498,12 +1520,12 @@ export class ConcreteService implements IService {
 
 ---
 
-## Global UI (`features/core/ui/`)
+## Global UI (`features/core/design-system/`)
 
-Reusable building blocks shared across multiple features. Lives in `features/core/ui/` as a Tier 0 core sub-module. Its public API is `features/core/ui/index.ts` — import from `@/features/core/ui` everywhere.
+Reusable building blocks shared across multiple features. Lives in `features/core/design-system/` as a Tier 0 core sub-module. Its public API is `features/core/design-system/index.ts` — import from `@/features/core/design-system` everywhere.
 
 ```
-features/core/ui/
+features/core/design-system/
 ├── components/
 │   ├── basic/      → Atomic: buttons, text, icons, inputs…
 │   ├── composite/  → Composed: headers, scroll views, autocomplete…

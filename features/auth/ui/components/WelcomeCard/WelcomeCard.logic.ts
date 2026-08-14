@@ -1,7 +1,7 @@
-import { styles } from '@/features/auth/ui/components/WelcomeCard/WelcomeCard.style';
-import { components } from '@/features/core/ui';
 import { Easing, useAnimatedStyle, useSharedValue, withRepeat, withTiming } from 'react-native-reanimated';
 import { match } from 'ts-pattern';
+import { styles } from '@/features/auth/ui/components/WelcomeCard/WelcomeCard.style';
+import { components } from '@/features/core/design-system';
 
 const FLOAT_AMPLITUDE = 6;
 
@@ -45,7 +45,9 @@ export const useWelcomeCardLogic = (
   const cardStyle = styles(height(), width(), withPadding, withBorderRadius, top, left, bottom, right, photoEffect);
 
   return {
-    cardStyle,
-    floatStyle,
+    derived: {
+      cardStyle,
+      floatStyle,
+    },
   };
 };

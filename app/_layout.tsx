@@ -1,9 +1,3 @@
-import { RootAppCrashView } from '@/features/core/error/pages';
-import { Stacks, screenOptions } from '@/features/core/navigation';
-import { queryClient } from '@/features/core/query';
-import { initSentry, registerNavigationContainer, wrap } from '@/features/core/sentry';
-import { initI18n } from '@/features/core/translations';
-import { ToastProvider, fontsConfig } from '@/features/core/ui';
 import { ClerkLoaded, ClerkProvider, useAuth } from '@clerk/expo';
 import { tokenCache } from '@clerk/expo/token-cache';
 import { QueryClientProvider } from '@tanstack/react-query';
@@ -15,7 +9,15 @@ import Constants from 'expo-constants';
 import { useFonts } from 'expo-font';
 import { type ErrorBoundaryProps, SplashScreen, Stack, useNavigationContainerRef } from 'expo-router';
 import { useEffect } from 'react';
+import { StyleSheet } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { KeyboardProvider } from 'react-native-keyboard-controller';
+import { fontsConfig, ToastProvider } from '@/features/core/design-system';
+import { RootAppCrashView } from '@/features/core/error/pages';
+import { Stacks, screenOptions } from '@/features/core/navigation';
+import { queryClient } from '@/features/core/query';
+import { initSentry, registerNavigationContainer, wrap } from '@/features/core/sentry';
+import { initI18n } from '@/features/core/translations';
 
 initSentry();
 initI18n();
@@ -41,6 +43,7 @@ export default wrap(function RootLayout() {
   }, [ref]);
 
   // biome-ignore lint/style/noNonNullAssertion: following the convex docs: https://docs.convex.dev/quickstart/react-native
+  // biome-ignore lint/suspicious/noNonNullAssertedOptionalChain: following the convex docs: https://docs.convex.dev/quickstart/react-native
   const convex = new ConvexReactClient(Constants.expoConfig?.extra?.convexUrl!, {
     unsavedChangesWarning: false,
   });
@@ -52,13 +55,13 @@ export default wrap(function RootLayout() {
   });
 
   const [welcomeAssets, welcomeAssetsError] = useAssets([
-    require('@/features/core/ui/assets/images/welcome_1.jpg'),
-    require('@/features/core/ui/assets/images/welcome_2.jpg'),
-    require('@/features/core/ui/assets/images/welcome_3.jpg'),
-    require('@/features/core/ui/assets/images/welcome_4.jpg'),
-    require('@/features/core/ui/assets/images/welcome_5.jpg'),
-    require('@/features/core/ui/assets/images/welcome_6.jpg'),
-    require('@/features/core/ui/assets/images/logo_round.png'),
+    require('@/features/core/design-system/assets/images/welcome_1.jpg'),
+    require('@/features/core/design-system/assets/images/welcome_2.jpg'),
+    require('@/features/core/design-system/assets/images/welcome_3.jpg'),
+    require('@/features/core/design-system/assets/images/welcome_4.jpg'),
+    require('@/features/core/design-system/assets/images/welcome_5.jpg'),
+    require('@/features/core/design-system/assets/images/welcome_6.jpg'),
+    require('@/features/core/design-system/assets/images/logo_round.png'),
   ]);
 
   const appReady = fontsLoaded && (!!welcomeAssets || !!welcomeAssetsError);
@@ -74,17 +77,25 @@ export default wrap(function RootLayout() {
   }
 
   return (
-    <ClerkProvider publishableKey={Constants.expoConfig?.extra?.clerkPublishableKey} tokenCache={tokenCache}>
-      <ClerkLoaded>
-        <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
-          <QueryClientProvider client={queryClient}>
-            <KeyboardProvider>
-              <InitialLayout />
-              <ToastProvider />
-            </KeyboardProvider>
-          </QueryClientProvider>
-        </ConvexProviderWithClerk>
-      </ClerkLoaded>
-    </ClerkProvider>
+    <GestureHandlerRootView style={styles.root}>
+      <ClerkProvider publishableKey={Constants.expoConfig?.extra?.clerkPublishableKey} tokenCache={tokenCache}>
+        <ClerkLoaded>
+          <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
+            <QueryClientProvider client={queryClient}>
+              <KeyboardProvider>
+                <InitialLayout />
+                <ToastProvider />
+              </KeyboardProvider>
+            </QueryClientProvider>
+          </ConvexProviderWithClerk>
+        </ClerkLoaded>
+      </ClerkProvider>
+    </GestureHandlerRootView>
   );
+});
+
+const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+  },
 });

@@ -1,8 +1,16 @@
-import { ButtonType, CustomIcon, CustomIconButtonMedium, CustomText, colors, icons, spacing } from '@/features/core/ui';
-import { useTypicalDishesModalHeaderLogic } from '@/features/trips/ui/components/TypicalDishesModalHeader/TypicalDishesModalHeader.logic';
-import { styles } from '@/features/trips/ui/components/TypicalDishesModalHeader/TypicalDishesModalHeader.style';
 import type { FC } from 'react';
 import { View } from 'react-native';
+import {
+  ButtonType,
+  CustomIcon,
+  CustomIconButtonMedium,
+  CustomText,
+  colors,
+  icons,
+  spacing,
+} from '@/features/core/design-system';
+import { useTypicalDishesModalHeaderLogic } from '@/features/trips/ui/components/TypicalDishesModalHeader/TypicalDishesModalHeader.logic';
+import { styles } from '@/features/trips/ui/components/TypicalDishesModalHeader/TypicalDishesModalHeader.style';
 
 type TypicalDishesModalHeaderProps = {
   location: string;
@@ -11,7 +19,7 @@ type TypicalDishesModalHeaderProps = {
 };
 
 export const TypicalDishesModalHeader: FC<TypicalDishesModalHeaderProps> = ({ location, dishNumber, onClose }) => {
-  const { dishLabel } = useTypicalDishesModalHeaderLogic(dishNumber);
+  const { derived } = useTypicalDishesModalHeaderLogic(dishNumber);
 
   return (
     <View style={styles.headerRow}>
@@ -20,7 +28,7 @@ export const TypicalDishesModalHeader: FC<TypicalDishesModalHeaderProps> = ({ lo
         <View style={styles.locationRow}>
           <CustomIcon name={icons.location} size={spacing.Triple} color={colors.secondaryGreen} />
           <CustomText text={location} style={styles.location} numberOfLines={1} ellipsizeMode="tail" />
-          <CustomText text={`✦  ${dishNumber} ${dishLabel}`} style={styles.dishNumber} />
+          <CustomText text={`✦  ${dishNumber} ${derived.dishLabel}`} style={styles.dishNumber} />
         </View>
       </View>
       <CustomIconButtonMedium iconName={icons.close} buttonType={ButtonType.Quaternary} onPress={onClose} />

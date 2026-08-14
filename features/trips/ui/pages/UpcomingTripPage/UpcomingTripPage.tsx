@@ -1,28 +1,22 @@
+import { Platform, View } from 'react-native';
+import { BasicView, ButtonType, CustomIconButtonLarge, icons, PlatformOS } from '@/features/core/design-system';
 import { Routes } from '@/features/core/navigation';
-import { BasicView, PlatformOS } from '@/features/core/ui';
 import { DetailsBox } from '@/features/trips/ui/components/DetailsBox/DetailsBox';
 import { EmptyListContainer } from '@/features/trips/ui/components/EmptyListContainer/EmptyListContainer';
 import { HeroImage } from '@/features/trips/ui/components/HeroImage/HeroImage';
 import { HomeSkeleton } from '@/features/trips/ui/components/HomeSkeleton/HomeSkeleton';
 import { useUpcomingTripPageLogic } from '@/features/trips/ui/pages/UpcomingTripPage/UpcomingTripPage.logic';
-import { styles } from '@/features/trips/ui/pages/UpcomingTripPage/UpcomingTripPage.style';
-import { useRef } from 'react';
-import { Platform, View } from 'react-native';
 
 const basicViewProps = {
   nameView: Routes.HomePage,
   isFullScreen: true,
-  isMenuVisible: true,
   statusBarStyle: 'light',
 } as const;
 
 export const UpcomingTripPage = () => {
-  const { lastCreatedTrip, isLoading, image, imageBlurHash, location, tripId, tripStartDate, totalTrips } =
-    useUpcomingTripPageLogic();
+  const { state, derived, effects } = useUpcomingTripPageLogic();
 
-  const blurTargetRef = useRef<View | null>(null);
-
-  if (isLoading) {
+  if (state.isLoading) {
     return (
       <BasicView {...basicViewProps}>
         <HomeSkeleton />
@@ -30,7 +24,7 @@ export const UpcomingTripPage = () => {
     );
   }
 
-  if (!lastCreatedTrip) {
+  if (!state.lastCreatedTrip) {
     return (
       <BasicView {...basicViewProps}>
         <EmptyListContainer />
@@ -40,15 +34,28 @@ export const UpcomingTripPage = () => {
 
   return (
     <BasicView {...basicViewProps}>
-      <View style={styles.container}>
-        <HeroImage image={image} imageBlurHash={imageBlurHash} blurTargetRef={blurTargetRef} />
+      <View style={derived.componentStyle.container}>
+        <HeroImage
+          image={state.image}
+          imageBlurHash={state.imageBlurHash}
+          blurTargetRef={state.blurTargetRef}
+          onError={effects.retryCoverImage}
+        />
+        <CustomIconButtonLarge
+          iconName={icons.add}
+          buttonType={ButtonType.Primary}
+          onPress={effects.startNewTrip}
+          style={derived.componentStyle.addTripButton}
+          accessibilityRole="button"
+          accessibilityLabel={derived.addTripButtonLabel}
+        />
         <DetailsBox
-          location={location}
-          tripId={tripId}
-          tripStartDate={tripStartDate}
-          style={styles.detailsBox}
-          totalTrips={totalTrips}
-          blurTargetRef={Platform.OS === PlatformOS.android ? blurTargetRef : undefined}
+          location={derived.location}
+          tripId={state.tripId}
+          tripStartDate={state.tripStartDate}
+          style={derived.componentStyle.detailsBox}
+          totalTrips={state.totalTrips}
+          blurTargetRef={Platform.OS === PlatformOS.android ? state.blurTargetRef : undefined}
         />
       </View>
     </BasicView>

@@ -1,8 +1,8 @@
-import { useSignInPageLogic } from '@/features/auth/ui/pages/SignInOrUpPage/SignInOrUpPage.logic';
 import { AuthView } from '@clerk/expo/native';
+import { useSignInOrUpPageLogic } from '@/features/auth/ui/pages/SignInOrUpPage/SignInOrUpPage.logic';
 
 export const SignInOrUpPage = () => {
-  useSignInPageLogic();
+  useSignInOrUpPageLogic();
 
   return <AuthView mode="signInOrUp" />;
 };

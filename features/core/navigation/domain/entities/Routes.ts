@@ -2,6 +2,8 @@ export const Routes = {
   Welcome: 'welcome',
   SignInOrSignUp: 'sign-in-or-sign-up',
   HomePage: 'home-page',
+  Trips: 'trips',
+  Activities: 'activities',
   Search: 'search-place',
   SelectTraveler: 'select-traveler',
   SelectDates: 'select-dates',
@@ -9,8 +11,8 @@ export const Routes = {
   ReviewTrip: 'review-trip',
   GenerateTrip: 'generate-trip',
   TripDetails: 'trip-details',
-  ShowAllTrips: 'show-all-trips',
   ChangeLanguage: 'change-language',
+  AccountSettings: 'account-settings',
   ActivityDetails: 'activity-details',
 } as const;
 

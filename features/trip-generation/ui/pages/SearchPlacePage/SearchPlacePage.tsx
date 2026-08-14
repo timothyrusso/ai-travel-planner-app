@@ -1,27 +1,27 @@
-import { Routes } from '@/features/core/navigation';
-import { BasicView, CustomText, LottieAnimation, PlacesAutocomplete } from '@/features/core/ui';
-import { useSearchPageLogic } from '@/features/trip-generation/ui/pages/SearchPlacePage/SearchPlacePage.logic';
-import { styles } from '@/features/trip-generation/ui/pages/SearchPlacePage/SearchPlacePage.style';
 import { View } from 'react-native';
+import { BasicView, CustomText, LottieAnimation, PlacesAutocomplete } from '@/features/core/design-system';
+import { Routes } from '@/features/core/navigation';
+import { useSearchPlacePageLogic } from '@/features/trip-generation/ui/pages/SearchPlacePage/SearchPlacePage.logic';
+import { styles } from '@/features/trip-generation/ui/pages/SearchPlacePage/SearchPlacePage.style';
 
 export const SearchPlacePage = () => {
-  const { handleSearchPress, animation, handleParticipantsPress, isButtonDisabled } = useSearchPageLogic();
+  const { state, derived, effects } = useSearchPlacePageLogic();
 
   return (
     <BasicView
       nameView={Routes.Search}
       statusBarStyle="dark"
       bottomButtonTitle="SELECT_TRAVELERS.TITLE"
-      bottomButtonPress={handleParticipantsPress}
-      bottomButtonDisabled={isButtonDisabled}
+      bottomButtonPress={effects.handleParticipantsPress}
+      bottomButtonDisabled={derived.isButtonDisabled}
     >
       <CustomText text="SEARCH_PLACE_PAGE.DESCRIPTION" style={styles.subtitle} />
       <View style={styles.searchContainer}>
         <View style={styles.autoCompleteContainer}>
-          <PlacesAutocomplete onPress={handleSearchPress} />
+          <PlacesAutocomplete onPress={effects.handleSearchPress} />
         </View>
         <View style={styles.animationContainer}>
-          <LottieAnimation style={styles.animation} animationPath={animation} loop={false} />
+          <LottieAnimation style={styles.animation} animationPath={state.animation} loop={false} />
         </View>
       </View>
     </BasicView>

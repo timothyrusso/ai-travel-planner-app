@@ -1,7 +1,8 @@
+import { View } from 'react-native';
+import Animated from 'react-native-reanimated';
 import { WelcomeCards } from '@/features/auth/ui/components/WelcomeCards/WelcomeCards';
 import { useWelcomePageLogic } from '@/features/auth/ui/pages/WelcomePage/WelcomePage.logic';
 import { styles } from '@/features/auth/ui/pages/WelcomePage/WelcomePage.style';
-import { Routes } from '@/features/core/navigation';
 import {
   BasicView,
   ButtonType,
@@ -9,39 +10,31 @@ import {
   CustomImage,
   CustomScrollView,
   CustomText,
-} from '@/features/core/ui';
-import { View } from 'react-native';
-import Animated from 'react-native-reanimated';
+} from '@/features/core/design-system';
+import { Routes } from '@/features/core/navigation';
 
 export const WelcomePage = () => {
-  const {
-    handlePress,
-    logoRound,
-    subtitleAnimatedStyle,
-    cardsAnimatedStyle,
-    textContainerAnimatedStyle,
-    textElementsAnimatedStyle,
-  } = useWelcomePageLogic();
+  const { state, derived, effects } = useWelcomePageLogic();
 
   return (
     <BasicView nameView={Routes.Welcome} isFullScreen statusBarStyle="dark">
       <CustomScrollView>
         <View style={styles.contentContainer}>
-          <Animated.View style={cardsAnimatedStyle}>
+          <Animated.View style={derived.cardsAnimatedStyle}>
             <WelcomeCards />
           </Animated.View>
-          <Animated.View style={[styles.textContainer, textContainerAnimatedStyle]}>
-            <CustomImage source={logoRound} style={styles.logoRound} useBlur={false} />
-            <Animated.View style={textElementsAnimatedStyle}>
+          <Animated.View style={[styles.textContainer, derived.textContainerAnimatedStyle]}>
+            <CustomImage source={state.logoRound} style={styles.logoRound} useBlur={false} />
+            <Animated.View style={derived.textElementsAnimatedStyle}>
               <View style={styles.titleContainer}>
                 <CustomText text="WELCOME.SUBTITLE_FIRST_LINE" style={styles.titleFirstLine} />
-                <Animated.View style={subtitleAnimatedStyle}>
+                <Animated.View style={derived.subtitleAnimatedStyle}>
                   <CustomText text="WELCOME.SUBTITLE_SECOND_LINE" style={styles.titleSecondLine} />
                 </Animated.View>
               </View>
               <CustomButtonLarge
                 title="WELCOME.BUTTON"
-                onPress={handlePress}
+                onPress={effects.handlePress}
                 style={styles.button}
                 buttonType={ButtonType.Main}
               />

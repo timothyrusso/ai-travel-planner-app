@@ -1,5 +1,5 @@
-import { colors, components, spacing } from '@/features/core/ui';
 import { StyleSheet } from 'react-native';
+import { colors, components, spacing } from '@/features/core/design-system';
 
 export const styles = StyleSheet.create({
   container: {

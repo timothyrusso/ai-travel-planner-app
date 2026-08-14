@@ -1,5 +1,5 @@
-import { colors, fontFamily, images, opacity, spacing } from '@/features/core/ui';
 import { StyleSheet } from 'react-native';
+import { colors, fontFamily, images, opacity, spacing } from '@/features/core/design-system';
 
 export const styles = StyleSheet.create({
   container: {
@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   pressed: {
-    opacity: opacity.default,
+    opacity: opacity.opacity60,
   },
   badge: {
     width: spacing.FourfoldAndHalf,

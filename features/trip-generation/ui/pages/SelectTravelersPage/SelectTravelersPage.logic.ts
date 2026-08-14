@@ -1,8 +1,10 @@
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { navigationService } from '@/features/core/navigation';
 import { useTripGenerationState } from '@/features/trip-generation/state/useTripGenerationState';
 import { TravelerData } from '@/features/trip-generation/ui/pages/SelectTravelersPage/SelectTravelersPage.data';
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+
+export { TravelerData };
 
 export const useSelectTravelersPageLogic = () => {
   const { tripActions } = useTripGenerationState();
@@ -21,9 +23,12 @@ export const useSelectTravelersPageLogic = () => {
   };
 
   return {
-    TravelerData,
-    handleCardPress,
-    selectedTravelers,
-    handleButtonPress,
+    state: {
+      selectedTravelers,
+    },
+    effects: {
+      handleCardPress,
+      handleButtonPress,
+    },
   };
 };

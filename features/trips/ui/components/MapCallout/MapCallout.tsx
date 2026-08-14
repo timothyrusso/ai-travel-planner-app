@@ -1,9 +1,9 @@
-import { CustomText } from '@/features/core/ui';
-import { useMapCalloutLogic } from '@/features/trips/ui/components/MapCallout/MapCallout.logic';
-import { styles } from '@/features/trips/ui/components/MapCallout/MapCallout.style';
 import type { FC } from 'react';
 import { View } from 'react-native';
 import { Callout } from 'react-native-maps';
+import { CustomText } from '@/features/core/design-system';
+import { useMapCalloutLogic } from '@/features/trips/ui/components/MapCallout/MapCallout.logic';
+import { styles } from '@/features/trips/ui/components/MapCallout/MapCallout.style';
 
 type MapCalloutProps = {
   coord: {
@@ -15,10 +15,13 @@ type MapCalloutProps = {
 };
 
 export const MapCallout: FC<MapCalloutProps> = ({ coord }) => {
-  const { handleOpenMaps } = useMapCalloutLogic();
+  const { effects } = useMapCalloutLogic();
 
   return (
-    <Callout onPress={() => handleOpenMaps(coord.latitude, coord.longitude, coord.title)} style={styles.callout}>
+    <Callout
+      onPress={() => effects.handleOpenMaps(coord.latitude, coord.longitude, coord.title)}
+      style={styles.callout}
+    >
       <View style={styles.calloutContent}>
         <CustomText text={coord.title} style={styles.calloutTitle} />
         <CustomText text={coord.description} style={styles.calloutDescription} />

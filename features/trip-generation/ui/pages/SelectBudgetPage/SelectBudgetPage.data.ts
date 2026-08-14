@@ -1,4 +1,4 @@
-import { icons } from '@/features/core/ui';
+import { icons } from '@/features/core/design-system';
 import { BudgetOptions } from '@/features/trips';
 
 const budgetIcons = [icons.cash, icons.bag, icons.card, icons.diamond];

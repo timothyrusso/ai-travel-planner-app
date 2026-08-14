@@ -1,25 +1,25 @@
-import { CardType, CustomNumberButton } from '@/features/core/ui';
+import { FlatList, View } from 'react-native';
+import { CardType, CustomNumberButton } from '@/features/core/design-system';
 import { useTravelersNumberSelectorLogic } from '@/features/trip-generation/ui/components/TravelersNumberSelector/TravelersNumberSelector.logic';
 import { styles } from '@/features/trip-generation/ui/components/TravelersNumberSelector/TravelersNumberSelector.style';
-import { FlatList, View } from 'react-native';
 
 const Separator = () => <View style={styles.separator} />;
 
 export const TravelersNumberSelector = () => {
-  const { handleCardPress, travelersNumber, data } = useTravelersNumberSelectorLogic();
+  const { state, effects } = useTravelersNumberSelectorLogic();
 
   const renderItem = ({ item }: { item: number }) => (
     <CustomNumberButton
       cardType={CardType.Secondary}
       label={item.toString()}
-      selected={travelersNumber === item}
-      onPress={() => handleCardPress(item)}
+      selected={state.travelersNumber === item}
+      onPress={() => effects.handleCardPress(item)}
     />
   );
 
   return (
     <FlatList
-      data={data}
+      data={state.data}
       renderItem={renderItem}
       keyExtractor={item => item.toString()}
       showsHorizontalScrollIndicator={false}

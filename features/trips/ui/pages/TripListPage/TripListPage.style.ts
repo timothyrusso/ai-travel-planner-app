@@ -1,5 +1,5 @@
-import { SCREEN_WIDTH, components, spacing } from '@/features/core/ui';
 import { StyleSheet } from 'react-native';
+import { components, SCREEN_WIDTH, spacing } from '@/features/core/design-system';
 
 export const styles = StyleSheet.create({
   container: {
@@ -7,8 +7,14 @@ export const styles = StyleSheet.create({
     width: '100%',
   },
   contentContainer: {
+    flexGrow: 1,
     paddingHorizontal: spacing.Triple,
     paddingVertical: spacing.separator40,
+  },
+  emptyContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   columnWrapper: {
     gap: spacing.Triple,

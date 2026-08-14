@@ -1,10 +1,10 @@
-import { CustomIcon, CustomText, colors, icons, spacing } from '@/features/core/ui';
-import type { Food } from '@/features/trips/domain/entities/Food';
-import { useFoodCardLogic } from '@/features/trips/ui/components/FoodCard/FoodCard.logic';
-import { styles } from '@/features/trips/ui/components/FoodCard/FoodCard.style';
 import { LinearGradient } from 'expo-linear-gradient';
 import type { FC } from 'react';
 import { Pressable, View } from 'react-native';
+import { CustomIcon, CustomText, colors, icons, spacing } from '@/features/core/design-system';
+import type { Food } from '@/features/trips/domain/entities/Food';
+import { useFoodCardLogic } from '@/features/trips/ui/components/FoodCard/FoodCard.logic';
+import { styles } from '@/features/trips/ui/components/FoodCard/FoodCard.style';
 
 type FoodCardProps = {
   food: Food;
@@ -12,7 +12,7 @@ type FoodCardProps = {
 };
 
 export const FoodCard: FC<FoodCardProps> = ({ food, tripId }) => {
-  const { handleOpenModal } = useFoodCardLogic(tripId);
+  const { effects } = useFoodCardLogic(tripId);
 
   return (
     <View style={styles.container}>
@@ -38,7 +38,7 @@ export const FoodCard: FC<FoodCardProps> = ({ food, tripId }) => {
         <CustomText text={food.foodGeneralNotes} style={styles.contentValue} />
         <Pressable
           style={({ pressed }) => [styles.typicalDishesBox, pressed && styles.pressed]}
-          onPress={handleOpenModal}
+          onPress={effects.handleOpenModal}
         >
           <View style={styles.titleContainer}>
             <CustomIcon name={icons.cafe} size={spacing.Triple} color={colors.secondaryGreen} />

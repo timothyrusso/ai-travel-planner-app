@@ -1,6 +1,6 @@
-import { logger } from '@/features/core/error/di/resolve';
 import type { ErrorBoundaryProps } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import { logger } from '@/features/core/error/di/resolve';
 
 export const useRootAppCrashViewLogic = ({ error, retry }: ErrorBoundaryProps) => {
   const { t } = useTranslation();
@@ -13,5 +13,13 @@ export const useRootAppCrashViewLogic = ({ error, retry }: ErrorBoundaryProps) =
   }
 
   const message = t('ERRORS.GENERIC');
-  return { message, retry, t };
+  return {
+    state: {
+      message,
+      t,
+    },
+    effects: {
+      retry,
+    },
+  };
 };

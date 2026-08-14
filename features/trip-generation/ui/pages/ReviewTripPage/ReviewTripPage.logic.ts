@@ -9,7 +9,7 @@ export type TripRecap = {
   icon: string;
 };
 
-const animation = require('@/features/core/ui/assets/lottie/photo_animation.json');
+const animation = require('@/features/core/design-system/assets/lottie/photo_animation.json');
 
 export const useReviewTripPageLogic = () => {
   const { tripSelectors } = useTripGenerationState();
@@ -28,14 +28,20 @@ export const useReviewTripPageLogic = () => {
   };
 
   return {
-    handleButtonPress,
-    destination: tripSelectors.locationInfo().name.split(',')[0],
-    dates: getTripDates() ?? '',
-    travelers: {
-      travelersNumber: tripSelectors.travelersNumber(),
-      travelersType: tripSelectors.travelerType(),
+    state: {
+      travelers: {
+        travelersNumber: tripSelectors.travelersNumber(),
+        travelersType: tripSelectors.travelerType(),
+      },
+      budget: tripSelectors.budgetInfo(),
+      animation,
     },
-    budget: tripSelectors.budgetInfo(),
-    animation,
+    derived: {
+      destination: tripSelectors.locationInfo().name.split(',')[0],
+      dates: getTripDates() ?? '',
+    },
+    effects: {
+      handleButtonPress,
+    },
   };
 };

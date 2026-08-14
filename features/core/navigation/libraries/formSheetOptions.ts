@@ -1,6 +1,6 @@
-import { spacing } from '@/features/core/ui';
-import type { NativeStackNavigationOptions } from '@react-navigation/native-stack';
+import type { NativeStackNavigationOptions } from 'expo-router';
 import { Platform } from 'react-native';
+import { spacing } from '@/features/core/design-system';
 
 export const formSheetOptions: NativeStackNavigationOptions = {
   presentation: 'formSheet',

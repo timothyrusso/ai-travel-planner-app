@@ -1,9 +1,9 @@
-import { LottieAnimation } from '@/features/core/ui';
+import { View } from 'react-native';
+import { LottieAnimation } from '@/features/core/design-system';
 import { styles } from '@/features/trips/ui/components/EmptyListContainer/EmptyListContainer.style';
 import { StartNewTripCard } from '@/features/trips/ui/components/StartNewTripCard/StartNewTripCard';
-import { View } from 'react-native';
 
-const animation = require('@/features/core/ui/assets/lottie/trip_animation.json');
+const animation = require('@/features/core/design-system/assets/lottie/trip_animation.json');
 
 export const EmptyListContainer = () => {
   return (
