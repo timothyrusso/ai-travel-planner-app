@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     paddingVertical: spacing.Triple,
     paddingHorizontal: spacing.Double,
     borderRadius: spacing.Fourfold,
-    backgroundColor: colors.primaryYellow,
+    backgroundColor: colors.secondaryGrey,
     marginHorizontal: spacing.Fourfold,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
     opacity: opacity.opacity60,
   },
   capStatusContainer: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.purple500,
   },
   capStatusText: {
     color: colors.primaryWhite,

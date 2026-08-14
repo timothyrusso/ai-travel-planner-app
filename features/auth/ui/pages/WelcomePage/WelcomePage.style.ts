@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
     fontFamily: fontFamily.interExtraBold,
     fontSize: fontSize.XL3,
     textAlign: 'center',
-    color: colors.primaryBlue,
+    color: colors.cyan700,
   },
   contentContainer: {
     width: '100%',

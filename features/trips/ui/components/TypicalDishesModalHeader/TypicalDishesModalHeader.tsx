@@ -26,7 +26,7 @@ export const TypicalDishesModalHeader: FC<TypicalDishesModalHeaderProps> = ({ lo
       <View style={styles.headerContent}>
         <CustomText text="MY_TRIP.TYPICAL_DISHES" style={styles.title} />
         <View style={styles.locationRow}>
-          <CustomIcon name={icons.location} size={spacing.Triple} color={colors.secondaryGreen} />
+          <CustomIcon name={icons.location} size={spacing.Triple} color={colors.lime700} />
           <CustomText text={location} style={styles.location} numberOfLines={1} ellipsizeMode="tail" />
           <CustomText text={`✦  ${dishNumber} ${derived.dishLabel}`} style={styles.dishNumber} />
         </View>

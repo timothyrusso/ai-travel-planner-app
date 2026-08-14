@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: spacing.FourfoldAndHalf,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.purple500,
   },
   buttonText: {
     fontFamily: fontFamily.interBold,

@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
   insightsContainer: {
     paddingHorizontal: spacing.Fourfold,
     paddingVertical: spacing.Double,
-    backgroundColor: colors.primaryYellow,
+    backgroundColor: colors.secondaryGrey,
     marginTop: spacing.Double,
   },
   insightHeader: {

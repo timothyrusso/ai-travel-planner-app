@@ -34,7 +34,7 @@ export const style = StyleSheet.create({
   destination: {
     fontSize: fontSize.SM,
     fontFamily: fontFamily.interBold,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.purple500,
     padding: spacing.Single,
     borderRadius: spacing.Double,
     color: colors.primaryWhite,

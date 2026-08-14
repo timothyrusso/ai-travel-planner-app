@@ -50,9 +50,9 @@ const TabLayout = () => {
 
 export default TabLayout;
 
-const iconColor = { default: colors.primaryGrey, selected: colors.primary };
+const iconColor = { default: colors.primaryGrey, selected: colors.purple500 };
 
 const labelStyle = {
   default: { color: colors.primaryGrey },
-  selected: { color: colors.primary },
+  selected: { color: colors.purple500 },
 };

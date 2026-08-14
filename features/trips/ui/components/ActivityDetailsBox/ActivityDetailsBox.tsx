@@ -30,12 +30,7 @@ export const ActivityDetailsBox: FC<ActivityDetailsBoxProps> = ({
         <View style={styles.ratingContainer}>
           <View style={styles.ratingValueContainer}>
             <CustomText text={rating.toString()} style={styles.ratingText} />
-            <CustomIcon
-              name={icons.star}
-              size={spacing.Triple}
-              color={colors.primaryYellow}
-              style={styles.ratingIcon}
-            />
+            <CustomIcon name={icons.star} size={spacing.Triple} color={colors.lime500} style={styles.ratingIcon} />
           </View>
         </View>
       )}

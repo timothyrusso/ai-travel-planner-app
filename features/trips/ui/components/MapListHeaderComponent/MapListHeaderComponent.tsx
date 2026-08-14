@@ -31,7 +31,7 @@ export const MapListHeaderComponent = ({ region, allCoordinates }: MapListHeader
             latitude: coord.latitude,
             longitude: coord.longitude,
           }))}
-          strokeColor={colors.primary}
+          strokeColor={colors.purple500}
           strokeWidth={spacing.MinimalDouble}
         />
         {allCoordinates.map((coord, index) => (

@@ -18,7 +18,7 @@ export const FoodCard: FC<FoodCardProps> = ({ food, tripId }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <LinearGradient
-          colors={[colors.secondaryGreen, colors.primaryGreen]}
+          colors={[colors.lime500, colors.lime300]}
           style={styles.gradient}
           start={{ x: 0.1, y: 0.2 }}
           end={{ x: 0.9, y: 0.8 }}
@@ -27,12 +27,12 @@ export const FoodCard: FC<FoodCardProps> = ({ food, tripId }) => {
       </View>
       <View style={styles.contentContainer}>
         <View style={styles.subtitleContainer}>
-          <CustomIcon name={icons.card} size={spacing.Triple} color={colors.secondaryGreen} />
+          <CustomIcon name={icons.card} size={spacing.Triple} color={colors.lime700} />
           <CustomText text="MY_TRIP.BUDGET_NOTES" style={styles.subtitle} />
         </View>
         <CustomText text={food.foodBudgetNotes} style={styles.contentValue} />
         <View style={styles.subtitleContainer}>
-          <CustomIcon name={icons.info} size={spacing.Triple} color={colors.secondaryGreen} />
+          <CustomIcon name={icons.info} size={spacing.Triple} color={colors.lime700} />
           <CustomText text="MY_TRIP.GENERAL_NOTES" style={styles.subtitle} />
         </View>
         <CustomText text={food.foodGeneralNotes} style={styles.contentValue} />
@@ -41,7 +41,7 @@ export const FoodCard: FC<FoodCardProps> = ({ food, tripId }) => {
           onPress={effects.handleOpenModal}
         >
           <View style={styles.titleContainer}>
-            <CustomIcon name={icons.cafe} size={spacing.Triple} color={colors.secondaryGreen} />
+            <CustomIcon name={icons.cafe} size={spacing.Triple} color={colors.lime700} />
             <CustomText text="MY_TRIP.TYPICAL_DISHES" style={styles.boxText} />
           </View>
           <CustomText text="MY_TRIP.MORE_DETAILS" style={styles.boxButton} />

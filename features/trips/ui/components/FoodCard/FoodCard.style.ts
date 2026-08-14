@@ -23,7 +23,9 @@ export const styles = StyleSheet.create({
     bottom: 0,
   },
   headerText: {
-    color: colors.primaryWhite,
+    // Black, not white: the header gradient is a light lime pair. White on it was already failing
+    // at ~1.4:1 before the migration; black reads at ~11:1.
+    color: colors.primaryBlack,
     fontFamily: fontFamily.interBold,
     fontSize: fontSize.MD,
   },
@@ -48,7 +50,7 @@ export const styles = StyleSheet.create({
     paddingBottom: spacing.Double,
   },
   button: {
-    backgroundColor: colors.secondaryGreen,
+    backgroundColor: colors.lime500,
     borderRadius: spacing.Double,
   },
   buttonContainer: {

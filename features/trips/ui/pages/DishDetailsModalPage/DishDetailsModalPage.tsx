@@ -23,19 +23,14 @@ export const DishDetailsModalPage = () => {
         <Badge
           label="MY_TRIP.GLUTEN_FREE"
           image={state.glutenFreeImage}
-          backgroundColor={colors.tertiaryGreen}
+          backgroundColor={colors.lime700}
           active={state.isGlutenFree}
         />
-        <Badge
-          label="MY_TRIP.VEGAN"
-          image={state.veganImage}
-          backgroundColor={colors.tertiaryGreen}
-          active={state.isVegan}
-        />
+        <Badge label="MY_TRIP.VEGAN" image={state.veganImage} backgroundColor={colors.lime700} active={state.isVegan} />
         <Badge
           label="MY_TRIP.VEGETARIAN"
           image={state.vegetarianImage}
-          backgroundColor={colors.tertiaryGreen}
+          backgroundColor={colors.lime700}
           active={state.isVegetarian}
         />
       </View>
