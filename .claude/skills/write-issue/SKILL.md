@@ -50,7 +50,16 @@ The rough idea (if any) is in `$ARGUMENTS`. If it's empty, ask the user what the
    gh issue create --title "[Feature]: <concise title>" --label enhancement --body-file <file>
    ```
 
-5. **Report** the created issue number and URL, and suggest the next step:
+5. **Add the issue to GitHub Project #1** so it lands on the board — the issue is invisible to
+   the user until it does. Use the URL returned by step 4:
+   ```
+   gh project item-add 1 --owner timothyrusso --url <issueUrl>
+   ```
+   This needs the `project` scope on the gh token. If it fails with a scope/authorization
+   error, do NOT delete or reopen the issue — step 4 stands. Report the failure and the exact
+   remediation (`gh auth refresh -s project`) so the user can add it manually.
+
+6. **Report** the created issue number and URL, and suggest the next step:
    `/implement-issue <n>` (the front door — it judges the issue and delegates to the
    `implement-issue-pipeline` workflow), or invoke the workflow directly for headless/batch runs.
 
@@ -58,3 +67,5 @@ The rough idea (if any) is in `$ARGUMENTS`. If it's empty, ask the user what the
 - Acceptance criteria must be **testable** — each one is a QA test case later.
 - Keep the Description self-contained: the implementer builds from it alone.
 - Never create the issue without the user's explicit go-ahead.
+- An issue that is not on Project #1 does not exist as far as the user is concerned — always
+  run the `item-add`, and say so explicitly in the report (added, or failed and why).
