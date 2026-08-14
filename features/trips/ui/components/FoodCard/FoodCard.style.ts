@@ -49,15 +49,6 @@ export const styles = StyleSheet.create({
   contentContainer: {
     paddingBottom: spacing.Double,
   },
-  button: {
-    backgroundColor: colors.lime500,
-    borderRadius: spacing.Double,
-  },
-  buttonContainer: {
-    alignItems: 'center',
-    marginTop: spacing.Double,
-    paddingHorizontal: spacing.Double,
-  },
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
