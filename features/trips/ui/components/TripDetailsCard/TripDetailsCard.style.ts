@@ -46,8 +46,7 @@ export const styles = StyleSheet.create({
   },
   budgetValue: {
     fontFamily: fontFamily.interMedium,
-    // No `color` here: the label color pairs with the budget step's fill, so both arrive together
-    // from the ViewModel.
+    color: colors.primaryWhite,
     borderRadius: spacing.Triple,
     alignSelf: 'flex-start',
     marginLeft: spacing.Quintuple,

@@ -23,8 +23,6 @@ export const styles = StyleSheet.create({
     bottom: 0,
   },
   headerText: {
-    // Black, not white: the header gradient is a light lime pair. White on it was already failing
-    // at ~1.4:1 before the migration; black reads at ~11:1.
     color: colors.primaryBlack,
     fontFamily: fontFamily.interBold,
     fontSize: fontSize.MD,

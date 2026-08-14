@@ -25,8 +25,6 @@ export const styles = StyleSheet.create({
     bottom: 0,
   },
   headerText: {
-    // Black, not white: the header gradient is now a light cyan pair, which white text disappears
-    // into. Black on it is ~11:1, the same way every other light surface in the app carries content.
     color: colors.primaryBlack,
     fontFamily: fontFamily.interBold,
   },

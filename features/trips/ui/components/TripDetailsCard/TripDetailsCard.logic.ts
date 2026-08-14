@@ -10,7 +10,7 @@ type UseTripDetailsCardParams = {
 
 export const useTripDetailsCardLogic = ({ tripDetails }: UseTripDetailsCardParams) => {
   const { t } = useTranslation();
-  const { budgetColorsMap, budgetLabelColorsMap } = useBudgetColorsMap();
+  const { budgetColorsMap } = useBudgetColorsMap();
 
   const dateLabel =
     tripDetails.startDate !== tripDetails.endDate
@@ -22,12 +22,9 @@ export const useTripDetailsCardLogic = ({ tripDetails }: UseTripDetailsCardParam
       ? `${tripDetails.durationDays} ${t('MY_TRIP.DAYS', { count: tripDetails.durationDays })} / ${tripDetails.durationNights} ${t('MY_TRIP.NIGHT', { count: tripDetails.durationNights })}`
       : `${tripDetails.durationDays} ${t('MY_TRIP.DAYS', { count: tripDetails.durationDays })}`;
 
-  // An unknown budget label falls back to the lightest step of the ramp, so the pill still reads as
-  // the same family rather than as a fifth, unrelated color.
   const budgetColor = budgetColorsMap[tripDetails.budget] ?? colors.purple300;
-  const budgetLabelColor = budgetLabelColorsMap[tripDetails.budget] ?? colors.primaryBlack;
 
   return {
-    derived: { dateLabel, durationLabel, budgetColor, budgetLabelColor },
+    derived: { dateLabel, durationLabel, budgetColor },
   };
 };

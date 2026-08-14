@@ -52,7 +52,7 @@ export const TripDetailsCard: FC<TripDetailsCardProps> = ({ tripDetails }) => {
             </View>
             <CustomText
               text={tripDetails.budget}
-              style={[styles.budgetValue, { backgroundColor: derived.budgetColor, color: derived.budgetLabelColor }]}
+              style={[styles.budgetValue, { backgroundColor: derived.budgetColor }]}
             />
           </View>
         </View>
