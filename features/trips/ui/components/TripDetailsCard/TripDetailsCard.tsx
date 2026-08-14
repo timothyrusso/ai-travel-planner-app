@@ -17,7 +17,7 @@ export const TripDetailsCard: FC<TripDetailsCardProps> = ({ tripDetails }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <LinearGradient
-          colors={[colors.primary, colors.primaryLight]}
+          colors={[colors.purple500, colors.purple300]}
           style={styles.gradient}
           start={{ x: 0.1, y: 0.2 }}
           end={{ x: 0.9, y: 0.8 }}
@@ -29,7 +29,7 @@ export const TripDetailsCard: FC<TripDetailsCardProps> = ({ tripDetails }) => {
       </View>
       <View style={styles.contentContainer}>
         <View style={styles.subtitleContainer}>
-          <CustomIcon name={icons.calendar} size={spacing.Triple} color={colors.secondaryBlue} />
+          <CustomIcon name={icons.calendar} size={spacing.Triple} color={colors.cyan700} />
           <CustomText text="MY_TRIP.TRAVEL_DATES" style={styles.subtitle} />
         </View>
         {tripDetails.startDate && tripDetails.endDate ? (
@@ -40,19 +40,19 @@ export const TripDetailsCard: FC<TripDetailsCardProps> = ({ tripDetails }) => {
         <View style={styles.rowContainer}>
           <View style={styles.columnContainer}>
             <View style={styles.subtitleContainer}>
-              <CustomIcon name={icons.people} size={spacing.Triple} color={colors.secondaryBlue} />
+              <CustomIcon name={icons.people} size={spacing.Triple} color={colors.cyan700} />
               <CustomText text="MY_TRIP.TRAVELERS" style={styles.subtitle} />
             </View>
             <CustomText text={tripDetails.travelers.toString()} style={styles.contentValue} />
           </View>
           <View style={styles.columnContainer}>
             <View style={styles.subtitleContainer}>
-              <CustomIcon name={icons.card} size={spacing.Triple} color={colors.secondaryBlue} />
+              <CustomIcon name={icons.card} size={spacing.Triple} color={colors.cyan700} />
               <CustomText text="MY_TRIP.BUDGET" style={styles.subtitle} />
             </View>
             <CustomText
               text={tripDetails.budget}
-              style={[styles.budgetValue, { backgroundColor: derived.budgetColor }]}
+              style={[styles.budgetValue, { backgroundColor: derived.budgetColor, color: derived.budgetLabelColor }]}
             />
           </View>
         </View>
