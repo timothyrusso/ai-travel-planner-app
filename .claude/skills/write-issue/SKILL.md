@@ -46,13 +46,13 @@ The rough idea (if any) is in `$ARGUMENTS`. If it's empty, ask the user what the
 
 4. **Create the issue only after explicit approval** (it's an outward action). Match the
    template's title prefix and label:
-   ```
+   ```bash
    gh issue create --title "[Feature]: <concise title>" --label enhancement --body-file <file>
    ```
 
 5. **Add the issue to GitHub Project #1** so it lands on the board — the issue is invisible to
    the user until it does. Use the URL returned by step 4:
-   ```
+   ```bash
    gh project item-add 1 --owner timothyrusso --url <issueUrl>
    ```
    This needs the `project` scope on the gh token. If it fails with a scope/authorization
