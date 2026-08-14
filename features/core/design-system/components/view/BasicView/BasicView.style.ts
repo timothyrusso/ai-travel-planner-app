@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { colors } from '@/features/core/design-system/style/colors';
 import { spacing } from '@/features/core/design-system/style/dimensions/spacing';
 
-export const styles = (paddingTop: number, paddingBottom: number) =>
+export const styles = (paddingTop: number) =>
   StyleSheet.create({
     basicContainer: {
       paddingTop,
@@ -27,6 +27,5 @@ export const styles = (paddingTop: number, paddingBottom: number) =>
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: colors.primaryWhite,
-      paddingBottom,
     },
   });

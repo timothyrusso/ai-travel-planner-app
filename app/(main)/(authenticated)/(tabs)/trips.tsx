@@ -1,5 +1,5 @@
 import { TripListPage } from '@/features/trips/pages';
 
-export default function ShowAllTrips() {
+export default function TripsTab() {
   return <TripListPage />;
 }

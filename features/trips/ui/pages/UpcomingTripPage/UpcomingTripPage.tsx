@@ -1,17 +1,15 @@
 import { Platform, View } from 'react-native';
-import { BasicView, PlatformOS } from '@/features/core/design-system';
+import { BasicView, ButtonType, CustomIconButtonLarge, icons, PlatformOS } from '@/features/core/design-system';
 import { Routes } from '@/features/core/navigation';
 import { DetailsBox } from '@/features/trips/ui/components/DetailsBox/DetailsBox';
 import { EmptyListContainer } from '@/features/trips/ui/components/EmptyListContainer/EmptyListContainer';
 import { HeroImage } from '@/features/trips/ui/components/HeroImage/HeroImage';
 import { HomeSkeleton } from '@/features/trips/ui/components/HomeSkeleton/HomeSkeleton';
 import { useUpcomingTripPageLogic } from '@/features/trips/ui/pages/UpcomingTripPage/UpcomingTripPage.logic';
-import { styles } from '@/features/trips/ui/pages/UpcomingTripPage/UpcomingTripPage.style';
 
 const basicViewProps = {
   nameView: Routes.HomePage,
   isFullScreen: true,
-  isMenuVisible: true,
   statusBarStyle: 'light',
 } as const;
 
@@ -36,18 +34,26 @@ export const UpcomingTripPage = () => {
 
   return (
     <BasicView {...basicViewProps}>
-      <View style={styles.container}>
+      <View style={derived.componentStyle.container}>
         <HeroImage
           image={state.image}
           imageBlurHash={state.imageBlurHash}
           blurTargetRef={state.blurTargetRef}
           onError={effects.retryCoverImage}
         />
+        <CustomIconButtonLarge
+          iconName={icons.add}
+          buttonType={ButtonType.Primary}
+          onPress={effects.startNewTrip}
+          style={derived.componentStyle.addTripButton}
+          accessibilityRole="button"
+          accessibilityLabel={derived.addTripButtonLabel}
+        />
         <DetailsBox
           location={derived.location}
           tripId={state.tripId}
           tripStartDate={state.tripStartDate}
-          style={styles.detailsBox}
+          style={derived.componentStyle.detailsBox}
           totalTrips={state.totalTrips}
           blurTargetRef={Platform.OS === PlatformOS.android ? state.blurTargetRef : undefined}
         />
