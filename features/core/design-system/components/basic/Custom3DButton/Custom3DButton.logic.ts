@@ -3,17 +3,18 @@ import { Gesture } from 'react-native-gesture-handler';
 import { Easing, useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
+import { colors } from '@/features/core/design-system/style/colors';
 import { fontFamily } from '@/features/core/design-system/style/fontFamily';
 
 export const CUSTOM_3D_BUTTON_DEFAULTS = {
-  backgroundColor: '#000000',
-  borderColor: '#01C5C0',
+  backgroundColor: colors.primaryBlack,
+  borderColor: colors.cyan700,
   borderWidth: 2,
   borderRadius: 8,
-  raisedColor: '#018B87',
+  raisedColor: colors.cyan900,
   raiseLevel: 6,
   height: 41,
-  textColor: '#FFFFFF',
+  textColor: colors.primaryWhite,
   textSize: 14,
   textFontFamily: fontFamily.interBold,
   iconSize: 18,

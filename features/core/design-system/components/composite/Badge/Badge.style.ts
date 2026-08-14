@@ -21,7 +21,7 @@ export const styles = (active: boolean, backgroundColor: string) =>
       borderRadius: components.badgeCircleSize / 2,
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: active ? backgroundColor : colors.primaryRed,
+      backgroundColor: active ? backgroundColor : colors.secondaryGrey,
     },
     checkBadge: {
       position: 'absolute',

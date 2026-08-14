@@ -31,7 +31,7 @@ export const Badge: FC<BadgeProps> = ({ label, image, backgroundColor, active })
           <CustomIcon
             name={active ? icons.success : icons.closeCircle}
             size={spacing.TripleAndHalf}
-            color={active ? colors.tertiaryGreen : colors.primaryRed}
+            color={active ? colors.lime700 : colors.red500}
           />
         </View>
       </View>

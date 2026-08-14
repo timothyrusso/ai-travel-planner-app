@@ -73,7 +73,8 @@ export const style = (
       textAlign: 'center',
     },
     detailsChip: {
-      backgroundColor: colors.primaryBlue,
+      // A light cyan step, not a foreground one: the chip's labels are `primaryBlack`.
+      backgroundColor: colors.cyan300,
       borderRadius: spacing.Fourfold,
       flexDirection: 'row',
       gap: spacing.Single,
