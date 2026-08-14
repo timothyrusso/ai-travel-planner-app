@@ -38,6 +38,11 @@ export function BaseIconButton({
   isLoading = false,
   animatedIconStyle,
   noPressedStyle = false,
+  // Icon-only buttons have no text to name them, so the accessibility props inherited from ViewProps
+  // have to be forwarded to the pressable by hand: this component takes no rest element on purpose.
+  accessibilityLabel,
+  accessibilityHint,
+  accessibilityRole,
 }: CustomIconButtonProps) {
   const buttonState = match({ isDisabled, isLoading })
     .with({ isDisabled: true }, () => ButtonState.Disabled)
@@ -57,6 +62,9 @@ export function BaseIconButton({
       style={[styles.button, style]}
       scaleValue={noPressedStyle ? 1 : 1.2}
       onPress={onPress}
+      accessibilityLabel={accessibilityLabel}
+      accessibilityHint={accessibilityHint}
+      accessibilityRole={accessibilityRole}
     >
       {isLoading ? (
         <ActivityIndicator color={iconColor} size={iconSize} />
