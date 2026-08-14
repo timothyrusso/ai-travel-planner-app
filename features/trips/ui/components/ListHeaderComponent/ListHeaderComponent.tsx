@@ -37,7 +37,7 @@ export const ListHeaderComponent: FC<ListHeaderComponentProps> = memo(
             title="TRIP_DETAILS.BUDGET_NOTES"
             icon={icons.card}
             notes={budgetNotes}
-            backgroundColor={colors.secondaryBlue}
+            backgroundColor={colors.secondaryGrey}
           />
         )}
         {transportationNotes && (
@@ -46,7 +46,7 @@ export const ListHeaderComponent: FC<ListHeaderComponentProps> = memo(
             icon={icons.bus}
             notes={transportationNotes}
             isTitleInverted
-            backgroundColor={colors.secondaryPink}
+            backgroundColor={colors.secondaryGrey}
           />
         )}
       </View>

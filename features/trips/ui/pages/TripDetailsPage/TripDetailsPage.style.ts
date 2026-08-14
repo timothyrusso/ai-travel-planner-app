@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
   },
   separator: {
     height: spacing.separator40,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.purple500,
     zIndex: 2,
     width: spacing.MinimalDouble,
     alignSelf: 'center',

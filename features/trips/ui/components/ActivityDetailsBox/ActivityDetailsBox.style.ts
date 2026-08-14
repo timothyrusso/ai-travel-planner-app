@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.Single,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.purple500,
     paddingVertical: spacing.MinimalDouble,
     paddingHorizontal: spacing.Single,
     borderRadius: spacing.Double,

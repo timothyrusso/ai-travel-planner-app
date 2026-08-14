@@ -61,8 +61,8 @@ export function BaseButton({
         {isLoading ? (
           // `iconColor`, not `styles.text.color`: a spinner is a glyph, so it takes the same
           // `styleIconColor` token BaseIconButton's spinner uses. Sourcing it from the text color
-          // made the two components' spinners differ for Main/Primary disabled, where
-          // `getButtonStyles` returns primaryWhite but `styleIconColor` returns primaryWhiteDisabled.
+          // made the two components' spinners differ for Main/Primary disabled, where `getButtonStyles`
+          // returns primaryWhite but `styleIconColor` returns primaryWhiteDisabled.
           <ActivityIndicator color={iconColor} />
         ) : (
           <Fragment>

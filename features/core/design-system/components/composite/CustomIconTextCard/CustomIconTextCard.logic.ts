@@ -7,7 +7,7 @@ export type CustomIconCardLogicProps = {
 };
 
 export const useCustomIconTextCardLogic = ({ selected = false, iconBackground }: CustomIconCardLogicProps) => {
-  const iconBackgroundColor = iconBackground ?? colors.primary;
+  const iconBackgroundColor = iconBackground ?? colors.purple500;
   const labelColor = selected ? colors.primaryWhite : colors.primaryBlack;
 
   const componentStyle = styles(labelColor, iconBackgroundColor);

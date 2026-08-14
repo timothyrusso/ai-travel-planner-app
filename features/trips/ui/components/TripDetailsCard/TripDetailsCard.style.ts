@@ -46,7 +46,7 @@ export const styles = StyleSheet.create({
   },
   budgetValue: {
     fontFamily: fontFamily.interMedium,
-    color: colors.primaryBlack,
+    color: colors.primaryWhite,
     borderRadius: spacing.Triple,
     alignSelf: 'flex-start',
     marginLeft: spacing.Quintuple,

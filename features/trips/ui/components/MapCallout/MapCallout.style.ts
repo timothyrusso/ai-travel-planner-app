@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
   calloutButton: {
     fontSize: fontSize.SM,
     fontFamily: fontFamily.interMedium,
-    color: colors.primary,
+    color: colors.purple500,
     textAlign: 'center',
   },
 });

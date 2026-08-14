@@ -22,7 +22,7 @@ export const useTripDetailsCardLogic = ({ tripDetails }: UseTripDetailsCardParam
       ? `${tripDetails.durationDays} ${t('MY_TRIP.DAYS', { count: tripDetails.durationDays })} / ${tripDetails.durationNights} ${t('MY_TRIP.NIGHT', { count: tripDetails.durationNights })}`
       : `${tripDetails.durationDays} ${t('MY_TRIP.DAYS', { count: tripDetails.durationDays })}`;
 
-  const budgetColor = budgetColorsMap[tripDetails.budget] ?? colors.primaryGreen;
+  const budgetColor = budgetColorsMap[tripDetails.budget] ?? colors.purple300;
 
   return {
     derived: { dateLabel, durationLabel, budgetColor },

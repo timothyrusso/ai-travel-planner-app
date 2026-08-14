@@ -7,7 +7,7 @@ export const styles = (isSelected: boolean) =>
       width: '100%',
       padding: spacing.Triple,
       borderWidth: isSelected ? spacing.Minimal : spacing.HalfMinimal,
-      borderColor: isSelected ? colors.primary : colors.primaryGrey,
+      borderColor: isSelected ? colors.purple500 : colors.primaryGrey,
       borderRadius: spacing.Double,
       flexDirection: 'row',
       alignItems: 'center',

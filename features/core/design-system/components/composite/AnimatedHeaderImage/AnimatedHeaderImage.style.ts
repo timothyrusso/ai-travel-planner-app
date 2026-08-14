@@ -73,7 +73,7 @@ export const style = (
       textAlign: 'center',
     },
     detailsChip: {
-      backgroundColor: colors.primaryBlue,
+      backgroundColor: colors.cyan300,
       borderRadius: spacing.Fourfold,
       flexDirection: 'row',
       gap: spacing.Single,

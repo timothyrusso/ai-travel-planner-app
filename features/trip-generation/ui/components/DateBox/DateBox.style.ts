@@ -37,7 +37,7 @@ export const style = StyleSheet.create({
     position: 'absolute',
     right: -spacing.TripleAndHalf,
     top: -spacing.TripleAndHalf,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.purple500,
     borderRadius: spacing.separator80,
     width: spacing.Sextuple + spacing.Minimal,
     height: spacing.Sextuple + spacing.Minimal,

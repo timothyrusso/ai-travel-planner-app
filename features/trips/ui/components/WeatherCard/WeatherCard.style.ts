@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
     bottom: 0,
   },
   headerText: {
-    color: colors.primaryWhite,
+    color: colors.primaryBlack,
     fontFamily: fontFamily.interBold,
   },
   subtitle: {

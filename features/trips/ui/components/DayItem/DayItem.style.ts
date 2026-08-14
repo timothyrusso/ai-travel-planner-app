@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
   separator: {
     height: spacing.separator40,
     width: spacing.MinimalDouble,
-    backgroundColor: colors.primary,
+    backgroundColor: colors.purple500,
     alignSelf: 'center',
   },
   container: {

@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     bottom: 0,
   },
   headerText: {
-    color: colors.primaryWhite,
+    color: colors.primaryBlack,
     fontFamily: fontFamily.interBold,
     fontSize: fontSize.MD,
   },
@@ -46,15 +46,6 @@ export const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingBottom: spacing.Double,
-  },
-  button: {
-    backgroundColor: colors.secondaryGreen,
-    borderRadius: spacing.Double,
-  },
-  buttonContainer: {
-    alignItems: 'center',
-    marginTop: spacing.Double,
-    paddingHorizontal: spacing.Double,
   },
   titleContainer: {
     flexDirection: 'row',
