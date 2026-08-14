@@ -63,6 +63,14 @@ jobs:
 
       - name: Build app
         env:
+          # `eas build --local` is not an EAS worker, so nothing injects the Gradle
+          # heap that EAS sets on its own build VMs (4g on medium, 8g on large).
+          # Without this, prebuild regenerates android/gradle.properties with the
+          # template default of -Xmx2048m and :app:packageRelease dies with
+          # "OutOfMemoryError: Java heap space" while deflating the APK entries.
+          # The -Dorg.gradle.jvmargs form is required: a bare -Xmx here only reaches
+          # the Gradle client VM and leaves the daemon on the gradle.properties value.
+          GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx6g -XX:MaxMetaspaceSize=1g -XX:+HeapDumpOnOutOfMemoryError"
           GOOGLE_SERVICES_JSON: /home/runner/work/HolidAI/HolidAI/android/app/google-services.json
           GOOGLE_SERVICES_PLIST: ${{ secrets.GOOGLE_SERVICES_PLIST }}
           FIREBASE_MOBILE_APP_ID: ${{ secrets.FIREBASE_MOBILE_APP_ID }}
