@@ -1,9 +1,9 @@
 import { View } from 'react-native';
 import Animated from 'react-native-reanimated';
-import { rotate } from '@/features/core/design-system';
+import { colors, rotate } from '@/features/core/design-system';
 import { styles } from '@/features/trip-generation/ui/components/AnimatedBlocks/AnimatedBlocks.style';
 
-const COLORS = ['#fa7f7c', '#b58df1', '#ffe780', '#82cab2', '#87cce8'];
+const COLORS = [colors.purple500, colors.purple300, colors.lime500, colors.cyan500, colors.red300];
 const BOXES_ANIMATION_DURATION = 300;
 
 export const AnimatedBlocks = () => {
