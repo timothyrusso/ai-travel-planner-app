@@ -180,7 +180,8 @@
     }
   },
   "ACCESSIBILITY": {
-    "LOADING": "Caricamento in corso"
+    "LOADING": "Caricamento in corso",
+    "START_NEW_TRIP": "Pianifica un nuovo viaggio"
   },
   "ERRORS": {
     "GENERIC": "Qualcosa è andato storto",

@@ -180,7 +180,8 @@
     }
   },
   "ACCESSIBILITY": {
-    "LOADING": "Loading content"
+    "LOADING": "Loading content",
+    "START_NEW_TRIP": "Plan a new trip"
   },
   "ERRORS": {
     "GENERIC": "Something went wrong",
