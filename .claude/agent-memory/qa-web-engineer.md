@@ -31,3 +31,7 @@ Read at the start of every web QA run. Append only under the rules in
 - [2026-08-13] `agent-browser frame @eN` switches `snapshot`/`click` context into an iframe, but
   `eval --stdin` still runs against the top-level document regardless — use `snapshot` (not
   `eval`) to read text/DOM state inside a Storybook preview iframe.
+- [2026-08-14] To test a specific Storybook arg combo (e.g. a disabled variant of a non-default
+  control value) without clicking through the Controls panel, open
+  `http://localhost:6006/iframe.html?id=<story-id>&viewMode=story&args=key:value;key2:value2`
+  directly — isolates the component (no sidebar/addons chrome) and sets args via the URL.
