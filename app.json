@@ -17,7 +17,7 @@
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./features/core/design-system/assets/images/android-icon.png",
-        "backgroundColor": "#220059"
+        "backgroundColor": "#31037B"
       }
     },
     "web": {
@@ -62,12 +62,12 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#220059",
+          "backgroundColor": "#31037B",
           "image": "./features/core/design-system/assets/images/logo.png",
           "imageWidth": 150,
           "dark": {
             "image": "./features/core/design-system/assets/images/logo.png",
-            "backgroundColor": "#220059"
+            "backgroundColor": "#31037B"
           },
           "ios": {
             "resizeMode": "contain"
