@@ -50,7 +50,14 @@ export function CustomBlurButton({
   });
 
   return (
-    <CustomPressable disabled={isDisabled || isLoading} onPress={onPress} style={[styles.button, style]}>
+    // The role is set here rather than left to the caller because a blur button is always a button;
+    // the label is left to the title rendered below, which is what a screen reader reads out.
+    <CustomPressable
+      disabled={isDisabled || isLoading}
+      onPress={onPress}
+      style={[styles.button, style]}
+      accessibilityRole="button"
+    >
       <BlurSurface
         intensity={derived.blurStyles.intensity}
         canBlur={derived.canBlur}
