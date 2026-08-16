@@ -916,10 +916,17 @@ REPORT>>>`
 // browser-session-only), so they are pushed to a per-PR evidence branch and linked from raw
 // content. Entirely best-effort: capture, conversion, push, or posting may all fail without
 // changing the run's verdict.
-const visualUnits = visualPlan(qa, qaWeb)
+// An empty proposal is an OFF switch for the whole stage, enforced here and not only in the
+// capture prompts — the same hardening philosophy as the QA-target fallback above: a QA lane
+// that returns a manifest anyway (a non-compliant agent, a stale prompt) must still not get an
+// evidence branch pushed and a comment posted. The guarantee belongs to the pipeline.
+const visualsOff = exploredVisualSubjects !== null && exploredVisualSubjects.length === 0
+const visualUnits = visualsOff ? [] : visualPlan(qa, qaWeb)
 const prNumber = (String(build.prUrl).match(/\/pull\/(\d+)/) || [])[1] || null
 
-if (visualUnits.length === 0) {
+if (visualsOff) {
+  log('Visual summary skipped: the explorer proposed no visual subject — nothing is published for this run')
+} else if (visualUnits.length === 0) {
   log('Visual summary skipped: no screenshots were captured for this run')
 } else if (!prNumber) {
   log(`Visual summary skipped: no PR number in ${build.prUrl}`)
