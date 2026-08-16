@@ -56,12 +56,32 @@ export const AllSizes: Story = {
   ),
 };
 
+/**
+ * Loading is not disabled: the spinner runs over the button's *active* fill, and only `isDisabled`
+ * dims it. The last cell sets both, where disabled wins the colour and the spinner still shows.
+ */
 export const States: Story = {
   render: args => (
     <View style={styles.stack}>
       <CustomButtonLarge {...args} />
       <CustomButtonLarge {...args} isDisabled />
       <CustomButtonLarge {...args} isLoading />
+      <CustomButtonLarge {...args} isDisabled isLoading />
+    </View>
+  ),
+};
+
+/**
+ * The brand CTA against the neutral one. Disabled `Main` is a muted purple rather than the neutral
+ * grey `Primary` uses, so an unavailable brand button is still recognisably the brand button.
+ */
+export const MainAgainstPrimary: Story = {
+  render: args => (
+    <View style={styles.stack}>
+      <CustomButtonLarge {...args} buttonType={ButtonType.Main} />
+      <CustomButtonLarge {...args} buttonType={ButtonType.Primary} />
+      <CustomButtonLarge {...args} buttonType={ButtonType.Main} isDisabled />
+      <CustomButtonLarge {...args} buttonType={ButtonType.Primary} isDisabled />
     </View>
   ),
 };
