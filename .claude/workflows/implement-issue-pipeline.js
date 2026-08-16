@@ -513,7 +513,7 @@ ${JSON.stringify(plan, null, 2)}
    \`\`\`
    Use a detached worktree exactly like that — never \`git checkout\` in the main working tree — so the feature branch, its diff, and any work in progress stay untouched, and always remove the worktree at the end, including on failure. Collect the files with \`find\` exactly as written, NOT with a \`cp <scratch>/*.webp <scratch>/*.png\` glob: your shell is zsh, where a pattern that matches nothing aborts the whole command, and one of the two patterns normally matches nothing (no \`.png\` when every conversion succeeded, no \`.webp\` when ffmpeg is missing) — the copy would silently move zero files. Then check that \`<scratch>/evidence/qa\` is non-empty before committing: if it is empty, skip the commit and the push, remove the worktree, and report it in \`note\` (there is nothing to publish, and the commit would fail anyway).
 3. BUILD THE COMMENT — write EXACTLY this markdown to a file and nothing else: no intro, no footer, no per-image commentary, no notes about what failed (that goes in \`note\`, not in the comment).
-   - First line: \`${VISUAL_MARKER}\`
+   - First line: \`${VISUAL_MARKER}\` — the very first characters of the body, nothing (not even a blank line) before it: step 4 finds the comment by that PREFIX, so a marker anywhere else makes the comment unfindable and a re-run posts a duplicate.
    - Then: \`## 📸 Visual summary\`
    - Then, per plan unit IN PLAN ORDER (mobile units first, they are already ordered): the caption line \`**<surface> — <caption>**\` with \`surface\` and \`caption\` verbatim from the plan, a blank line, then
      - \`"layout": "single"\` → \`![<surface> — <caption>](<url>)\`
@@ -525,9 +525,10 @@ ${JSON.stringify(plan, null, 2)}
    - Skip any unit whose images all failed to convert or push.
 4. POST OR UPDATE — exactly ONE comment, found by its hidden marker so a re-run edits it in place instead of adding a second one:
    \`\`\`bash
-   id=$(gh api "repos/timothyrusso/HolidAI/issues/${prNumber}/comments" --paginate --jq 'map(select(.body | contains("${VISUAL_MARKER}"))) | .[0].id // empty')
+   id=$(gh api "repos/timothyrusso/HolidAI/issues/${prNumber}/comments" --paginate --jq '[.[] | select(.user.login == "timothyrusso") | select(.body | startswith("${VISUAL_MARKER}"))] | .[0].id // empty' | head -n 1)
    if [ -n "$id" ]; then gh api -X PATCH "repos/timothyrusso/HolidAI/issues/comments/$id" -F body=@<comment file>; else gh pr comment ${build.prUrl} --body-file <comment file>; fi
    \`\`\`
+   Match the marker with \`startswith\` exactly as written, NEVER with \`contains\`: the consolidated run report posted just before you routinely QUOTES this feature's own build and review reports — marker text included — so \`contains\` matches that older comment first and the PATCH silently overwrites the run report with the visual summary. Only a comment whose body STARTS with the marker (step 3) is yours. \`head -n 1\` is there because \`--paginate\` runs the filter once per page.
    Never use \`gh pr comment --edit-last\`: the run-report comment was just posted by the same author and would be overwritten.
 5. VERIFY — \`curl -sI <one published url>\` and confirm it answers 200; say so in \`note\` if it does not.
 

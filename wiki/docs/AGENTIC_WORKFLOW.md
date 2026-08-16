@@ -221,10 +221,13 @@ whole thing off**: no capture, no branch, no comment.
   force-pushed, so the feature branch's own diff never contains a screenshot. GitHub's
   attachment upload endpoint is browser-session-only, so hosting the bytes is the only way to
   get pixels into a comment from automation; the markdown links them from `raw.githubusercontent.com`.
-- The comment carries the hidden marker `<!-- holidai:visual-summary -->` — a re-run edits that
-  comment in place and force-pushes the same file names, so the URLs stay stable — and holds
-  nothing but the heading, a bold `**<iOS|Android|Storybook|Web> — <what changed>**` caption per
-  shot, and the images (before/after pairs as a two-column table).
+- The comment carries the hidden marker `<!-- holidai:visual-summary -->` **as its first line** —
+  a re-run finds it by that prefix (`startswith`, never `contains`: the run report quotes the
+  build and review reports verbatim, marker included, so a substring match would edit the run
+  report instead), edits it in place and force-pushes the same file names, so the URLs stay
+  stable — and holds nothing but the heading, a bold
+  `**<iOS|Android|Storybook|Web> — <what changed>**` caption per shot, and the images
+  (before/after pairs as a two-column table).
 - A closed PR triggers `.github/workflows/qa-evidence-cleanup.yml`, which deletes the evidence
   branch; the comment is left as-is and its images become broken links, which is accepted.
 - Every failure here — capture, conversion, push, posting — is logged and swallowed: the stage
