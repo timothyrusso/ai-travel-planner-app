@@ -497,9 +497,13 @@ Capture plan — publish exactly these units, in this order. \`source\` is the P
 ${JSON.stringify(plan, null, 2)}
 \`\`\`
 
-1. CONVERT — in a scratch directory, for every image of the plan:
+1. CONVERT — in a scratch directory, for every image of the plan, FIRST check the source is a real screenshot file and not a link out of the evidence directory:
+   \`\`\`bash
+   [ -f "<source>" ] && [ ! -L "<source>" ] && case "$(cd "$(dirname "<source>")" && pwd -P)" in */coverage/qa/${issue}) : ;; *) false ;; esac
+   \`\`\`
+   Drop — and note — every image that fails that check (missing, a symlink, or resolving outside \`coverage/qa/${issue}/\`): these bytes end up on a public branch, and the pipeline's own path check is lexical, so this is the only place the real file is inspected. Then convert what survived:
    \`ffmpeg -y -i "<source>" -vf "scale='if(gt(iw,ih),min(1080,iw),-2)':'if(gt(iw,ih),-2,min(1080,ih))'" "<scratch>/<name>.webp"\`
-   (caps the long edge at 1080 px, whichever edge that is). If ffmpeg is missing, the command fails, or the output is empty, fall back to copying the source unchanged to \`<scratch>/<name>.png\`. Drop — and note — any image whose \`source\` does not exist. Remember each file's ACTUAL extension: the markdown must link the file you really produced.
+   (caps the long edge at 1080 px, whichever edge that is). If ffmpeg is missing, the command fails, or the output is empty, fall back to copying the source unchanged to \`<scratch>/<name>.png\`. Remember each file's ACTUAL extension: the markdown must link the file you really produced.
 2. PUSH — publish those files on the per-PR evidence branch \`qa-evidence/pr-${prNumber}\`, branched FRESH off the PR head each time so it shares git objects with the feature branch and a re-run replaces the previous evidence instead of stacking on it:
    \`\`\`bash
    git fetch origin feature/${issue}
@@ -646,14 +650,40 @@ function visualSlug(text) {
   return slug || 'shot'
 }
 
+// A manifest `path` is agent-supplied input and the publisher copies whatever it points at
+// onto a PUBLIC evidence branch, so an out-of-band path (a mistake, or a prompt injection the
+// QA agent swallowed) would leak a file that has nothing to do with QA — the CONVERT step
+// even renames anything ffmpeg cannot read to `.png` and pushes it. Only a `.png` file inside
+// THIS issue's own evidence directory may travel; everything else is dropped and logged. The
+// check is lexical because workflow scripts have no filesystem access: "exists, regular file,
+// not a symlink out of the directory" is enforced by the publisher (step 1 of visualPrompt),
+// which has a shell. It is deliberately NOT a `pattern` on QA_SCHEMA.manifest either — a
+// malformed screenshot path must never invalidate a whole QA result.
+const VISUAL_EVIDENCE_DIR = `/coverage/qa/${issue}/`
+
+function visualSource(path) {
+  const raw = typeof path === 'string' ? path.trim() : ''
+  if (!raw.startsWith('/') || raw.includes('\0') || !/\.png$/i.test(raw)) return null
+  if (raw.split('/').some(segment => segment === '.' || segment === '..')) return null
+  const at = raw.indexOf(VISUAL_EVIDENCE_DIR)
+  if (at === -1) return null
+  const file = raw.slice(at + VISUAL_EVIDENCE_DIR.length)
+  return file && !file.includes('/') ? raw : null
+}
+
 function laneUnits(result) {
   if (!result || !Array.isArray(result.manifest)) return []
   const units = []
   const pairs = new Map()
   for (const entry of result.manifest) {
-    if (!entry || !entry.path || !entry.caption || !entry.surface) continue
+    if (!entry || !entry.caption || !entry.surface) continue
+    const source = visualSource(entry.path)
+    if (!source) {
+      log(`Visual summary: dropped a manifest entry — not a .png under coverage/qa/${issue}/: ${String(entry.path).slice(0, 120)}`)
+      continue
+    }
     const variant = entry.variant === 'before' || entry.variant === 'after' ? entry.variant : 'single'
-    const image = { variant, source: entry.path }
+    const image = { variant, source }
     if (variant === 'single') {
       units.push({ layout: 'single', surface: entry.surface, caption: entry.caption, images: [image] })
       continue
