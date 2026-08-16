@@ -1,49 +1,25 @@
-import { type DimensionValue, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
+import type { Custom3DButtonColors } from '@/features/core/design-system/components/basic/Custom3DButton/Custom3DButton.logic';
+import { colors } from '@/features/core/design-system/style/colors';
+import type { RaisedButtonSize } from '@/features/core/design-system/style/dimensions/components';
 import { spacing } from '@/features/core/design-system/style/dimensions/spacing';
-
-const DISABLED_OPACITY = 0.5;
-const FULL_OPACITY = 1;
+import { fontFamily } from '@/features/core/design-system/style/fontFamily';
 
 type Custom3DButtonStyleParams = {
-  backgroundColor: string;
-  borderColor: string;
-  borderWidth: number;
-  borderRadius: number;
-  raisedColor: string;
-  raiseLevel: number;
-  height: number;
-  width: number | undefined;
-  stretch: boolean;
-  textColor: string;
-  textSize: number;
-  textFontFamily: string;
-  isDisabled: boolean;
+  size: RaisedButtonSize;
+  buttonColors: Custom3DButtonColors;
 };
 
-export const custom3DButtonStyles = ({
-  backgroundColor,
-  borderColor,
-  borderWidth,
-  borderRadius,
-  raisedColor,
-  raiseLevel,
-  height,
-  width,
-  stretch,
-  textColor,
-  textSize,
-  textFontFamily,
-  isDisabled,
-}: Custom3DButtonStyleParams) => {
-  const faceHeight = height - raiseLevel;
-  const containerWidth: DimensionValue | undefined = width ?? (stretch ? '100%' : undefined);
+export const custom3DButtonStyles = ({ size, buttonColors }: Custom3DButtonStyleParams) => {
+  // The raised edge is the slice of the bottom face left uncovered by the top one, so the face is
+  // shorter than the button by exactly the raise depth — Figma's 27/35/44/51 for 30/40/50/60.
+  const faceHeight = size.height - size.raiseLevel;
 
   return StyleSheet.create({
     container: {
-      height,
-      width: containerWidth,
-      opacity: isDisabled ? DISABLED_OPACITY : FULL_OPACITY,
+      width: '100%',
+      height: size.height,
     },
     bottomFace: {
       position: 'absolute',
@@ -51,8 +27,8 @@ export const custom3DButtonStyles = ({
       right: 0,
       bottom: 0,
       height: faceHeight,
-      borderRadius,
-      backgroundColor: raisedColor,
+      borderRadius: size.radius,
+      backgroundColor: buttonColors.raisedColor,
     },
     content: {
       position: 'absolute',
@@ -67,16 +43,28 @@ export const custom3DButtonStyles = ({
       alignItems: 'center',
       justifyContent: 'center',
       overflow: 'hidden',
-      borderRadius,
-      borderWidth,
-      borderColor,
-      backgroundColor,
+      borderRadius: size.radius,
+      borderWidth: spacing.Minimal,
+      borderColor: buttonColors.borderColor,
+      backgroundColor: buttonColors.faceColor,
+    },
+    // A transient press effect, not a resting fill: it darkens whatever face colour it lands on
+    // instead of asking the palette for six pressed tokens.
+    pressOverlay: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: colors.primaryBlack,
     },
     text: {
-      color: textColor,
-      fontSize: textSize,
-      fontFamily: textFontFamily,
+      flexShrink: 1,
+      color: buttonColors.contentColor,
+      fontSize: size.fontSize,
+      fontFamily: fontFamily.interBold,
       textAlign: 'center',
+      textTransform: 'uppercase',
     },
     leftIcon: {
       marginRight: spacing.Single,
