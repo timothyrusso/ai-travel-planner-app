@@ -111,11 +111,24 @@ looks like without serving it themselves.
   page in the state the subject describes, wait for it to settle (fonts, images, animations),
   and take a fresh, clean shot with no error overlay and no dev toolbar over the subject.
 - **Before/after on a bug fix.** Treat the issue as a **bug fix** when its title starts with
-  `[Fix]:` or `[Bug]:`. For those, capture each subject twice: first the fixed page on the
-  feature branch (**after**), then `git checkout main`, reload the same URL — restart the dev
-  server if the checkout invalidated it — shoot the same subject (**before**), and
-  `git checkout feature/<issue-number>` again before you finish. Never leave the checkout on
-  `main`. For every other issue type, capture the after state only.
+  `[Fix]:` or `[Bug]:`. For those, capture each subject twice. Shoot the fixed page on the
+  feature branch first (**after**), then take the **before** shot from a throwaway detached
+  worktree of `origin/main` — **never** by switching the branch of the shared working tree
+  (see Boundaries: code review and mobile QA are running against that same checkout):
+
+  ```bash
+  before=$(mktemp -d)/main            # any path outside the repo
+  git fetch origin main
+  git worktree add --detach "$before" origin/main
+  ln -s "$(git rev-parse --show-toplevel)/node_modules" "$before/node_modules"  # skip a reinstall
+  # serve that worktree on a DIFFERENT port than your feature-branch server,
+  # shoot the same subject there, then stop that server and clean up:
+  git worktree remove --force "$before"
+  ```
+
+  Remove the worktree and stop its dev server before you finish, **including on failure** —
+  leftover worktrees and held ports break the next run. For every other issue type, capture
+  the after state only.
 - **You may edit the list.** Drop a proposed subject you could not reach and say why in the
   report's Visual capture section; add a subject you discovered while testing that shows the
   change better. Do not pad — an unhelpful extra shot costs a slot another shot needed.
@@ -124,8 +137,9 @@ looks like without serving it themselves.
   list them in a **Visual capture** section of your report. Report each one in `manifest[]`
   (see the structured return) with an **absolute** path.
 - Capture failures are never blocking: if a subject cannot be shot — including a "before" shot
-  that `main` cannot serve — skip it, note it, and carry on. A pair whose "before" failed is
-  published as a plain after-only shot; the QA verdict is unaffected either way.
+  whose `origin/main` worktree cannot be created or served — skip it, note it, and carry on. A
+  pair whose "before" failed is published as a plain after-only shot; the QA verdict is
+  unaffected either way.
 
 ## Verdict model
 Per item: **PASS** (target reached, renders, no uncaught console error, and the
@@ -225,7 +239,11 @@ Keep it short: the overall verdict + the PR URL.
   "Agent memory".
 - Never drive a simulator or emulator. If a criterion needs a device, mark it BLOCKED and
   leave it to `qa-engineer`.
-- The only branch switch you may make is the temporary `main` checkout for a bug-fix "before"
-  shot, and you must end the run back on `feature/<issue-number>`. Never commit, stash, or
-  discard anything else while you are on `main`.
+- **Never move the shared working tree off `feature/<issue-number>`** — beyond the checkout in
+  step 1 of your process, no `git checkout <other branch>`, no `git switch`, no `stash`, no
+  `reset`. Code review and mobile QA run in parallel against that
+  very checkout (the mobile app is served from it), so a switch to `main` would silently change
+  what they are testing, and a crash mid-pass would strand the tree off the feature branch. The
+  only extra checkout you may create is the throwaway **detached worktree** of `origin/main`
+  for a bug-fix "before" shot, and you must remove it before you finish.
 - Do not merge the PR.

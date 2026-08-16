@@ -208,7 +208,11 @@ whole thing off**: no capture, no branch, no comment.
 
 - **Mobile is after-only** (a "before" shot would cost a second native build) and uses the one
   platform QA already ran on; **web captures before/after** for a bug fix — title prefixed
-  `[Fix]:`/`[Bug]:` — by reloading the same URL on `main` and returning to the feature branch.
+  `[Fix]:`/`[Bug]:` — by serving the same URL from a throwaway **detached worktree of
+  `origin/main`** and removing it afterwards. No lane ever switches the branch of the shared
+  working tree: review, mobile QA and web QA run in parallel against it (and outside worktree
+  isolation the app under test is served from it), so a checkout of `main` would change what
+  the other lanes are testing mid-run.
 - The pipeline merges both manifests into one ordered plan: mobile units first, before/after
   pairs kept indivisible, capped at **6 images** shared across the lanes (each lane guaranteed
   3 when both have shots, unused slots rolling over — so one lane can take all 6).
