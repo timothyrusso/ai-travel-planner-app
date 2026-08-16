@@ -96,7 +96,36 @@ A GitHub issue number. Everything else you derive:
    evidence instead: console logs, network events, DOM/state reads. Screenshot only stable
    before/after states.
 8. **Judge** each item and assign a per-item verdict.
-9. **Stop the dev server you started** before finishing, so you don't leave a port held.
+9. **Run the visual capture pass** (see below) — only when your invoking prompt asks for one.
+10. **Stop the dev server you started** before finishing, so you don't leave a port held.
+
+## Visual capture pass (only when the prompt asks for it)
+
+When the invoking prompt lists **visual subjects** (or tells you to judge visual relevance
+yourself), run a **dedicated capture pass AFTER all acceptance-criteria items are done**. Its
+output is published as a visual summary comment on the PR, so a human can see what the change
+looks like without serving it themselves.
+
+- **It is a separate pass, not a reuse of your `W01…` assertion screenshots.** Those are
+  evidence of a verdict — often mid-flow. Navigate back to each subject deliberately, put the
+  page in the state the subject describes, wait for it to settle (fonts, images, animations),
+  and take a fresh, clean shot with no error overlay and no dev toolbar over the subject.
+- **Before/after on a bug fix.** Treat the issue as a **bug fix** when its title starts with
+  `[Fix]:` or `[Bug]:`. For those, capture each subject twice: first the fixed page on the
+  feature branch (**after**), then `git checkout main`, reload the same URL — restart the dev
+  server if the checkout invalidated it — shoot the same subject (**before**), and
+  `git checkout feature/<issue-number>` again before you finish. Never leave the checkout on
+  `main`. For every other issue type, capture the after state only.
+- **You may edit the list.** Drop a proposed subject you could not reach and say why in the
+  report's Visual capture section; add a subject you discovered while testing that shows the
+  change better. Do not pad — an unhelpful extra shot costs a slot another shot needed.
+- Save the shots as `coverage/qa/<issue-number>/visual-web-<NN>-<slug>.png` (`NN` = 01, 02, …;
+  suffix the pair members `-before` / `-after`), separate from your `W0N` evidence files, and
+  list them in a **Visual capture** section of your report. Report each one in `manifest[]`
+  (see the structured return) with an **absolute** path.
+- Capture failures are never blocking: if a subject cannot be shot — including a "before" shot
+  that `main` cannot serve — skip it, note it, and carry on. A pair whose "before" failed is
+  published as a plain after-only shot; the QA verdict is unaffected either way.
 
 ## Verdict model
 Per item: **PASS** (target reached, renders, no uncaught console error, and the
@@ -147,9 +176,15 @@ comment — do not overwrite others). Structure:
 ### Non-blocking findings (BLOCKED / NEEDS-REVIEW / nits)
 - W0N — <observation>
 
+### Visual capture
+- <surface> — <caption> · coverage/qa/<issue-number>/visual-web-01-<slug>-after.png (+ …-before.png)
+- <dropped subject> — not captured: <why>
+
 ### Summary
 - <one line: overall verdict + coverage>
 ```
+
+Omit the **Visual capture** section entirely when no capture pass was requested.
 
 Note: screenshots are saved to disk under `coverage/qa/<issue-number>/`. GitHub will not
 render local paths inline in the comment, so reference them by path as evidence.
@@ -163,6 +198,13 @@ Mirror the report faithfully — same items, same verdicts:
 - `baseline[]` — one `{check, pass}` entry per baseline check.
 - `blockingFindings[]` — the Blocking findings section (empty if none).
 - `notPerformedReason` — ONLY when the web target could not be served.
+- `manifest[]` — the visual capture pass, in the order the shots should be published; omit it
+  or return `[]` when no capture pass was requested or nothing could be shot. One entry per
+  image: `path` (**absolute** path to the PNG on disk), `caption` (ONE line describing what
+  changed, no trailing period — it is printed verbatim as the caption), `surface` (`Storybook`
+  for a story, `Web` for the app on web), `variant` (`single`, or `before`/`after` for the two
+  halves of a bug-fix pair). **The two halves of a pair must carry the byte-identical
+  `caption`** — that is how the pipeline pairs them into one two-column row.
 - `report` — the full QA report markdown described above, verbatim.
 - `finishedAtEpoch` — as your very last action, run `date +%s` and return the number here.
 
@@ -183,4 +225,7 @@ Keep it short: the overall verdict + the PR URL.
   "Agent memory".
 - Never drive a simulator or emulator. If a criterion needs a device, mark it BLOCKED and
   leave it to `qa-engineer`.
+- The only branch switch you may make is the temporary `main` checkout for a bug-fix "before"
+  shot, and you must end the run back on `feature/<issue-number>`. Never commit, stash, or
+  discard anything else while you are on `main`.
 - Do not merge the PR.
