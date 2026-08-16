@@ -18,18 +18,21 @@ export const ButtonType = {
 export type ButtonType = (typeof ButtonType)[keyof typeof ButtonType];
 
 export const useCustomButtonLogic = () => {
+  // Disabled `Main` is `purple300`, not the neutral `primaryGrey` a disabled `Primary` uses: the
+  // brand CTA has to stay recognisable as the brand CTA when it is unavailable, otherwise the two
+  // disabled buttons are the same pill.
   const getButtonStyles = (buttonType: ButtonType, buttonState: ButtonState) => {
     const isDisabled = buttonState === ButtonState.Disabled;
 
     return match({ buttonType, isDisabled })
       .with({ buttonType: ButtonType.Main, isDisabled: true }, () => ({
-        backgroundColor: colors.primaryGrey,
-        borderColor: colors.primaryGrey,
+        backgroundColor: colors.purple300,
+        borderColor: colors.purple300,
         textColor: colors.primaryWhite,
       }))
       .with({ buttonType: ButtonType.Main, isDisabled: false }, () => ({
-        backgroundColor: colors.purple900,
-        borderColor: colors.purple900,
+        backgroundColor: colors.purple500,
+        borderColor: colors.purple500,
         textColor: colors.primaryWhite,
       }))
       .with({ buttonType: ButtonType.Primary, isDisabled: true }, () => ({
@@ -85,13 +88,16 @@ export const useCustomButtonLogic = () => {
       .exhaustive();
   };
 
+  // A disabled `Main`/`Primary` glyph sits on a filled pill whose whole disabled cue is the fill,
+  // so it stays `primaryWhite` — as legible as the label beside it, which `getButtonStyles` already
+  // draws in `primaryWhite`.
   const styleIconColor = (buttonType: ButtonType, buttonState: ButtonState) => {
     const isDisabled = buttonState === ButtonState.Disabled;
 
     return match({ buttonType, isDisabled })
-      .with({ buttonType: ButtonType.Main, isDisabled: true }, () => colors.primaryWhiteDisabled)
+      .with({ buttonType: ButtonType.Main, isDisabled: true }, () => colors.primaryWhite)
       .with({ buttonType: ButtonType.Main, isDisabled: false }, () => colors.primaryWhite)
-      .with({ buttonType: ButtonType.Primary, isDisabled: true }, () => colors.primaryWhiteDisabled)
+      .with({ buttonType: ButtonType.Primary, isDisabled: true }, () => colors.primaryWhite)
       .with({ buttonType: ButtonType.Primary, isDisabled: false }, () => colors.primaryWhite)
       .with({ buttonType: ButtonType.Secondary, isDisabled: true }, () => colors.primaryGrey)
       .with({ buttonType: ButtonType.Secondary, isDisabled: false }, () => colors.primaryBlack)
