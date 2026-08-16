@@ -47,5 +47,4 @@ Read at the start of every QA run. Append only under the rules in
   `am start -a android.intent.action.VIEW -d exp+holidai://...` didn't fix it either. Budget
   Android-specific criteria as at-risk; don't sink QA time past ~2 retries.
 - [2026-08-16] `expo run:android --device <x>` wants the AVD name itself (e.g.
-  `Medium_Phone_API_36.1`), not the adb `model:` field nor the adb serial — supersedes the
-  2026-08-13 note for this project.
+  `Medium_Phone_API_36.1`), not the adb `model:` field nor the adb serial.
