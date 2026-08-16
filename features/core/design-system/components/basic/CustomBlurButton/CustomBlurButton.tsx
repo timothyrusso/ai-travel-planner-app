@@ -41,7 +41,7 @@ export function CustomBlurButton({
   iconSize = spacing.TripleAndHalf,
   blurTargetRef,
 }: CustomBlurButtonProps) {
-  const { derived } = useCustomBlurButtonLogic({ isDisabled, hasBlurTarget: blurTargetRef !== undefined });
+  const { state, derived } = useCustomBlurButtonLogic({ isDisabled, hasBlurTarget: blurTargetRef !== undefined });
 
   const styles = styleBlurButton({
     tintOpacity: derived.blurStyles.tintOpacity,
@@ -51,12 +51,14 @@ export function CustomBlurButton({
 
   return (
     // The role is set here rather than left to the caller because a blur button is always a button;
-    // the label is left to the title rendered below, which is what a screen reader reads out.
+    // the label is named explicitly rather than left to the title below, which the spinner replaces
+    // while loading — without it the button would announce itself unnamed for the whole request.
     <CustomPressable
       disabled={isDisabled || isLoading}
       onPress={onPress}
       style={[styles.button, style]}
       accessibilityRole="button"
+      accessibilityLabel={state.t(title)}
     >
       <BlurSurface
         intensity={derived.blurStyles.intensity}

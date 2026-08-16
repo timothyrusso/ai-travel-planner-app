@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Platform } from 'react-native';
 import { match } from 'ts-pattern';
 
@@ -19,6 +20,8 @@ type UseCustomBlurButtonLogicParams = {
 };
 
 export const useCustomBlurButtonLogic = ({ isDisabled, hasBlurTarget }: UseCustomBlurButtonLogicParams) => {
+  const { t } = useTranslation();
+
   // Loading keeps the active look here too — only `isDisabled` dims the surface.
   const buttonState = isDisabled ? ButtonState.Disabled : ButtonState.Active;
 
@@ -54,6 +57,11 @@ export const useCustomBlurButtonLogic = ({ isDisabled, hasBlurTarget }: UseCusto
     .exhaustive();
 
   return {
+    // The title is an i18n key — `CustomText` translates it on render — so the accessible name has
+    // to be translated here before it reaches the pressable.
+    state: {
+      t,
+    },
     derived: {
       canBlur,
       blurStyles,
