@@ -121,10 +121,16 @@ looks like without serving it themselves.
   git fetch origin main
   git worktree add --detach "$before" origin/main
   ln -s "$(git rev-parse --show-toplevel)/node_modules" "$before/node_modules"  # skip a reinstall
+  cp "$(git rev-parse --show-toplevel)/.env" "$before/" 2>/dev/null || true     # gitignored, so a checkout has none
   # serve that worktree on a DIFFERENT port than your feature-branch server,
   # shoot the same subject there, then stop that server and clean up:
   git worktree remove --force "$before"
   ```
+
+  The `.env` copy matters only for **`npm run web`**: `app.config.js` reads `CONVEX_URL` from
+  the environment into `extra.convexUrl`, and the root layout builds its Convex client from
+  that value, so a worktree with only `.env.sample` serves an Expo error overlay instead of the
+  app. **Storybook needs nothing extra** — it never evaluates `app.config.js`.
 
   Remove the worktree and stop its dev server before you finish, **including on failure** —
   leftover worktrees and held ports break the next run. For every other issue type, capture
