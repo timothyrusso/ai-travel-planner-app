@@ -127,10 +127,10 @@ looks like without serving it themselves.
   git worktree remove --force "$before"
   ```
 
-  The `.env` copy matters only for **`npm run web`**: `app.config.js` reads `CONVEX_URL` from
-  the environment into `extra.convexUrl`, and the root layout builds its Convex client from
-  that value, so a worktree with only `.env.sample` serves an Expo error overlay instead of the
-  app. **Storybook needs nothing extra** — it never evaluates `app.config.js`.
+  The `.env` copy matters only for **`npm run web`**: `app.config.js` reads gitignored
+  environment values into `extra`, and the root layout builds its service clients from them, so
+  a worktree holding only `.env.sample` serves an Expo error overlay instead of the app.
+  **Storybook needs nothing extra** — it never evaluates `app.config.js`.
 
   Remove the worktree and stop its dev server before you finish, **including on failure** —
   leftover worktrees and held ports break the next run. For every other issue type, capture
