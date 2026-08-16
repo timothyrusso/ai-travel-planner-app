@@ -504,13 +504,14 @@ ${JSON.stringify(plan, null, 2)}
    \`\`\`bash
    git fetch origin feature/${issue}
    git worktree add --detach "<scratch>/evidence" origin/feature/${issue}
-   mkdir -p "<scratch>/evidence/qa" && cp "<scratch>"/*.webp "<scratch>"/*.png "<scratch>/evidence/qa/" 2>/dev/null
+   mkdir -p "<scratch>/evidence/qa"
+   find "<scratch>" -maxdepth 1 -type f \\( -name '*.webp' -o -name '*.png' \\) -exec cp {} "<scratch>/evidence/qa/" \\;
    git -C "<scratch>/evidence" add qa
    git -C "<scratch>/evidence" commit -m "chore(${issue}): visual qa evidence for pull request ${prNumber}"
    git -C "<scratch>/evidence" push --force origin HEAD:refs/heads/qa-evidence/pr-${prNumber}
    git worktree remove --force "<scratch>/evidence"
    \`\`\`
-   Use a detached worktree exactly like that — never \`git checkout\` in the main working tree — so the feature branch, its diff, and any work in progress stay untouched, and always remove the worktree at the end, including on failure.
+   Use a detached worktree exactly like that — never \`git checkout\` in the main working tree — so the feature branch, its diff, and any work in progress stay untouched, and always remove the worktree at the end, including on failure. Collect the files with \`find\` exactly as written, NOT with a \`cp <scratch>/*.webp <scratch>/*.png\` glob: your shell is zsh, where a pattern that matches nothing aborts the whole command, and one of the two patterns normally matches nothing (no \`.png\` when every conversion succeeded, no \`.webp\` when ffmpeg is missing) — the copy would silently move zero files. Then check that \`<scratch>/evidence/qa\` is non-empty before committing: if it is empty, skip the commit and the push, remove the worktree, and report it in \`note\` (there is nothing to publish, and the commit would fail anyway).
 3. BUILD THE COMMENT — write EXACTLY this markdown to a file and nothing else: no intro, no footer, no per-image commentary, no notes about what failed (that goes in \`note\`, not in the comment).
    - First line: \`${VISUAL_MARKER}\`
    - Then: \`## 📸 Visual summary\`
