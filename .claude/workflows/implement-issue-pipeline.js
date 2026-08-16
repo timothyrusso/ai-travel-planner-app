@@ -497,13 +497,23 @@ Capture plan — publish exactly these units, in this order. \`source\` is the P
 ${JSON.stringify(plan, null, 2)}
 \`\`\`
 
-1. CONVERT — in a scratch directory, for every image of the plan, FIRST check the source is a real screenshot file and not a link out of the evidence directory:
+1. CONVERT — in a scratch directory, for every image of the plan, FIRST prove the source really is a PNG that THIS repository's QA wrote for this issue. Define this function once and run it per source:
    \`\`\`bash
-   [ -f "<source>" ] && [ ! -L "<source>" ] && case "$(cd "$(dirname "<source>")" && pwd -P)" in */coverage/qa/${issue}) : ;; *) false ;; esac
+   check_source() {
+     src=$1
+     dir=$(cd "$(dirname "$src")" 2>/dev/null && pwd -P) || return 1
+     top=$(git -C "$dir" rev-parse --show-toplevel 2>/dev/null) || return 1
+     top=$(cd "$top" && pwd -P) || return 1
+     [ "$dir" = "$top/coverage/qa/${issue}" ] || return 1
+     git -C "$top" remote get-url origin 2>/dev/null | grep -Eq 'github\\.com[:/]timothyrusso/HolidAI(\\.git)?/?$' || return 1
+     [ -f "$src" ] && [ ! -L "$src" ] || return 1
+     [ "$(head -c 8 "$src" | od -An -tx1 | tr -d ' \\n')" = "89504e470d0a1a0a" ] || return 1
+   }
    \`\`\`
-   Drop — and note — every image that fails that check (missing, a symlink, or resolving outside \`coverage/qa/${issue}/\`): these bytes end up on a public branch, and the pipeline's own path check is lexical, so this is the only place the real file is inspected. Then convert what survived:
+   Line by line: the source's directory must resolve (symlinks included) to exactly \`<git top-level>/coverage/qa/${issue}\`; that top-level must be a checkout of this repository, which is how a lookalike \`/tmp/whatever/coverage/qa/${issue}\` is rejected even when someone ran \`git init\` in it; the file must be a regular file, not a symlink; and its first 8 bytes must be the PNG magic number \`\\211PNG\\r\\n\\032\\n\` (equivalently \`file -b --mime-type "$src"\` = \`image/png\`). Do NOT hardcode a repository path instead of \`rev-parse\`: the QA agent may legitimately have run in a temporary worktree, so its \`coverage/qa/${issue}/\` lives under a path neither you nor the pipeline knows in advance.
+   Drop — and note in \`note\` — every image that fails, and never make it fatal: the whole visual summary is best-effort and cannot change the run verdict. Be clear-eyed about what this buys: these bytes go to a PUBLIC branch and the pipeline's own path check is lexical (it has no filesystem), so this is the only place the real file is inspected — but it is a blast-radius reducer, not a sandbox. It stops malformed paths, links out of the evidence directory, hard links to plaintext secrets and any non-image bytes; it cannot stop a genuinely hostile agent, which runs as the same user and could encode any readable file into a valid PNG. Then convert what survived:
    \`ffmpeg -y -i "<source>" -vf "scale='if(gt(iw,ih),min(1080,iw),-2)':'if(gt(iw,ih),-2,min(1080,ih))'" "<scratch>/<name>.webp"\`
-   (caps the long edge at 1080 px, whichever edge that is). If ffmpeg is missing, the command fails, or the output is empty, fall back to copying the source unchanged to \`<scratch>/<name>.png\`. Remember each file's ACTUAL extension: the markdown must link the file you really produced.
+   (caps the long edge at 1080 px, whichever edge that is). If ffmpeg is missing, the command fails, or the output is empty, fall back to copying the source unchanged to \`<scratch>/<name>.png\` — that fallback is only ever reachable for a source that already passed \`check_source\`, so it publishes a genuine PNG ffmpeg could not handle, never unverified bytes wearing a \`.png\` name. Remember each file's ACTUAL extension: the markdown must link the file you really produced.
 2. PUSH — publish those files on the per-PR evidence branch \`qa-evidence/pr-${prNumber}\`, branched FRESH off the PR head each time so it shares git objects with the feature branch and a re-run replaces the previous evidence instead of stacking on it:
    \`\`\`bash
    git fetch origin feature/${issue}
