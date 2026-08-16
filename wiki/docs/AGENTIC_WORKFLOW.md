@@ -196,15 +196,17 @@ Beyond the pipeline's own verification, **CI gates every PR** (human- or pipelin
 with Biome lint, `tsc --noEmit`, and the dependency-cruiser architecture check — a second
 net under the builder's once-per-round self-check.
 
-#### Visual summary (last stage)
+### Visual summary (last stage)
 
 A change you can see should be reviewable from the PR alone. When the `explorer` proposes
 `visualSubjects` (a new screen or component — in the app or in Storybook alone — a restyle, a
 colour/spacing change, or a visual bug fix), each QA lane runs a **dedicated capture pass after**
 its acceptance-criteria items — deliberate, clean shots, never a reuse of the `T01`/`W01`
 assertion screenshots — and returns them as a `manifest`. A lane may drop a subject it could not
-reach (saying why) and add one it discovered while testing. **An empty proposal switches the
-whole thing off**: no capture, no branch, no comment.
+reach (saying why) and add one it discovered while testing. **An empty proposal — explicitly
+empty, or the field omitted — switches the whole thing off**: no capture, no branch, no comment.
+The pipeline enforces that itself, so a lane that returns a manifest anyway publishes nothing;
+only an exploration that never ran (or failed) leaves the judgement to the QA lanes.
 
 - **Mobile is after-only** (a "before" shot would cost a second native build) and uses the one
   platform QA already ran on; **web captures before/after** for a bug fix — title prefixed
@@ -233,7 +235,7 @@ whole thing off**: no capture, no branch, no comment.
 - Every failure here — capture, conversion, push, posting — is logged and swallowed: the stage
   runs after the run report and can never change the PASS / NOT-PASSED verdict.
 
-#### Device-readiness fast path (QA stage)
+### Device-readiness fast path (QA stage)
 
 The qa-engineer first **selects and pins one device** — a connected physical device (iOS or
 Android) wins; else an iOS simulator is preferred (reuse a booted one, else boot one), since
