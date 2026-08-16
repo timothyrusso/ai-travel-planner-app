@@ -543,6 +543,13 @@ Return \`published\` (how many images the posted comment actually links), \`comm
 // ═════════════════════════════════════════════════════════════════════════════════════
 
 async function verify() {
+  // Starting an attempt invalidates the previous round's results immediately: the lanes are
+  // only reassigned once every agent has come back (below), so an attempt that throws — a
+  // rejecting lane, a busted device — would otherwise leave the pre-fix results in place and
+  // let the visual summary publish pre-fix pixels off a post-fix head as if they were current.
+  review = null
+  qa = null
+  qaWeb = null
   const wantMobile = doQa && qaTargets.includes('mobile')
   const wantWeb = doQa && qaTargets.includes('web')
   if (!doReview && !wantMobile && !wantWeb) return { review: null, qa: null, qaWeb: null }
