@@ -1,0 +1,31 @@
+name: Cleanup QA evidence
+
+# The pipeline hosts the visual-summary screenshots on a per-PR branch
+# (`qa-evidence/pr-<number>`) because GitHub's attachment upload endpoint is
+# browser-session-only. Those bytes are worthless once the PR is closed, so the branch goes
+# with it. The comment itself is deliberately left alone — its images simply become broken
+# links on a closed PR.
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  delete-evidence-branch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Delete the qa-evidence branch of this PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          BRANCH: qa-evidence/pr-${{ github.event.pull_request.number }}
+        run: |
+          if ! gh api "repos/$REPO/git/ref/heads/$BRANCH" >/dev/null 2>&1; then
+            echo "No $BRANCH branch for this pull request, nothing to clean up."
+            exit 0
+          fi
+
+          gh api -X DELETE "repos/$REPO/git/refs/heads/$BRANCH"
+          echo "Deleted $BRANCH"
