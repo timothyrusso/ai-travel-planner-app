@@ -438,7 +438,7 @@ function visualCaptureBlock(lane) {
   if (mine.length === 0) {
     return `\n\nVISUAL CAPTURE PASS: the explorer proposed no ${engine} visual subject for this issue — skip the capture pass entirely and return an empty \`manifest\`.`
   }
-  return `\n\nVISUAL CAPTURE PASS: AFTER the acceptance-criteria items, run the dedicated capture pass from your instructions (a fresh, deliberate shot per subject — never a reuse of an assertion screenshot) for the subjects the explorer proposed, and return them as \`manifest\` entries with an absolute \`path\`, a one-line \`caption\`, the \`surface\`, and a \`variant\`:\n${mine
+  return `\n\nVISUAL CAPTURE PASS: AFTER the acceptance-criteria items, run the dedicated capture pass from your instructions (a fresh, deliberate shot per subject — never a reuse of an assertion screenshot) for the subjects the explorer proposed, and return them as \`manifest\` entries with a one-line \`caption\`, the \`surface\`, a \`variant\`, and an absolute \`path\` to a \`.png\` saved directly in \`coverage/qa/${issue}/\` — the pipeline publishes those bytes on a public branch, so it drops any entry pointing anywhere else:\n${mine
     .map((s, i) => `${i + 1}. [${s.surface}] ${s.capture}`)
     .join(
       '\n',
