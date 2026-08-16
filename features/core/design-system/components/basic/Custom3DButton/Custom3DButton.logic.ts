@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import type { AccessibilityActionEvent, AccessibilityActionInfo, AccessibilityActionName } from 'react-native';
 import { Gesture } from 'react-native-gesture-handler';
 import { Easing, useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
@@ -59,6 +60,7 @@ export const useCustom3DButtonLogic = ({
   isLoading,
   raiseLevel,
 }: UseCustom3DButtonLogicParams) => {
+  const { t } = useTranslation();
   const pressProgress = useSharedValue(AT_REST);
   const isInteractive = !(isDisabled || isLoading);
 
@@ -192,6 +194,11 @@ export const useCustom3DButtonLogic = ({
     .exhaustive();
 
   return {
+    // `CustomText` translates the title it renders, so the label the screen reader is handed has to
+    // be translated here too — otherwise the button announces the raw i18n key.
+    state: {
+      t,
+    },
     derived: {
       tapGesture,
       contentAnimatedStyle,

@@ -43,7 +43,7 @@ export const Custom3DButton = ({
   style,
   size = raisedButtonSizes.large,
 }: Custom3DButtonProps) => {
-  const { derived, effects } = useCustom3DButtonLogic({
+  const { state, derived, effects } = useCustom3DButtonLogic({
     onPress,
     buttonType,
     isDisabled,
@@ -67,7 +67,7 @@ export const Custom3DButton = ({
         style={[styles.container, style]}
         accessible
         accessibilityRole="button"
-        accessibilityLabel={title}
+        accessibilityLabel={state.t(title)}
         accessibilityState={{ disabled: !derived.isInteractive }}
         accessibilityActions={derived.accessibilityActions}
         onAccessibilityTap={effects.onAccessibilityTap}
