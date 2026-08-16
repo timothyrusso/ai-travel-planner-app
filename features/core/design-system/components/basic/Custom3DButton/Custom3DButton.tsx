@@ -43,7 +43,7 @@ export const Custom3DButton = ({
   style,
   size = raisedButtonSizes.large,
 }: Custom3DButtonProps) => {
-  const { derived } = useCustom3DButtonLogic({
+  const { derived, effects } = useCustom3DButtonLogic({
     onPress,
     buttonType,
     isDisabled,
@@ -55,9 +55,21 @@ export const Custom3DButton = ({
 
   const resolvedIconSize = iconSize ?? size.iconSize;
 
+  // The button is drawn as plain views and driven by a tap gesture, so nothing about it is
+  // accessible by default: the container has to name itself a button, expose its own label —
+  // `accessible` collapses the faces below it into a single element — carry the disabled state, and
+  // offer an activation path a screen reader can reach, since it consumes the touch events the
+  // gesture would otherwise receive.
   return (
     <GestureDetector gesture={derived.tapGesture}>
-      <View style={[styles.container, style]}>
+      <View
+        style={[styles.container, style]}
+        accessible
+        accessibilityRole="button"
+        accessibilityLabel={title}
+        accessibilityState={{ disabled: !derived.isInteractive }}
+        onAccessibilityTap={effects.onAccessibilityTap}
+      >
         <View style={styles.bottomFace} />
         <Animated.View style={[styles.content, derived.contentAnimatedStyle]}>
           <View style={styles.topFace}>

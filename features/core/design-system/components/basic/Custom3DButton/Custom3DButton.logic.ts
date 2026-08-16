@@ -73,6 +73,14 @@ export const useCustom3DButtonLogic = ({
     [isInteractive, onPress, pressProgress],
   );
 
+  // A screen reader swallows the native touch events the tap gesture listens for, so the raised
+  // button would be announced but not operable without its own activation path. It reuses the guard
+  // the gesture is enabled with, so a disabled or loading button stays inert either way.
+  const onAccessibilityTap = () => {
+    if (!isInteractive) return;
+    onPress();
+  };
+
   // Only the press moves the face. A loading button keeps it at rest with the raise visible below:
   // pinning it down for the whole request would cost the button the raised silhouette that is its
   // entire identity, for seconds at a time.
@@ -173,6 +181,10 @@ export const useCustom3DButtonLogic = ({
       contentAnimatedStyle,
       pressOverlayAnimatedStyle,
       buttonColors,
+      isInteractive,
+    },
+    effects: {
+      onAccessibilityTap,
     },
   };
 };
