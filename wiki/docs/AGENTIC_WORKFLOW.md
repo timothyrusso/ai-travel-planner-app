@@ -35,7 +35,7 @@ genuinely needs clarifying, and delegates to the single pipeline workflow
 | Piece | Location | Role |
 |---|---|---|
 | Feature issue template | `.github/ISSUE_TEMPLATE/feature.yml` | The **input contract** — `### Description` (what to build) + `### Acceptance criteria` (what QA verifies). Required fields. |
-| `write-issue` | `.claude/skills/write-issue/SKILL.md` | Authors a complete, template-conformant issue via `grilling` — front-loads clarification. |
+| `write-issue` | `.claude/skills/write-issue/SKILL.md` | Authors a complete, template-conformant issue via `grilling` — front-loads clarification — then puts it on Project #1 with `Status = Ready` so it lands in a board column. |
 | `explorer` | `.claude/agents/explorer.md` | Read-only. Maps an issue onto the architecture (target feature/tier, files, pattern, risks). Runs as the pipeline's first phase (default on). |
 | `feature-builder` | `.claude/agents/feature-builder.md` | Implements, verifies (tsc + arch, once per build round), commits in small layer-aligned commits, opens the PR. |
 | `code-reviewer` | `.claude/agents/code-reviewer.md` | Read-only. Reviews the diff against the rules the linters *don't* enforce. |
@@ -46,7 +46,7 @@ genuinely needs clarifying, and delegates to the single pipeline workflow
 | Agent memory | `.claude/agent-memory/` | Committed, per-agent operational lessons (device quirks, tooling facts, timings). Agents read theirs at run start and may append under strict rules; humans curate at PR review — keep or delete. |
 | `implement-issue` | `.claude/skills/implement-issue/SKILL.md` | The **front door** (thin orchestrator): judges the issue, grills only if needed (folding answers back into the issue body), announces its reading, then delegates to the pipeline. Contains no pipeline logic. |
 | `triage-pr` | `.claude/skills/triage-pr/SKILL.md` | Bot-review triage loop (main-thread skill — it contains human gates): vets every AI-reviewer comment with `finding-vetter`, auto-fixes confirmed findings, resolves noise with short replies, consults the user in chat for judgment calls. Natural termination (bots quiet + grace poll); no round cap, only a stuck tripwire. Human comments untouchable. |
-| `implement-issue-pipeline` | `.claude/workflows/implement-issue-pipeline.js` | **THE pipeline** (single encoding): explore → build → wire PR → review ∥ QA (mobile and/or web, routed by `qaTargets`) → finding vetting → bounded auto-fix → one consolidated run comment. Owns the canonical defaults. Directly invocable for headless/batch. |
+| `implement-issue-pipeline` | `.claude/workflows/implement-issue-pipeline.js` | **THE pipeline** (single encoding): explore → build → wire PR → review ∥ QA (mobile and/or web, routed by `qaTargets`) → finding vetting → bounded auto-fix → one consolidated run comment → visual summary. Owns the canonical defaults. Directly invocable for headless/batch. |
 | CodeGraph | `.mcp.json` + `@colbymchenry/codegraph` | Code-intelligence MCP (symbols, call paths, blast radius) that `explorer`/`feature-builder` query instead of grepping. Local index in `.codegraph/` (gitignored). |
 
 Each agent reads the deep architecture docs — [`ARCHITECTURE.md`](ARCHITECTURE.md) and
@@ -95,12 +95,13 @@ flowchart TD
         CONV -->|"no"| FIX["feature-builder fix round<br/>(history-aware, PERSISTS markers)"]
         FIX --> VERIFY
         REPORT["ONE consolidated PR comment:<br/>status header + collapsible<br/>build / review / QA / vetting / metrics"]
+        REPORT --> VISUAL["visual summary, best-effort:<br/>only if shots were captured —<br/>push qa-evidence/pr-N,<br/>post/update the 📸 marker comment"]
     end
 
     VERIFY -.->|"any post-build stage throws"| ABORT["abort captured"]
     ABORT --> REPORT
-    REPORT -.->|"aborted: rethrow<br/>after reporting"| FAILED["run fails"]
-    REPORT -->|"completed without abort"| RET["structured return to the caller"]
+    VISUAL -.->|"aborted: rethrow<br/>after reporting"| FAILED["run fails"]
+    VISUAL -->|"completed without abort"| RET["structured return to the caller"]
     RET --> SUMM["skill relays the result"]
     SUMM --> BOTS["AI review bots comment on the PR"]
     BOTS -->|"optional"| TRIAGE["/triage-pr loop:<br/>vet each finding, fix confirmed,<br/>resolve noise, escalate judgment<br/>calls to the human"]
@@ -111,7 +112,9 @@ flowchart TD
 ```
 
 - **`write-issue`** interviews you (via `grilling`) and creates a complete, template-conformant
-  issue, so downstream runs need no further clarification.
+  issue, so downstream runs need no further clarification. It also adds the issue to Project #1
+  and sets its `Status` to `Ready` — an item with no status sits in no column, which reads as
+  "the issue was never created".
 - **`/implement-issue`** judges the issue: crisp → announces its reading and proceeds gate-free;
   real doubts → grills, folds the answers back into the issue body, then proceeds. Either way
   the build itself runs in the pipeline workflow.
@@ -146,11 +149,14 @@ approval gate.
 - `--max-fix N` — raise the auto-fix round cap.
 
 ### The PR contract
-- **Title:** meaningful. **Body:** empty (other GitHub reviewer automation overwrites it).
+- **Title:** meaningful. **Body:** empty (other GitHub reviewer automation overwrites it, and
+  regenerates it on every push — anything the pipeline wrote there would be silently wiped).
 - **ONE pipeline comment**, posted at run end — even when a stage aborts the run: a short
   status header (verdicts, fix rounds, wall-clock) plus collapsible sections carrying the
   full build, review, mobile-QA, web-QA, vetting, and run-metrics reports. Agents never post
   their own comments.
+- **Optionally one visual-summary comment** right after it, and only when the change is
+  visually relevant (see below) — captions plus screenshots, nothing else.
 
 ---
 
@@ -160,7 +166,7 @@ The single deterministic encoding of the build pipeline: explore → build → w
 review ∥ mobile QA ∥ web QA (parallel — independent stages, each QA lane running only when
 the issue has that surface) → finding vetting → bounded auto-fix →
 one consolidated run comment (best-effort, attempted even when a post-build stage aborts
-the run), with schema-validated verdicts and a hard fix-loop cap. It is **gate-free** —
+the run) → visual summary, with schema-validated verdicts and a hard fix-loop cap. It is **gate-free** —
 any clarification happens in `/implement-issue` before it launches; approval happens at PR
 review before merge.
 
@@ -189,6 +195,36 @@ Three verification properties worth knowing:
 Beyond the pipeline's own verification, **CI gates every PR** (human- or pipeline-authored)
 with Biome lint, `tsc --noEmit`, and the dependency-cruiser architecture check — a second
 net under the builder's once-per-round self-check.
+
+#### Visual summary (last stage)
+
+A change you can see should be reviewable from the PR alone. When the `explorer` proposes
+`visualSubjects` (a new screen or component — in the app or in Storybook alone — a restyle, a
+colour/spacing change, or a visual bug fix), each QA lane runs a **dedicated capture pass after**
+its acceptance-criteria items — deliberate, clean shots, never a reuse of the `T01`/`W01`
+assertion screenshots — and returns them as a `manifest`. A lane may drop a subject it could not
+reach (saying why) and add one it discovered while testing. **An empty proposal switches the
+whole thing off**: no capture, no branch, no comment.
+
+- **Mobile is after-only** (a "before" shot would cost a second native build) and uses the one
+  platform QA already ran on; **web captures before/after** for a bug fix — title prefixed
+  `[Fix]:`/`[Bug]:` — by reloading the same URL on `main` and returning to the feature branch.
+- The pipeline merges both manifests into one ordered plan: mobile units first, before/after
+  pairs kept indivisible, capped at **6 images** shared across the lanes (each lane guaranteed
+  3 when both have shots, unused slots rolling over — so one lane can take all 6).
+- Images are downscaled to 1080 px on the long edge and converted to WebP (raw PNG on failure),
+  then pushed to a per-PR branch `qa-evidence/pr-<number>` branched fresh off the PR head and
+  force-pushed, so the feature branch's own diff never contains a screenshot. GitHub's
+  attachment upload endpoint is browser-session-only, so hosting the bytes is the only way to
+  get pixels into a comment from automation; the markdown links them from `raw.githubusercontent.com`.
+- The comment carries the hidden marker `<!-- holidai:visual-summary -->` — a re-run edits that
+  comment in place and force-pushes the same file names, so the URLs stay stable — and holds
+  nothing but the heading, a bold `**<iOS|Android|Storybook|Web> — <what changed>**` caption per
+  shot, and the images (before/after pairs as a two-column table).
+- A closed PR triggers `.github/workflows/qa-evidence-cleanup.yml`, which deletes the evidence
+  branch; the comment is left as-is and its images become broken links, which is accepted.
+- Every failure here — capture, conversion, push, posting — is logged and swallowed: the stage
+  runs after the run report and can never change the PASS / NOT-PASSED verdict.
 
 #### Device-readiness fast path (QA stage)
 
