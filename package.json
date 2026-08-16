@@ -2,6 +2,7 @@
   "name": "holidai",
   "main": "index.js",
   "version": "1.0.0",
+  "license": "SEE LICENSE IN LICENSE.md",
   "engines": {
     "node": ">=22.13"
   },
