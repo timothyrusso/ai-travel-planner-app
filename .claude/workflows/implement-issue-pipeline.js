@@ -660,22 +660,28 @@ function visualSlug(text) {
 // A manifest `path` is agent-supplied input and the publisher copies whatever it points at
 // onto a PUBLIC evidence branch, so an out-of-band path (a mistake, or a prompt injection the
 // QA agent swallowed) would leak a file that has nothing to do with QA — the CONVERT step
-// even renames anything ffmpeg cannot read to `.png` and pushes it. Only a `.png` file inside
-// THIS issue's own evidence directory may travel; everything else is dropped and logged. The
-// check is lexical because workflow scripts have no filesystem access: "exists, regular file,
-// not a symlink out of the directory" is enforced by the publisher (step 1 of visualPrompt),
-// which has a shell. It is deliberately NOT a `pattern` on QA_SCHEMA.manifest either — a
-// malformed screenshot path must never invalidate a whole QA result.
-const VISUAL_EVIDENCE_DIR = `/coverage/qa/${issue}/`
+// even renames anything ffmpeg cannot read to `.png` and pushes it. Only a `.png` file whose
+// PARENT DIRECTORY is exactly `coverage/qa/<issue>` may travel; everything else is dropped and
+// logged. This is a cheap LEXICAL PRE-FILTER, nothing more: workflow scripts have no
+// filesystem access, so it cannot tell `/tmp/attacker/coverage/qa/<issue>/x.png` from the real
+// evidence directory, nor a hard link from an original file. Proving the path belongs to a
+// checkout of THIS repository, and that the bytes are actually a PNG, happens in the
+// publisher's shell (step 1 of visualPrompt). It is deliberately NOT a `pattern` on
+// QA_SCHEMA.manifest either — a malformed screenshot path must never invalidate a whole QA
+// result.
+const VISUAL_EVIDENCE_TAIL = `coverage/qa/${issue}`
 
 function visualSource(path) {
   const raw = typeof path === 'string' ? path.trim() : ''
   if (!raw.startsWith('/') || raw.includes('\0') || !/\.png$/i.test(raw)) return null
-  if (raw.split('/').some(segment => segment === '.' || segment === '..')) return null
-  const at = raw.indexOf(VISUAL_EVIDENCE_DIR)
-  if (at === -1) return null
-  const file = raw.slice(at + VISUAL_EVIDENCE_DIR.length)
-  return file && !file.includes('/') ? raw : null
+  const segments = raw.split('/')
+  const file = segments.pop()
+  // Empty segments (`//`, a trailing slash) and `.` / `..` would make the tail comparison below
+  // say nothing about the directory the path actually resolves to.
+  if (!file || segments.slice(1).some(segment => segment === '' || segment === '.' || segment === '..')) return null
+  // A genuine directory match, not a substring hit: the file must sit DIRECTLY in a directory
+  // named `coverage/qa/<issue>` that itself hangs off a checkout directory, never off the root.
+  return segments.length > 4 && segments.slice(-3).join('/') === VISUAL_EVIDENCE_TAIL ? raw : null
 }
 
 function laneUnits(result) {
@@ -686,7 +692,7 @@ function laneUnits(result) {
     if (!entry || !entry.caption || !entry.surface) continue
     const source = visualSource(entry.path)
     if (!source) {
-      log(`Visual summary: dropped a manifest entry — not a .png under coverage/qa/${issue}/: ${String(entry.path).slice(0, 120)}`)
+      log(`Visual summary: dropped a manifest entry — not a .png sitting directly in a coverage/qa/${issue}/ directory: ${String(entry.path).slice(0, 120)}`)
       continue
     }
     const variant = entry.variant === 'before' || entry.variant === 'after' ? entry.variant : 'single'
