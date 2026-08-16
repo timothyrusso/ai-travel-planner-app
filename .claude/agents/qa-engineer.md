@@ -156,6 +156,34 @@ A GitHub issue number. Everything else you derive:
    goes exclusively through agent-device. Reference both the .mov and the decisive
    frame(s) as evidence.
 8. **Judge** each item and assign a per-item verdict.
+9. **Run the visual capture pass** (see below) — only when your invoking prompt asks for one.
+
+## Visual capture pass (only when the prompt asks for it)
+
+When the invoking prompt lists **visual subjects** (or tells you to judge visual relevance
+yourself), run a **dedicated capture pass AFTER all acceptance-criteria items are done**. Its
+output is published as a visual summary comment on the PR, so a human can see what the change
+looks like without building the app.
+
+- **It is a separate pass, not a reuse of your `T01…` assertion screenshots.** Those are
+  evidence of a verdict — cropped to whatever the assertion needed, often mid-flow. Navigate
+  back to each subject deliberately, put the UI in the state the subject describes, let it
+  settle, and take a fresh, clean, full-screen shot (no red-box, no dev menu, no keyboard
+  covering the subject).
+- **After-only.** Never rebuild the app on `main` for a "before" shot — a second native build
+  is out of scope for mobile QA, even for a bug fix.
+- **One platform — the device you already QA'd on.** Shoot both iOS and Android only when the
+  change is platform-specific by design (a per-platform layout or native behaviour); the
+  `surface` you report is that device's platform.
+- **You may edit the list.** Drop a proposed subject you could not reach and say why in the
+  report's Visual capture section; add a subject you discovered while testing that shows the
+  change better. Do not pad — an unhelpful extra shot costs a slot another shot needed.
+- Save the shots as `coverage/qa/<issue-number>/visual-<NN>-<slug>.png` (`NN` = 01, 02, …),
+  separate from your `T0N` evidence files, and list them in a **Visual capture** section of
+  your report. Report each one in `manifest[]` (see the structured return) with an **absolute**
+  path.
+- Capture failures are never blocking: if a subject cannot be shot, skip it, note it, and carry
+  on — the QA verdict is unaffected.
 
 ## Verdict model
 Per item: **PASS** (target reached, renders, no crash/red-box/error, and the class-specific
@@ -203,9 +231,15 @@ comment — do not overwrite others). Structure:
 ### Non-blocking findings (BLOCKED / NEEDS-REVIEW / nits)
 - T0N — <observation>
 
+### Visual capture
+- <surface> — <caption> · coverage/qa/<issue-number>/visual-01-<slug>.png
+- <dropped subject> — not captured: <why>
+
 ### Summary
 - <one line: overall verdict + coverage>
 ```
+
+Omit the **Visual capture** section entirely when no capture pass was requested.
 
 Note: screenshots are saved to disk under `coverage/qa/<issue-number>/`. GitHub will not
 render local paths inline in the comment, so reference them by path as evidence — a human
@@ -221,6 +255,12 @@ the report faithfully — same items, same verdicts:
 - `baseline[]` — one `{check, pass}` entry per baseline check.
 - `blockingFindings[]` — the Blocking findings section (empty if none).
 - `notPerformedReason` — ONLY when the app could not be run (the NOT PERFORMED case).
+- `manifest[]` — the visual capture pass, in the order the shots should be published; omit it
+  or return `[]` when no capture pass was requested or nothing could be shot. One entry per
+  image: `path` (**absolute** path to the PNG on disk), `caption` (ONE line describing what
+  changed, no trailing period — it is printed verbatim as the caption), `surface` (`iOS` or
+  `Android` — the platform you shot on), `variant` (always `single` for mobile: there is no
+  before/after on this lane).
 - `report` — the full QA report markdown described above, verbatim.
 - `finishedAtEpoch` — as your very last action, run `date +%s` and return the number here
   (the pipeline computes wall-clock stage durations from it).

@@ -50,18 +50,28 @@ The rough idea (if any) is in `$ARGUMENTS`. If it's empty, ask the user what the
    gh issue create --title "[Feature]: <concise title>" --label enhancement --body-file <file>
    ```
 
-5. **Add the issue to GitHub Project #1** so it lands on the board — the issue is invisible to
-   the user until it does. Use the URL returned by step 4:
+5. **Add the issue to GitHub Project #1 and set its status to `Ready`** so it lands in a board
+   column — an item added with no `Status` sits outside every column and is invisible to the
+   user. Use the URL returned by step 4:
    ```bash
-   gh project item-add 1 --owner timothyrusso --url <issueUrl>
+   itemId=$(gh project item-add 1 --owner timothyrusso --url <issueUrl> --format json --jq '.id')
+   gh project item-edit --id "$itemId" --project-id PVT_kwHOBRsxCs4A5SSb \
+     --field-id PVTSSF_lAHOBRsxCs4A5SSbzguG_oM --single-select-option-id 61e4505c
    ```
-   This needs the `project` scope on the gh token. If it fails with a scope/authorization
-   error, do NOT delete or reopen the issue — step 4 stands. Report the failure and the exact
-   remediation (`gh auth refresh -s project`) so the user can add it manually.
+   Those are the verified IDs of this board: project `PVT_kwHOBRsxCs4A5SSb`, `Status` field
+   `PVTSSF_lAHOBRsxCs4A5SSbzguG_oM`, `Ready` option `61e4505c`.
 
-6. **Report** the created issue number and URL, and suggest the next step:
-   `/implement-issue <n>` (the front door — it judges the issue and delegates to the
-   `implement-issue-pipeline` workflow), or invoke the workflow directly for headless/batch runs.
+   Both calls need the `project` scope on the gh token. If either fails with a
+   scope/authorization error, do NOT delete or reopen the issue — step 4 stands. Report the
+   failure and the exact remediation (`gh auth refresh -s project`) so the user can finish it
+   manually. A failed `item-add` also means there is no item to edit: skip the `item-edit`
+   rather than guessing an ID.
+
+6. **Report** the created issue number and URL, whether it was added to the board and
+   **whether its status was set to `Ready`** (say so explicitly either way, with the reason on
+   failure), and suggest the next step: `/implement-issue <n>` (the front door — it judges the
+   issue and delegates to the `implement-issue-pipeline` workflow), or invoke the workflow
+   directly for headless/batch runs.
 
 ## Rules
 - Acceptance criteria must be **testable** — each one is a QA test case later.
@@ -69,3 +79,5 @@ The rough idea (if any) is in `$ARGUMENTS`. If it's empty, ask the user what the
 - Never create the issue without the user's explicit go-ahead.
 - An issue that is not on Project #1 does not exist as far as the user is concerned — always
   run the `item-add`, and say so explicitly in the report (added, or failed and why).
+- An item with no `Status` is in no column, so it is just as invisible — always follow the
+  `item-add` with the `item-edit` that sets `Status = Ready`, and report that outcome too.

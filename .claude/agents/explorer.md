@@ -92,3 +92,32 @@ touch** — not from the issue title.
 An empty array is a legitimate, useful answer, not a cop-out: a QA run that can only report
 BLOCKED costs a lot and proves nothing. Equally, do not drop a surface just because it looks
 awkward to test — if a criterion is checkable at runtime, name its surface.
+
+## Visual subjects — `visualSubjects`
+
+When invoked with a schema that has a `visualSubjects` field (the pipeline), also propose
+**what is worth screenshotting once the change is built**. The QA agents shoot those subjects
+after their acceptance-criteria pass, and the pipeline publishes them as a single visual
+summary comment on the PR — so a human can judge the change from the PR alone, without a
+simulator or a browser. Your list is the on/off switch: **an empty list disables the capture,
+the push, and the comment for the whole run.**
+
+Each entry is `{ surface, capture }`:
+
+| `surface` | Meaning | Shot by |
+|---|---|---|
+| `"mobile"` | a screen or component in the iOS/Android app | `qa-engineer`, on the device it already QA'd |
+| `"web"` | a browser-served app surface (`expo start --web`) | `qa-web-engineer`, in Chromium |
+| `"storybook"` | a story in web Storybook — the right surface for design-system work with no app screen | `qa-web-engineer`, in Chromium |
+
+`capture` is ONE line saying what the shot must show — the state, not the file
+(e.g. "Saved trips list with the new filter chips applied", not "screenshot of SavedTrips").
+
+Propose subjects only when the change is **visually relevant**: a new screen or component (in
+the app or in Storybook alone), a restyle, a colour/spacing change, or a bug fix whose symptom
+was visual. Return `[]` for anything with no visible result — build tooling, CI, lint rules,
+docs, agent/workflow config, type-only changes, pure logic refactors. Keep the list to the
+**3–4 subjects that best show the change**: the whole summary is capped at 6 images shared
+across both QA lanes, and a wall of near-identical screenshots hides the one that matters.
+Only name a surface that will actually exist — do not propose a mobile subject for a
+Storybook-only change.
