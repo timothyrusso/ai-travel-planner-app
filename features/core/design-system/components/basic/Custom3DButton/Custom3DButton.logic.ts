@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import type { AccessibilityActionEvent, AccessibilityActionInfo, AccessibilityActionName } from 'react-native';
 import { Gesture } from 'react-native-gesture-handler';
 import { Easing, useAnimatedStyle, useSharedValue, withSpring, withTiming } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
@@ -34,6 +35,14 @@ const PRESS_IN_TIMING = { duration: 200, easing: Easing.out(Easing.cubic) };
 const RELEASE_SPRING = { stiffness: 100, damping: 7, mass: 1 };
 const TAP_MAX_DURATION = 100000;
 const AT_REST = 0;
+
+/**
+ * The action a screen reader's double tap maps to — VoiceOver reaches the button through
+ * `onAccessibilityTap`, but TalkBack only ever sends `ACTION_CLICK`, which Android turns into a JS
+ * event solely for the actions declared in `accessibilityActions`.
+ */
+const ACTIVATE_ACTION: AccessibilityActionName = 'activate';
+const ACCESSIBILITY_ACTIONS: readonly AccessibilityActionInfo[] = [{ name: ACTIVATE_ACTION }];
 
 type UseCustom3DButtonLogicParams = {
   onPress: () => void;
@@ -76,9 +85,16 @@ export const useCustom3DButtonLogic = ({
   // A screen reader swallows the native touch events the tap gesture listens for, so the raised
   // button would be announced but not operable without its own activation path. It reuses the guard
   // the gesture is enabled with, so a disabled or loading button stays inert either way.
-  const onAccessibilityTap = () => {
+  const activate = () => {
     if (!isInteractive) return;
     onPress();
+  };
+
+  // The same activation, reached the Android way: `onAccessibilityTap` is iOS-only, so TalkBack
+  // arrives here through the declared `activate` action instead.
+  const onAccessibilityAction = (event: AccessibilityActionEvent) => {
+    if (event.nativeEvent.actionName !== ACTIVATE_ACTION) return;
+    activate();
   };
 
   // Only the press moves the face. A loading button keeps it at rest with the raise visible below:
@@ -182,9 +198,11 @@ export const useCustom3DButtonLogic = ({
       pressOverlayAnimatedStyle,
       buttonColors,
       isInteractive,
+      accessibilityActions: ACCESSIBILITY_ACTIONS,
     },
     effects: {
-      onAccessibilityTap,
+      onAccessibilityTap: activate,
+      onAccessibilityAction,
     },
   };
 };

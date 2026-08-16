@@ -59,7 +59,8 @@ export const Custom3DButton = ({
   // accessible by default: the container has to name itself a button, expose its own label —
   // `accessible` collapses the faces below it into a single element — carry the disabled state, and
   // offer an activation path a screen reader can reach, since it consumes the touch events the
-  // gesture would otherwise receive.
+  // gesture would otherwise receive. That path is platform-split: VoiceOver activates through
+  // `onAccessibilityTap`, TalkBack only through the declared `activate` action.
   return (
     <GestureDetector gesture={derived.tapGesture}>
       <View
@@ -68,7 +69,9 @@ export const Custom3DButton = ({
         accessibilityRole="button"
         accessibilityLabel={title}
         accessibilityState={{ disabled: !derived.isInteractive }}
+        accessibilityActions={derived.accessibilityActions}
         onAccessibilityTap={effects.onAccessibilityTap}
+        onAccessibilityAction={effects.onAccessibilityAction}
       >
         <View style={styles.bottomFace} />
         <Animated.View style={[styles.content, derived.contentAnimatedStyle]}>
