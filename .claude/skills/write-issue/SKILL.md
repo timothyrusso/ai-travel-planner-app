@@ -65,7 +65,7 @@ The rough idea (if any) is in `$ARGUMENTS`. If it's empty, ask the user what the
    scope/authorization error, do NOT delete or reopen the issue — step 4 stands. Report the
    failure and the exact remediation (`gh auth refresh -s project`) so the user can finish it
    manually. A failed `item-add` also means there is no item to edit: skip the `item-edit`
-   rather than guessing an id.
+   rather than guessing an ID.
 
 6. **Report** the created issue number and URL, whether it was added to the board and
    **whether its status was set to `Ready`** (say so explicitly either way, with the reason on
