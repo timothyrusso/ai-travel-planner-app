@@ -1,7 +1,7 @@
 export const meta = {
   name: 'implement-issue-pipeline',
   description:
-    'THE issue-implementation pipeline (single encoding): explore → build → wire PR → review ∥ device QA → finding vetting → bounded auto-fix → one consolidated run comment. Gate-free — any clarify/grill conversation happens in the /implement-issue skill BEFORE this launches. Approval happens at PR review before merge.',
+    'THE issue-implementation pipeline (single encoding): explore → build → wire PR → review ∥ device QA → finding vetting → bounded auto-fix → one consolidated run comment → visual summary. Gate-free — any clarify/grill conversation happens in the /implement-issue skill BEFORE this launches. Approval happens at PR review before merge.',
   whenToUse:
     'Launched by the /implement-issue skill after its interactive judgment, or invoked directly (headless/batch) on a crisp, pre-approved issue. For uncertain issues run /implement-issue instead — it grills first, then delegates here.',
   phases: [
@@ -14,6 +14,11 @@ export const meta = {
     { title: 'Vet', detail: 'one skeptic per blocking finding tries to refute it before it can trigger a fix' },
     { title: 'Fix', detail: 'feature-builder addresses confirmed findings (history-aware, stops early if stuck)' },
     { title: 'Report', detail: 'assemble and post the ONE consolidated run comment (best-effort, even on abort)' },
+    {
+      title: 'Visual summary',
+      detail:
+        'publish the QA screenshots on a per-PR evidence branch and post/update the marker comment — only when there is something visual to show (best-effort, after the report)',
+    },
   ],
 }
 
@@ -380,6 +385,18 @@ const WIRE_SCHEMA = {
   required: ['agentDeviceReady', 'agentBrowserReady', 'note'],
 }
 
+const VISUAL_SCHEMA = {
+  type: 'object',
+  additionalProperties: false,
+  properties: {
+    published: { type: 'number' },
+    commentAction: { enum: ['created', 'updated', 'failed'] },
+    note: { type: 'string' },
+    finishedAtEpoch: { type: 'number' },
+  },
+  required: ['published', 'commentAction', 'note'],
+}
+
 // ═════════════════════════════════════════════════════════════════════════════════════
 // PROMPTS — the static ones. Prompts that interpolate run state at declaration time
 // (buildPrompt needs the exploration report, wirePrompt needs the PR URL) are declared
@@ -399,6 +416,13 @@ const EPOCH_INSTR =
 // single lane can still use the whole budget when it is the only one with visual changes.
 const MAX_VISUAL_IMAGES = 6
 const VISUAL_LANE_QUOTA = 3
+
+// The hidden marker is how a re-run finds its own comment again and updates it in place
+// instead of posting a second one. The images are linked from raw content on the per-PR
+// evidence branch: GitHub's attachment upload endpoint is browser-session-only, so hosting
+// the bytes ourselves is the only way to get pixels into a comment from automation.
+const VISUAL_MARKER = '<!-- holidai:visual-summary -->'
+const RAW_CONTENT_BASE = 'https://raw.githubusercontent.com/timothyrusso/HolidAI'
 
 const VISUAL_LANE_SURFACES = { mobile: ['mobile'], web: ['web', 'storybook'] }
 
@@ -463,6 +487,50 @@ const SOURCE_LABEL = { qa: 'device-QA', qaWeb: 'web-QA', review: 'code-review' }
 
 const vetPrompt = f =>
   `Adversarially verify ONE ${SOURCE_LABEL[f.source] || 'code-review'} finding for issue #${issue} (branch feature/${issue}, PR ${build.prUrl}) per your process. The finding:\n\n"${f.text}"\n\nTry to refute it against the actual diff, code, and captured QA evidence. Return confirmed, refuted, or suspect with your reason.${EPOCH_INSTR}`
+
+const visualPrompt = (prNumber, plan) => `Publish the VISUAL SUMMARY for the pull request ${build.prUrl} (issue #${issue}): the screenshots the QA lanes captured, so the change can be judged from the PR alone. Everything here is best-effort — if a step fails, do as much as still makes sense, report what failed in \`note\`, and stop; never retry in a loop.
+
+Hard boundaries: do NOT edit the PR body or title · do NOT edit or delete any comment other than the one carrying the marker below · do NOT commit anything to \`feature/${issue}\` and do NOT switch the current working tree to another branch · do NOT bypass git hooks (\`--no-verify\` is forbidden).
+
+Capture plan — publish exactly these units, in this order. \`source\` is the PNG already on disk, \`name\` is the file name to publish it under (without extension):
+\`\`\`json
+${JSON.stringify(plan, null, 2)}
+\`\`\`
+
+1. CONVERT — in a scratch directory, for every image of the plan:
+   \`ffmpeg -y -i "<source>" -vf "scale='if(gt(iw,ih),min(1080,iw),-2)':'if(gt(iw,ih),-2,min(1080,ih))'" "<scratch>/<name>.webp"\`
+   (caps the long edge at 1080 px, whichever edge that is). If ffmpeg is missing, the command fails, or the output is empty, fall back to copying the source unchanged to \`<scratch>/<name>.png\`. Drop — and note — any image whose \`source\` does not exist. Remember each file's ACTUAL extension: the markdown must link the file you really produced.
+2. PUSH — publish those files on the per-PR evidence branch \`qa-evidence/pr-${prNumber}\`, branched FRESH off the PR head each time so it shares git objects with the feature branch and a re-run replaces the previous evidence instead of stacking on it:
+   \`\`\`bash
+   git fetch origin feature/${issue}
+   git worktree add --detach "<scratch>/evidence" origin/feature/${issue}
+   mkdir -p "<scratch>/evidence/qa" && cp "<scratch>"/*.webp "<scratch>"/*.png "<scratch>/evidence/qa/" 2>/dev/null
+   git -C "<scratch>/evidence" add qa
+   git -C "<scratch>/evidence" commit -m "chore(${issue}): visual qa evidence for pull request ${prNumber}"
+   git -C "<scratch>/evidence" push --force origin HEAD:refs/heads/qa-evidence/pr-${prNumber}
+   git worktree remove --force "<scratch>/evidence"
+   \`\`\`
+   Use a detached worktree exactly like that — never \`git checkout\` in the main working tree — so the feature branch, its diff, and any work in progress stay untouched, and always remove the worktree at the end, including on failure.
+3. BUILD THE COMMENT — write EXACTLY this markdown to a file and nothing else: no intro, no footer, no per-image commentary, no notes about what failed (that goes in \`note\`, not in the comment).
+   - First line: \`${VISUAL_MARKER}\`
+   - Then: \`## 📸 Visual summary\`
+   - Then, per plan unit IN PLAN ORDER (mobile units first, they are already ordered): the caption line \`**<surface> — <caption>**\` with \`surface\` and \`caption\` verbatim from the plan, a blank line, then
+     - \`"layout": "single"\` → \`![<surface> — <caption>](<url>)\`
+     - \`"layout": "pair"\` → a two-column table, before on the left:
+       \`| Before | After |\`
+       \`| --- | --- |\`
+       \`| ![<caption> before](<before url>) | ![<caption> after](<after url>) |\`
+   - Every url is \`${RAW_CONTENT_BASE}/qa-evidence/pr-${prNumber}/qa/<file name with its real extension>\`.
+   - Skip any unit whose images all failed to convert or push.
+4. POST OR UPDATE — exactly ONE comment, found by its hidden marker so a re-run edits it in place instead of adding a second one:
+   \`\`\`bash
+   id=$(gh api "repos/timothyrusso/HolidAI/issues/${prNumber}/comments" --paginate --jq 'map(select(.body | contains("${VISUAL_MARKER}"))) | .[0].id // empty')
+   if [ -n "$id" ]; then gh api -X PATCH "repos/timothyrusso/HolidAI/issues/comments/$id" -F body=@<comment file>; else gh pr comment ${build.prUrl} --body-file <comment file>; fi
+   \`\`\`
+   Never use \`gh pr comment --edit-last\`: the run-report comment was just posted by the same author and would be overwritten.
+5. VERIFY — \`curl -sI <one published url>\` and confirm it answers 200; say so in \`note\` if it does not.
+
+Return \`published\` (how many images the posted comment actually links), \`commentAction\` (\`created\`, \`updated\`, or \`failed\`), and a one-line \`note\` covering anything dropped or failed.${EPOCH_INSTR}`
 
 // ═════════════════════════════════════════════════════════════════════════════════════
 // STAGE HELPERS — verify (review ∥ QA), verdict derivation, finding fingerprints, vetting
@@ -559,6 +627,88 @@ function blockingFrom(review, qa, qaWeb) {
   qaBlockingFrom(qa, 'qa', out)
   qaBlockingFrom(qaWeb, 'qaWeb', out)
   return out
+}
+
+// ─── Visual summary — merge both lanes' capture manifests into ONE ordered, budgeted plan ──
+// Mobile shots always come before web shots. A before/after pair (two entries of the same
+// lane sharing surface + caption) travels as ONE indivisible unit, so the budget can never
+// publish half a comparison.
+
+function visualSlug(text) {
+  const slug = String(text)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 40)
+    .replace(/-+$/, '')
+  return slug || 'shot'
+}
+
+function laneUnits(result) {
+  if (!result || !Array.isArray(result.manifest)) return []
+  const units = []
+  const pairs = new Map()
+  for (const entry of result.manifest) {
+    if (!entry || !entry.path || !entry.caption || !entry.surface) continue
+    const variant = entry.variant === 'before' || entry.variant === 'after' ? entry.variant : 'single'
+    const image = { variant, source: entry.path }
+    if (variant === 'single') {
+      units.push({ layout: 'single', surface: entry.surface, caption: entry.caption, images: [image] })
+      continue
+    }
+    const key = `${entry.surface}::${entry.caption}`
+    let unit = pairs.get(key)
+    if (!unit) {
+      unit = { layout: 'pair', surface: entry.surface, caption: entry.caption, images: [] }
+      pairs.set(key, unit)
+      units.push(unit)
+    }
+    if (!unit.images.some(i => i.variant === variant)) unit.images.push(image)
+  }
+  // A half pair (its counterpart failed to capture) degrades to a plain single shot.
+  for (const unit of units) if (unit.layout === 'pair' && unit.images.length < 2) unit.layout = 'single'
+  return units
+}
+
+function unitsCost(units) {
+  return units.reduce((total, unit) => total + unit.images.length, 0)
+}
+
+function takeUnits(units, quota) {
+  const kept = []
+  let used = 0
+  for (const unit of units) {
+    // Keep scanning past a unit that no longer fits: a cheaper later unit may still make it.
+    if (used + unit.images.length > quota) continue
+    kept.push(unit)
+    used += unit.images.length
+  }
+  return { kept, used }
+}
+
+function allocateVisuals(mobile, web) {
+  if (unitsCost(mobile) + unitsCost(web) <= MAX_VISUAL_IMAGES) return { mobile, web }
+  const mobileTaken = takeUnits(mobile, web.length === 0 ? MAX_VISUAL_IMAGES : VISUAL_LANE_QUOTA)
+  return { mobile: mobileTaken.kept, web: takeUnits(web, MAX_VISUAL_IMAGES - mobileTaken.used).kept }
+}
+
+function visualPlan(mobileResult, webResult) {
+  const allocated = allocateVisuals(laneUnits(mobileResult), laneUnits(webResult))
+  let index = 0
+  return [...allocated.mobile, ...allocated.web].map(unit => ({
+    surface: unit.surface,
+    caption: unit.caption,
+    layout: unit.layout,
+    images: unit.images
+      // "before" first so the table columns read Before | After whatever order QA returned.
+      .slice()
+      .sort((a, b) => (a.variant === b.variant ? 0 : a.variant === 'before' ? -1 : 1))
+      .map(image => ({
+        variant: image.variant,
+        source: image.source,
+        name: `${String(++index).padStart(2, '0')}-${visualSlug(`${unit.surface} ${unit.caption}`)}${image.variant === 'single' ? '' : `-${image.variant}`}`,
+      })),
+  }))
 }
 
 async function vetFindings(findings) {
@@ -722,6 +872,33 @@ REPORT>>>`
   await trackedAgent(reportPrompt, { agentType: 'general-purpose', label: `report:${issue}`, effort: 'low' })
 } catch (e) {
   log(`Run-report step failed (non-blocking): ${e && e.message ? e.message : e}`)
+}
+
+// Visual summary — strictly AFTER the run report, so the pixels sit below the verdict. The
+// pixels cannot be attached through the API (GitHub's user-attachments upload endpoint is
+// browser-session-only), so they are pushed to a per-PR evidence branch and linked from raw
+// content. Entirely best-effort: capture, conversion, push, or posting may all fail without
+// changing the run's verdict.
+const visualUnits = visualPlan(qa, qaWeb)
+const prNumber = (String(build.prUrl).match(/\/pull\/(\d+)/) || [])[1] || null
+
+if (visualUnits.length === 0) {
+  log('Visual summary skipped: no screenshots were captured for this run')
+} else if (!prNumber) {
+  log(`Visual summary skipped: no PR number in ${build.prUrl}`)
+} else {
+  try {
+    phase('Visual summary')
+    const visual = await trackedAgent(visualPrompt(prNumber, visualUnits), {
+      agentType: 'general-purpose',
+      label: `visual:${issue}`,
+      effort: 'low',
+      schema: VISUAL_SCHEMA,
+    })
+    if (visual) log(`Visual summary ${visual.commentAction}: ${visual.published} image(s) — ${visual.note}`)
+  } catch (e) {
+    log(`Visual-summary step failed (non-blocking): ${e && e.message ? e.message : e}`)
+  }
 }
 
 if (abortError) throw abortError
