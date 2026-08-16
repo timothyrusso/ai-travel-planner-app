@@ -263,8 +263,8 @@ const EXPLORE_SCHEMA = {
     },
     qaTargetsReason: { type: 'string' },
     // Optional on purpose: an explorer that omits it must still deliver its report and QA
-    // routing — a missing visual proposal only turns the visual summary off (see
-    // exploredVisualSubjects), it never invalidates the whole exploration result.
+    // routing — an omitted visual proposal reads exactly like an empty one and only turns the
+    // visual summary off (see exploredVisualSubjects), it never invalidates the exploration.
     visualSubjects: {
       type: 'array',
       items: {
@@ -426,9 +426,9 @@ const RAW_CONTENT_BASE = 'https://raw.githubusercontent.com/timothyrusso/HolidAI
 
 const VISUAL_LANE_SURFACES = { mobile: ['mobile'], web: ['web', 'storybook'] }
 
-// The proposal decides whether the lane captures at all: an explicit empty list from the
-// explorer switches the pass off; NO decision at all (explore skipped or failed) leaves the
-// judgement to the QA agent rather than silently dropping the summary.
+// The proposal decides whether the lane captures at all: an empty proposal from a successful
+// exploration switches the pass off; NO decision at all (explore skipped, failed, or returned
+// nothing) leaves the judgement to the QA agent rather than silently dropping the summary.
 function visualCaptureBlock(lane) {
   const engine = lane === 'mobile' ? 'device' : 'browser'
   if (exploredVisualSubjects === null) {
@@ -776,9 +776,10 @@ let explorerReport = suppliedReport
 // explorer never ran or failed, fall back to both surfaces (see resolution below) so a
 // broken explorer can never silently switch QA off.
 let exploredQaTargets = null
-// null => no decision was made (explore skipped or failed): each QA lane judges visual
-// relevance itself. [] => the explorer explicitly says nothing is worth showing, which turns
-// capture, push, and comment off for the whole run.
+// null => no decision was made (explore skipped, threw, or returned nothing at all): each QA
+// lane judges visual relevance itself. [] => the exploration ran and proposed nothing — either
+// an explicit empty list or an omitted/malformed field, both of which mean "nothing is worth
+// showing" — which turns capture, push, and comment off for the whole run.
 let exploredVisualSubjects = null
 if (doExplore) {
   phase('Explore')
@@ -789,12 +790,16 @@ if (doExplore) {
       exploredQaTargets = [...new Set(ex.qaTargets.filter(t => VALID_QA_TARGETS.includes(t)))]
       log(`Explorer chose QA targets: ${exploredQaTargets.length ? exploredQaTargets.join(' + ') : 'none'} — ${ex.qaTargetsReason || 'no reason given'}`)
     }
-    if (ex && Array.isArray(ex.visualSubjects)) {
-      exploredVisualSubjects = ex.visualSubjects.filter(s => s && VISUAL_LANE_SURFACES.mobile.concat(VISUAL_LANE_SURFACES.web).includes(s.surface) && s.capture)
+    if (ex) {
+      // An exploration that ran but omitted `visualSubjects` (the field is optional) HAS
+      // decided: it found nothing worth showing. Treating that as "no decision" would flip
+      // both QA lanes into self-directed capture, the opposite of what the schema promises.
+      const proposed = Array.isArray(ex.visualSubjects) ? ex.visualSubjects : []
+      exploredVisualSubjects = proposed.filter(s => s && VISUAL_LANE_SURFACES.mobile.concat(VISUAL_LANE_SURFACES.web).includes(s.surface) && s.capture)
       log(
         exploredVisualSubjects.length
           ? `Explorer proposed ${exploredVisualSubjects.length} visual subject(s): ${exploredVisualSubjects.map(s => `${s.surface}/${s.capture}`).join(' · ')}`
-          : 'Explorer proposed no visual subject — visual summary disabled for this run',
+          : `Explorer ${Array.isArray(ex.visualSubjects) ? 'proposed no visual subject' : 'returned no visual proposal'} — visual summary disabled for this run`,
       )
     }
     if (!explorerReport) log('Explorer returned no report — builder will map the codebase itself (non-blocking)')
@@ -808,7 +813,7 @@ const qaTargets = qaTargetsOverride ?? exploredQaTargets ?? [...VALID_QA_TARGETS
 if (qaTargetsOverride) log(`QA targets pinned by caller: ${qaTargetsOverride.length ? qaTargetsOverride.join(' + ') : 'none'}`)
 else if (exploredQaTargets === null) log('No QA target decision available (explore skipped or failed) — defaulting to mobile + web')
 if (doQa && qaTargets.length === 0) log('QA skipped: no runtime surface to verify for this issue')
-if (exploredVisualSubjects === null) log('No visual-subject proposal available (explore skipped or failed) — each QA lane judges visual relevance itself')
+if (exploredVisualSubjects === null) log('No visual-subject decision available (explore skipped, failed, or returned nothing) — each QA lane judges visual relevance itself')
 
 const explorerBlock = explorerReport
   ? `\n\nExploration report (use it as your codebase map; don't re-explore from scratch):\n${explorerReport}`
