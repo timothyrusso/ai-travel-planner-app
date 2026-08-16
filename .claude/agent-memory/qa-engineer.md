@@ -31,8 +31,6 @@ Read at the start of every QA run. Append only under the rules in
   `swipe <x> <y1> <x> <y2>` drags (~300-500px) + `screenshot` after each.
 - [2026-07-25] For accessibilityLabel checks collapsed into one composite AT button, use
   `react-devtools find <Component>` then check an unmerged instance elsewhere on-device.
-- [2026-08-13] `expo run:android --device <x>` needs the adb `model:` string (`adb devices -l`,
-  e.g. `Pixel_9a`), not the marketing name with a space nor the serial.
 - [2026-08-13] Metro's transform cache can serve a stale inlined `EXPO_PUBLIC_*` value across
   unrelated prior runs even though the var is correctly exported now (symptom: wrong entry
   branch boots, e.g. normal app instead of Storybook). Restart Metro with `--clear` before the
@@ -40,3 +38,14 @@ Read at the start of every QA run. Append only under the rules in
 - [2026-08-13] The on-device "Bundling NN%…" overlay can stay stuck on screen after Metro
   already logged the bundle complete — screenshots alone look hung. Verify with `snapshot -i`
   (reflects real content) before concluding the app is stuck.
+- [2026-08-16] `agent-device devices --json` reports a simulator by name; the numeric `id`/UUID is
+  rejected by `apps`/`open` on 0.20.8 even for the booted one — pin with the simulator `name`
+  instead when only one instance of that name is booted.
+- [2026-08-16] Android emulator (`Medium_Phone_API_36.1`) crashed mid-session twice and the dev
+  client kept retrying a stale cached manifest host (`192.168.1.171:9090`, unrelated to this
+  machine) instead of the URL typed into "Connect" — `adb shell pm clear` + fresh
+  `am start -a android.intent.action.VIEW -d exp+holidai://...` didn't fix it either. Budget
+  Android-specific criteria as at-risk; don't sink QA time past ~2 retries.
+- [2026-08-16] `expo run:android --device <x>` wants the AVD name itself (e.g.
+  `Medium_Phone_API_36.1`), not the adb `model:` field nor the adb serial — supersedes the
+  2026-08-13 note for this project.
