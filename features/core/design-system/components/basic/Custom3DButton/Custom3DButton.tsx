@@ -10,7 +10,7 @@ import {
 import { custom3DButtonStyles } from '@/features/core/design-system/components/basic/Custom3DButton/Custom3DButton.style';
 import { CustomIcon, type IoniconsName } from '@/features/core/design-system/components/basic/CustomIcon/CustomIcon';
 import { CustomText } from '@/features/core/design-system/components/basic/CustomText/CustomText';
-import { type RaisedButtonSize, raisedButtonSizes } from '@/features/core/design-system/style/dimensions/components';
+import { type RaisedButtonSize, raisedButtonSizes } from '@/features/core/design-system/style/dimensions/raisedButton';
 
 export type Custom3DButtonProps = {
   title: string;
@@ -21,13 +21,8 @@ export type Custom3DButtonProps = {
   leftIcon?: IoniconsName;
   rightIcon?: IoniconsName;
   iconSize?: number;
-  /** Layout only — the button always fills the width of its container, as both Figma cards state. */
+  /** Layout only — the button always fills the width of its container. */
   style?: StyleProp<ViewStyle>;
-  /**
-   * The internal size knob, mirroring `CustomButtonProps['size']`: a whole geometry token rather
-   * than a height, because the raise depth, radius, label and icon all move with the size. Call
-   * sites use the `Custom3DButtonSmall`/`Medium`/`Large`/`ExtraLarge` exports instead.
-   */
   size?: RaisedButtonSize;
 };
 
@@ -55,12 +50,6 @@ export const Custom3DButton = ({
 
   const resolvedIconSize = iconSize ?? size.iconSize;
 
-  // The button is drawn as plain views and driven by a tap gesture, so nothing about it is
-  // accessible by default: the container has to name itself a button, expose its own label —
-  // `accessible` collapses the faces below it into a single element — carry the disabled state, and
-  // offer an activation path a screen reader can reach, since it consumes the touch events the
-  // gesture would otherwise receive. That path is platform-split: VoiceOver activates through
-  // `onAccessibilityTap`, TalkBack only through the declared `activate` action.
   return (
     <GestureDetector gesture={derived.tapGesture}>
       <View

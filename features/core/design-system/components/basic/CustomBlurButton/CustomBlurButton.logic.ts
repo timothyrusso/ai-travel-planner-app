@@ -22,7 +22,6 @@ type UseCustomBlurButtonLogicParams = {
 export const useCustomBlurButtonLogic = ({ isDisabled, hasBlurTarget }: UseCustomBlurButtonLogicParams) => {
   const { t } = useTranslation();
 
-  // Loading keeps the active look here too — only `isDisabled` dims the surface.
   const buttonState = isDisabled ? ButtonState.Disabled : ButtonState.Active;
 
   // `expo-blur` can only sample the pixels behind it on Android when it is handed a `blurTarget`
@@ -30,9 +29,6 @@ export const useCustomBlurButtonLogic = ({ isDisabled, hasBlurTarget }: UseCusto
   // render at all.
   const canBlur = Platform.OS !== PlatformOS.android || hasBlurTarget;
 
-  // The tint is what makes bold white text readable over an arbitrary photo, so when the blur is
-  // unavailable it has to carry the contrast on its own and gets heavier. Both are press/backdrop
-  // effects rather than resting fills, which is why they are opacities over a palette black.
   const blurStyles: BlurButtonStyles = match({ buttonState, canBlur })
     .with({ buttonState: ButtonState.Active, canBlur: true }, () => ({
       intensity: blur.intensity30,
@@ -57,8 +53,6 @@ export const useCustomBlurButtonLogic = ({ isDisabled, hasBlurTarget }: UseCusto
     .exhaustive();
 
   return {
-    // The title is an i18n key — `CustomText` translates it on render — so the accessible name has
-    // to be translated here before it reaches the pressable.
     state: {
       t,
     },

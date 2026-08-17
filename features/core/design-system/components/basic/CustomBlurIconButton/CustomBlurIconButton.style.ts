@@ -17,7 +17,6 @@ export const styleBlurIconButton = ({
     button: {
       width: size,
       height: size,
-      // The same radius the flat icon button uses: far past half the diameter, so it is a circle.
       borderRadius: spacing.separator80,
       overflow: 'hidden',
     },

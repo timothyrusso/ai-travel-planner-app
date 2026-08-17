@@ -31,8 +31,6 @@ export function CustomBlurIconButton({
   iconSize = spacing.TripleAndHalf,
   iconStyle,
   blurTargetRef,
-  // Icon-only buttons have no label to name them, so the accessibility props inherited from
-  // ViewProps are forwarded to the pressable by hand — this component takes no rest element.
   accessibilityLabel,
   accessibilityHint,
   accessibilityRole,

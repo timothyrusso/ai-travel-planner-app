@@ -43,9 +43,6 @@ export function BaseButton({
   leftIconStyle,
   rightIconStyle,
 }: CustomButtonProps) {
-  // Loading is not disabled: `isDisabled` alone drives the colour, while `isLoading` only swaps the
-  // label for the spinner and blocks the press. A button busy with the action it was just asked to
-  // perform is still the active call to action, so it keeps its active fill.
   const buttonState = isDisabled ? ButtonState.Disabled : ButtonState.Active;
 
   const { derived } = useCustomButtonLogic();

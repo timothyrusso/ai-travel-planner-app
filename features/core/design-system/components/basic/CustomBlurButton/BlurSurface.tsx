@@ -33,8 +33,7 @@ export const BlurSurface = ({
     return <View style={surfaceStyle}>{children}</View>;
   }
 
-  // Android's blur ignores `borderRadius` on its own view, so the rounded shape comes from a mask —
-  // the same pattern the trip details box uses over its hero image.
+  // Android's blur ignores `borderRadius` on its own view, so the rounded shape comes from a mask
   if (Platform.OS === PlatformOS.android) {
     return (
       <MaskedView style={surfaceStyle} maskElement={<View style={maskStyle} />}>

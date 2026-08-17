@@ -10,10 +10,6 @@ import { ButtonState } from '@/features/core/design-system/components/basic/Cust
 import { colors } from '@/features/core/design-system/style/colors';
 import { opacity } from '@/features/core/design-system/style/opacity';
 
-/**
- * The raised button has its own variant set rather than reusing the flat pill's `ButtonType`: the
- * two barely overlap, and a `Ghost` raised button (no fill, no raise) is not a design that exists.
- */
 export const Custom3DButtonType = {
   Main: 'main',
   Primary: 'primary',
@@ -37,11 +33,6 @@ const RELEASE_SPRING = { stiffness: 100, damping: 7, mass: 1 };
 const TAP_MAX_DURATION = 100000;
 const AT_REST = 0;
 
-/**
- * The action a screen reader's double tap maps to — VoiceOver reaches the button through
- * `onAccessibilityTap`, but TalkBack only ever sends `ACTION_CLICK`, which Android turns into a JS
- * event solely for the actions declared in `accessibilityActions`.
- */
 const ACTIVATE_ACTION: AccessibilityActionName = 'activate';
 const ACCESSIBILITY_ACTIONS: readonly AccessibilityActionInfo[] = [{ name: ACTIVATE_ACTION }];
 
@@ -84,16 +75,13 @@ export const useCustom3DButtonLogic = ({
     [isInteractive, onPress, pressProgress],
   );
 
-  // A screen reader swallows the native touch events the tap gesture listens for, so the raised
-  // button would be announced but not operable without its own activation path. It reuses the guard
-  // the gesture is enabled with, so a disabled or loading button stays inert either way.
+  // A screen reader consumes the touches the tap gesture needs, so activation gets its own path,
+  // behind the same guard the gesture is enabled with.
   const activate = () => {
     if (!isInteractive) return;
     onPress();
   };
 
-  // The same activation, reached the Android way: `onAccessibilityTap` is iOS-only, so TalkBack
-  // arrives here through the declared `activate` action instead.
   const onAccessibilityAction = (event: AccessibilityActionEvent) => {
     if (event.nativeEvent.actionName !== ACTIVATE_ACTION) return;
     activate();

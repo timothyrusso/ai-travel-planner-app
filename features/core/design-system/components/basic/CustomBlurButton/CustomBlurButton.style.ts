@@ -21,7 +21,6 @@ export const styleBlurButton = ({
     button: {
       width: '100%',
       height,
-      // The same radius the flat pill uses: at every button height it clamps to a full pill.
       borderRadius: spacing.FourfoldAndHalf,
       overflow: 'hidden',
     },

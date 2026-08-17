@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 import type { Custom3DButtonColors } from '@/features/core/design-system/components/basic/Custom3DButton/Custom3DButton.logic';
 import { colors } from '@/features/core/design-system/style/colors';
-import type { RaisedButtonSize } from '@/features/core/design-system/style/dimensions/components';
+import type { RaisedButtonSize } from '@/features/core/design-system/style/dimensions/raisedButton';
 import { spacing } from '@/features/core/design-system/style/dimensions/spacing';
 import { fontFamily } from '@/features/core/design-system/style/fontFamily';
 
@@ -12,8 +12,6 @@ type Custom3DButtonStyleParams = {
 };
 
 export const custom3DButtonStyles = ({ size, buttonColors }: Custom3DButtonStyleParams) => {
-  // The raised edge is the slice of the bottom face left uncovered by the top one, so the face is
-  // shorter than the button by exactly the raise depth — Figma's 27/35/44/51 for 30/40/50/60.
   const faceHeight = size.height - size.raiseLevel;
 
   return StyleSheet.create({

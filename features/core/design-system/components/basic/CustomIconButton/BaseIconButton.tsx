@@ -43,8 +43,6 @@ export function BaseIconButton({
   accessibilityHint,
   accessibilityRole,
 }: CustomIconButtonProps) {
-  // Loading is not disabled — see `BaseButton`: `isDisabled` alone drives the colour, `isLoading`
-  // only swaps the glyph for the spinner and blocks the press.
   const buttonState = isDisabled ? ButtonState.Disabled : ButtonState.Active;
 
   const { derived } = useCustomButtonLogic();
