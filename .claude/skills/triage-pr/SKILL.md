@@ -1,6 +1,6 @@
 ---
 name: triage-pr
-description: Iteratively triage AI review-bot comments on an open pull request until the bots go quiet or the wave cap is reached — vet each finding with finding-vetter, auto-fix confirmed ones, resolve noise with short replies, and consult the user in chat for judgment calls. Explicitly invoked with a PR number, e.g. `/triage-pr 402 [--issue N] [--max-rounds N]`. No reports — thread replies plus a short closing message only.
+description: Iteratively triage AI review-bot comments on an open pull request until the bots go quiet or a tripwire hands the loop back — vet each finding with finding-vetter, auto-fix confirmed ones, resolve noise with short replies, and consult the user in chat for judgment calls. Explicitly invoked with a PR number, e.g. `/triage-pr 402 [--issue N] [--max-rounds N]`. No reports — thread replies plus a short closing message only.
 argument-hint: <pr-number> [--issue <issue-number>] [--max-rounds N]
 disable-model-invocation: true
 ---

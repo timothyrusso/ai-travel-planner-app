@@ -9,7 +9,7 @@ You **author** issues with the `write-issue` skill, then **run** them through on
 `/implement-issue` — a thin orchestrator that judges the issue, grills you only when something
 genuinely needs clarifying, delegates to the single pipeline workflow
 (`implement-issue-pipeline`), and then triages the AI reviewers' comments on the resulting PR
-so what reaches you has no open bot threads. For headless/batch runs, invoke the workflow
+so what reaches you has no open bot threads, or a clear hand-back with the resume command. For headless/batch runs, invoke the workflow
 directly. See [Entry points](#entry-points).
 
 ---
@@ -79,7 +79,7 @@ flowchart TD
         EXPL -->|"yes"| EXPLORE["explorer maps the issue onto<br/>the architecture (non-blocking)<br/>+ picks qaTargets: mobile / web / both / none"]
         EXPL -->|"skipped / report supplied"| BUILD
         EXPLORE --> BUILD["feature-builder:<br/>branch off origin/main, implement,<br/>tsc + arch once, layer-aligned commits,<br/>open PR with empty body"]
-        BUILD -->|"no PR"| FATAL["FATAL — nowhere to report"]
+        BUILD -->|"no PR"| FATAL["FATAL — nowhere to report:<br/>no triage, nothing to resume"]
         BUILD --> WIRE["wire, best-effort:<br/>assign PR + project +<br/>QA CLI pre-check (only the<br/>engines qaTargets needs)"]
         WIRE --> VERIFY["review ∥ device QA ∥ web QA<br/>(parallel, independent —<br/>QA lanes run only if in qaTargets)"]
         VERIFY --> VET["vet: one skeptic per<br/>blocking finding"]
@@ -106,7 +106,7 @@ flowchart TD
     RET --> SUMM["skill relays the result"]
     SUMM --> BOTS["AI review bots comment on the PR"]
     BOTS -->|"Stage 5 — automatic,<br/>announced not asked"| TRIAGE["/triage-pr loop (max 10 waves):<br/>vet each finding, fix confirmed,<br/>resolve noise, escalate judgment<br/>calls to the human"]
-    BOTS -.->|"skipped — announced:<br/>--skip-triage, no PR,<br/>or --worktree"| PRREV
+    BOTS -.->|"triage skipped — announced:<br/>--skip-triage or --worktree"| PRREV
     TRIAGE -->|"fix commits<br/>trigger re-review"| BOTS
     TRIAGE -->|"bots quiet +<br/>grace poll"| PRREV["Human PR review<br/>(behind the CI gate:<br/>lint + typecheck + arch)"]
     TRIAGE -.->|"wave cap · WINDOW_CLOSED ·<br/>stuck findings"| HANDBACK["hand back to the human<br/>with the /triage-pr resume command"]
@@ -121,7 +121,8 @@ flowchart TD
 - **`/implement-issue`** judges the issue: crisp → announces its reading and proceeds gate-free;
   real doubts → grills, folds the answers back into the issue body, then proceeds. Either way
   the build itself runs in the pipeline workflow, and the run ends with bot triage plus one
-  ready-for-human-review message — no human action between the build report and triage.
+  final message: ready for human review, or the precise reason it is not plus the resume
+  command — no human action between the build report and triage.
 - **`implement-issue-pipeline`** is the only encoding of the build stages. Invoke it directly
   (no conversation) for batch/overnight runs on crisp, pre-approved issues.
 

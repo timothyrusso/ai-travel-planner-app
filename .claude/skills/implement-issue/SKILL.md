@@ -1,6 +1,6 @@
 ---
 name: implement-issue
-description: Implement a GitHub feature issue end-to-end. Judges the issue — grills the user only if something genuinely needs clarifying (folding answers back into the issue body) — announces its reading, launches the implement-issue-pipeline workflow (explore → build → wire PR → review → device QA → bounded auto-fix → run metrics), then runs the triage-pr skill on the resulting PR so the human is handed a PR with no open bot threads. Explicitly invoked with an issue number, e.g. `/implement-issue 378 [--skip-explore] [--skip-review] [--skip-qa] [--skip-triage] [--worktree] [--max-fix N]`.
+description: Implement a GitHub feature issue end-to-end. Judges the issue — grills the user only if something genuinely needs clarifying (folding answers back into the issue body) — announces its reading, launches the implement-issue-pipeline workflow (explore → build → wire PR → review → device QA → bounded auto-fix → run metrics), then runs the triage-pr skill on the resulting PR so the human is handed a PR with no open bot threads, or a clear hand-back when triage stops short. Explicitly invoked with an issue number, e.g. `/implement-issue 378 [--skip-explore] [--skip-review] [--skip-qa] [--skip-triage] [--worktree] [--max-fix N]`.
 argument-hint: <issue-number> [--skip-explore] [--skip-review] [--skip-qa] [--skip-triage] [--worktree] [--max-fix N]
 disable-model-invocation: true
 ---
@@ -110,14 +110,17 @@ AI-reviewer threads. So drive them to zero yourself; the user does nothing in be
 - **Announce, don't ask** — the same convention as Stage 2: state in ONE line that you are
   starting bot triage on the PR, then IMMEDIATELY proceed without waiting for a reply. The
   user interrupts if they don't want it; silence is consent.
-- **Run the `triage-pr` skill** on the PR, passing `--issue <issue>`. Do NOT re-implement any
+- **Run the `triage-pr` skill** as `/triage-pr <pr> --issue <issue>` — the PR number is its
+  required first token, and `--issue` only overrides the issue number used for commit
+  messages. Do NOT re-implement any
   of its steps and do NOT dispatch its agents (`finding-vetter`, `feature-builder`) yourself:
   the loop, its human gates, its below-bar rule, and its 10-wave cap all live in that skill.
 - **Automatic skip conditions — exactly these two, and both are announced rather than silent:**
   - **No PR** — the pipeline aborted before the build, so there is nothing to triage.
-  - **`--worktree`** — the feature branch lives in a worktree while `triage-pr` checks out
-    the head branch in the main tree, and it stops on a dirty tree. Give the user the
-    `/triage-pr <pr>` command to run once the main tree is free.
+  - **`--worktree`** — the feature branch stays attached to the isolation worktree, so
+    `triage-pr`'s step-0 checkout of the head branch in the main tree fails with
+    `fatal: '<branch>' is already used by worktree at '<path>'` even when the main tree is
+    clean. Give the user the `/triage-pr <pr>` command for once that worktree is removed.
 - Nothing else automatically skips it. Triage still runs when the pipeline returned `outstanding` findings,
   `suspects`, `stuck: true`, or QA `NOT_PERFORMED` — bot triage is an orthogonal concern, and
   Stage 4 has already reported all of those.
