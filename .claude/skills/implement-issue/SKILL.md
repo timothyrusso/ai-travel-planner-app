@@ -113,12 +113,12 @@ AI-reviewer threads. So drive them to zero yourself; the user does nothing in be
 - **Run the `triage-pr` skill** on the PR, passing `--issue <issue>`. Do NOT re-implement any
   of its steps and do NOT dispatch its agents (`finding-vetter`, `feature-builder`) yourself:
   the loop, its human gates, its below-bar rule, and its 10-wave cap all live in that skill.
-- **Skip conditions — exactly these two, and both are announced rather than silent:**
+- **Automatic skip conditions — exactly these two, and both are announced rather than silent:**
   - **No PR** — the pipeline aborted before the build, so there is nothing to triage.
   - **`--worktree`** — the feature branch lives in a worktree while `triage-pr` checks out
     the head branch in the main tree, and it stops on a dirty tree. Give the user the
     `/triage-pr <pr>` command to run once the main tree is free.
-- Nothing else skips it. Triage still runs when the pipeline returned `outstanding` findings,
+- Nothing else automatically skips it. Triage still runs when the pipeline returned `outstanding` findings,
   `suspects`, `stuck: true`, or QA `NOT_PERFORMED` — bot triage is an orthogonal concern, and
   Stage 4 has already reported all of those.
 - `--skip-triage` skips this stage; say so in one line.
@@ -126,7 +126,9 @@ AI-reviewer threads. So drive them to zero yourself; the user does nothing in be
   - **Ready** — triage reached quiet: the PR URL and that it is ready for human review.
   - **Not ready** — the precise reason (wave cap reached, watcher window closed
     (`WINDOW_CLOSED`), stuck findings, or which skip condition applied) together with the
-    `/triage-pr <pr>` command to resume. Never re-run triage yourself, and never merge.
+    `/triage-pr <pr>` command to resume whenever a PR exists. The **No PR** skip is the one
+    case with nothing to resume: say the run ended without a PR and stop there. Never re-run
+    triage yourself, and never merge.
 
 ## Notes
 - **Headless/batch entry:** for unattended runs (queue draining, overnight), invoke the
