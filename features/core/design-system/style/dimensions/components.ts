@@ -10,6 +10,7 @@ export const components = {
   profileImageHeight: 100,
   mapHeight: 300,
   mapCalloutWidth: 200,
+  buttonExtraLargeHeight: 60,
   buttonLargeHeight: 50,
   buttonMediumHeight: 40,
   buttonSmallHeight: 30,

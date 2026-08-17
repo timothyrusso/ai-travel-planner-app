@@ -2,6 +2,7 @@ export const opacity = {
   opacity0: 0,
   opacity10: 0.1,
   opacity20: 0.2,
+  opacity25: 0.25,
   opacity40: 0.4,
   opacity60: 0.6,
   opacity80: 0.8,
