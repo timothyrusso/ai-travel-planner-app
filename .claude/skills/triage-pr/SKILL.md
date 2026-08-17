@@ -143,7 +143,7 @@ for i in $(seq 1 12); do
   fi
   sleep 300
 done
-echo "WINDOW_CLOSED: bots still busy, re-run the watcher"
+echo "WINDOW_CLOSED: bots still busy, hand back to the human with the /triage-pr <pr> resume command"
 ```
 
 ## Chaining
