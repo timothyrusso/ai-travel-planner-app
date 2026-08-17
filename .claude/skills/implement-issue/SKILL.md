@@ -110,11 +110,9 @@ AI-reviewer threads. So drive them to zero yourself; the user does nothing in be
 - **Announce, don't ask** — the same convention as Stage 2: state in ONE line that you are
   starting bot triage on the PR, then IMMEDIATELY proceed without waiting for a reply. The
   user interrupts if they don't want it; silence is consent.
-- **Run the `triage-pr` skill** on the PR, passing `--issue <issue>`. This skill explicitly
-  authorizes that skill invocation — no user confirmation is needed, and `triage-pr` is
-  model-invocable precisely so this stage can reach it. Do NOT re-implement any of its steps
-  and do NOT dispatch its agents (`finding-vetter`, `feature-builder`) yourself: the loop,
-  its human gates, its below-bar rule, and its 10-wave cap all live in that skill.
+- **Run the `triage-pr` skill** on the PR, passing `--issue <issue>`. Do NOT re-implement any
+  of its steps and do NOT dispatch its agents (`finding-vetter`, `feature-builder`) yourself:
+  the loop, its human gates, its below-bar rule, and its 10-wave cap all live in that skill.
 - **Skip conditions — exactly these two, and both are announced rather than silent:**
   - **No PR** — the pipeline aborted before the build, so there is nothing to triage.
   - **`--worktree`** — the feature branch lives in a worktree while `triage-pr` checks out

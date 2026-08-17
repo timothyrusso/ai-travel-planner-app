@@ -1,7 +1,8 @@
 ---
 name: triage-pr
-description: Iteratively triage AI review-bot comments on an open pull request until the bots go quiet or the wave cap is reached — vet each finding with finding-vetter, auto-fix confirmed ones, resolve noise with short replies, and consult the user in chat for judgment calls. Use when the user asks to triage, answer, or clear the AI-reviewer threads on a pull request, and when `implement-issue` reaches its Stage 5 triage. Always needs a PR number, e.g. `/triage-pr 402 [--issue N] [--max-rounds N]`. No reports — thread replies plus a short closing message only.
+description: Iteratively triage AI review-bot comments on an open pull request until the bots go quiet or the wave cap is reached — vet each finding with finding-vetter, auto-fix confirmed ones, resolve noise with short replies, and consult the user in chat for judgment calls. Explicitly invoked with a PR number, e.g. `/triage-pr 402 [--issue N] [--max-rounds N]`. No reports — thread replies plus a short closing message only.
 argument-hint: <pr-number> [--issue <issue-number>] [--max-rounds N]
+disable-model-invocation: true
 ---
 
 # triage-pr — the bot-review triage loop
@@ -151,10 +152,3 @@ PR — driving the bot comments to zero is part of handing the human a reviewabl
 optional follow-up. It is still invoked directly (`/triage-pr <pr>`) to resume after a
 hand-back, to triage a PR the pipeline did not open, and after headless/batch runs, which
 have no main thread to hold the loop's human gates.
-
-Because another skill must reach it, this one is deliberately **model-invoked**: it carries
-no `disable-model-invocation` flag, which would strip its description from the agent's reach
-and leave `/triage-pr` typed by hand as the only way in — breaking Stage 5. Do not add the
-flag back. The counterweight is a caller rule, not a flag: only ever start this loop when
-the user asks for it or when `implement-issue` Stage 5 does, and never on a PR nobody named
-— it commits, pushes, and answers review threads.
