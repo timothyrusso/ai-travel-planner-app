@@ -9,8 +9,8 @@ You **author** issues with the `write-issue` skill, then **run** them through on
 `/implement-issue` — a thin orchestrator that judges the issue, grills you only when something
 genuinely needs clarifying, delegates to the single pipeline workflow
 (`implement-issue-pipeline`), and then triages the AI reviewers' comments on the resulting PR
-so what reaches you has no open bot threads, or a clear hand-back with the resume command. For headless/batch runs, invoke the workflow
-directly. See [Entry points](#entry-points).
+so what reaches you has no open bot threads, or a clear hand-back with the resume command.
+For headless/batch runs, invoke the workflow directly. See [Entry points](#entry-points).
 
 ---
 
@@ -144,7 +144,7 @@ approval gate.
 | 2 Announce | — | States its reading (criteria, target area, flags) and proceeds **without waiting** — interrupt if the reading is wrong. If grilling happened, its closing synthesis is the announcement. |
 | 3 Delegate | — | Invokes the `implement-issue-pipeline` workflow with the issue + any flag overrides. |
 | 4 Report | — | Relays PR URL, review/QA verdicts, fix attempts, anything outstanding — **before** triage starts, so the build outcome is visible immediately. Never merges. |
-| 5 Triage | ✅ only on judgment calls | Announces in one line, then runs the `triage-pr` skill on the PR without waiting for a reply. Skipped — and said so — only when no PR exists or the run used `--worktree` (or `--skip-triage`). Ends with ONE message: ready for human review, or the precise reason it is not plus the `/triage-pr <pr>` resume command. |
+| 5 Triage | ✅ only on judgment calls | Announces in one line, then runs the `triage-pr` skill on the PR without waiting for a reply. Skipped — and said so — only when no PR exists or the run used `--worktree` (or `--skip-triage`). Ends with ONE message, owned by `triage-pr` itself whenever triage ran: ready for human review, or the precise reason it is not plus the `/triage-pr <pr>` resume command. `implement-issue` speaks last only when triage never ran. |
 
 ### Flags (overrides only — defaults live in the workflow)
 - `--skip-explore` — skip the exploration phase (fine for trivial changes).
@@ -350,8 +350,9 @@ conversation to hold the gates:
      (add `qa: false` if the environment can't drive a device reliably).
 3. **Interactive runs triage themselves:** after the Stage 4 report, `/implement-issue`
    announces and starts `triage-pr` on the PR with no action from you, consulting you in chat
-   only where judgment lives, and closes with one ready-for-human-review message (or the
-   precise reason it is not ready, plus the resume command). Batch runs get no triage —
+   only where judgment lives, and closes with one message, emitted by `triage-pr` itself:
+   ready for human review, or the precise reason it is not, plus the resume command. Batch
+   runs get no triage —
    `triage-pr`'s human gates need a conversation — so run `/triage-pr <pr>` on those by hand.
 4. Review the resulting PR — the build, review, mobile-QA, web-QA, vetting, and run-metrics
    reports all live in ONE pipeline comment, as collapsible sections under a short status

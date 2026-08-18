@@ -26,8 +26,10 @@ positive integer, otherwise tell the user and use the default.
   hyphens in replies.
 - **Never** force-push, edit the PR body/title, or edit existing comments.
 - **No summary output anywhere** — no PR report comment, no digest. The loop ends with a
-  2–3 sentence chat message: rounds run, fixes (with SHAs), resolves, anything deferred,
-  "your turn to review".
+  2–3 sentence chat message: the PR, rounds run, fixes (with SHAs), resolves, anything
+  deferred, and either that it is ready for human review or the hand-back reason with its
+  resume command. When a caller reached this skill, that message is the whole run's
+  closeout, so nothing follows it.
 - Work on the PR's head branch. If the working tree is dirty when you need to check it
   out, stop and ask the user.
 
@@ -98,7 +100,9 @@ resume command `/triage-pr <pr>` (add `--max-rounds N` when the cap was the reas
 auto-restart the watcher and never keep looping until quiet on your own.
 
 **4. Finish.** The short closing message described in the ground rules, naming the stop
-reason: bots quiet, or one of the three hand-back conditions with its resume command.
+reason: bots quiet, or one of the three hand-back conditions with its resume command. It is
+the same message however this skill was reached, and it IS the final message of an
+`implement-issue` run that reached Stage 5, which adds no closeout of its own after it.
 Nothing else.
 
 ## Recipes

@@ -120,18 +120,28 @@ AI-reviewer threads. So drive them to zero yourself; the user does nothing in be
   - **`--worktree`** — the feature branch stays attached to the isolation worktree, so
     `triage-pr`'s step-0 checkout of the head branch in the main tree fails with
     `fatal: '<branch>' is already used by worktree at '<path>'` even when the main tree is
-    clean. Give the user the `/triage-pr <pr>` command for once that worktree is removed.
+    clean. Give the user the `/triage-pr <pr>` command to run once that worktree is removed.
 - Nothing else automatically skips it. Triage still runs when the pipeline returned `outstanding` findings,
   `suspects`, `stuck: true`, or QA `NOT_PERFORMED` — bot triage is an orthogonal concern, and
   Stage 4 has already reported all of those.
+- **Workflow raised an error but a PR exists** — a recovery branch, not a third skip
+  condition. Post-build stages record their failure and the workflow rethrows, so a late
+  abort (a flaky QA lane, say) reaches you as an exception with no structured result even
+  though the PR is open and the bots are already commenting on it. Recover the URL with
+  `gh pr list --head feature/<issue> --json url --jq '.[0].url'` and triage that PR; if no
+  PR can be found, report the pipeline failure and stop.
 - `--skip-triage` skips this stage; say so in one line.
-- **One final message closes the run** — nothing after it:
-  - **Ready** — triage reached quiet: the PR URL and that it is ready for human review.
-  - **Not ready** — the precise reason (wave cap reached, watcher window closed
-    (`WINDOW_CLOSED`), stuck findings, or which skip condition applied) together with the
-    `/triage-pr <pr>` command to resume whenever a PR exists. The **No PR** skip is the one
-    case with nothing to resume: say the run ended without a PR and stop there. Never re-run
-    triage yourself, and never merge.
+- **One final message closes the run** — exactly one, reporting either that the PR is ready
+  for human review or the precise reason it is not (wave cap reached, watcher window closed
+  (`WINDOW_CLOSED`), stuck findings, or which skip applied) together with the
+  `/triage-pr <pr>` command to resume. When triage ran, `triage-pr`'s own step-4 closing
+  message IS that message — it already carries the PR, the stop reason, the fixes and the
+  resume command — so add no second closeout after it.
+- **Emit that message yourself only when triage never ran** — a skip condition,
+  `--skip-triage`, or an unrecoverable abort. Say which applied, with the `/triage-pr <pr>`
+  resume command whenever a PR exists. The **No PR** skip is the one case with nothing to
+  resume: say the run ended without a PR and stop there. Never re-run triage yourself, and
+  never merge.
 
 ## Notes
 - **Headless/batch entry:** for unattended runs (queue draining, overnight), invoke the
