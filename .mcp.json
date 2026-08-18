@@ -10,7 +10,7 @@
       "command": "sh",
       "args": [
         "-c",
-        "OPENPENCIL_MCP_ROOT=\"$(git rev-parse --show-toplevel)\" exec npx --no-install openpencil-mcp"
+        "OPENPENCIL_MCP_ROOT=\"$(git rev-parse --show-toplevel 2>/dev/null)\" exec npx --no-install openpencil-mcp"
       ]
     }
   }
