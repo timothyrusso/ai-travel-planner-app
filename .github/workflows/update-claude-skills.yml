@@ -13,13 +13,13 @@ jobs:
   update-skills:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           # The next step runs external package code (`npx skills update`); don't leave
           # write-capable git credentials persisted. create-pull-request uses the token directly.
           persist-credentials: false
 
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
         with:
           node-version-file: '.nvmrc'
 
