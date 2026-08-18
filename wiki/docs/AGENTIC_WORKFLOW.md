@@ -7,9 +7,10 @@ project's own rules) and lives under `.claude/`.
 
 You **author** issues with the `write-issue` skill, then **run** them through one front door:
 `/implement-issue` — a thin orchestrator that judges the issue, grills you only when something
-genuinely needs clarifying, and delegates to the single pipeline workflow
-(`implement-issue-pipeline`). For headless/batch runs, invoke the workflow directly. See
-[Entry points](#entry-points).
+genuinely needs clarifying, delegates to the single pipeline workflow
+(`implement-issue-pipeline`), and then triages the AI reviewers' comments on the resulting PR
+so what reaches you has no open bot threads, or a clear hand-back with the resume command.
+For headless/batch runs, invoke the workflow directly. See [Entry points](#entry-points).
 
 ---
 
@@ -44,8 +45,8 @@ genuinely needs clarifying, and delegates to the single pipeline workflow
 | `finding-vetter` | `.claude/agents/finding-vetter.md` | Read-only skeptic. Tries to refute one blocking finding (against the diff, code, and QA evidence) before it can trigger an auto-fix; returns confirmed/refuted/suspect. |
 | `qa-baseline` | `.claude/skills/qa-baseline/SKILL.md` | Standing regression checks run for *every* feature (startup, render, navigation). |
 | Agent memory | `.claude/agent-memory/` | Committed, per-agent operational lessons (device quirks, tooling facts, timings). Agents read theirs at run start and may append under strict rules; humans curate at PR review — keep or delete. |
-| `implement-issue` | `.claude/skills/implement-issue/SKILL.md` | The **front door** (thin orchestrator): judges the issue, grills only if needed (folding answers back into the issue body), announces its reading, then delegates to the pipeline. Contains no pipeline logic. |
-| `triage-pr` | `.claude/skills/triage-pr/SKILL.md` | Bot-review triage loop (main-thread skill — it contains human gates): vets every AI-reviewer comment with `finding-vetter`, auto-fixes confirmed findings, resolves noise with short replies, consults the user in chat for judgment calls. Natural termination (bots quiet + grace poll); no round cap, only a stuck tripwire. Human comments untouchable. |
+| `implement-issue` | `.claude/skills/implement-issue/SKILL.md` | The **front door** (thin orchestrator): judges the issue, grills only if needed (folding answers back into the issue body), announces its reading, delegates to the pipeline, then runs `triage-pr` on the resulting PR (Stage 5). Contains neither pipeline nor triage logic. |
+| `triage-pr` | `.claude/skills/triage-pr/SKILL.md` | Bot-review triage loop (main-thread skill — it contains human gates): vets every AI-reviewer comment with `finding-vetter`, auto-fixes confirmed findings, resolves noise with short replies, consults the user in chat for judgment calls. Run automatically as `implement-issue` Stage 5, and directly to resume or after a batch run. Terminates on bots quiet + grace poll, or hands back on one of three tripwires: the 10-wave cap (`--max-rounds N`), `WINDOW_CLOSED`, or a stuck findings-set. Human comments untouchable. |
 | `implement-issue-pipeline` | `.claude/workflows/implement-issue-pipeline.js` | **THE pipeline** (single encoding): explore → build → wire PR → review ∥ QA (mobile and/or web, routed by `qaTargets`) → finding vetting → bounded auto-fix → one consolidated run comment → visual summary. Owns the canonical defaults. Directly invocable for headless/batch. |
 | CodeGraph | `.mcp.json` + `@colbymchenry/codegraph` | Code-intelligence MCP (symbols, call paths, blast radius) that `explorer`/`feature-builder` query instead of grepping. Local index in `.codegraph/` (gitignored). |
 
@@ -78,7 +79,7 @@ flowchart TD
         EXPL -->|"yes"| EXPLORE["explorer maps the issue onto<br/>the architecture (non-blocking)<br/>+ picks qaTargets: mobile / web / both / none"]
         EXPL -->|"skipped / report supplied"| BUILD
         EXPLORE --> BUILD["feature-builder:<br/>branch off origin/main, implement,<br/>tsc + arch once, layer-aligned commits,<br/>open PR with empty body"]
-        BUILD -->|"no PR"| FATAL["FATAL — nowhere to report"]
+        BUILD -->|"no PR"| FATAL["FATAL — nowhere to report:<br/>no triage, nothing to resume"]
         BUILD --> WIRE["wire, best-effort:<br/>assign PR + project +<br/>QA CLI pre-check (only the<br/>engines qaTargets needs)"]
         WIRE --> VERIFY["review ∥ device QA ∥ web QA<br/>(parallel, independent —<br/>QA lanes run only if in qaTargets)"]
         VERIFY --> VET["vet: one skeptic per<br/>blocking finding"]
@@ -104,10 +105,12 @@ flowchart TD
     VISUAL -->|"completed without abort"| RET["structured return to the caller"]
     RET --> SUMM["skill relays the result"]
     SUMM --> BOTS["AI review bots comment on the PR"]
-    BOTS -->|"optional"| TRIAGE["/triage-pr loop:<br/>vet each finding, fix confirmed,<br/>resolve noise, escalate judgment<br/>calls to the human"]
-    BOTS -.->|"triage skipped:<br/>human handles bot<br/>threads directly"| PRREV
+    BOTS -->|"Stage 5 — automatic,<br/>announced not asked"| TRIAGE["/triage-pr loop (max 10 waves):<br/>vet each finding, fix confirmed,<br/>resolve noise, escalate judgment<br/>calls to the human"]
+    BOTS -.->|"triage skipped — announced:<br/>--skip-triage or --worktree"| PRREV
     TRIAGE -->|"fix commits<br/>trigger re-review"| BOTS
     TRIAGE -->|"bots quiet +<br/>grace poll"| PRREV["Human PR review<br/>(behind the CI gate:<br/>lint + typecheck + arch)"]
+    TRIAGE -.->|"wave cap · WINDOW_CLOSED ·<br/>stuck findings"| HANDBACK["hand back to the human<br/>with the /triage-pr resume command"]
+    HANDBACK --> PRREV
     PRREV --> MERGE["Merge — never automated"]
 ```
 
@@ -117,7 +120,9 @@ flowchart TD
   "the issue was never created".
 - **`/implement-issue`** judges the issue: crisp → announces its reading and proceeds gate-free;
   real doubts → grills, folds the answers back into the issue body, then proceeds. Either way
-  the build itself runs in the pipeline workflow.
+  the build itself runs in the pipeline workflow, and the run ends with bot triage plus one
+  final message: ready for human review, or the precise reason it is not plus the resume
+  command — no human action between the build report and triage.
 - **`implement-issue-pipeline`** is the only encoding of the build stages. Invoke it directly
   (no conversation) for batch/overnight runs on crisp, pre-approved issues.
 
@@ -129,7 +134,7 @@ approval gate.
 ## The `/implement-issue` flow
 
 ```
-/implement-issue <issue-number> [--skip-explore] [--skip-review] [--skip-qa] [--worktree] [--max-fix N]
+/implement-issue <issue-number> [--skip-explore] [--skip-review] [--skip-qa] [--skip-triage] [--worktree] [--max-fix N]
 ```
 
 | Stage | Interactive? | What happens |
@@ -138,11 +143,14 @@ approval gate.
 | 1 Judge | ✅ only if doubts | Crisp issue → proceed, no questions. Real doubts → `grilling`, then the clarified issue **body is rewritten** (with your approval) as the single source of truth. |
 | 2 Announce | — | States its reading (criteria, target area, flags) and proceeds **without waiting** — interrupt if the reading is wrong. If grilling happened, its closing synthesis is the announcement. |
 | 3 Delegate | — | Invokes the `implement-issue-pipeline` workflow with the issue + any flag overrides. |
-| 4 Report | — | Relays PR URL, review/QA verdicts, fix attempts, anything outstanding. Never merges. |
+| 4 Report | — | Relays PR URL, review/QA verdicts, fix attempts, anything outstanding — **before** triage starts, so the build outcome is visible immediately. Never merges. |
+| 5 Triage | ✅ only on judgment calls | Announces in one line, then runs the `triage-pr` skill on the PR without waiting for a reply. Skipped — and said so — only when no PR exists or the run used `--worktree` (or `--skip-triage`). Ends with ONE message, owned by `triage-pr` itself whenever triage ran: ready for human review, or the precise reason it is not plus the `/triage-pr <pr>` resume command. `implement-issue` speaks last only when triage never ran. |
 
 ### Flags (overrides only — defaults live in the workflow)
 - `--skip-explore` — skip the exploration phase (fine for trivial changes).
 - `--skip-review` / `--skip-qa` — skip a verify stage when not needed.
+- `--skip-triage` — skip Stage 5 (the only skill-local flag; triage runs outside the
+  pipeline). For the rare PR too large to triage in-session.
 - `--worktree` — run code-touching agents in isolated git worktrees so humans can keep editing
   the main checkout. Note: a fresh worktree has no `node_modules`/native build → expect a cold
   install/build (which is why it's opt-in).
@@ -301,8 +309,12 @@ eyes; `refuted` = findings the vetter dismissed (spot-check them).
 ## The `/triage-pr` loop
 
 After the pipeline opens a PR, the AI review bots (coderabbit, sourcery, cubic)
-comment on their own schedule. `/triage-pr <pr>` is a **main-thread skill** (it contains
-human gates, so it cannot be a workflow) that drives those threads to zero:
+comment on their own schedule. `triage-pr` is a **main-thread skill** (it contains
+human gates, so it cannot be a workflow, and cannot move inside the pipeline) that drives
+those threads to zero. `/implement-issue` runs it automatically as Stage 5 — a PR still
+carrying unanswered bot threads is not ready for a human — and you invoke `/triage-pr <pr>`
+directly to resume after a hand-back, or after a headless/batch run, which has no
+conversation to hold the gates:
 
 - Every bot finding is vetted by `finding-vetter`: **confirmed** → auto-fixed, committed,
   thread closed with the SHA (push is verified before any thread is resolved) ·
@@ -312,9 +324,16 @@ human gates, so it cannot be a workflow) that drives those threads to zero:
   when it is OBJECTIVELY inapplicable (impossible in this repo, or a wrong premise);
   taste- and threshold-shaped calls always go to the user. After wave 1, only clear
   correctness, security, reliability, or data-integrity issues earn a fix.
-- **Termination is natural** (no round cap): no unresolved bot threads AND no pending bot
-  check runs AND one grace poll still quiet. The only tripwire is the stuck detector — a
-  wave whose findings-set repeats a previous wave's hands the loop to the human.
+- **Quiet termination:** no unresolved bot threads AND no pending bot check runs AND one
+  grace poll still quiet.
+- **Three tripwires short of quiet**, each handing the loop back to the human with the
+  reason and the `/triage-pr <pr>` resume command — never an auto-restart, never a
+  loop-until-quiet: the **10-wave cap** (`--max-rounds N` to raise it; a wave is fetch → vet
+  → fix → push, and watcher polls don't count), the watcher's `WINDOW_CLOSED`, and the
+  **stuck detector** — a wave whose findings-set repeats a previous wave's. The cap replaces
+  the skill's earlier deliberate no-cap stance: unbounded was defensible while a human
+  started every loop, and Stage 5 now starts it automatically. It applies on every
+  invocation, manual included.
 - Human-authored comments are untouchable, and the loop produces no reports — thread
   replies plus a short closing chat message only.
 
@@ -329,9 +348,12 @@ human gates, so it cannot be a workflow) that drives those threads to zero:
      otherwise it announces its reading and runs end-to-end.
    - **Headless/batch:** run the `implement-issue-pipeline` workflow with `{ issue: <n> }`
      (add `qa: false` if the environment can't drive a device reliably).
-3. Once the AI review bots have commented on the fresh PR, optionally run
-   `/triage-pr <pr>` — it drives the bot threads to zero and consults you in chat only
-   where judgment lives.
+3. **Interactive runs triage themselves:** after the Stage 4 report, `/implement-issue`
+   announces and starts `triage-pr` on the PR with no action from you, consulting you in chat
+   only where judgment lives, and closes with one message, emitted by `triage-pr` itself:
+   ready for human review, or the precise reason it is not, plus the resume command. Batch
+   runs get no triage —
+   `triage-pr`'s human gates need a conversation — so run `/triage-pr <pr>` on those by hand.
 4. Review the resulting PR — the build, review, mobile-QA, web-QA, vetting, and run-metrics
    reports all live in ONE pipeline comment, as collapsible sections under a short status
    header.
