@@ -9,7 +9,8 @@
     "claude-code-workflows": {
       "source": {
         "source": "github",
-        "repo": "wshobson/agents"
+        "repo": "wshobson/agents",
+        "ref": "367cb6a4a182cf7e9b0a17c9429f7411ddd9cf35"
       }
     },
     "ponytail": {

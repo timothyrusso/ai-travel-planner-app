@@ -7,11 +7,11 @@
     },
     "open-pencil": {
       "type": "stdio",
-      "command": "npx",
-      "args": ["--no-install", "openpencil-mcp"],
-      "env": {
-        "OPENPENCIL_MCP_ROOT": "${PWD}"
-      }
+      "command": "sh",
+      "args": [
+        "-c",
+        "OPENPENCIL_MCP_ROOT=\"$(git rev-parse --show-toplevel)\" exec npx --no-install openpencil-mcp"
+      ]
     }
   }
 }
