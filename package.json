@@ -107,6 +107,8 @@
     "@cspell/dict-it-it": "^3.1.6",
     "@expo/config-plugins": "~57.0.0",
     "@gorhom/bottom-sheet": "^5.2.14",
+    "@open-pencil/cli": "^0.14.0",
+    "@open-pencil/mcp": "^0.14.0",
     "@react-native/metro-config": "^0.80.0",
     "@storybook/addon-a11y": "^10.5.7",
     "@storybook/addon-docs": "^10.5.7",

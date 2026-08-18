@@ -4,6 +4,14 @@
       "type": "stdio",
       "command": "npx",
       "args": ["--no-install", "codegraph", "serve", "--mcp"]
+    },
+    "open-pencil": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["--no-install", "openpencil-mcp"],
+      "env": {
+        "OPENPENCIL_MCP_ROOT": "${PWD}"
+      }
     }
   }
 }
