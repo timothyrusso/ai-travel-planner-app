@@ -11,6 +11,12 @@
         "source": "github",
         "repo": "wshobson/agents"
       }
+    },
+    "ponytail": {
+      "source": {
+        "source": "github",
+        "repo": "DietrichGebert/ponytail"
+      }
     }
   },
   "permissions": {
