@@ -112,9 +112,12 @@ AI-reviewer threads. So drive them to zero yourself; the user does nothing in be
   user interrupts if they don't want it; silence is consent.
 - **Run the `triage-pr` skill** as `/triage-pr <pr> --issue <issue>` — the PR number is its
   required first token, and `--issue` only overrides the issue number used for commit
-  messages. Do NOT re-implement any
-  of its steps and do NOT dispatch its agents (`finding-vetter`, `feature-builder`) yourself:
-  the loop, its human gates, its below-bar rule, and its 10-wave cap all live in that skill.
+  messages. This skill explicitly authorizes that invocation: no user confirmation is needed,
+  and `triage-pr` carries no `disable-model-invocation` flag precisely so this stage can reach
+  it. Do NOT re-implement any of its steps and do NOT dispatch its agents (`finding-vetter`,
+  `feature-builder`) yourself: the loop, its human gates, its below-bar rule, and its 10-wave
+  cap all live in that skill. It must run **in this conversation**, never as a subagent — the
+  gates it holds are settled with the user mid-round, and a subagent has no way to ask.
 - **Automatic skip conditions — exactly these two, and both are announced rather than silent:**
   - **No PR** — the pipeline aborted before the build, so there is nothing to triage.
   - **`--worktree`** — the feature branch stays attached to the isolation worktree, so

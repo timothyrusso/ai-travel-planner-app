@@ -1,8 +1,7 @@
 ---
 name: triage-pr
-description: Iteratively triage AI review-bot comments on an open pull request until the bots go quiet or a tripwire hands the loop back — vet each finding with finding-vetter, auto-fix confirmed ones, resolve noise with short replies, and consult the user in chat for judgment calls. Explicitly invoked with a PR number, e.g. `/triage-pr 402 [--issue N] [--max-rounds N]`. No reports — thread replies plus a short closing message only.
+description: Iteratively triage AI review-bot comments on an open pull request until the bots go quiet or a tripwire hands the loop back — vet each finding with finding-vetter, auto-fix confirmed ones, resolve noise with short replies, and consult the user in chat for judgment calls. Use when the user asks to triage, answer, or clear the AI-reviewer threads on a pull request, and when `implement-issue` reaches its Stage 5 triage — those are the only two entry points. Always needs a PR number, e.g. `/triage-pr 402 [--issue N] [--max-rounds N]`. No reports — thread replies plus a short closing message only.
 argument-hint: <pr-number> [--issue <issue-number>] [--max-rounds N]
-disable-model-invocation: true
 ---
 
 # triage-pr — the bot-review triage loop
@@ -156,3 +155,12 @@ PR — driving the bot comments to zero is part of handing the human a reviewabl
 optional follow-up. It is still invoked directly (`/triage-pr <pr>`) to resume after a
 hand-back, to triage a PR the pipeline did not open, and after headless/batch runs, which
 have no main thread to hold the loop's human gates.
+
+**Never convert this loop into a subagent.** It reads as a natural fit for one — a long,
+mechanical, self-terminating loop — but a subagent cannot ask the user anything, so every
+gate above (suspect findings, judgment calls, below-bar calls, "stop and ask") would silently
+become the agent's own decision, and it would push commits and post thread replies unattended
+on exactly the findings a human was supposed to rule on. Its closing message would also
+vanish: a subagent's report is not shown to the user. Dispatch agents for the *mechanical*
+pieces only — `finding-vetter` per finding, `feature-builder` per fix batch — and keep the
+loop itself here, in the conversation.
