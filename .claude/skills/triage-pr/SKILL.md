@@ -1,7 +1,7 @@
 ---
 name: triage-pr
-description: Iteratively triage AI review-bot comments on an open pull request until the bots go quiet — vet each finding with finding-vetter, auto-fix confirmed ones, resolve noise with short replies, and consult the user in chat for judgment calls. Explicitly invoked with a PR number, e.g. `/triage-pr 402 [--issue N]`. No reports — thread replies plus a short closing message only.
-argument-hint: <pr-number> [--issue <issue-number>]
+description: Iteratively triage AI review-bot comments on an open pull request until the bots go quiet or a tripwire hands the loop back — vet each finding with finding-vetter, auto-fix confirmed ones, resolve noise with short replies, and consult the user in chat for judgment calls. Explicitly invoked with a PR number, e.g. `/triage-pr 402 [--issue N] [--max-rounds N]`. No reports — thread replies plus a short closing message only.
+argument-hint: <pr-number> [--issue <issue-number>] [--max-rounds N]
 disable-model-invocation: true
 ---
 
@@ -13,7 +13,9 @@ in conversation with the user, mid-round. Everything mechanical is scripted or d
 
 **Parse `$ARGUMENTS`:** first token = the **PR number** (required). `--issue N` overrides
 the issue number otherwise derived from the PR head branch (`feature/<n>`) — needed for
-commit messages (`type(<issue>): ...` is hook-enforced).
+commit messages (`type(<issue>): ...` is hook-enforced). `--max-rounds N` overrides the wave
+cap (default **10**, see step 3), mirroring the pipeline's `--max-fix N`; it must be a
+positive integer, otherwise tell the user and use the default.
 
 ## Ground rules
 - **Bot comments only.** Author allowlist: `coderabbitai`, `sourcery-ai`, `cubic-dev-ai`.
@@ -24,8 +26,10 @@ commit messages (`type(<issue>): ...` is hook-enforced).
   hyphens in replies.
 - **Never** force-push, edit the PR body/title, or edit existing comments.
 - **No summary output anywhere** — no PR report comment, no digest. The loop ends with a
-  2–3 sentence chat message: rounds run, fixes (with SHAs), resolves, anything deferred,
-  "your turn to review".
+  2–3 sentence chat message: the PR, rounds run, fixes (with SHAs), resolves, anything
+  deferred, and either that it is ready for human review or the hand-back reason with its
+  resume command. When a caller reached this skill, that message is the whole run's
+  closeout, so nothing follows it.
 - Work on the PR's head branch. If the working tree is dirty when you need to check it
   out, stop and ask the user.
 
@@ -67,7 +71,20 @@ grace poll still quiet**. Quiet → step 4. Threads → step 2.
   resolved thread must never cite a SHA that is not on the PR's remote branch. Then return
   to step 1.
 
-**3. Stuck detector (the only tripwire — there is deliberately NO round cap).**
+**3. Tripwires — the wave cap and the stuck detector.**
+
+A **wave** is one complete pass of step 2: fetch threads → vet → fix → push. Watcher polls
+in step 1 are NOT waves — waiting for the bots costs nothing, acting on them does.
+
+**Wave cap: 10 waves**, overridable with `--max-rounds N`. This is a deliberate
+**reversal** of this skill's earlier "there is deliberately no round cap" stance, recorded
+here so a `docs-audit` run reads it as the current decision rather than as drift — do not
+restore the uncapped wording. An unbounded loop is acceptable only while a human is
+watching it start, and `/implement-issue` now starts this loop automatically. The cap lives
+in this skill and applies on **every** invocation, manual included: this loop never behaves
+differently depending on its caller.
+
+**Stuck detector.**
 Fingerprint each wave's bot findings as a **sorted multiset of thread identities**
 (`path:line` plus normalized text, joined and sorted — same semantics as the pipeline's
 `roundFingerprint`). Never a plain text set: that collapses identical findings at
@@ -76,7 +93,17 @@ fake a stuck state and stop the loop with a fixable finding still open. If a wav
 fingerprint matches any previous wave's, stop: the same findings keep returning, more
 rounds are rerolls. Tell the user which findings are stuck and hand the loop over.
 
-**4. Finish.** The short closing message described in the ground rules. Nothing else.
+**Handing back.** There are exactly three stop conditions short of quiet: the wave cap is
+reached, the watcher prints `WINDOW_CLOSED`, or the stuck detector fires. On any of them,
+stop at step 4 and hand the loop back to the human — the reason, what is still open, and the
+resume command `/triage-pr <pr>` (add `--max-rounds N` when the cap was the reason). Never
+auto-restart the watcher and never keep looping until quiet on your own.
+
+**4. Finish.** The short closing message described in the ground rules, naming the stop
+reason: bots quiet, or one of the three hand-back conditions with its resume command. It is
+the same message however this skill was reached, and it IS the final message of an
+`implement-issue` run that reached Stage 5, which adds no closeout of its own after it.
+Nothing else.
 
 ## Recipes
 
@@ -120,10 +147,12 @@ for i in $(seq 1 12); do
   fi
   sleep 300
 done
-echo "WINDOW_CLOSED: bots still busy, re-run the watcher"
+echo "WINDOW_CLOSED: bots still busy, hand back to the human with the /triage-pr <pr> resume command"
 ```
 
 ## Chaining
-This skill is the natural follow-up to an `implement-issue` pipeline run: once the bots
-have reviewed the fresh PR, `/triage-pr <pr>` drives their comments to zero and hands the
-PR to the human in reviewable state.
+`implement-issue` runs this skill itself, as its Stage 5, once the pipeline has opened the
+PR — driving the bot comments to zero is part of handing the human a reviewable PR, not an
+optional follow-up. It is still invoked directly (`/triage-pr <pr>`) to resume after a
+hand-back, to triage a PR the pipeline did not open, and after headless/batch runs, which
+have no main thread to hold the loop's human gates.

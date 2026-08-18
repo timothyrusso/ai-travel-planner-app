@@ -1629,6 +1629,48 @@ TSDoc format:
  */
 ```
 
+### Inline comments
+
+An inline comment is a claim that the code cannot speak for itself. Most of the time it can, so the default is no comment: the names, types, and structure carry the meaning. A comment earns its place only when it records a *why* that is unrecoverable from the code.
+
+**Warranted — and only these four cases:**
+
+- a non-obvious constraint or workaround, together with its reason;
+- a deliberate deviation from the surrounding pattern;
+- an external quirk (a platform or library bug, an API contract);
+- a pointer to an issue or spec.
+
+**Banned outright:**
+
+- restating what the next line already says;
+- section banners (`// --- Handlers ---`);
+- narrating the change (`// Added for issue #443`, `// New:`, `// Updated`);
+- commented-out code;
+- comments on self-evident names.
+
+```ts
+// ❌ restates the code
+// Set loading to true
+setLoading(true);
+
+// ❌ narrates the change
+// Updated to also handle the empty case
+if (items.length === 0) return ok([]);
+
+// ✅ records a why the code cannot carry
+// Expo Router remounts the screen on locale change, so the animation must be keyed.
+```
+
+**Length:** one line. Two only when the explanation is genuinely unavoidable.
+
+**Scope:** every file, including tests and the automation scripts under `.claude/` — there is no exempt list, because an exemption would imply the rule is about comment volume rather than comment value. The "non-obvious why" test is what keeps a good comment alive anywhere, and what removes a noisy one anywhere. In tests, the `describe`/`it` name is the comment.
+
+**Not retroactive.** The rule governs the comments a change writes. A comment that the change itself made wrong or misleading should be fixed or deleted; unrelated pre-existing comment noise is left alone, because cleaning it up inflates every diff and fights the "keep the diff minimal" rule. Repository-wide comment cleanup is `/simplify`'s job.
+
+**TSDoc is unaffected.** The TSDoc requirement above still stands in full: public methods — every use case `execute()`, every repository and service interface method, and any non-self-evident facade or hook return value — keep their TSDoc block. That documentation earns its place; this subsection is about the comments inside a function body.
+
+**At review:** the `code-reviewer` agent reports comment-quality findings as **non-blocking**, so they surface in the run report without spending the bounded auto-fix budget that correctness findings need.
+
 ---
 
 ## Naming Conventions
