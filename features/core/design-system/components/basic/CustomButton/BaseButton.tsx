@@ -1,6 +1,5 @@
 import { Fragment } from 'react';
 import { ActivityIndicator, type StyleProp, type TextStyle, View, type ViewStyle } from 'react-native';
-import { match } from 'ts-pattern';
 
 import {
   ButtonState,
@@ -44,10 +43,7 @@ export function BaseButton({
   leftIconStyle,
   rightIconStyle,
 }: CustomButtonProps) {
-  const buttonState = match({ isDisabled, isLoading })
-    .with({ isDisabled: true }, () => ButtonState.Disabled)
-    .with({ isLoading: true }, () => ButtonState.Disabled)
-    .otherwise(() => ButtonState.Active);
+  const buttonState = isDisabled ? ButtonState.Disabled : ButtonState.Active;
 
   const { derived } = useCustomButtonLogic();
 
@@ -59,10 +55,6 @@ export function BaseButton({
     <CustomPressable disabled={isDisabled || isLoading} onPress={onPress} style={[styles.button, style]}>
       <View style={styles.innerContainer}>
         {isLoading ? (
-          // `iconColor`, not `styles.text.color`: a spinner is a glyph, so it takes the same
-          // `styleIconColor` token BaseIconButton's spinner uses. Sourcing it from the text color
-          // made the two components' spinners differ for Main/Primary disabled, where `getButtonStyles`
-          // returns primaryWhite but `styleIconColor` returns primaryWhiteDisabled.
           <ActivityIndicator color={iconColor} />
         ) : (
           <Fragment>

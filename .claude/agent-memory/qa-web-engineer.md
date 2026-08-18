@@ -35,3 +35,7 @@ Read at the start of every web QA run. Append only under the rules in
   control value) without clicking through the Controls panel, open
   `http://localhost:6006/iframe.html?id=<story-id>&viewMode=story&args=key:value;key2:value2`
   directly — isolates the component (no sidebar/addons chrome) and sets args via the URL.
+- [2026-08-16] React Native Web's `textTransform: uppercase` is CSS-only — searching
+  `innerHTML` for the visible uppercase string never matches; the text node stays
+  title-case. Assert on title-case text; read colours/geometry (bg, border, translateY,
+  opacity, backdrop-filter) via `getComputedStyle` on the RNW divs instead of screenshots.

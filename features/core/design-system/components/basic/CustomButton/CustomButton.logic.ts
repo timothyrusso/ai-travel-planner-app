@@ -23,13 +23,13 @@ export const useCustomButtonLogic = () => {
 
     return match({ buttonType, isDisabled })
       .with({ buttonType: ButtonType.Main, isDisabled: true }, () => ({
-        backgroundColor: colors.primaryGrey,
-        borderColor: colors.primaryGrey,
+        backgroundColor: colors.purple300,
+        borderColor: colors.purple300,
         textColor: colors.primaryWhite,
       }))
       .with({ buttonType: ButtonType.Main, isDisabled: false }, () => ({
-        backgroundColor: colors.purple900,
-        borderColor: colors.purple900,
+        backgroundColor: colors.purple500,
+        borderColor: colors.purple500,
         textColor: colors.primaryWhite,
       }))
       .with({ buttonType: ButtonType.Primary, isDisabled: true }, () => ({
@@ -89,9 +89,9 @@ export const useCustomButtonLogic = () => {
     const isDisabled = buttonState === ButtonState.Disabled;
 
     return match({ buttonType, isDisabled })
-      .with({ buttonType: ButtonType.Main, isDisabled: true }, () => colors.primaryWhiteDisabled)
+      .with({ buttonType: ButtonType.Main, isDisabled: true }, () => colors.primaryWhite)
       .with({ buttonType: ButtonType.Main, isDisabled: false }, () => colors.primaryWhite)
-      .with({ buttonType: ButtonType.Primary, isDisabled: true }, () => colors.primaryWhiteDisabled)
+      .with({ buttonType: ButtonType.Primary, isDisabled: true }, () => colors.primaryWhite)
       .with({ buttonType: ButtonType.Primary, isDisabled: false }, () => colors.primaryWhite)
       .with({ buttonType: ButtonType.Secondary, isDisabled: true }, () => colors.primaryGrey)
       .with({ buttonType: ButtonType.Secondary, isDisabled: false }, () => colors.primaryBlack)

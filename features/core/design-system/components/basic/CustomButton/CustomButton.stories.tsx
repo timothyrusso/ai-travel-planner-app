@@ -62,6 +62,18 @@ export const States: Story = {
       <CustomButtonLarge {...args} />
       <CustomButtonLarge {...args} isDisabled />
       <CustomButtonLarge {...args} isLoading />
+      <CustomButtonLarge {...args} isDisabled isLoading />
+    </View>
+  ),
+};
+
+export const MainAgainstPrimary: Story = {
+  render: args => (
+    <View style={styles.stack}>
+      <CustomButtonLarge {...args} buttonType={ButtonType.Main} />
+      <CustomButtonLarge {...args} buttonType={ButtonType.Primary} />
+      <CustomButtonLarge {...args} buttonType={ButtonType.Main} isDisabled />
+      <CustomButtonLarge {...args} buttonType={ButtonType.Primary} isDisabled />
     </View>
   ),
 };

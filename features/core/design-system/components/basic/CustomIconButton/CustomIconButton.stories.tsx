@@ -56,12 +56,28 @@ export const AllSizes: Story = {
   ),
 };
 
+/**
+ * Loading is not disabled: the spinner runs over the button's *active* fill, and only `isDisabled`
+ * dims it. The last cell sets both, where disabled wins the colour and the spinner still shows.
+ */
 export const States: Story = {
   render: args => (
     <View style={styles.row}>
       <CustomIconButtonLarge {...args} />
       <CustomIconButtonLarge {...args} isDisabled />
       <CustomIconButtonLarge {...args} isLoading />
+      <CustomIconButtonLarge {...args} isDisabled isLoading />
+    </View>
+  ),
+};
+
+/** Every variant disabled: on the two filled pills the glyph stays white, as bright as the fill. */
+export const AllTypesDisabled: Story = {
+  render: args => (
+    <View style={styles.row}>
+      {Object.values(ButtonType).map(buttonType => (
+        <CustomIconButtonLarge {...args} key={buttonType} buttonType={buttonType} isDisabled />
+      ))}
     </View>
   ),
 };

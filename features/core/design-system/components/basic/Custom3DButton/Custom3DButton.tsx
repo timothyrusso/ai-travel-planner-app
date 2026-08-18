@@ -1,98 +1,94 @@
 import { Fragment } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, type StyleProp, View, type ViewStyle } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
+
 import {
-  CUSTOM_3D_BUTTON_DEFAULTS,
+  Custom3DButtonType,
   useCustom3DButtonLogic,
 } from '@/features/core/design-system/components/basic/Custom3DButton/Custom3DButton.logic';
 import { custom3DButtonStyles } from '@/features/core/design-system/components/basic/Custom3DButton/Custom3DButton.style';
 import { CustomIcon, type IoniconsName } from '@/features/core/design-system/components/basic/CustomIcon/CustomIcon';
 import { CustomText } from '@/features/core/design-system/components/basic/CustomText/CustomText';
+import { type RaisedButtonSize, raisedButtonSizes } from '@/features/core/design-system/style/dimensions/raisedButton';
 
 export type Custom3DButtonProps = {
-  children?: string;
-  onPress?: () => void;
-  disabled?: boolean;
+  title: string;
+  onPress: () => void;
+  buttonType?: Custom3DButtonType;
+  isDisabled?: boolean;
   isLoading?: boolean;
   leftIcon?: IoniconsName;
   rightIcon?: IoniconsName;
   iconSize?: number;
-  backgroundColor?: string;
-  borderColor?: string;
-  borderWidth?: number;
-  borderRadius?: number;
-  raisedColor?: string;
-  raiseLevel?: number;
-  height?: number;
-  width?: number;
-  stretch?: boolean;
-  textColor?: string;
-  textSize?: number;
-  textFontFamily?: string;
+  /** Layout only — the button always fills the width of its container. */
+  style?: StyleProp<ViewStyle>;
+  size?: RaisedButtonSize;
 };
 
 export const Custom3DButton = ({
-  children,
+  title,
   onPress,
-  disabled = false,
+  buttonType = Custom3DButtonType.Primary,
+  isDisabled = false,
   isLoading = false,
   leftIcon,
   rightIcon,
-  iconSize = CUSTOM_3D_BUTTON_DEFAULTS.iconSize,
-  backgroundColor = CUSTOM_3D_BUTTON_DEFAULTS.backgroundColor,
-  borderColor = CUSTOM_3D_BUTTON_DEFAULTS.borderColor,
-  borderWidth = CUSTOM_3D_BUTTON_DEFAULTS.borderWidth,
-  borderRadius = CUSTOM_3D_BUTTON_DEFAULTS.borderRadius,
-  raisedColor = CUSTOM_3D_BUTTON_DEFAULTS.raisedColor,
-  raiseLevel = CUSTOM_3D_BUTTON_DEFAULTS.raiseLevel,
-  height = CUSTOM_3D_BUTTON_DEFAULTS.height,
-  width,
-  stretch = true,
-  textColor = CUSTOM_3D_BUTTON_DEFAULTS.textColor,
-  textSize = CUSTOM_3D_BUTTON_DEFAULTS.textSize,
-  textFontFamily = CUSTOM_3D_BUTTON_DEFAULTS.textFontFamily,
+  iconSize,
+  style,
+  size = raisedButtonSizes.large,
 }: Custom3DButtonProps) => {
-  const { derived } = useCustom3DButtonLogic({
+  const { state, derived, effects } = useCustom3DButtonLogic({
     onPress,
-    disabled,
+    buttonType,
+    isDisabled,
     isLoading,
-    raiseLevel,
+    raiseLevel: size.raiseLevel,
   });
 
-  const styles = custom3DButtonStyles({
-    backgroundColor,
-    borderColor,
-    borderWidth,
-    borderRadius,
-    raisedColor,
-    raiseLevel,
-    height,
-    width,
-    stretch,
-    textColor,
-    textSize,
-    textFontFamily,
-    isDisabled: disabled,
-  });
+  const styles = custom3DButtonStyles({ size, buttonColors: derived.buttonColors });
+
+  const resolvedIconSize = iconSize ?? size.iconSize;
 
   return (
     <GestureDetector gesture={derived.tapGesture}>
-      <View style={styles.container}>
+      <View
+        style={[styles.container, style]}
+        accessible
+        accessibilityRole="button"
+        accessibilityLabel={state.t(title)}
+        accessibilityState={{ disabled: !derived.isInteractive }}
+        accessibilityActions={derived.accessibilityActions}
+        onAccessibilityTap={effects.onAccessibilityTap}
+        onAccessibilityAction={effects.onAccessibilityAction}
+      >
         <View style={styles.bottomFace} />
         <Animated.View style={[styles.content, derived.contentAnimatedStyle]}>
           <View style={styles.topFace}>
             {isLoading ? (
-              <ActivityIndicator color={textColor} />
+              <ActivityIndicator color={derived.buttonColors.contentColor} />
             ) : (
               <Fragment>
-                {leftIcon && <CustomIcon name={leftIcon} size={iconSize} color={textColor} style={styles.leftIcon} />}
-                {children && <CustomText text={children} style={styles.text} numberOfLines={1} ellipsizeMode="tail" />}
+                {leftIcon && (
+                  <CustomIcon
+                    name={leftIcon}
+                    size={resolvedIconSize}
+                    color={derived.buttonColors.contentColor}
+                    style={styles.leftIcon}
+                  />
+                )}
+                <CustomText text={title} style={styles.text} numberOfLines={1} ellipsizeMode="tail" />
                 {rightIcon && (
-                  <CustomIcon name={rightIcon} size={iconSize} color={textColor} style={styles.rightIcon} />
+                  <CustomIcon
+                    name={rightIcon}
+                    size={resolvedIconSize}
+                    color={derived.buttonColors.contentColor}
+                    style={styles.rightIcon}
+                  />
                 )}
               </Fragment>
             )}
+            <Animated.View pointerEvents="none" style={[styles.pressOverlay, derived.pressOverlayAnimatedStyle]} />
           </View>
         </Animated.View>
       </View>
