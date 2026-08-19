@@ -128,10 +128,8 @@ export const useCustomSegmentedControlLogic = ({
   const selectionProgress = useSharedValue(thumbIndex);
   const innerWidth = useSharedValue(NOT_MEASURED);
 
-  // `primaryGrey` #8E8E8F on the `secondaryGrey` #F5F5F5 track is 3:1, under the WCAG AA 4.5:1 floor
-  // for 12/14 text, and the palette holds no darker grey. So an unselected segment is `primaryBlack`
-  // muted by `UNSELECTED_CONTENT_OPACITY` instead — it renders ~#626262 at 5.6:1 and still reads as
-  // the quieter of the two states.
+  // `primaryGrey` #8E8E8F on the `secondaryGrey` #F5F5F5 track is 3:1, under the WCAG AA 4.5:1 floor, and the
+  // palette has no darker grey — so unselected is `primaryBlack` at `UNSELECTED_CONTENT_OPACITY`: ~#626262, 5.6:1.
   const controlColors: SegmentedControlColors = match(thumbFill)
     .with(SegmentedControlThumbFill.White, () => ({
       thumbColor: colors.primaryWhite,
