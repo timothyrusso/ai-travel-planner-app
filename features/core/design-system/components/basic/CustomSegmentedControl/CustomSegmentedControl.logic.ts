@@ -221,7 +221,7 @@ export const useCustomSegmentedControlLogic = ({
         secondIconOverlayAnimatedStyle,
         thirdIconOverlayAnimatedStyle,
       ],
-      isSelected: (index: number) => index === selectedIndex,
+      isSelected: (index: number) => index === thumbIndex,
     },
     effects: {
       onTrackLayout,
