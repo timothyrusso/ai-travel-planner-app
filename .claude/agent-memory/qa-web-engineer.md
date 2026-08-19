@@ -39,3 +39,8 @@ Read at the start of every web QA run. Append only under the rules in
   `innerHTML` for the visible uppercase string never matches; the text node stays
   title-case. Assert on title-case text; read colours/geometry (bg, border, translateY,
   opacity, backdrop-filter) via `getComputedStyle` on the RNW divs instead of screenshots.
+- [2026-08-19] Storybook's `.storybook/preview.tsx` wraps every story in a fixed-`maxWidth`
+  phone-frame div (no inline style, a CSS class) — resizing the browser viewport does nothing
+  to a `width: '100%'` DS component. To test container-width responsiveness, `eval` the
+  component's `parentElement` and `style.setProperty('max-width', 'NNNpx', 'important')` (plain
+  assignment loses to the class) directly, not the browser viewport.
