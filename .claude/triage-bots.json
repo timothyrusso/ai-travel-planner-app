@@ -1,0 +1,4 @@
+{
+  "invariant": "GitHub App bots only. Human comments are never auto-acted on: they are answered in conversation, so a new human contributor does not belong in this list. triage-pr additionally requires the comment author to be a Bot, so a human login added here by mistake still cannot drive an auto-fix.",
+  "bots": ["coderabbitai", "cubic-dev-ai", "sourcery-ai"]
+}

@@ -1,8 +1,7 @@
 ---
 name: triage-pr
-description: Iteratively triage AI review-bot comments on an open pull request until the bots go quiet or a tripwire hands the loop back — vet each finding with finding-vetter, auto-fix confirmed ones, resolve noise with short replies, and consult the user in chat for judgment calls. Explicitly invoked with a PR number, e.g. `/triage-pr 402 [--issue N] [--max-rounds N]`. No reports — thread replies plus a short closing message only.
+description: Iteratively triage AI review-bot comments on an open pull request until the bots go quiet or a tripwire hands the loop back — vet each finding with finding-vetter, auto-fix confirmed ones, resolve noise with short replies, and consult the user in chat for judgment calls. Use when the user asks to triage, answer, or clear the AI-reviewer threads on a pull request, and when `implement-issue` reaches its Stage 5 triage — those are the only two entry points. Always needs a PR number, e.g. `/triage-pr 402 [--issue N] [--max-rounds N]`. No reports — thread replies plus a short closing message only.
 argument-hint: <pr-number> [--issue <issue-number>] [--max-rounds N]
-disable-model-invocation: true
 ---
 
 # triage-pr — the bot-review triage loop
@@ -18,9 +17,18 @@ cap (default **10**, see step 3), mirroring the pipeline's `--max-fix N`; it mus
 positive integer, otherwise tell the user and use the default.
 
 ## Ground rules
-- **Bot comments only.** Author allowlist: `coderabbitai`, `sourcery-ai`, `cubic-dev-ai`.
-  Human-authored threads are untouchable — never reply to, resolve,
+- **Bot comments only.** The author allowlist lives in `.claude/triage-bots.json` — read it
+  rather than assuming the logins, so adopting or dropping a review bot is a one-line diff.
+  Require **both** that the author's login is in that file **and** that its GraphQL
+  `__typename` is `Bot`: a human login added to the file by mistake then still cannot drive an
+  auto-fix. If an allowlisted login turns up with any other `__typename`, say so once rather
+  than skipping it silently — that means a reviewer's findings are being dropped. Human-authored threads are untouchable — never reply to, resolve,
   or act on one; if any exist, mention them to the user once and move on.
+- **A third party joining a bot thread makes it untouchable too.** Classify on the thread's
+  opener, but check every comment's author before replying or resolving: if the thread carries
+  a comment from a human who is **not** the PR author, hand it to the user instead of acting.
+  The PR author is excluded deliberately — this loop's own replies post under that account, so
+  counting them would freeze every thread it has already answered and stall a resumed run.
 - **Reply style:** one or two plain sentences per thread, honest verdicts ("Fixed in
   `<sha>`" / "Not valid because …" / "Deferred because …"). Never use em-dashes or double
   hyphens in replies.
@@ -113,8 +121,15 @@ trusting any count, or unresolved threads past the page can silently read as zer
 ```
 gh api graphql -f query='query { repository(owner: "<owner>", name: "<repo>") {
   pullRequest(number: <pr>) { reviewThreads(first: 100) { pageInfo { hasNextPage endCursor } nodes {
-    id isResolved path line comments(first: 1) { nodes { author { login } body } } } } } } }'
+    id isResolved path line
+    opener: comments(first: 1) { nodes { author { login __typename } body } }
+    participants: comments(first: 100) { pageInfo { hasNextPage } nodes { author { login __typename } } } } } } } }'
 ```
+
+`opener` decides whether the thread is a bot finding; `participants` is what the third-party
+rule reads. They are separate aliases so the query does not drag 100 comment bodies per thread.
+
+
 
 Reply, then resolve (two complete commands per thread):
 ```
@@ -156,3 +171,12 @@ PR — driving the bot comments to zero is part of handing the human a reviewabl
 optional follow-up. It is still invoked directly (`/triage-pr <pr>`) to resume after a
 hand-back, to triage a PR the pipeline did not open, and after headless/batch runs, which
 have no main thread to hold the loop's human gates.
+
+**Never convert this loop into a subagent.** It reads as a natural fit for one — a long,
+mechanical, self-terminating loop — but a subagent cannot ask the user anything, so every
+gate above (suspect findings, judgment calls, below-bar calls, "stop and ask") would silently
+become the agent's own decision, and it would push commits and post thread replies unattended
+on exactly the findings a human was supposed to rule on. Its closing message would also
+vanish: a subagent's report is not shown to the user. Dispatch agents for the *mechanical*
+pieces only — `finding-vetter` per finding, `feature-builder` per fix batch — and keep the
+loop itself here, in the conversation.

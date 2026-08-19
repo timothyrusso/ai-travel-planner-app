@@ -1,10 +1,39 @@
 {
   "enabledPlugins": {
-    "ponytail@ponytail": true
+    "expo@claude-plugins-official": true,
+    "frontend-design@claude-plugins-official": true,
+    "ui-design@claude-code-workflows": true
+  },
+  "extraKnownMarketplaces": {
+    "claude-code-workflows": {
+      "source": {
+        "source": "github",
+        "repo": "wshobson/agents",
+        "ref": "367cb6a4a182cf7e9b0a17c9429f7411ddd9cf35"
+      }
+    }
   },
   "permissions": {
     "allow": [
       "Bash(agent-device *)"
+    ],
+    "deny": [
+      "Bash(git commit *--no-verify*)",
+      "Bash(git commit -n)",
+      "Bash(git commit -n *)",
+      "Bash(git commit * -n)",
+      "Bash(git commit * -n *)",
+      "Bash(git push *--no-verify*)",
+      "Bash(git push *--force*)",
+      "Bash(git push -f *)",
+      "Bash(git push * -f)",
+      "Bash(git push * -f *)",
+      "Bash(git push * +*)",
+      "Read(~/.ssh/**)",
+      "Read(~/.aws/**)",
+      "Read(~/.npmrc)",
+      "Read(./.env)",
+      "Read(./.env.*)"
     ],
     "ask": [
       "mcp__plugin_figma_figma",

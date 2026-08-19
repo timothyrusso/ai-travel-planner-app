@@ -31,6 +31,12 @@
       "skillPath": "skills/productivity/handoff/SKILL.md",
       "computedHash": "20e5f4afdef502637510bc5c64d27645d3c85c88df9cb006824bbb0980166319"
     },
+    "open-pencil": {
+      "source": "open-pencil/skills",
+      "sourceType": "github",
+      "skillPath": "skills/open-pencil/SKILL.md",
+      "computedHash": "766bbb63952479cbcccb704a8b9e9c2f1f5b6e55138a3967949cd030e563ee84"
+    },
     "teach": {
       "source": "mattpocock/skills",
       "sourceType": "github",
