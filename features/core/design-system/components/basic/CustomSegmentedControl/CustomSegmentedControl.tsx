@@ -67,12 +67,26 @@ export const CustomSegmentedControl = ({
           >
             <Animated.View style={[styles.segmentContent, derived.contentAnimatedStyles[index]]}>
               {segment.icon && (
-                <CustomIcon
-                  name={segment.icon}
-                  size={size.iconSize}
-                  color={derived.iconColorAt(index)}
-                  style={styles.icon}
-                />
+                <View style={styles.iconStack}>
+                  <CustomIcon
+                    name={segment.icon}
+                    size={size.iconSize}
+                    color={derived.controlColors.unselectedContentColor}
+                  />
+                  <Animated.View
+                    style={[styles.iconOverlay, derived.iconOverlayAnimatedStyles[index]]}
+                    pointerEvents="none"
+                    aria-hidden
+                    accessibilityElementsHidden
+                    importantForAccessibility="no-hide-descendants"
+                  >
+                    <CustomIcon
+                      name={segment.icon}
+                      size={size.iconSize}
+                      color={derived.controlColors.selectedContentColor}
+                    />
+                  </Animated.View>
+                </View>
               )}
               <Animated.Text
                 style={[styles.label, derived.labelAnimatedStyles[index]]}

@@ -83,6 +83,21 @@ const contentOpacity = (progress: number, index: number) => {
   );
 };
 
+/**
+ * The opacity of the selected-colour copy of a segment's icon at `progress`. Composited over an opaque
+ * copy of the same glyph in the unselected colour, it resolves to the exact blend `interpolateColor`
+ * hands the label, so an icon and its label cross the thumb edge together.
+ */
+const selectedIconOpacity = (progress: number, index: number) => {
+  'worklet';
+  return interpolate(
+    progress,
+    [index - 1, index, index + 1],
+    [opacity.opacity0, opacity.opacity100, opacity.opacity0],
+    Extrapolation.CLAMP,
+  );
+};
+
 type UseCustomSegmentedControlLogicParams = {
   segmentCount: number;
   selectedIndex: number;
@@ -155,6 +170,21 @@ export const useCustomSegmentedControlLogic = ({
     opacity: contentOpacity(selectionProgress.value, 2),
   }));
 
+  // Ionicons takes its colour as a prop, and neither a prop nor a glyph colour is animatable, so the
+  // view stacks a selected-colour copy of the icon over an unselected-colour one and fades the top
+  // copy in off this shared value. Reading `selectedIndex` here instead would blank both copies for
+  // the whole travel under a black thumb: the incoming white glyph over the grey track and the
+  // outgoing black glyph over the thumb it has not left yet.
+  const firstIconOverlayAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: selectedIconOpacity(selectionProgress.value, 0),
+  }));
+  const secondIconOverlayAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: selectedIconOpacity(selectionProgress.value, 1),
+  }));
+  const thirdIconOverlayAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: selectedIconOpacity(selectionProgress.value, 2),
+  }));
+
   const onTrackLayout = (event: LayoutChangeEvent) => {
     innerWidth.value = event.nativeEvent.layout.width;
   };
@@ -175,11 +205,12 @@ export const useCustomSegmentedControlLogic = ({
       thumbAnimatedStyle,
       labelAnimatedStyles: [firstLabelAnimatedStyle, secondLabelAnimatedStyle, thirdLabelAnimatedStyle],
       contentAnimatedStyles: [firstContentAnimatedStyle, secondContentAnimatedStyle, thirdContentAnimatedStyle],
+      iconOverlayAnimatedStyles: [
+        firstIconOverlayAnimatedStyle,
+        secondIconOverlayAnimatedStyle,
+        thirdIconOverlayAnimatedStyle,
+      ],
       isSelected: (index: number) => index === selectedIndex,
-      // Ionicons takes its colour as a prop rather than a style, so an icon switches colour at once
-      // instead of riding the crossfade its label does.
-      iconColorAt: (index: number) =>
-        index === selectedIndex ? controlColors.selectedContentColor : controlColors.unselectedContentColor,
     },
     effects: {
       onTrackLayout,

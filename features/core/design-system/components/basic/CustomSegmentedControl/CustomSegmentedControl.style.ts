@@ -66,7 +66,18 @@ export const customSegmentedControlStyles = ({
       fontFamily: fontFamily.interBold,
       textAlign: 'center',
     },
-    icon: {
+    // Two copies of the glyph, the selected-colour one laid over the unselected-colour one: the copy
+    // in flow sizes the box, so the overlay covers it exactly and the crossfade cannot shift the icon.
+    iconStack: {
       marginRight: spacing.Single,
+    },
+    iconOverlay: {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
   });
