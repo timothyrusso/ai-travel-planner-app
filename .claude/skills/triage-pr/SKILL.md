@@ -17,8 +17,11 @@ cap (default **10**, see step 3), mirroring the pipeline's `--max-fix N`; it mus
 positive integer, otherwise tell the user and use the default.
 
 ## Ground rules
-- **Bot comments only.** Author allowlist: `coderabbitai`, `sourcery-ai`, `cubic-dev-ai`.
-  Human-authored threads are untouchable — never reply to, resolve,
+- **Bot comments only.** The author allowlist lives in `.claude/triage-bots.json` — read it
+  rather than assuming the logins, so adopting or dropping a review bot is a one-line diff.
+  Require **both** that the author's login is in that file **and** that its GraphQL
+  `__typename` is `Bot`: a human login added to the file by mistake then still cannot drive an
+  auto-fix. Human-authored threads are untouchable — never reply to, resolve,
   or act on one; if any exist, mention them to the user once and move on.
 - **Reply style:** one or two plain sentences per thread, honest verdicts ("Fixed in
   `<sha>`" / "Not valid because …" / "Deferred because …"). Never use em-dashes or double
@@ -112,7 +115,7 @@ trusting any count, or unresolved threads past the page can silently read as zer
 ```
 gh api graphql -f query='query { repository(owner: "<owner>", name: "<repo>") {
   pullRequest(number: <pr>) { reviewThreads(first: 100) { pageInfo { hasNextPage endCursor } nodes {
-    id isResolved path line comments(first: 1) { nodes { author { login } body } } } } } } }'
+    id isResolved path line comments(first: 1) { nodes { author { login __typename } body } } } } } } }'
 ```
 
 Reply, then resolve (two complete commands per thread):
