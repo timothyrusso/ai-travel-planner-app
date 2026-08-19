@@ -62,7 +62,7 @@ export const CustomSegmentedControl = ({
             accessibilityLabel={state.t(segment.label)}
             accessibilityState={{ selected: derived.isSelected(index), disabled: isDisabled }}
           >
-            <View style={styles.segmentContent}>
+            <Animated.View style={[styles.segmentContent, derived.contentAnimatedStyles[index]]}>
               {segment.icon && (
                 <CustomIcon
                   name={segment.icon}
@@ -78,7 +78,7 @@ export const CustomSegmentedControl = ({
               >
                 {state.t(segment.label)}
               </Animated.Text>
-            </View>
+            </Animated.View>
           </CustomPressable>
         ))}
       </View>

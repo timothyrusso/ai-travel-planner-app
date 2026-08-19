@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { LayoutChangeEvent, StyleProp, ViewStyle } from 'react-native';
 import {
+  Extrapolation,
+  interpolate,
   interpolateColor,
   useAnimatedStyle,
   useReducedMotion,
@@ -12,6 +14,7 @@ import { match } from 'ts-pattern';
 
 import type { IoniconsName } from '@/features/core/design-system/components/basic/CustomIcon/CustomIcon';
 import { colors } from '@/features/core/design-system/style/colors';
+import { opacity } from '@/features/core/design-system/style/opacity';
 
 export const SegmentedControlThumbFill = {
   White: 'white',
@@ -51,6 +54,7 @@ export type SegmentedControlColors = {
 // config is a local const — the precedent `Custom3DButton.logic.ts` set.
 const THUMB_SPRING = { damping: 22, stiffness: 220, mass: 1 };
 const NOT_MEASURED = 0;
+const UNSELECTED_CONTENT_OPACITY = opacity.opacity60;
 
 /**
  * The colour a label holds at `progress`: its selected colour when the thumb is under it, its
@@ -62,6 +66,20 @@ const labelColor = (progress: number, index: number, controlColors: SegmentedCon
     progress,
     [index - 1, index, index + 1],
     [controlColors.unselectedContentColor, controlColors.selectedContentColor, controlColors.unselectedContentColor],
+  );
+};
+
+/**
+ * The opacity a segment's content holds at `progress`: full under the thumb, muted once the thumb has
+ * travelled a full segment away. Clamped, because the spring overshoots past the segment it lands on.
+ */
+const contentOpacity = (progress: number, index: number) => {
+  'worklet';
+  return interpolate(
+    progress,
+    [index - 1, index, index + 1],
+    [UNSELECTED_CONTENT_OPACITY, opacity.opacity100, UNSELECTED_CONTENT_OPACITY],
+    Extrapolation.CLAMP,
   );
 };
 
@@ -85,16 +103,20 @@ export const useCustomSegmentedControlLogic = ({
   const selectionProgress = useSharedValue(selectedIndex);
   const innerWidth = useSharedValue(NOT_MEASURED);
 
+  // `primaryGrey` #8E8E8F on the `secondaryGrey` #F5F5F5 track is 3:1, under the WCAG AA 4.5:1 floor
+  // for 12/14 text, and the palette holds no darker grey. So an unselected segment is `primaryBlack`
+  // muted by `UNSELECTED_CONTENT_OPACITY` instead — it renders ~#626262 at 5.6:1 and still reads as
+  // the quieter of the two states.
   const controlColors: SegmentedControlColors = match(thumbFill)
     .with(SegmentedControlThumbFill.White, () => ({
       thumbColor: colors.primaryWhite,
       selectedContentColor: colors.primaryBlack,
-      unselectedContentColor: colors.primaryGrey,
+      unselectedContentColor: colors.primaryBlack,
     }))
     .with(SegmentedControlThumbFill.Black, () => ({
       thumbColor: colors.primaryBlack,
       selectedContentColor: colors.primaryWhite,
-      unselectedContentColor: colors.primaryGrey,
+      unselectedContentColor: colors.primaryBlack,
     }))
     .exhaustive();
 
@@ -122,6 +144,17 @@ export const useCustomSegmentedControlLogic = ({
     color: labelColor(selectionProgress.value, 2, controlColors),
   }));
 
+  // The mute rides the same shared value, so the icon fades with its own label rather than snapping.
+  const firstContentAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: contentOpacity(selectionProgress.value, 0),
+  }));
+  const secondContentAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: contentOpacity(selectionProgress.value, 1),
+  }));
+  const thirdContentAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: contentOpacity(selectionProgress.value, 2),
+  }));
+
   const onTrackLayout = (event: LayoutChangeEvent) => {
     innerWidth.value = event.nativeEvent.layout.width;
   };
@@ -141,6 +174,7 @@ export const useCustomSegmentedControlLogic = ({
       controlColors,
       thumbAnimatedStyle,
       labelAnimatedStyles: [firstLabelAnimatedStyle, secondLabelAnimatedStyle, thirdLabelAnimatedStyle],
+      contentAnimatedStyles: [firstContentAnimatedStyle, secondContentAnimatedStyle, thirdContentAnimatedStyle],
       isSelected: (index: number) => index === selectedIndex,
       // Ionicons takes its colour as a prop rather than a style, so an icon switches colour at once
       // instead of riding the crossfade its label does.
