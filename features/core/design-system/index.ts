@@ -28,6 +28,9 @@ export * from '@/features/core/design-system/components/basic/CustomIconButton/C
 export * from '@/features/core/design-system/components/basic/CustomIconButton/CustomIconButtonSmall';
 export * from '@/features/core/design-system/components/basic/CustomImage/CustomImage';
 export * from '@/features/core/design-system/components/basic/CustomPressable/CustomPressable';
+export * from '@/features/core/design-system/components/basic/CustomSegmentedControl/CustomSegmentedControl.logic';
+export * from '@/features/core/design-system/components/basic/CustomSegmentedControl/CustomSegmentedControlMedium';
+export * from '@/features/core/design-system/components/basic/CustomSegmentedControl/CustomSegmentedControlSmall';
 export * from '@/features/core/design-system/components/basic/CustomText/CustomText';
 export * from '@/features/core/design-system/components/basic/CustomTextButton/CustomTextButton';
 export * from '@/features/core/design-system/components/basic/CustomTextInput/CustomTextInput';
