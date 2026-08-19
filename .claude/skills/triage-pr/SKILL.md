@@ -23,6 +23,11 @@ positive integer, otherwise tell the user and use the default.
   `__typename` is `Bot`: a human login added to the file by mistake then still cannot drive an
   auto-fix. Human-authored threads are untouchable — never reply to, resolve,
   or act on one; if any exist, mention them to the user once and move on.
+- **A third party joining a bot thread makes it untouchable too.** Classify on the thread's
+  opener, but check every comment's author before replying or resolving: if the thread carries
+  a comment from a human who is **not** the PR author, hand it to the user instead of acting.
+  The PR author is excluded deliberately — this loop's own replies post under that account, so
+  counting them would freeze every thread it has already answered and stall a resumed run.
 - **Reply style:** one or two plain sentences per thread, honest verdicts ("Fixed in
   `<sha>`" / "Not valid because …" / "Deferred because …"). Never use em-dashes or double
   hyphens in replies.
@@ -115,8 +120,15 @@ trusting any count, or unresolved threads past the page can silently read as zer
 ```
 gh api graphql -f query='query { repository(owner: "<owner>", name: "<repo>") {
   pullRequest(number: <pr>) { reviewThreads(first: 100) { pageInfo { hasNextPage endCursor } nodes {
-    id isResolved path line comments(first: 1) { nodes { author { login __typename } body } } } } } } }'
+    id isResolved path line
+    opener: comments(first: 1) { nodes { author { login __typename } body } }
+    participants: comments(first: 100) { pageInfo { hasNextPage } nodes { author { login __typename } } } } } } } }'
 ```
+
+`opener` decides whether the thread is a bot finding; `participants` is what the third-party
+rule reads. They are separate aliases so the query does not drag 100 comment bodies per thread.
+
+
 
 Reply, then resolve (two complete commands per thread):
 ```
