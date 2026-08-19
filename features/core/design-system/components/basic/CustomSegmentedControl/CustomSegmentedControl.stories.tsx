@@ -25,7 +25,8 @@ const ICON_SEGMENTS = [
 /**
  * The control is controlled, so a story driven by static args cannot show the thumb travel: tapping
  * fires `onChange` and the parent-owned `selectedIndex` stays put. This wrapper owns the selection
- * the way a real screen would, and still forwards every press to the args action.
+ * the way a real screen would, and still forwards every press to the args action. Render it with
+ * `key={args.selectedIndex}`: Storybook re-renders on an args change, so only a remount reseeds it.
  */
 const SelectableSegmentedControl = ({ selectedIndex, onChange, ...rest }: CustomSegmentedControlProps) => {
   const [index, setIndex] = useState(selectedIndex);
@@ -68,7 +69,7 @@ export const Playground: Story = {};
 
 /** The spring travel and the label crossfade, with the selection owned by a parent. */
 export const Selectable: Story = {
-  render: args => <SelectableSegmentedControl {...args} />,
+  render: args => <SelectableSegmentedControl {...args} key={args.selectedIndex} />,
 };
 
 /** The two real size exports, not `CustomSegmentedControl` with a raw `size` prop. */
@@ -112,7 +113,12 @@ export const WithIcons: Story = {
 export const BlackFillWithIcons: Story = {
   render: args => (
     <View style={styles.stack}>
-      <SelectableSegmentedControl {...args} thumbFill={SegmentedControlThumbFill.Black} segments={ICON_SEGMENTS} />
+      <SelectableSegmentedControl
+        {...args}
+        key={args.selectedIndex}
+        thumbFill={SegmentedControlThumbFill.Black}
+        segments={ICON_SEGMENTS}
+      />
       <CustomSegmentedControlMedium
         {...args}
         thumbFill={SegmentedControlThumbFill.Black}
