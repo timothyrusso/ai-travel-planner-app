@@ -21,7 +21,8 @@ positive integer, otherwise tell the user and use the default.
   rather than assuming the logins, so adopting or dropping a review bot is a one-line diff.
   Require **both** that the author's login is in that file **and** that its GraphQL
   `__typename` is `Bot`: a human login added to the file by mistake then still cannot drive an
-  auto-fix. Human-authored threads are untouchable — never reply to, resolve,
+  auto-fix. If an allowlisted login turns up with any other `__typename`, say so once rather
+  than skipping it silently — that means a reviewer's findings are being dropped. Human-authored threads are untouchable — never reply to, resolve,
   or act on one; if any exist, mention them to the user once and move on.
 - **A third party joining a bot thread makes it untouchable too.** Classify on the thread's
   opener, but check every comment's author before replying or resolving: if the thread carries
