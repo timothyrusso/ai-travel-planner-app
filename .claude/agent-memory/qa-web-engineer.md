@@ -44,7 +44,7 @@ Read at the start of every web QA run. Append only under the rules in
   to a `width: '100%'` DS component. To test container-width responsiveness, `eval` the
   component's `parentElement` and `style.setProperty('max-width', 'NNNpx', 'important')` (plain
   assignment loses to the class) directly, not the browser viewport.
-- [2026-08-19] `agent-browser set media reduced-motion` (reset with `no-preference`) emulates
-  `prefers-reduced-motion` — the way to test Reanimated `useReducedMotion()` on web without an
-  OS toggle. Also: `agent-browser screenshot "<selector>"` crops to one element; tag a shared
-  ancestor with a throwaway `data-qa-*` attribute via `eval` first to scope a multi-element shot.
+- [2026-08-19] `agent-browser set media reduced-motion` (reset `no-preference`) emulates
+  `prefers-reduced-motion` — tests Reanimated `useReducedMotion()` on web with no OS toggle.
+- [2026-08-19] `agent-browser screenshot "<selector>"` crops to one element; to scope a shot over
+  several, tag a shared ancestor with a throwaway `data-qa-*` attribute via `eval` first.
