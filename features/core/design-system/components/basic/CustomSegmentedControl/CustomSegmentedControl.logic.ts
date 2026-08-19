@@ -55,6 +55,15 @@ export type SegmentedControlColors = {
 const THUMB_SPRING = { damping: 22, stiffness: 220, mass: 1 };
 const NOT_MEASURED = 0;
 const UNSELECTED_CONTENT_OPACITY = opacity.opacity60;
+const FIRST_SEGMENT_INDEX = 0;
+const LAST_SEGMENT_OFFSET = 1;
+
+/**
+ * The index the thumb travels to. Clamped, because the track does not clip: an index past the last
+ * segment would park a one-segment-wide thumb entirely outside the control.
+ */
+const clampToSegments = (index: number, segmentCount: number) =>
+  Math.min(Math.max(index, FIRST_SEGMENT_INDEX), segmentCount - LAST_SEGMENT_OFFSET);
 
 /**
  * The colour a label holds at `progress`: its selected colour when the thumb is under it, its
@@ -115,7 +124,8 @@ export const useCustomSegmentedControlLogic = ({
 }: UseCustomSegmentedControlLogicParams) => {
   const { t } = useTranslation();
   const prefersReducedMotion = useReducedMotion();
-  const selectionProgress = useSharedValue(selectedIndex);
+  const thumbIndex = clampToSegments(selectedIndex, segmentCount);
+  const selectionProgress = useSharedValue(thumbIndex);
   const innerWidth = useSharedValue(NOT_MEASURED);
 
   // `primaryGrey` #8E8E8F on the `secondaryGrey` #F5F5F5 track is 3:1, under the WCAG AA 4.5:1 floor
@@ -139,8 +149,8 @@ export const useCustomSegmentedControlLogic = ({
   // must see `onChange` fire with the thumb standing still. The shared value is seeded with the
   // initial index, so the mount pass springs to the value it already holds and nothing animates in.
   useEffect(() => {
-    selectionProgress.value = prefersReducedMotion ? selectedIndex : withSpring(selectedIndex, THUMB_SPRING);
-  }, [selectedIndex, prefersReducedMotion, selectionProgress]);
+    selectionProgress.value = prefersReducedMotion ? thumbIndex : withSpring(thumbIndex, THUMB_SPRING);
+  }, [thumbIndex, prefersReducedMotion, selectionProgress]);
 
   const thumbAnimatedStyle = useAnimatedStyle(() => ({
     transform: [{ translateX: selectionProgress.value * (innerWidth.value / segmentCount) }],
