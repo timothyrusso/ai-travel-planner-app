@@ -17,6 +17,11 @@ const THREE_SEGMENTS = [
   { label: 'GLOBAL.VIEW_ALL' },
 ] as const;
 
+const ICON_SEGMENTS = [
+  { label: 'MY_TRIP.TITLE', icon: 'airplane-outline' },
+  { label: 'ACTIVITIES.TITLE', icon: 'compass-outline' },
+] as const;
+
 /**
  * The control is controlled, so a story driven by static args cannot show the thumb travel: tapping
  * fires `onChange` and the parent-owned `selectedIndex` stays put. This wrapper owns the selection
@@ -94,21 +99,27 @@ export const SegmentCounts: Story = {
 export const WithIcons: Story = {
   render: args => (
     <View style={styles.stack}>
+      <CustomSegmentedControlMedium {...args} segments={ICON_SEGMENTS} />
+      <CustomSegmentedControlSmall {...args} selectedIndex={1} segments={ICON_SEGMENTS} />
+    </View>
+  ),
+};
+
+/**
+ * The combination the icon crossfade is most visible in: over a black thumb the selected glyph is
+ * white, so tapping across must fade the two copies rather than swap the colour at the tap.
+ */
+export const BlackFillWithIcons: Story = {
+  render: args => (
+    <View style={styles.stack}>
+      <SelectableSegmentedControl {...args} thumbFill={SegmentedControlThumbFill.Black} segments={ICON_SEGMENTS} />
       <CustomSegmentedControlMedium
         {...args}
-        segments={[
-          { label: 'MY_TRIP.TITLE', icon: 'airplane-outline' },
-          { label: 'ACTIVITIES.TITLE', icon: 'compass-outline' },
-        ]}
-      />
-      <CustomSegmentedControlSmall
-        {...args}
+        thumbFill={SegmentedControlThumbFill.Black}
+        segments={ICON_SEGMENTS}
         selectedIndex={1}
-        segments={[
-          { label: 'MY_TRIP.TITLE', icon: 'airplane-outline' },
-          { label: 'ACTIVITIES.TITLE', icon: 'compass-outline' },
-        ]}
       />
+      <CustomSegmentedControlSmall {...args} thumbFill={SegmentedControlThumbFill.Black} segments={ICON_SEGMENTS} />
     </View>
   ),
 };
