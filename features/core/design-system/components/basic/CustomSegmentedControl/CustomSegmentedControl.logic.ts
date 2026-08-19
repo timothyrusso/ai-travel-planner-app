@@ -152,7 +152,10 @@ export const useCustomSegmentedControlLogic = ({
     selectionProgress.value = prefersReducedMotion ? thumbIndex : withSpring(thumbIndex, THUMB_SPRING);
   }, [thumbIndex, prefersReducedMotion, selectionProgress]);
 
+  // Hidden until the layout pass measures the track: the translate resolves to 0 for every index
+  // while the width is unknown, which would paint one frame of the thumb under the first segment.
   const thumbAnimatedStyle = useAnimatedStyle(() => ({
+    opacity: innerWidth.value === NOT_MEASURED ? opacity.opacity0 : opacity.opacity100,
     transform: [{ translateX: selectionProgress.value * (innerWidth.value / segmentCount) }],
   }));
 
