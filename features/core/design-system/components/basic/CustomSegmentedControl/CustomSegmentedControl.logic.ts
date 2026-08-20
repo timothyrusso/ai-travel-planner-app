@@ -24,7 +24,6 @@ export const SegmentedControlThumbFill = {
 export type SegmentedControlThumbFill = (typeof SegmentedControlThumbFill)[keyof typeof SegmentedControlThumbFill];
 
 export type Segment = {
-  /** An i18n key: `t()` runs over it before it reaches either the screen or a screen reader. */
   label: string;
   icon?: IoniconsName;
 };
@@ -49,9 +48,8 @@ export type SegmentedControlColors = {
   unselectedContentColor: string;
 };
 
-// Settles in ~250-300ms with a slight overshoot. `CustomPressable`'s damping 500 / stiffness 1000 is
-// a jump cut over the thumb's travel distance, and `animations.ts` stays keyframes-only, so the
-// config is a local const — the precedent `Custom3DButton.logic.ts` set.
+// Settles in ~250-300ms with a slight overshoot. `CustomPressable`'s damping 500 / stiffness 1000 is a
+// jump cut over this travel distance, and `animations.ts` stays keyframes-only, so this stays a local const.
 const THUMB_SPRING = { damping: 22, stiffness: 220, mass: 1 };
 const NOT_MEASURED = 0;
 const UNSELECTED_CONTENT_OPACITY = opacity.opacity60;
@@ -128,8 +126,6 @@ export const useCustomSegmentedControlLogic = ({
   const selectionProgress = useSharedValue(thumbIndex);
   const innerWidth = useSharedValue(NOT_MEASURED);
 
-  // `primaryGrey` #8E8E8F on the `secondaryGrey` #F5F5F5 track is 3:1, under the WCAG AA 4.5:1 floor, and the
-  // palette has no darker grey — so unselected is `primaryBlack` at `UNSELECTED_CONTENT_OPACITY`: ~#626262, 5.6:1.
   const controlColors: SegmentedControlColors = match(thumbFill)
     .with(SegmentedControlThumbFill.White, () => ({
       thumbColor: colors.primaryWhite,
