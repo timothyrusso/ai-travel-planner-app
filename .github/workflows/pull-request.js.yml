@@ -82,7 +82,9 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./storybook-static
           destination_dir: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || '' }}
-          keep_files: true
+          # Only the root deploy needs this: its destination is the branch root, so a clean deploy
+          # would wipe the sibling `pr-*` folders. A per-PR deploy is scoped to `destination_dir`.
+          keep_files: ${{ github.event_name == 'push' }}
           commit_message: "chore: publish the web Storybook of ${{ github.sha }}"
 
       # No `always()` on purpose: a failed deploy must leave the previous comment untouched, so a
@@ -102,13 +104,14 @@ jobs:
               '',
               url,
               '',
-              `Built from ${shortSha}. Deleted when this pull request is closed.`,
+              `Built from PR head ${shortSha} (merge ref ${context.sha.slice(0, 7)}). Deleted when this pull request is closed.`,
             ].join('\n');
 
-            const { data: comments } = await github.rest.issues.listComments({
+            const comments = await github.paginate(github.rest.issues.listComments, {
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
+              per_page: 100,
             });
 
             // `startsWith`, never `includes`: the pipeline's run-report comment quotes agent

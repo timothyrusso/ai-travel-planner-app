@@ -166,8 +166,8 @@ without installing anything:
 
 A pull request only gets a preview — and the comment linking it — when its diff touches a
 Storybook-relevant path (a story, `.storybook/`, `.rnstorybook/`, the design system, the
-lockfile, or the workflow itself). The per-PR folder is deleted when the pull request is closed,
-so its link then 404s and the root Storybook is the record.
+manifest or lockfile, or the workflow itself). The per-PR folder is deleted when the pull
+request is closed, so its link then 404s and the root Storybook is the record.
 
 ### On-device (iOS / Android simulator)
 
