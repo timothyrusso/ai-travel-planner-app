@@ -207,10 +207,10 @@ net under the builder's once-per-round self-check.
 ### Visual summary (last stage)
 
 A change you can see should be reviewable from the PR alone. When the `explorer` proposes
-`visualSubjects` (a new screen or component — in the app or in Storybook alone — a restyle, a
-colour/spacing change, or a visual bug fix), each QA lane runs a **dedicated capture pass after**
-its acceptance-criteria items — deliberate, clean shots, never a reuse of the `T01`/`W01`
-assertion screenshots — and returns them as a `manifest`. A lane may drop a subject it could not
+`visualSubjects` (a new screen or component in the app, a restyle, a colour/spacing change, or
+a visual bug fix), each QA lane runs a **dedicated capture pass after** its acceptance-criteria
+items — deliberate, clean shots, never a reuse of the `T01`/`W01` assertion screenshots — and
+returns them as a `manifest`. A lane may drop a subject it could not
 reach (saying why) and add one it discovered while testing. **An empty proposal — explicitly
 empty, or the field omitted — switches the whole thing off**: no capture, no branch, no comment.
 The pipeline enforces that itself, so a lane that returns a manifest anyway publishes nothing;
@@ -236,10 +236,15 @@ only an exploration that never ran (or failed) leaves the judgement to the QA la
   build and review reports verbatim, marker included, so a substring match would edit the run
   report instead), edits it in place and force-pushes the same file names, so the URLs stay
   stable — and holds nothing but the heading, a bold
-  `**<iOS|Android|Storybook|Web> — <what changed>**` caption per shot, and the images
+  `**<iOS|Android|Web> — <what changed>**` caption per shot, and the images
   (before/after pairs as a two-column table).
-- A closed PR triggers `.github/workflows/qa-evidence-cleanup.yml`, which deletes the evidence
-  branch; the comment is left as-is and its images become broken links, which is accepted.
+- A closed PR triggers `.github/workflows/pr-artifacts-cleanup.yml`, which deletes the evidence
+  branch (and the PR's Storybook preview folder); the comment is left as-is and its images
+  become broken links, which is accepted.
+- **Stories are never captured.** A Storybook-only change gets no screenshot: CI already
+  publishes the PR's own web Storybook to GitHub Pages and comments the URL
+  (`https://timothyrusso.github.io/HolidAI/pr-<number>/`), and the live, interactive catalogue
+  beats a still. Only app surfaces are shot — a device screen or `expo start --web`.
 - Every failure here — capture, conversion, push, posting — is logged and swallowed: the stage
   runs after the run report and can never change the PASS / NOT-PASSED verdict.
 
