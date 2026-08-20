@@ -130,7 +130,6 @@ looks like without serving it themselves.
   The `.env` copy matters only for **`npm run web`**: `app.config.js` reads gitignored
   environment values into `extra`, and the root layout builds its service clients from them, so
   a worktree holding only `.env.sample` serves an Expo error overlay instead of the app.
-  **Storybook needs nothing extra** — it never evaluates `app.config.js`.
 
   Remove the worktree and stop its dev server before you finish, **including on failure** —
   leftover worktrees and held ports break the next run. For every other issue type, capture
@@ -221,10 +220,11 @@ Mirror the report faithfully — same items, same verdicts:
 - `manifest[]` — the visual capture pass, in the order the shots should be published; omit it
   or return `[]` when no capture pass was requested or nothing could be shot. One entry per
   image: `path` (**absolute** path to the PNG on disk), `caption` (ONE line describing what
-  changed, no trailing period — it is printed verbatim as the caption), `surface` (`Storybook`
-  for a story, `Web` for the app on web), `variant` (`single`, or `before`/`after` for the two
-  halves of a bug-fix pair). **The two halves of a pair must carry the byte-identical
-  `caption`** — that is how the pipeline pairs them into one two-column row.
+  changed, no trailing period — it is printed verbatim as the caption), `surface` (always
+  `Web`: a story is never captured — the PR carries a link to its live Storybook instead),
+  `variant` (`single`, or `before`/`after` for the two halves of a bug-fix pair). **The two
+  halves of a pair must carry the byte-identical `caption`** — that is how the pipeline pairs
+  them into one two-column row.
 - `report` — the full QA report markdown described above, verbatim.
 - `finishedAtEpoch` — as your very last action, run `date +%s` and return the number here.
 
