@@ -110,7 +110,9 @@ jobs:
               issue_number: context.issue.number,
             });
 
-            const existing = comments.find(c => c.body.includes(marker));
+            // `startsWith`, never `includes`: the pipeline's run-report comment quotes agent
+            // reports verbatim, marker included, so a substring match would edit that instead.
+            const existing = comments.find(c => c.body.startsWith(marker));
 
             if (existing) {
               await github.rest.issues.updateComment({
