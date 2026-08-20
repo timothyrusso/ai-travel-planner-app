@@ -51,10 +51,15 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }}
         run: |
-          if gh api "repos/$REPO/git/ref/heads/gh-pages" >/dev/null 2>&1; then
-            echo "exists=true" >> $GITHUB_OUTPUT
+          # `gh api` exits 1 for every failure class, so only a real 404 may read as "absent":
+          # swallowing a 403 or a 5xx here skips the cleanup and still reports success.
+          if gh api "repos/$REPO/git/ref/heads/gh-pages" --silent 2>"$RUNNER_TEMP/ref-err"; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          elif grep -q 'HTTP 404' "$RUNNER_TEMP/ref-err"; then
+            echo "exists=false" >> "$GITHUB_OUTPUT"
           else
-            echo "exists=false" >> $GITHUB_OUTPUT
+            cat "$RUNNER_TEMP/ref-err" >&2
+            exit 1
           fi
 
       - name: Check out gh-pages
