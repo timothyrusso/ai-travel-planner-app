@@ -33,11 +33,24 @@ jobs:
               - 'features/core/design-system/**'
               - 'package.json'
               - 'package-lock.json'
+              # This workflow owns the Pages preview deploy, so a change to it must publish a
+              # preview of itself — otherwise the deploy is only verifiable after merging.
+              - '.github/workflows/pull-request.js.yml'
 
   storybook:
     needs: storybook-changes
     if: needs.storybook-changes.outputs.storybook == 'true'
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    # Every deploy pushes to `gh-pages`, so runs must serialise. `queue: max` is what queues them:
+    # the default `queue: single` cancels the pending run when the next arrives, dropping a deploy.
+    concurrency:
+      group: gh-pages
+      cancel-in-progress: false
+      queue: max
 
     strategy:
       matrix:
@@ -55,6 +68,71 @@ jobs:
       # would let a manifest/lockfile mismatch pass here that a clean install rejects.
       - run: npm ci
       - run: npm run storybook:build
+
+      # `actions/deploy-pages` is unusable here: it replaces the whole site on every deploy and
+      # would wipe every other pull request's folder. This action pushes to `gh-pages` instead,
+      # so `keep_files` preserves the sibling folders. Fork pull requests get no write token, so
+      # they are skipped silently rather than failing.
+      - name: Deploy the web Storybook to GitHub Pages
+        if: |
+          (github.event_name == 'push' && github.ref == 'refs/heads/main')
+          || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false)
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./storybook-static
+          destination_dir: ${{ github.event_name == 'pull_request' && format('pr-{0}', github.event.pull_request.number) || '' }}
+          # Only the root deploy needs this: its destination is the branch root, so a clean deploy
+          # would wipe the sibling `pr-*` folders. A per-PR deploy is scoped to `destination_dir`.
+          keep_files: ${{ github.event_name == 'push' }}
+          commit_message: "chore: publish the web Storybook of ${{ github.sha }}"
+
+      # No `always()` on purpose: a failed deploy must leave the previous comment untouched, so a
+      # stale-but-valid URL survives and the red check is the only signal.
+      - name: Update the Storybook preview comment
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork == false
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const marker = '<!-- storybook-preview -->';
+            const url = `https://${context.repo.owner}.github.io/${context.repo.repo}/pr-${context.issue.number}/`;
+            const shortSha = context.payload.pull_request.head.sha.slice(0, 7);
+
+            const body = [
+              marker,
+              '## Storybook preview',
+              '',
+              url,
+              '',
+              `Built from PR head ${shortSha} (merge ref ${context.sha.slice(0, 7)}). Deleted when this pull request is closed.`,
+            ].join('\n');
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              per_page: 100,
+            });
+
+            // `startsWith`, never `includes`: the pipeline's run-report comment quotes agent
+            // reports verbatim, marker included, so a substring match would edit that instead.
+            const existing = comments.find(c => c.body.startsWith(marker));
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
 
   build:
     runs-on: ubuntu-latest

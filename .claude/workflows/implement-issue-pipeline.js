@@ -271,7 +271,7 @@ const EXPLORE_SCHEMA = {
         type: 'object',
         additionalProperties: false,
         properties: {
-          surface: { enum: ['mobile', 'web', 'storybook'] },
+          surface: { enum: ['mobile', 'web'] },
           capture: { type: 'string' },
         },
         required: ['surface', 'capture'],
@@ -350,7 +350,7 @@ const QA_SCHEMA = {
         properties: {
           path: { type: 'string' },
           caption: { type: 'string' },
-          surface: { enum: ['iOS', 'Android', 'Storybook', 'Web'] },
+          surface: { enum: ['iOS', 'Android', 'Web'] },
           variant: { enum: ['single', 'before', 'after'] },
         },
         required: ['path', 'caption', 'surface'],
@@ -424,7 +424,7 @@ const VISUAL_LANE_QUOTA = 3
 const VISUAL_MARKER = '<!-- holidai:visual-summary -->'
 const RAW_CONTENT_BASE = 'https://raw.githubusercontent.com/timothyrusso/HolidAI'
 
-const VISUAL_LANE_SURFACES = { mobile: ['mobile'], web: ['web', 'storybook'] }
+const VISUAL_LANE_SURFACES = { mobile: ['mobile'], web: ['web'] }
 
 // The proposal decides whether the lane captures at all: an empty proposal from a successful
 // exploration switches the pass off; NO decision at all (explore skipped, failed, or returned
@@ -454,7 +454,7 @@ ALSO decide which runtime surfaces this issue needs QA'd, and return them as \`q
 - \`[]\` (EMPTY) — when NO acceptance criterion can be verified at runtime: pure build tooling, CI config, lint rules, docs, agent/workflow config, or type-only changes. An empty array SKIPS QA entirely; that is the correct answer for such issues, not a failure. Do not pad the list to look thorough — a QA run that can only report BLOCKED is worse than no QA run.
 Judge from the acceptance criteria and the files the change will touch, not from the issue title.
 
-ALSO propose what is worth SCREENSHOTTING once the change is built, as \`visualSubjects\` — one entry per subject: \`surface\` (\`"mobile"\`, \`"web"\`, or \`"storybook"\`) and \`capture\` (ONE line naming the state the shot must show). The QA agents shoot those subjects after their acceptance-criteria pass and the pipeline publishes them as a single visual summary comment on the PR, so the change can be judged from the PR alone. Propose subjects only when the change is visually relevant (a new screen or component — in the app or in Storybook alone — a restyle, a colour/spacing change, or a bug fix whose symptom was visual) and keep the list to the 3–4 that best show it; the whole summary is capped at ${MAX_VISUAL_IMAGES} images shared across both lanes. Return \`[]\` for anything with no visible result (tooling, CI, docs, types, agent/workflow config, pure logic refactors) — an empty list correctly switches capture, push, and comment off for the whole run.${clarificationsBlock}${EPOCH_INSTR}`
+ALSO propose what is worth SCREENSHOTTING once the change is built, as \`visualSubjects\` — one entry per subject: \`surface\` (\`"mobile"\` or \`"web"\`) and \`capture\` (ONE line naming the state the shot must show). The QA agents shoot those subjects after their acceptance-criteria pass and the pipeline publishes them as a single visual summary comment on the PR, so the change can be judged from the PR alone. Propose subjects only when the change is visually relevant IN THE APP ITSELF (a new screen or component reachable in the app, a restyle, a colour/spacing change, or a bug fix whose symptom was visual) — a component that only exists as a story gets no subject, since the PR already carries a link to its live web Storybook. Keep the list to the 3–4 subjects that best show the change; the whole summary is capped at ${MAX_VISUAL_IMAGES} images shared across both lanes. Return \`[]\` for anything with no visible result (tooling, CI, docs, types, agent/workflow config, pure logic refactors) — an empty list correctly switches capture, push, and comment off for the whole run.${clarificationsBlock}${EPOCH_INSTR}`
 
 const reviewPrompt = `Review the change on branch feature/${issue} (issue #${issue}) per your process. Do NOT post any PR comment. Return your overall verdict (PASS or CHANGES-REQUESTED), the list of blocking findings (empty if none), and your full review report markdown as \`report\`.${EPOCH_INSTR}`
 

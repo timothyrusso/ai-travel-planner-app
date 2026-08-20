@@ -1,0 +1,86 @@
+name: Cleanup PR artifacts
+
+# The pipeline hosts the visual-summary screenshots on a per-PR branch
+# (`qa-evidence/pr-<number>`) because GitHub's attachment upload endpoint is
+# browser-session-only. Those bytes are worthless once the PR is closed, so the branch goes
+# with it. The comment itself is deliberately left alone — its images simply become broken
+# links on a closed PR. The Storybook preview under `gh-pages/pr-<number>` goes the same way:
+# ~13 MB a build, worthless once the PR is closed, and after a merge the root Storybook is the
+# record.
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  delete-evidence-branch:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Delete the qa-evidence branch of this PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          BRANCH: qa-evidence/pr-${{ github.event.pull_request.number }}
+        run: |
+          if ! gh api "repos/$REPO/git/ref/heads/$BRANCH" >/dev/null 2>&1; then
+            echo "No $BRANCH branch for this pull request, nothing to clean up."
+            exit 0
+          fi
+
+          gh api -X DELETE "repos/$REPO/git/refs/heads/$BRANCH"
+          echo "Deleted $BRANCH"
+
+  delete-storybook-preview:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    # Shared with the deploy in `pull-request.js.yml`: both push to `gh-pages`, and a delete
+    # racing a deploy would lose its push. `queue: max` on both: the default evicts the pending run.
+    concurrency:
+      group: gh-pages
+      cancel-in-progress: false
+      queue: max
+
+    steps:
+      - name: Look for the gh-pages branch
+        id: branch
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          # `gh api` exits 1 for every failure class, so only a real 404 may read as "absent":
+          # swallowing a 403 or a 5xx here skips the cleanup and still reports success.
+          if gh api "repos/$REPO/git/ref/heads/gh-pages" --silent 2>"$RUNNER_TEMP/ref-err"; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          elif grep -q 'HTTP 404' "$RUNNER_TEMP/ref-err"; then
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          else
+            cat "$RUNNER_TEMP/ref-err" >&2
+            exit 1
+          fi
+
+      - name: Check out gh-pages
+        if: steps.branch.outputs.exists == 'true'
+        uses: actions/checkout@v7
+        with:
+          ref: gh-pages
+
+      - name: Delete the Storybook preview of this PR
+        if: steps.branch.outputs.exists == 'true'
+        env:
+          PREVIEW_DIR: pr-${{ github.event.pull_request.number }}
+        run: |
+          if [ ! -d "$PREVIEW_DIR" ]; then
+            echo "No $PREVIEW_DIR preview for this pull request, nothing to clean up."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm -r --quiet "$PREVIEW_DIR"
+          git commit -m "chore: remove the Storybook preview of $PREVIEW_DIR"
+          git push origin gh-pages
+          echo "Deleted $PREVIEW_DIR"

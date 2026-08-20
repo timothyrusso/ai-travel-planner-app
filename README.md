@@ -154,6 +154,21 @@ npm run storybook:build    # static build, same check CI runs
 Runs through Vite + react-native-web. Fastest loop, and the only one with the Docs (prop
 tables) and a11y panels.
 
+#### Published previews
+
+CI publishes the same static build to GitHub Pages, so a catalogue can be opened and shared
+without installing anything:
+
+| URL | Contents |
+| --- | --- |
+| <https://timothyrusso.github.io/HolidAI/> | the Storybook of `main` |
+| `https://timothyrusso.github.io/HolidAI/pr-<number>/` | the Storybook of that pull request's head |
+
+A pull request only gets a preview — and the comment linking it — when its diff touches a
+Storybook-relevant path (a story, `.storybook/`, `.rnstorybook/`, the design system, the
+manifest or lockfile, or the workflow itself). The per-PR folder is deleted when the pull
+request is closed, so its link then 404s and the root Storybook is the record.
+
 ### On-device (iOS / Android simulator)
 
 ```bash
