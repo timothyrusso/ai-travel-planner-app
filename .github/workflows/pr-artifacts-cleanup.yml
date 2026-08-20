@@ -38,10 +38,11 @@ jobs:
       contents: write
 
     # Shared with the deploy in `pull-request.js.yml`: both push to `gh-pages`, and a delete
-    # racing a deploy would lose its push.
+    # racing a deploy would lose its push. `queue: max` on both: the default evicts the pending run.
     concurrency:
       group: gh-pages
       cancel-in-progress: false
+      queue: max
 
     steps:
       - name: Look for the gh-pages branch

@@ -45,11 +45,12 @@ jobs:
       contents: write
       pull-requests: write
 
-    # Every deploy pushes to the same branch, so simultaneous runs would race and one would lose
-    # the push. Queue them instead of cancelling: a cancelled run leaves the preview stale.
+    # Every deploy pushes to `gh-pages`, so runs must serialise. `queue: max` is what queues them:
+    # the default `queue: single` cancels the pending run when the next arrives, dropping a deploy.
     concurrency:
       group: gh-pages
       cancel-in-progress: false
+      queue: max
 
     strategy:
       matrix:
