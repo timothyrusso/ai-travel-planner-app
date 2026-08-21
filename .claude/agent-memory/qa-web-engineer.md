@@ -50,3 +50,7 @@ Read at the start of every web QA run. Append only under the rules in
   (ref doesn't re-render as expanded). Navigate straight to
   `http://localhost:6006/?path=/docs/<kebab-title>--docs` (or `/iframe.html?id=<story-id>` for a
   single story) instead — faster and deterministic.
+- [2026-08-21] Viewport resize is `agent-browser set viewport <w> <h>` (under "Browser
+  Settings" in `--help`), not `agent-browser viewport`; useful to force a small height and
+  confirm scroll-to-bottom actually reaches the last off-canvas element (compare `scrollY +
+  innerHeight` to `scrollHeight`) rather than trusting a single full-page screenshot.
