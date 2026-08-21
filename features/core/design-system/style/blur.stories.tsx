@@ -11,9 +11,12 @@ import { fontFamily } from '@/features/core/design-system/style/fontFamily';
 /**
  * `expo-blur` intensity is a 0–100 scale, not a pixel radius.
  *
- * The same token does not produce the same picture everywhere: on web `BlurView` falls back to the
- * CSS `backdrop-filter`, so read the ramp on device (iOS/Android) before picking a token from this
- * catalogue.
+ * Read the ramp on iOS: that is the only platform where these samples are a real blur. On web
+ * `BlurView` falls back to the CSS `backdrop-filter`, whose radius is `intensity * 0.2` pixels and
+ * spreads differently. On Android nothing is blurred at all — `blurMethod` defaults to `'none'` and
+ * the `'dimezisBlurView'` alternative needs a `blurTarget` whose ref is already populated when the
+ * `BlurView` mounts, which an in-story ancestor cannot be (`BlurSurface` gets one from the screen
+ * instead) — so each row renders as the flat dark tint that its intensity produces.
  */
 const meta = {
   title: 'Design System/Blur',
@@ -84,6 +87,7 @@ function BlurSample({ token, intensity }: Sample) {
     <View style={styles.sample}>
       <View style={styles.canvas}>
         <PatternBackdrop />
+        {/* No `blurMethod`: without a mount-time `blurTarget` Android warns and falls back to 'none' anyway */}
         <BlurView intensity={intensity} style={styles.blurOverlay} tint="dark" />
       </View>
       <View style={styles.labels}>
