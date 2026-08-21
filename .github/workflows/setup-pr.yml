@@ -1,8 +1,17 @@
 name: Setup PR
 
+# `edited` and `synchronize` are here because the link has to be *repaired*, not just written once:
+# review bots replace the whole PR body with their own description, which deletes the closing
+# keyword and silently unlinks the issue. Edits made with `GITHUB_TOKEN` raise no further events, so
+# this cannot retrigger itself.
 on:
   pull_request:
-    types: [opened]
+    types: [opened, edited, reopened, synchronize]
+
+# Two runs on one PR would each read the body and write it back, losing whichever wrote first.
+concurrency:
+  group: setup-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
 
 jobs:
   setup-pr:
@@ -22,26 +31,34 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+          EVENT_ACTION: ${{ github.event.action }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
         run: |
-          # Get the first commit message of this PR
-          BASE=${{ github.event.pull_request.base.sha }}
-          HEAD=${{ github.event.pull_request.head.sha }}
+          set -euo pipefail
 
-          FIRST_COMMIT=$(git log "$BASE".."$HEAD" --reverse --format="%s" | head -1)
+          FIRST_COMMIT=$(git log "$BASE_SHA".."$HEAD_SHA" --reverse --format="%s" | head -1)
           echo "First commit: $FIRST_COMMIT"
 
-          # Extract issue number from pattern like feat(200) or fix(123)
-          ISSUE_NUMBER=$(echo "$FIRST_COMMIT" | grep -oP '(?<=\()\d+(?=\))')
+          ISSUE_NUMBER=$(printf '%s' "$FIRST_COMMIT" | grep -oP '\(\K\d+(?=\))' || true)
+
+          # The first commit is not always scoped with the issue number, so the branch name is the
+          # fallback: `feature/461` and `feature/#461` both carry it.
+          if [ -z "$ISSUE_NUMBER" ]; then
+            ISSUE_NUMBER=$(printf '%s' "$HEAD_REF" | grep -oP '^[^/]+/#?\K\d+$' || true)
+          fi
 
           if [ -z "$ISSUE_NUMBER" ]; then
-            echo "No issue number found in first commit, skipping."
+            echo "No issue number in the first commit or the branch name, skipping."
             exit 0
           fi
 
           echo "Found issue number: $ISSUE_NUMBER"
 
-          # Fetch the issue title from GitHub API
-          ISSUE_TITLE=$(gh issue view "$ISSUE_NUMBER" --json title --jq '.title')
+          ISSUE_TITLE=$(gh issue view "$ISSUE_NUMBER" --json title --jq '.title' 2>/dev/null || true)
 
           if [ -z "$ISSUE_TITLE" ]; then
             echo "Could not fetch issue #$ISSUE_NUMBER, skipping."
@@ -50,8 +67,33 @@ jobs:
 
           echo "Issue title: $ISSUE_TITLE"
 
-          # Update the PR title
-          gh pr edit "$PR_NUMBER" --title "$ISSUE_TITLE"
+          # Only on open: re-applying it on every event would overwrite a title edited by a human.
+          if [ "$EVENT_ACTION" = "opened" ]; then
+            gh pr edit "$PR_NUMBER" --title "$ISSUE_TITLE"
+          fi
 
-          # Update the PR body
-          gh pr edit "$PR_NUMBER" --body "Fixes #$ISSUE_NUMBER"
+          # GitHub reports a closing reference only while the keyword survives in the body, so this
+          # one query answers both "was it ever linked" and "did something just unlink it".
+          LINKED=$(gh api graphql \
+            -f query='query($owner: String!, $repo: String!, $pr: Int!) {
+              repository(owner: $owner, name: $repo) {
+                pullRequest(number: $pr) {
+                  closingIssuesReferences(first: 50) { nodes { number } }
+                }
+              }
+            }' \
+            -F owner="$OWNER" -F repo="$REPO_NAME" -F pr="$PR_NUMBER" \
+            --jq "[.data.repository.pullRequest.closingIssuesReferences.nodes[].number] | index($ISSUE_NUMBER) != null")
+
+          if [ "$LINKED" = "true" ]; then
+            echo "Issue #$ISSUE_NUMBER is already linked, nothing to do."
+            exit 0
+          fi
+
+          echo "Issue #$ISSUE_NUMBER is not linked, restoring the closing keyword."
+
+          # Prepended, never overwritten: the body at this point may be a bot's review description,
+          # and replacing it would trade one lost piece of context for another.
+          BODY=$(gh pr view "$PR_NUMBER" --json body --jq '.body')
+          printf 'Fixes #%s\n\n%s\n' "$ISSUE_NUMBER" "$BODY" > "$RUNNER_TEMP/pr-body.md"
+          gh pr edit "$PR_NUMBER" --body-file "$RUNNER_TEMP/pr-body.md"
