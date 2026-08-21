@@ -103,9 +103,11 @@ jobs:
           # A here-string rather than a pipe: `grep -q` exits on the first match, and under
           # `pipefail` the producer's SIGPIPE would make a present keyword read as absent, which is
           # the one way this loop could prepend a duplicate. Case-insensitive and covering every
-          # closing keyword GitHub accepts, so a human's `closes #N` counts too.
+          # closing keyword GitHub accepts, so a human's `closes #N` counts too. The leading boundary
+          # matters: without it `hotfix #N` reads as a keyword, and the repair would skip a PR that
+          # GitHub has not linked at all.
           keyword_in_body() {
-            grep -qiE "(close[sd]?|fix(e[sd])?|resolve[sd]?):?[[:space:]]+#$ISSUE_NUMBER([^0-9]|$)" <<< "$1"
+            grep -qiE "(^|[^[:alnum:]_])(close[sd]?|fix(e[sd])?|resolve[sd]?):?[[:space:]]+#$ISSUE_NUMBER([^0-9]|$)" <<< "$1"
           }
 
           # A failed query must never read as "unlinked": that would send the repair off to rewrite a
