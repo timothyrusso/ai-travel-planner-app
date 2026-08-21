@@ -76,12 +76,21 @@ const steps: Step[] = Object.entries(fontSize).map(([token, value]) => ({ token,
 /**
  * Label above sample rather than beside it: the 40px step needs more width than the 360px phone
  * frame from `.storybook/preview.tsx` leaves next to a label column, and would wrap mid-phrase.
+ *
+ * Stacking alone is not enough — the pangram is ~384px wide at 40px, still wider than the frame, so
+ * it wrapped to two lines and made the last step of the ramp twice as tall as its own type size.
+ * `numberOfLines` pins every step to exactly one line, which is what makes the height progression
+ * readable, and the horizontal scroller keeps the overflowing tail reachable instead of clipped.
  */
 function SizeStep({ token, value }: Step) {
   return (
     <View style={styles.specimen}>
       <Text style={styles.label}>{`${token} · ${value}px`}</Text>
-      <Text style={[styles.sample, { fontSize: value }]}>{PANGRAM}</Text>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <Text numberOfLines={1} style={[styles.sample, { fontSize: value }]}>
+          {PANGRAM}
+        </Text>
+      </ScrollView>
     </View>
   );
 }
