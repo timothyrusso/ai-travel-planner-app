@@ -48,3 +48,14 @@ Read at the start of every web QA run. Append only under the rules in
   `prefers-reduced-motion` — tests Reanimated `useReducedMotion()` on web with no OS toggle.
 - [2026-08-19] `agent-browser screenshot "<selector>"` crops to one element; to scope a shot over
   several, tag a shared ancestor with a throwaway `data-qa-*` attribute via `eval` first.
+- [2026-08-21] `agent-browser screenshot` takes `--full` (not `--full-page`) for a full-page
+  capture; an unrecognized flag is silently treated as the path, saving a file literally named
+  after the flag in the cwd.
+- [2026-08-21] Clicking a Storybook sidebar section button (`@eN`) to expand it is unreliable
+  (ref doesn't re-render as expanded). Navigate straight to
+  `http://localhost:6006/?path=/docs/<kebab-title>--docs` (or `/iframe.html?id=<story-id>` for a
+  single story) instead — faster and deterministic.
+- [2026-08-21] Viewport resize is `agent-browser set viewport <w> <h>` (under "Browser
+  Settings" in `--help`), not `agent-browser viewport`; useful to force a small height and
+  confirm scroll-to-bottom actually reaches the last off-canvas element (compare `scrollY +
+  innerHeight` to `scrollHeight`) rather than trusting a single full-page screenshot.

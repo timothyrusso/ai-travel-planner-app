@@ -48,3 +48,9 @@ Read at the start of every QA run. Append only under the rules in
   Android-specific criteria as at-risk; don't sink QA time past ~2 retries.
 - [2026-08-16] `expo run:android --device <x>` wants the AVD name itself (e.g.
   `Medium_Phone_API_36.1`), not the adb `model:` field nor the adb serial.
+- [2026-08-21] Physical Android dozes (`mWakefulness=Dozing`, black screencap) ~1s after WAKEUP +
+  `wm dismiss-keyguard`; try `adb shell svc power stayon usb`, else call it broken after ~2 tries.
+- [2026-08-21] `agent-device press` coordinates are two positional args (`press 20 819`), not a
+  quoted "x,y"/"x y" string. On-device Storybook's own sidebar/story-list rows and its bottom
+  hamburger/fullscreen icons are sparse in the AX tree — screenshot, eyeball pixel coords, then
+  `press <x> <y>`; re-snapshot after the sheet closes since it clears refs.
