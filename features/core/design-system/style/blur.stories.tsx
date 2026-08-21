@@ -5,7 +5,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { blur } from '@/features/core/design-system/style/blur';
 import { colors } from '@/features/core/design-system/style/colors';
 import { fontSize } from '@/features/core/design-system/style/dimensions/fontSize';
-import { spacing } from '@/features/core/design-system/style/dimensions/spacing';
+import { SCREEN_WIDTH, spacing } from '@/features/core/design-system/style/dimensions/spacing';
 import { fontFamily } from '@/features/core/design-system/style/fontFamily';
 
 /**
@@ -46,7 +46,16 @@ const PATTERN_COLORS = [
   colors.cyan300,
 ] as const;
 
-const PATTERN_BLOCK_COUNT = 32;
+const PATTERN_BLOCK_SIZE = 28;
+
+const CANVAS_HEIGHT = 84;
+
+/**
+ * Sized off the device width rather than the canvas, whose width is only known at layout time: the
+ * surplus blocks wrap past the canvas and are clipped by its `overflow: 'hidden'`.
+ */
+const PATTERN_BLOCK_COUNT =
+  Math.ceil(SCREEN_WIDTH / PATTERN_BLOCK_SIZE) * Math.ceil(CANVAS_HEIGHT / PATTERN_BLOCK_SIZE);
 
 const PATTERN_TEXT = 'Aa';
 
@@ -94,10 +103,6 @@ export const Scale: Story = {
     </ScrollView>
   ),
 };
-
-const PATTERN_BLOCK_SIZE = 28;
-
-const CANVAS_HEIGHT = 84;
 
 /** Where the blur starts, leaving the left third of the backdrop untouched as the reference. */
 const BLUR_OVERLAY_LEFT = '35%';
