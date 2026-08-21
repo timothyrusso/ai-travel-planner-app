@@ -48,3 +48,7 @@ Read at the start of every QA run. Append only under the rules in
   Android-specific criteria as at-risk; don't sink QA time past ~2 retries.
 - [2026-08-16] `expo run:android --device <x>` wants the AVD name itself (e.g.
   `Medium_Phone_API_36.1`), not the adb `model:` field nor the adb serial.
+- [2026-08-21] Physical Android device can enter `mWakefulness=Dozing` / black screencap within ~1s
+  of every WAKEUP + `wm dismiss-keyguard`; `adb shell svc power stayon usb` is the fix if it works,
+  but if screen still won't hold after ~2 tries, treat the device as broken and fall back to the
+  next in SELECT precedence (iOS simulator) rather than fighting doze.
