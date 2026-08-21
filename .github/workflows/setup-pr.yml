@@ -100,20 +100,37 @@ jobs:
               --jq "[.data.repository.pullRequest.closingIssuesReferences.nodes[].number] | index($ISSUE_NUMBER) != null"
           }
 
+          # A here-string rather than a pipe: `grep -q` exits on the first match, and under
+          # `pipefail` the producer's SIGPIPE would make a present keyword read as absent, which is
+          # the one way this loop could prepend a duplicate. Case-insensitive and covering every
+          # closing keyword GitHub accepts, so a human's `closes #N` counts too.
+          keyword_in_body() {
+            grep -qiE "(close[sd]?|fix(e[sd])?|resolve[sd]?):?[[:space:]]+#$ISSUE_NUMBER([^0-9]|$)" <<< "$1"
+          }
+
+          # A failed query must never read as "unlinked": that would send the repair off to rewrite a
+          # body on no evidence.
+          read_link_state() {
+            if ! LINKED=$(link_present); then
+              echo "Could not read the closing references of PR #$PR_NUMBER, failing so the run is visible and retryable." >&2
+              exit 1
+            fi
+          }
+
           # Reading the body and writing it back cannot be atomic, so a bot writing in that window
           # wins and drops the keyword again. Re-checking after the write is what makes the repair
           # converge instead of depending on winning the race first time.
           for attempt in 1 2 3; do
-            if [ "$(link_present)" = "true" ]; then
+            read_link_state
+
+            if [ "$LINKED" = "true" ]; then
               echo "Issue #$ISSUE_NUMBER is linked, nothing left to do."
               exit 0
             fi
 
             BODY=$(gh pr view "$PR_NUMBER" --json body --jq '.body')
 
-            # The keyword can be in the body while the reference is not indexed yet; prepending a
-            # second copy would be the only lasting damage this loop could do.
-            if printf '%s' "$BODY" | grep -qE "(Fixes|Closes|Resolves) #$ISSUE_NUMBER([^0-9]|$)"; then
+            if keyword_in_body "$BODY"; then
               echo "Attempt $attempt: the keyword is in the body, waiting for GitHub to index it."
               sleep 10
               continue
@@ -127,6 +144,21 @@ jobs:
             gh pr edit "$PR_NUMBER" --body-file "$RUNNER_TEMP/pr-body.md"
             sleep 5
           done
+
+          # The attempts can run out on the wait branch, with the body already carrying the keyword
+          # and only GitHub's indexing outstanding. The durable state is correct there, so re-check
+          # once more before calling the run failed.
+          read_link_state
+
+          if [ "$LINKED" = "true" ]; then
+            echo "Issue #$ISSUE_NUMBER is linked, nothing left to do."
+            exit 0
+          fi
+
+          if keyword_in_body "$(gh pr view "$PR_NUMBER" --json body --jq '.body')"; then
+            echo "The closing keyword is in the body and GitHub has not indexed it yet, leaving it in place."
+            exit 0
+          fi
 
           echo "Issue #$ISSUE_NUMBER is still unlinked after 3 attempts." >&2
           exit 1
