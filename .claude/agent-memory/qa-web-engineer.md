@@ -21,6 +21,9 @@ Read at the start of every web QA run. Append only under the rules in
   used without a dependency array or Babel plugin" and fail to render at all. If a story
   renders a hard error rather than the component, check the Storybook Vite Babel config
   before reporting a component bug.
+- [2026-08-13] `agent-browser fill` on a range `<input type=range>` slider doesn't set the
+  value reliably (it appended digits, e.g. 30+"60" -> 36). Use `focus @ref` then
+  `press Home`/`press End`/arrow keys instead to hit min/max deterministically.
 - [2026-08-13] React Native Web's `ScrollView` renders all children unvirtualized in the DOM
   on web, so `agent-browser eval "document.body.innerText"` on a story's iframe captures
   every off-screen cell's text in one call — faster than scrolling+screenshotting to verify
@@ -41,6 +44,8 @@ Read at the start of every web QA run. Append only under the rules in
   to a `width: '100%'` DS component. To test container-width responsiveness, `eval` the
   component's `parentElement` and `style.setProperty('max-width', 'NNNpx', 'important')` (plain
   assignment loses to the class) directly, not the browser viewport.
+- [2026-08-19] `agent-browser set media reduced-motion` (reset `no-preference`) emulates
+  `prefers-reduced-motion` — tests Reanimated `useReducedMotion()` on web with no OS toggle.
 - [2026-08-19] `agent-browser screenshot "<selector>"` crops to one element; to scope a shot over
   several, tag a shared ancestor with a throwaway `data-qa-*` attribute via `eval` first.
 - [2026-08-21] `agent-browser screenshot` takes `--full` (not `--full-page`) for a full-page
