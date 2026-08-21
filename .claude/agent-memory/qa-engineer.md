@@ -52,3 +52,7 @@ Read at the start of every QA run. Append only under the rules in
   of every WAKEUP + `wm dismiss-keyguard`; `adb shell svc power stayon usb` is the fix if it works,
   but if screen still won't hold after ~2 tries, treat the device as broken and fall back to the
   next in SELECT precedence (iOS simulator) rather than fighting doze.
+- [2026-08-21] `agent-device press` coordinates are two positional args (`press 20 819`), not a
+  quoted "x,y"/"x y" string. On-device Storybook's own sidebar/story-list rows and its bottom
+  hamburger/fullscreen icons are sparse in the AX tree — screenshot, eyeball pixel coords, then
+  `press <x> <y>`; re-snapshot after the sheet closes since it clears refs.
