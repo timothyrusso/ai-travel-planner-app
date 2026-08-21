@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-native';
-import { BlurView } from 'expo-blur';
+import { BlurTargetView, BlurView } from 'expo-blur';
+import { type RefObject, useRef } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { blur } from '@/features/core/design-system/style/blur';
@@ -11,12 +12,10 @@ import { fontFamily } from '@/features/core/design-system/style/fontFamily';
 /**
  * `expo-blur` intensity is a 0–100 scale, not a pixel radius.
  *
- * Read the ramp on iOS: that is the only platform where these samples are a real blur. On web
- * `BlurView` falls back to the CSS `backdrop-filter`, whose radius is `intensity * 0.2` pixels and
- * spreads differently. On Android nothing is blurred at all — `blurMethod` defaults to `'none'` and
- * the `'dimezisBlurView'` alternative needs a `blurTarget` whose ref is already populated when the
- * `BlurView` mounts, which an in-story ancestor cannot be (`BlurSurface` gets one from the screen
- * instead) — so each row renders as the flat dark tint that its intensity produces.
+ * Read the ramp on iOS: that is the platform the scale is tuned for. On web `BlurView` falls back to
+ * the CSS `backdrop-filter`, whose radius is `intensity * 0.2` pixels and spreads differently. On
+ * Android the blur comes from `dimezisBlurView`, which divides the intensity by
+ * `blurReductionFactor` (4 by default), so the same token reads softer than on iOS.
  */
 const meta = {
   title: 'Design System/Blur',
@@ -67,15 +66,18 @@ const PATTERN_BLOCKS = Array.from({ length: PATTERN_BLOCK_COUNT }, (_, index) =>
   color: PATTERN_COLORS[index % PATTERN_COLORS.length],
 }));
 
-function PatternBackdrop() {
+type PatternBackdropProps = { blurTargetRef: RefObject<View | null> };
+
+function PatternBackdrop({ blurTargetRef }: PatternBackdropProps) {
   return (
-    <View style={styles.pattern}>
+    // Android blurs only what a `BlurTargetView` registers; on iOS and web this is a plain `View`
+    <BlurTargetView ref={blurTargetRef} style={styles.pattern}>
       {PATTERN_BLOCKS.map(block => (
         <View key={block.id} style={[styles.patternBlock, { backgroundColor: block.color }]}>
           <Text style={styles.patternText}>{PATTERN_TEXT}</Text>
         </View>
       ))}
-    </View>
+    </BlurTargetView>
   );
 }
 
@@ -83,12 +85,19 @@ type Sample = { token: string; intensity: number };
 
 /** The blur covers only part of the sample, so every row also shows the crisp backdrop to judge it against. */
 function BlurSample({ token, intensity }: Sample) {
+  const blurTargetRef = useRef<View | null>(null);
+
   return (
     <View style={styles.sample}>
       <View style={styles.canvas}>
-        <PatternBackdrop />
-        {/* No `blurMethod`: without a mount-time `blurTarget` Android warns and falls back to 'none' anyway */}
-        <BlurView intensity={intensity} style={styles.blurOverlay} tint="dark" />
+        <PatternBackdrop blurTargetRef={blurTargetRef} />
+        <BlurView
+          intensity={intensity}
+          style={styles.blurOverlay}
+          blurMethod="dimezisBlurView"
+          blurTarget={blurTargetRef}
+          tint="dark"
+        />
       </View>
       <View style={styles.labels}>
         <Text style={styles.token}>{token}</Text>
