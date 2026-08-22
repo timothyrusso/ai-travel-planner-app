@@ -3,11 +3,11 @@ import { fontSize } from '@/features/core/design-system/style/dimensions/fontSiz
 import { spacing } from '@/features/core/design-system/style/dimensions/spacing';
 
 /**
- * Per-size geometry of the chip, component-scoped on purpose: the letter-spacings 0.72/0.8/0.96 are
- * one-off values only this chip asks for, and adding them to a shared ladder would offer every other
- * component a step it must never use. The radius is derived from the rule `radius = height / 2`, so
- * a chip is a full pill by construction rather than by a literal that can drift from its height, and
- * every other value comes from the shared `components`/`spacing`/`fontSize` scales.
+ * Per-size geometry of the chip, component-scoped on purpose: the letter-spacings 0.72/0.8/0.96 are asked for
+ * only by the chip and the tag, and adding them to a shared ladder would offer every other component a step
+ * it must never use. The radius is derived from the rule `radius = height / 2`, so a chip is a full pill by
+ * construction rather than by a literal that can drift from its height, and every other value comes from the
+ * shared `components`/`spacing`/`fontSize` scales.
  */
 export const chipSizes = {
   small: {
