@@ -15,7 +15,7 @@ export const SpinnerColor = {
   cyan500: 'cyan500',
   primaryBlack: 'primaryBlack',
   primaryWhite: 'primaryWhite',
-} as const satisfies { [Token in keyof typeof colors]?: Token };
+} as const;
 
 export type SpinnerColor = (typeof SpinnerColor)[keyof typeof SpinnerColor];
 
