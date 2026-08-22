@@ -62,3 +62,6 @@ Read at the start of every QA run. Append only under the rules in
   spaced in real time, so naive frame-by-frame diffing false-alarms as animation "hitches". Pull
   `ffprobe -show_entries frame=pts_time` first and pick frames at even real-time deltas before judging
   smoothness.
+- [2026-08-22] This app's real bundle id is `com.app.travelplanner` (app.json), not `com.holidai` —
+  `agent-device open com.holidai` fails with "app bundle is not installed" even right after a
+  successful build; check `app.json`/`xcrun simctl listapps` when open fails post-build.
