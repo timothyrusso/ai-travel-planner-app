@@ -51,7 +51,10 @@ export const spinnerCircumference = (radius: number) => 2 * Math.PI * radius;
 
 export const spinnerDashLength = (radius: number, sweep: number) => spinnerCircumference(radius) * sweep;
 
-export const clampProgress = (progress: number) => Math.min(Math.max(progress, NO_SWEEP), FULL_SWEEP);
+// A NaN progress would survive Math.min/Math.max untouched and be announced as a NaN percentage,
+// so it collapses to an empty sweep before any clamping.
+export const clampProgress = (progress: number) =>
+  Number.isNaN(progress) ? NO_SWEEP : Math.min(Math.max(progress, NO_SWEEP), FULL_SWEEP);
 
 export const spinnerSweep = (progress?: number) =>
   progress === undefined ? INDETERMINATE_SWEEP_DEGREES / FULL_TURN_DEGREES : clampProgress(progress);

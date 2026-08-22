@@ -38,6 +38,7 @@ describe('clampProgress', () => {
     [0.01, 0.01],
     [1, 1],
     [2, 1],
+    [Number.NaN, 0],
   ])('clamps %p to %p', (progress, expected) => {
     expect(clampProgress(progress)).toBe(expected);
   });
