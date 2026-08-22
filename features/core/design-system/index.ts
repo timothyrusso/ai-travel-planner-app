@@ -31,6 +31,8 @@ export * from '@/features/core/design-system/components/basic/CustomPressable/Cu
 export * from '@/features/core/design-system/components/basic/CustomSegmentedControl/CustomSegmentedControl.logic';
 export * from '@/features/core/design-system/components/basic/CustomSegmentedControl/CustomSegmentedControlMedium';
 export * from '@/features/core/design-system/components/basic/CustomSegmentedControl/CustomSegmentedControlSmall';
+export * from '@/features/core/design-system/components/basic/CustomSpinner/CustomSpinner';
+export * from '@/features/core/design-system/components/basic/CustomSpinner/CustomSpinner.logic';
 export * from '@/features/core/design-system/components/basic/CustomText/CustomText';
 export * from '@/features/core/design-system/components/basic/CustomTextButton/CustomTextButton';
 export * from '@/features/core/design-system/components/basic/CustomTextInput/CustomTextInput';
