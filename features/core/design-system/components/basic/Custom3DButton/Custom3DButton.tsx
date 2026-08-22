@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { ActivityIndicator, type StyleProp, View, type ViewStyle } from 'react-native';
+import { type StyleProp, View, type ViewStyle } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 
@@ -9,6 +9,7 @@ import {
 } from '@/features/core/design-system/components/basic/Custom3DButton/Custom3DButton.logic';
 import { custom3DButtonStyles } from '@/features/core/design-system/components/basic/Custom3DButton/Custom3DButton.style';
 import { CustomIcon, type IoniconsName } from '@/features/core/design-system/components/basic/CustomIcon/CustomIcon';
+import { CustomSpinner } from '@/features/core/design-system/components/basic/CustomSpinner/CustomSpinner';
 import { CustomText } from '@/features/core/design-system/components/basic/CustomText/CustomText';
 import { type RaisedButtonSize, raisedButtonSizes } from '@/features/core/design-system/style/dimensions/raisedButton';
 
@@ -66,7 +67,7 @@ export const Custom3DButton = ({
         <Animated.View style={[styles.content, derived.contentAnimatedStyle]}>
           <View style={styles.topFace}>
             {isLoading ? (
-              <ActivityIndicator color={derived.buttonColors.contentColor} />
+              <CustomSpinner size="small" color={derived.spinnerColor} />
             ) : (
               <Fragment>
                 {leftIcon && (

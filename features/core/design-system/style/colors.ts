@@ -23,6 +23,7 @@ export const colors = {
   primaryWhite: '#FFFFFF',
   primaryWhiteDisabled: '#F9F9F9',
   secondaryGrey: '#F5F5F5',
+  tertiaryGrey: '#E9E9E9',
   primaryGrey: '#8E8E8F',
   primaryBlack: '#000000',
 } as const;

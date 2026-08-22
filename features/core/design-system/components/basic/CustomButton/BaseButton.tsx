@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { ActivityIndicator, type StyleProp, type TextStyle, View, type ViewStyle } from 'react-native';
+import { type StyleProp, type TextStyle, View, type ViewStyle } from 'react-native';
 
 import {
   ButtonState,
@@ -9,6 +9,7 @@ import {
 import { styleButton } from '@/features/core/design-system/components/basic/CustomButton/CustomButton.style';
 import { CustomIcon, type IoniconsName } from '@/features/core/design-system/components/basic/CustomIcon/CustomIcon';
 import { CustomPressable } from '@/features/core/design-system/components/basic/CustomPressable/CustomPressable';
+import { CustomSpinner } from '@/features/core/design-system/components/basic/CustomSpinner/CustomSpinner';
 import { CustomText } from '@/features/core/design-system/components/basic/CustomText/CustomText';
 import { spacing } from '@/features/core/design-system/style/dimensions/spacing';
 
@@ -55,7 +56,7 @@ export function BaseButton({
     <CustomPressable disabled={isDisabled || isLoading} onPress={onPress} style={[styles.button, style]}>
       <View style={styles.innerContainer}>
         {isLoading ? (
-          <ActivityIndicator color={iconColor} />
+          <CustomSpinner size="small" color={derived.styleSpinnerColor(buttonType)} />
         ) : (
           <Fragment>
             {leftIcon && (

@@ -1,5 +1,6 @@
 import { match } from 'ts-pattern';
 
+import { spinnerColorForContent } from '@/features/core/design-system/components/basic/CustomSpinner/CustomSpinner.logic';
 import { colors } from '@/features/core/design-system/style/colors';
 
 // Define button states
@@ -104,9 +105,13 @@ export const useCustomButtonLogic = () => {
       .exhaustive();
   };
 
+  const styleSpinnerColor = (buttonType: ButtonType) =>
+    spinnerColorForContent(styleIconColor(buttonType, ButtonState.Active));
+
   return {
     derived: {
       styleIconColor,
+      styleSpinnerColor,
       getButtonStyles,
     },
   };
