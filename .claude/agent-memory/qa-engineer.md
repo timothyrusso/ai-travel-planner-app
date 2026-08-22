@@ -54,3 +54,11 @@ Read at the start of every QA run. Append only under the rules in
   quoted "x,y"/"x y" string. On-device Storybook's own sidebar/story-list rows and its bottom
   hamburger/fullscreen icons are sparse in the AX tree — screenshot, eyeball pixel coords, then
   `press <x> <y>`; re-snapshot after the sheet closes since it clears refs.
+- [2026-08-22] `.env`/`QA_TEST_EMAIL` can be unreadable (permission classifier blocks `cat`/`grep`/`source`
+  even when not literally denied) — when auth-gated criteria are unreachable, design-system criteria are
+  often still testable via on-device Storybook with no rebuild: kill Metro, restart with
+  `EXPO_PUBLIC_STORYBOOK_ENABLED=true npx expo start --clear`, relaunch the already-installed app.
+- [2026-08-22] `xcrun simctl io recordVideo` output is VFR — sequential `ffmpeg` frame dumps are unevenly
+  spaced in real time, so naive frame-by-frame diffing false-alarms as animation "hitches". Pull
+  `ffprobe -show_entries frame=pts_time` first and pick frames at even real-time deltas before judging
+  smoothness.
