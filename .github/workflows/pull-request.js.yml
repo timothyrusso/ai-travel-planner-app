@@ -157,7 +157,7 @@ jobs:
       - run: npm run lint
       - run: npm run test:eslint-rules
       - run: npm run lint:compiler
-      - run: npx tsc --noEmit
+      - run: npx tsc --noEmit && npx tsc --noEmit -p tsconfig.test.json
 
       - name: Architecture check
         if: github.event_name == 'pull_request'
