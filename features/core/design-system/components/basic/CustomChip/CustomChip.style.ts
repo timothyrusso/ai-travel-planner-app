@@ -23,6 +23,7 @@ export const styleChip = ({ chipSize, chipColors, isIconOnly }: ChipStyleParams)
     container: {
       flexDirection: 'row',
       alignItems: 'center',
+      alignSelf: 'flex-start',
       justifyContent: 'center',
       gap: chipSize.gap,
       height: chipSize.height,
