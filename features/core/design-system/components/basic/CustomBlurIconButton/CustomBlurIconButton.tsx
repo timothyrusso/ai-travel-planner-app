@@ -1,11 +1,12 @@
 import type { RefObject } from 'react';
-import { ActivityIndicator, type StyleProp, View, type ViewProps, type ViewStyle } from 'react-native';
+import { type StyleProp, View, type ViewProps, type ViewStyle } from 'react-native';
 
 import { BlurSurface } from '@/features/core/design-system/components/basic/CustomBlurButton/BlurSurface';
 import { useCustomBlurButtonLogic } from '@/features/core/design-system/components/basic/CustomBlurButton/CustomBlurButton.logic';
 import { styleBlurIconButton } from '@/features/core/design-system/components/basic/CustomBlurIconButton/CustomBlurIconButton.style';
 import { CustomIcon, type IoniconsName } from '@/features/core/design-system/components/basic/CustomIcon/CustomIcon';
 import { CustomPressable } from '@/features/core/design-system/components/basic/CustomPressable/CustomPressable';
+import { CustomSpinner } from '@/features/core/design-system/components/basic/CustomSpinner/CustomSpinner';
 import { spacing } from '@/features/core/design-system/style/dimensions/spacing';
 
 export type CustomBlurIconButtonProps = {
@@ -58,7 +59,7 @@ export function CustomBlurIconButton({
         <View style={styles.tint} />
         <View style={styles.innerContainer}>
           {isLoading ? (
-            <ActivityIndicator color={derived.blurStyles.contentColor} size={iconSize} />
+            <CustomSpinner size="small" color={derived.spinnerColor} />
           ) : (
             <CustomIcon name={iconName} size={iconSize} style={iconStyle} color={derived.blurStyles.contentColor} />
           )}

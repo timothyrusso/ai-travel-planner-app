@@ -3,6 +3,7 @@ import { Platform } from 'react-native';
 import { match } from 'ts-pattern';
 
 import { ButtonState } from '@/features/core/design-system/components/basic/CustomButton/CustomButton.logic';
+import { SpinnerColor } from '@/features/core/design-system/components/basic/CustomSpinner/CustomSpinner.logic';
 import { PlatformOS } from '@/features/core/design-system/PlatformOS';
 import { blur } from '@/features/core/design-system/style/blur';
 import { colors } from '@/features/core/design-system/style/colors';
@@ -59,6 +60,10 @@ export const useCustomBlurButtonLogic = ({ isDisabled, hasBlurTarget }: UseCusto
     derived: {
       canBlur,
       blurStyles,
+      // Resolved against `ButtonState.Active` only: `primaryWhiteDisabled` is outside the six spinner
+      // colours the design specifies, and disabled + loading is a combination the pressable already
+      // blocks.
+      spinnerColor: SpinnerColor.primaryWhite,
     },
   };
 };

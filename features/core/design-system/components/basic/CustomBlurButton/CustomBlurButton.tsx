@@ -1,11 +1,12 @@
 import { Fragment, type RefObject } from 'react';
-import { ActivityIndicator, type StyleProp, type TextStyle, View, type ViewStyle } from 'react-native';
+import { type StyleProp, type TextStyle, View, type ViewStyle } from 'react-native';
 
 import { BlurSurface } from '@/features/core/design-system/components/basic/CustomBlurButton/BlurSurface';
 import { useCustomBlurButtonLogic } from '@/features/core/design-system/components/basic/CustomBlurButton/CustomBlurButton.logic';
 import { styleBlurButton } from '@/features/core/design-system/components/basic/CustomBlurButton/CustomBlurButton.style';
 import { CustomIcon, type IoniconsName } from '@/features/core/design-system/components/basic/CustomIcon/CustomIcon';
 import { CustomPressable } from '@/features/core/design-system/components/basic/CustomPressable/CustomPressable';
+import { CustomSpinner } from '@/features/core/design-system/components/basic/CustomSpinner/CustomSpinner';
 import { CustomText } from '@/features/core/design-system/components/basic/CustomText/CustomText';
 import { spacing } from '@/features/core/design-system/style/dimensions/spacing';
 
@@ -70,7 +71,7 @@ export function CustomBlurButton({
         <View style={styles.tint} />
         <View style={styles.innerContainer}>
           {isLoading ? (
-            <ActivityIndicator color={derived.blurStyles.contentColor} />
+            <CustomSpinner size="small" color={derived.spinnerColor} />
           ) : (
             <Fragment>
               {leftIcon && (

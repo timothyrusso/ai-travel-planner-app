@@ -7,6 +7,7 @@ import { scheduleOnRN } from 'react-native-worklets';
 import { match } from 'ts-pattern';
 
 import { ButtonState } from '@/features/core/design-system/components/basic/CustomButton/CustomButton.logic';
+import { SpinnerColor } from '@/features/core/design-system/components/basic/CustomSpinner/CustomSpinner.logic';
 import { colors } from '@/features/core/design-system/style/colors';
 import { opacity } from '@/features/core/design-system/style/opacity';
 
@@ -181,6 +182,24 @@ export const useCustom3DButtonLogic = ({
     }))
     .exhaustive();
 
+  // Resolved against `ButtonState.Active` only: the disabled content colours are outside the six
+  // spinner colours the design specifies, and disabled + loading is a combination the tap gesture
+  // already blocks.
+  const spinnerColor = match(buttonType)
+    .with(
+      Custom3DButtonType.Main,
+      Custom3DButtonType.Primary,
+      Custom3DButtonType.Danger,
+      () => SpinnerColor.primaryWhite,
+    )
+    .with(
+      Custom3DButtonType.Secondary,
+      Custom3DButtonType.Accent,
+      Custom3DButtonType.Info,
+      () => SpinnerColor.primaryBlack,
+    )
+    .exhaustive();
+
   return {
     // `CustomText` translates the title it renders, so the label the screen reader is handed has to
     // be translated here too — otherwise the button announces the raw i18n key.
@@ -192,6 +211,7 @@ export const useCustom3DButtonLogic = ({
       contentAnimatedStyle,
       pressOverlayAnimatedStyle,
       buttonColors,
+      spinnerColor,
       isInteractive,
       accessibilityActions: ACCESSIBILITY_ACTIONS,
     },

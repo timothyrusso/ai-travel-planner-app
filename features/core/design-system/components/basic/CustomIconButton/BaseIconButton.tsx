@@ -1,4 +1,4 @@
-import { ActivityIndicator, type StyleProp, type ViewProps, type ViewStyle } from 'react-native';
+import type { StyleProp, ViewProps, ViewStyle } from 'react-native';
 import Animated, { type AnimatedStyle } from 'react-native-reanimated';
 
 import {
@@ -9,6 +9,7 @@ import {
 import { CustomIcon, type IoniconsName } from '@/features/core/design-system/components/basic/CustomIcon/CustomIcon';
 import { styleButton } from '@/features/core/design-system/components/basic/CustomIconButton/CustomIconButton.style';
 import { CustomPressable } from '@/features/core/design-system/components/basic/CustomPressable/CustomPressable';
+import { CustomSpinner } from '@/features/core/design-system/components/basic/CustomSpinner/CustomSpinner';
 import { spacing } from '@/features/core/design-system/style/dimensions/spacing';
 
 export type CustomIconButtonProps = {
@@ -63,7 +64,7 @@ export function BaseIconButton({
       accessibilityRole={accessibilityRole}
     >
       {isLoading ? (
-        <ActivityIndicator color={iconColor} size={iconSize} />
+        <CustomSpinner size="small" color={derived.styleSpinnerColor(buttonType)} />
       ) : animatedIconStyle !== undefined ? (
         <Animated.View style={animatedIconStyle}>{icon}</Animated.View>
       ) : (
