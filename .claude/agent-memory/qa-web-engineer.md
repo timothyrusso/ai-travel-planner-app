@@ -59,3 +59,8 @@ Read at the start of every web QA run. Append only under the rules in
   Settings" in `--help`), not `agent-browser viewport`; useful to force a small height and
   confirm scroll-to-bottom actually reaches the last off-canvas element (compare `scrollY +
   innerHeight` to `scrollHeight`) rather than trusting a single full-page screenshot.
+- [2026-08-22] react-native-web 0.21's `View` only forwards flat `accessibilityValueMin/Max/Now/Text`
+  props to ARIA `aria-value*` attributes — passing RN's native object form
+  `accessibilityValue={{min,max,now}}` (the correct cross-platform API) is silently dropped on web,
+  so a determinate progressbar never gets `aria-valuenow` there. Verify via
+  `getAttributeNames()` on the `role="progressbar"` element, not visual inspection alone.
