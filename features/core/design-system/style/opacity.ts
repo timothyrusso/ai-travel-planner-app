@@ -4,6 +4,7 @@ export const opacity = {
   opacity20: 0.2,
   opacity25: 0.25,
   opacity40: 0.4,
+  opacity50: 0.5,
   opacity60: 0.6,
   opacity80: 0.8,
   opacity100: 1,
