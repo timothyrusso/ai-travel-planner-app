@@ -1,6 +1,15 @@
 import { type FC, Fragment } from 'react';
-import { ActivityIndicator, Pressable, View } from 'react-native';
-import { CustomIcon, CustomText, colors, type IoniconsName, icons, spacing } from '@/features/core/design-system';
+import { Pressable, View } from 'react-native';
+import {
+  CustomIcon,
+  CustomSpinner,
+  CustomText,
+  colors,
+  type IoniconsName,
+  icons,
+  SpinnerColor,
+  spacing,
+} from '@/features/core/design-system';
 import { style } from '@/features/profile/ui/components/ButtonsContainer/ButtonsContainer.style';
 
 type ButtonsContainerProps = {
@@ -46,7 +55,7 @@ export const ButtonsContainer: FC<ButtonsContainerProps> = ({
         <View style={style.titleContainer}>
           <CustomIcon name={firstIcon} size={spacing.TripleAndHalf} color={colors.primaryBlack} />
           {firstIsLoading ? (
-            <ActivityIndicator size="small" color={colors.primaryBlack} />
+            <CustomSpinner size="small" color={SpinnerColor.primaryBlack} />
           ) : (
             <CustomText text={firstTitle} style={style.title} />
           )}
@@ -66,7 +75,7 @@ export const ButtonsContainer: FC<ButtonsContainerProps> = ({
         <View style={style.titleContainer}>
           <CustomIcon name={secondIcon} size={spacing.TripleAndHalf} color={colors.primaryBlack} />
           {secondIsLoading ? (
-            <ActivityIndicator size="small" color={colors.primaryBlack} />
+            <CustomSpinner size="small" color={SpinnerColor.primaryBlack} />
           ) : (
             <CustomText text={secondTitle} style={style.title} />
           )}
@@ -85,7 +94,7 @@ export const ButtonsContainer: FC<ButtonsContainerProps> = ({
           disabled={thirdIsLoading}
         >
           {thirdIsLoading ? (
-            <ActivityIndicator size="small" color={colors.primaryBlack} />
+            <CustomSpinner size="small" color={SpinnerColor.primaryBlack} />
           ) : (
             <Fragment>
               <View style={style.titleContainer}>
