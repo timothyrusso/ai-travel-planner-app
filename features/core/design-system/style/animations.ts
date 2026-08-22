@@ -73,3 +73,8 @@ export const rotate: CSSAnimationKeyframes = {
   '0%': { transform: [{ rotateY: '0deg' }] },
   '100%': { transform: [{ rotateY: '180deg' }] },
 } as const;
+
+export const spin: CSSAnimationKeyframes = {
+  '0%': { transform: [{ rotate: '0deg' }] },
+  '100%': { transform: [{ rotate: '360deg' }] },
+} as const;
