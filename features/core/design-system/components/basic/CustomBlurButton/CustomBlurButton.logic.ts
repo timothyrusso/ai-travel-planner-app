@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 import { match } from 'ts-pattern';
 
 import { ButtonState } from '@/features/core/design-system/components/basic/CustomButton/CustomButton.logic';
-import { SpinnerColor } from '@/features/core/design-system/components/basic/CustomSpinner/CustomSpinner.logic';
+import { spinnerColorForContent } from '@/features/core/design-system/components/basic/CustomSpinner/CustomSpinner.logic';
 import { PlatformOS } from '@/features/core/design-system/PlatformOS';
 import { blur } from '@/features/core/design-system/style/blur';
 import { colors } from '@/features/core/design-system/style/colors';
@@ -15,22 +15,8 @@ export type BlurButtonStyles = {
   contentColor: string;
 };
 
-type UseCustomBlurButtonLogicParams = {
-  isDisabled: boolean;
-  hasBlurTarget: boolean;
-};
-
-export const useCustomBlurButtonLogic = ({ isDisabled, hasBlurTarget }: UseCustomBlurButtonLogicParams) => {
-  const { t } = useTranslation();
-
-  const buttonState = isDisabled ? ButtonState.Disabled : ButtonState.Active;
-
-  // `expo-blur` can only sample the pixels behind it on Android when it is handed a `blurTarget`
-  // ancestor, which a reusable button cannot own: without one from the screen, there is no blur to
-  // render at all.
-  const canBlur = Platform.OS !== PlatformOS.android || hasBlurTarget;
-
-  const blurStyles: BlurButtonStyles = match({ buttonState, canBlur })
+const resolveBlurStyles = (buttonState: ButtonState, canBlur: boolean): BlurButtonStyles =>
+  match({ buttonState, canBlur })
     .with({ buttonState: ButtonState.Active, canBlur: true }, () => ({
       intensity: blur.intensity30,
       tintOpacity: opacity.opacity25,
@@ -53,6 +39,23 @@ export const useCustomBlurButtonLogic = ({ isDisabled, hasBlurTarget }: UseCusto
     }))
     .exhaustive();
 
+type UseCustomBlurButtonLogicParams = {
+  isDisabled: boolean;
+  hasBlurTarget: boolean;
+};
+
+export const useCustomBlurButtonLogic = ({ isDisabled, hasBlurTarget }: UseCustomBlurButtonLogicParams) => {
+  const { t } = useTranslation();
+
+  const buttonState = isDisabled ? ButtonState.Disabled : ButtonState.Active;
+
+  // `expo-blur` can only sample the pixels behind it on Android when it is handed a `blurTarget`
+  // ancestor, which a reusable button cannot own: without one from the screen, there is no blur to
+  // render at all.
+  const canBlur = Platform.OS !== PlatformOS.android || hasBlurTarget;
+
+  const blurStyles = resolveBlurStyles(buttonState, canBlur);
+
   return {
     state: {
       t,
@@ -60,10 +63,7 @@ export const useCustomBlurButtonLogic = ({ isDisabled, hasBlurTarget }: UseCusto
     derived: {
       canBlur,
       blurStyles,
-      // Resolved against `ButtonState.Active` only: `primaryWhiteDisabled` is outside the six spinner
-      // colours the design specifies, and disabled + loading is a combination the pressable already
-      // blocks.
-      spinnerColor: SpinnerColor.primaryWhite,
+      spinnerColor: spinnerColorForContent(resolveBlurStyles(ButtonState.Active, canBlur).contentColor),
     },
   };
 };

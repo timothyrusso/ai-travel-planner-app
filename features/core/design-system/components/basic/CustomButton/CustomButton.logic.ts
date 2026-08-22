@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { SpinnerColor } from '@/features/core/design-system/components/basic/CustomSpinner/CustomSpinner.logic';
+import { spinnerColorForContent } from '@/features/core/design-system/components/basic/CustomSpinner/CustomSpinner.logic';
 import { colors } from '@/features/core/design-system/style/colors';
 
 // Define button states
@@ -105,20 +105,8 @@ export const useCustomButtonLogic = () => {
       .exhaustive();
   };
 
-  // Resolved against `ButtonState.Active` only: the disabled content colours (`primaryWhiteDisabled`,
-  // `primaryGrey`) are outside the six spinner colours the design specifies, and disabled + loading
-  // is a combination the pressable already blocks.
   const styleSpinnerColor = (buttonType: ButtonType) =>
-    match(buttonType)
-      .with(ButtonType.Main, ButtonType.Primary, () => SpinnerColor.primaryWhite)
-      .with(
-        ButtonType.Secondary,
-        ButtonType.Tertiary,
-        ButtonType.Quaternary,
-        ButtonType.Ghost,
-        () => SpinnerColor.primaryBlack,
-      )
-      .exhaustive();
+    spinnerColorForContent(styleIconColor(buttonType, ButtonState.Active));
 
   return {
     derived: {
