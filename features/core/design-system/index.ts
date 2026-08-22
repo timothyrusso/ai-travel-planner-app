@@ -4,7 +4,6 @@ export const FEATURE_TIER: FeatureTier = 0;
 
 // Basic components
 export * from '@/features/core/design-system/components/basic/BaseSkeleton/BaseSkeleton';
-export * from '@/features/core/design-system/components/basic/Cheap/Cheap';
 export * from '@/features/core/design-system/components/basic/Custom3DButton/Custom3DButton.logic';
 export * from '@/features/core/design-system/components/basic/Custom3DButton/Custom3DButtonExtraLarge';
 export * from '@/features/core/design-system/components/basic/Custom3DButton/Custom3DButtonLarge';
@@ -22,6 +21,8 @@ export * from '@/features/core/design-system/components/basic/CustomButton/Custo
 export * from '@/features/core/design-system/components/basic/CustomButton/CustomButtonSmall';
 export * from '@/features/core/design-system/components/basic/CustomCard/CustomCard';
 export * from '@/features/core/design-system/components/basic/CustomCard/CustomCard.logic';
+export * from '@/features/core/design-system/components/basic/CustomChip/CustomChip';
+export * from '@/features/core/design-system/components/basic/CustomChip/CustomChip.logic';
 export * from '@/features/core/design-system/components/basic/CustomIcon/CustomIcon';
 export * from '@/features/core/design-system/components/basic/CustomIconButton/CustomIconButtonLarge';
 export * from '@/features/core/design-system/components/basic/CustomIconButton/CustomIconButtonMedium';

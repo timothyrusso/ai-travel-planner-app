@@ -65,3 +65,8 @@ Read at the start of every QA run. Append only under the rules in
 - [2026-08-22] This app's real bundle id is `com.app.travelplanner` (app.json), not `com.holidai` —
   `agent-device open com.holidai` fails with "app bundle is not installed" even right after a
   successful build; check `app.json`/`xcrun simctl listapps` when open fails post-build.
+- [2026-08-22] A concurrent QA lane (e.g. web-qa) can hold the default `agent-device` session on
+  the preferred simulator (`DEVICE_IN_USE`/stale `default` session) and leave a stray Metro bound
+  to the same checkout with a different env (e.g. `EXPO_PUBLIC_STORYBOOK_ENABLED=true`) — boot a
+  spare simulator under your own `--session <name>` and always verify/restart Metro rather than
+  trusting whatever's already listening on 8081.
