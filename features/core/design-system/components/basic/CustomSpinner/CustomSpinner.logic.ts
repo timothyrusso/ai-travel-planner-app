@@ -19,6 +19,12 @@ export const SpinnerColor = {
 
 export type SpinnerColor = (typeof SpinnerColor)[keyof typeof SpinnerColor];
 
+// Callers pass the content colour resolved at their active state: the disabled content colours are
+// outside the six spinner colours the design specifies, and disabled + loading is a combination
+// every button already blocks.
+export const spinnerColorForContent = (contentColor: string): SpinnerColor =>
+  contentColor === colors.primaryWhite ? SpinnerColor.primaryWhite : SpinnerColor.primaryBlack;
+
 export type SpinnerColors = {
   arc: string;
   track: string;
