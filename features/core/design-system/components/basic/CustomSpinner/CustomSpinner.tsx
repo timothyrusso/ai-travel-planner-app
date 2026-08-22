@@ -29,8 +29,9 @@ export const CustomSpinner = ({
       style={[styles.container, derived.isIndeterminate ? spinnerRotation : null, style]}
       accessibilityRole="progressbar"
       accessibilityLabel={accessibilityLabel}
-      // The flat ARIA props are the only value form react-native-web forwards to the DOM, and React
-      // Native merges them back into `accessibilityValue` on device.
+      // The flat ARIA props are the only form react-native-web forwards to the DOM, and React Native
+      // merges them back into `accessibilityState` and `accessibilityValue` on device.
+      aria-busy={derived.accessibilityBusy}
       aria-valuemin={derived.accessibilityValue?.min}
       aria-valuemax={derived.accessibilityValue?.max}
       aria-valuenow={derived.accessibilityValue?.now}

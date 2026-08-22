@@ -127,8 +127,9 @@ export const useCustomSpinnerLogic = ({ size, color, progress }: UseCustomSpinne
       dashOffset: circumference - spinnerDashLength(radius, sweep),
       hasArc: sweep > NO_SWEEP,
       arcRotation: `rotate(${ARC_START_ANGLE} ${center} ${center})`,
-      // The whole value is omitted while indeterminate, so a screen reader announces the spinner as
-      // busy rather than as 0%.
+      // `busy` is what makes a screen reader announce the spinner as loading; the value is omitted
+      // alongside it so the same spinner is not also announced as 0%.
+      accessibilityBusy: isIndeterminate ? true : undefined,
       accessibilityValue: isIndeterminate
         ? undefined
         : { min: MIN_PERCENT, max: MAX_PERCENT, now: spinnerPercent(sweep) },
