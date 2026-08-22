@@ -1,5 +1,5 @@
 import { type FC, Fragment } from 'react';
-import { Cheap, colors, icons } from '@/features/core/design-system';
+import { CustomChip, colors, icons } from '@/features/core/design-system';
 
 type HeaderChipsProps = {
   travelers: number;
@@ -10,9 +10,9 @@ type HeaderChipsProps = {
 export const HeaderChips: FC<HeaderChipsProps> = ({ travelers, budget, date }) => {
   return (
     <Fragment>
-      <Cheap title={travelers.toString()} color={colors.cyan300} icon={icons.people} />
-      <Cheap title={budget} color={colors.cyan300} icon={icons.card} />
-      <Cheap title={date.toString()} color={colors.lime300} icon={icons.calendar} />
+      <CustomChip title={travelers.toString()} color={colors.cyan300} icon={icons.people} />
+      <CustomChip title={budget} color={colors.cyan300} icon={icons.card} />
+      <CustomChip title={date.toString()} color={colors.lime300} icon={icons.calendar} />
     </Fragment>
   );
 };
