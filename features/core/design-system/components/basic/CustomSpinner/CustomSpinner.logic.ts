@@ -1,5 +1,4 @@
 import type { StyleProp, ViewStyle } from 'react-native';
-import { match } from 'ts-pattern';
 
 import { colors } from '@/features/core/design-system/style/colors';
 import {
@@ -16,7 +15,7 @@ export const SpinnerColor = {
   cyan500: 'cyan500',
   primaryBlack: 'primaryBlack',
   primaryWhite: 'primaryWhite',
-} as const;
+} as const satisfies { [Token in keyof typeof colors]?: Token };
 
 export type SpinnerColor = (typeof SpinnerColor)[keyof typeof SpinnerColor];
 
@@ -78,40 +77,15 @@ export const useCustomSpinnerLogic = ({ size, color, progress }: UseCustomSpinne
   const sweep = spinnerSweep(progress);
   const isIndeterminate = progress === undefined;
 
+  const isWhiteArc = color === SpinnerColor.primaryWhite;
+
   // The track colour is derived, never passed in: the design pairs each arc with one track, and a
   // white arc is the only variant whose track is a translucent copy of itself.
-  const spinnerColors: SpinnerColors = match(color)
-    .with(SpinnerColor.purple500, () => ({
-      arc: colors.purple500,
-      track: colors.tertiaryGrey,
-      trackOpacity: opacity.opacity100,
-    }))
-    .with(SpinnerColor.lime500, () => ({
-      arc: colors.lime500,
-      track: colors.tertiaryGrey,
-      trackOpacity: opacity.opacity100,
-    }))
-    .with(SpinnerColor.red500, () => ({
-      arc: colors.red500,
-      track: colors.tertiaryGrey,
-      trackOpacity: opacity.opacity100,
-    }))
-    .with(SpinnerColor.cyan500, () => ({
-      arc: colors.cyan500,
-      track: colors.tertiaryGrey,
-      trackOpacity: opacity.opacity100,
-    }))
-    .with(SpinnerColor.primaryBlack, () => ({
-      arc: colors.primaryBlack,
-      track: colors.tertiaryGrey,
-      trackOpacity: opacity.opacity100,
-    }))
-    .with(SpinnerColor.primaryWhite, () => ({
-      arc: colors.primaryWhite,
-      track: colors.primaryWhite,
-      trackOpacity: opacity.opacity20,
-    }))
-    .exhaustive();
+  const spinnerColors: SpinnerColors = {
+    arc: colors[color],
+    track: isWhiteArc ? colors.primaryWhite : colors.tertiaryGrey,
+    trackOpacity: isWhiteArc ? opacity.opacity20 : opacity.opacity100,
+  };
 
   return {
     derived: {
