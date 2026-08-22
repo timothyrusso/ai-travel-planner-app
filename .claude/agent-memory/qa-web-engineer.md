@@ -59,6 +59,8 @@ Read at the start of every web QA run. Append only under the rules in
   Settings" in `--help`), not `agent-browser viewport`; useful to force a small height and
   confirm scroll-to-bottom actually reaches the last off-canvas element (compare `scrollY +
   innerHeight` to `scrollHeight`) rather than trusting a single full-page screenshot.
+- [2026-08-22] The console/network subcommands are `agent-browser console`, `agent-browser errors`,
+  `agent-browser network requests` (there is no `logs` or bare `network`).
 - [2026-08-22] react-native-web 0.21's `View` forwards only *flat* accessibility-value props: either
   the raw `aria-valuemin/max/now/text` (what this repo uses) or the deprecated
   `accessibilityValueMin/Max/Now/Text` aliases. RN's native object form
@@ -69,6 +71,4 @@ Read at the start of every web QA run. Append only under the rules in
   elements anywhere in a story that share one numeric prop (e.g. `borderRadius: 6`) get the
   identical `r-borderRadius-<hash>` class regardless of component — `document.querySelectorAll`
   on that class (copy it from one already-inspected node) grabs every matching node across a
-  story in one `eval` call, faster than deriving a selector per instance. Also: the console/network
-  subcommands are `agent-browser console`, `agent-browser errors`, `agent-browser network requests`
-  (there is no `logs` or bare `network`).
+  story in one `eval` call, faster than deriving a selector per instance.
