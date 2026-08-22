@@ -43,7 +43,14 @@ export const CustomChip = (props: CustomChipProps) => {
         </Fragment>
       )}
       {icon && <CustomIcon name={icon} size={derived.chipSize.iconSize} color={derived.chipColors.content} />}
-      {title !== undefined && <CustomText text={title} style={[styles.title, uppercase && styles.titleUppercase]} />}
+      {title !== undefined && (
+        <CustomText
+          text={title}
+          style={[styles.title, uppercase && styles.titleUppercase]}
+          numberOfLines={1}
+          ellipsizeMode="tail"
+        />
+      )}
     </View>
   );
 };

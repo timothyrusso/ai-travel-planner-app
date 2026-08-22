@@ -62,6 +62,7 @@ export const styleChip = ({ chipSize, chipColors, isIconOnly }: ChipStyleParams)
       opacity: opacity.opacity50,
     },
     title: {
+      flexShrink: 1,
       color: chipColors.content,
       fontFamily: fontFamily.interBold,
       fontSize: chipSize.fontSize,
