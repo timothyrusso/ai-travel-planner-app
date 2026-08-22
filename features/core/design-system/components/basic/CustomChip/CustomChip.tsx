@@ -42,7 +42,15 @@ export const CustomChip = (props: CustomChipProps) => {
           <View style={styles.border} />
         </Fragment>
       )}
-      {icon && <CustomIcon name={icon} size={derived.chipSize.iconSize} color={derived.chipColors.content} />}
+      {icon && (
+        <View
+          aria-hidden={derived.isIconDecorative}
+          accessibilityElementsHidden={derived.isIconDecorative}
+          importantForAccessibility={derived.isIconDecorative ? 'no-hide-descendants' : 'auto'}
+        >
+          <CustomIcon name={icon} size={derived.chipSize.iconSize} color={derived.chipColors.content} />
+        </View>
+      )}
       {title !== undefined && (
         <CustomText
           text={title}

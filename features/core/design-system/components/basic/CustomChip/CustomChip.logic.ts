@@ -120,6 +120,8 @@ export const useCustomChipLogic = (props: CustomChipProps) => {
       isBlur,
       canBlur,
       isIconOnly: props.title === undefined,
+      // Beside a label the icon only restates it, so a screen reader must not stop on it twice.
+      isIconDecorative: props.title !== undefined,
       // An icon-only chip is a single element or a screen reader finds nothing to announce; a
       // labelled chip only becomes one when the caller replaces its text with a label.
       isAccessibilityElement: props.title === undefined || props.accessibilityLabel !== undefined,
