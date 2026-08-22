@@ -37,6 +37,8 @@ export type CustomSpinnerProps = {
 
 const NO_SWEEP = 0;
 const FULL_SWEEP = 1;
+const MIN_PERCENT = 0;
+const MAX_PERCENT = 100;
 const FULL_TURN_DEGREES = 360;
 const INDETERMINATE_SWEEP_DEGREES = 270;
 // An SVG circle starts its path at 3 o'clock, so the arc is rotated back a quarter turn to start at
@@ -53,6 +55,11 @@ export const clampProgress = (progress: number) => Math.min(Math.max(progress, N
 
 export const spinnerSweep = (progress?: number) =>
   progress === undefined ? INDETERMINATE_SWEEP_DEGREES / FULL_TURN_DEGREES : clampProgress(progress);
+
+// React Native's native accessibility value is an integer triple (`std::optional<int>`), so a 0–1
+// range truncates every intermediate value to 0 and a screen reader announces "0%": the announced
+// range is expressed in whole percent instead.
+export const spinnerPercent = (sweep: number) => Math.round(sweep * MAX_PERCENT);
 
 type UseCustomSpinnerLogicParams = {
   size: SpinnerSizeName;
@@ -117,9 +124,11 @@ export const useCustomSpinnerLogic = ({ size, color, progress }: UseCustomSpinne
       dashOffset: circumference - spinnerDashLength(radius, sweep),
       hasArc: sweep > NO_SWEEP,
       arcRotation: `rotate(${ARC_START_ANGLE} ${center} ${center})`,
-      // `now` is omitted while indeterminate, so a screen reader announces the spinner as busy
-      // rather than as 0%.
-      accessibilityValue: isIndeterminate ? undefined : { min: NO_SWEEP, max: FULL_SWEEP, now: sweep },
+      // The whole value is omitted while indeterminate, so a screen reader announces the spinner as
+      // busy rather than as 0%.
+      accessibilityValue: isIndeterminate
+        ? undefined
+        : { min: MIN_PERCENT, max: MAX_PERCENT, now: spinnerPercent(sweep) },
     },
   };
 };
