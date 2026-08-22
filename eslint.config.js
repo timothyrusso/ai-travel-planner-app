@@ -17,6 +17,19 @@ module.exports = defineConfig([
       parser: tsParser,
     },
     rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          paths: [
+            {
+              name: 'react-native',
+              importNames: ['ActivityIndicator'],
+              message:
+                'Do not use `ActivityIndicator`. Use `CustomSpinner` from features/core/design-system — the app has exactly one spinner.',
+            },
+          ],
+        },
+      ],
       'no-restricted-syntax': [
         'error',
         {
