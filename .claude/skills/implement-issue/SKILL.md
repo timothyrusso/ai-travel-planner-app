@@ -152,7 +152,8 @@ AI-reviewer threads. So drive them to zero yourself; the user does nothing in be
   abort (a flaky QA lane, say) reaches you as an exception with no structured result even
   though the PR is open and the bots are already commenting on it. Recover the URL with
   `gh pr list --head feature/<issue> --json url --jq '.[0].url'` and triage that PR; if no
-  PR can be found, report the pipeline failure and stop.
+  PR can be found, report the pipeline failure and stop. Stage 3b still applies on this path —
+  run its metrics step against the recovered PR before starting triage.
 - `--skip-triage` skips this stage; say so in one line.
 - **One final message closes the run** — exactly one, reporting either that the PR is ready
   for human review or the precise reason it is not (wave cap reached, watcher window closed
