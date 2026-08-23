@@ -104,6 +104,9 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
+    // Six 48px glyphs plus their gaps overflow the 360px phone frame, so the last one wraps
+    // instead of being clipped.
+    flexWrap: 'wrap',
     alignItems: 'center',
     gap: spacing.Double,
   },
