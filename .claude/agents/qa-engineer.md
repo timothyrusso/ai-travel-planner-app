@@ -258,12 +258,10 @@ the report faithfully — same items, same verdicts:
 - `manifest[]` — the visual capture pass, in the order the shots should be published; omit it
   or return `[]` when no capture pass was requested or nothing could be shot. One entry per
   image: `path` (**absolute** path to the PNG on disk), `caption` (ONE line describing what
-  changed, no trailing period — it is printed verbatim as the caption), `surface` (`iOS` or
-  `Android` — the platform you shot on), `variant` (always `single` for mobile: there is no
-  before/after on this lane).
+  changed, no trailing period — it is printed verbatim as the caption), and `surface` (`iOS` or
+  `Android` — the platform you shot on). Shots are after-only: this lane never captures a
+  "before".
 - `report` — the full QA report markdown described above, verbatim.
-- `finishedAtEpoch` — as your very last action, run `date +%s` and return the number here
-  (the pipeline computes wall-clock stage durations from it).
 
 Do NOT compute the overall verdict in the return — the pipeline derives it from the items
 and baseline (any FAIL or failed baseline ⇒ FAIL). Never leave an acceptance criterion out

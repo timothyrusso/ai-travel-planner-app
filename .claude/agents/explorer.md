@@ -96,29 +96,23 @@ awkward to test — if a criterion is checkable at runtime, name its surface.
 ## Visual subjects — `visualSubjects`
 
 When invoked with a schema that has a `visualSubjects` field (the pipeline), also propose
-**what is worth screenshotting once the change is built**. The QA agents shoot those subjects
-after their acceptance-criteria pass, and the pipeline publishes them as a single visual
-summary comment on the PR — so a human can judge the change from the PR alone, without a
-simulator or a browser. Your list is the on/off switch: **an empty list disables the capture,
-the push, and the comment for the whole run.**
+**what is worth screenshotting in the mobile app** once the change is built. Device QA shoots
+those subjects on the device it already QA'd, after its acceptance-criteria pass, and the
+pipeline publishes them as a single visual summary comment on the PR — so a human can judge the
+change from the PR alone, without a simulator. Your list is the on/off switch: **an empty list
+disables the capture, the push, and the comment for the whole run.**
 
-Each entry is `{ surface, capture }`:
-
-| `surface` | Meaning | Shot by |
-|---|---|---|
-| `"mobile"` | a screen or component in the iOS/Android app | `qa-engineer`, on the device it already QA'd |
-| `"web"` | a browser-served app surface (`expo start --web`) | `qa-web-engineer`, in Chromium |
-
-`capture` is ONE line saying what the shot must show — the state, not the file
+Each entry is one `capture` line, and nothing else — a subject has no surface, because every
+shot is taken in the app. `capture` says what the shot must show — the state, not the file
 (e.g. "Saved trips list with the new filter chips applied", not "screenshot of SavedTrips").
 
 Propose subjects only when the change is **visually relevant in the app itself**: a new screen
 or component reachable in the app, a restyle, a colour/spacing change, or a bug fix whose
-symptom was visual. A component that only exists as a story gets **no** subject — every
-Storybook-touching PR already carries a comment linking its live web Storybook, which beats a
-screenshot. Return `[]` for anything with no visible result — build tooling, CI, lint rules,
-docs, agent/workflow config, type-only changes, pure logic refactors. Keep the list to the
-**3–4 subjects that best show the change**: the whole summary is capped at 6 images shared
-across both QA lanes, and a wall of near-identical screenshots hides the one that matters.
-Only name a surface that will actually exist — do not propose a mobile subject for a component
-that has no app screen yet.
+symptom was visual. A browser-served surface gets **no** subject — the web lane does not
+capture, and a Storybook-touching PR already carries a comment linking its live web Storybook,
+which beats a screenshot; so a component that only exists as a story gets no subject either.
+Return `[]` for anything with no visible result — build tooling, CI, lint rules, docs,
+agent/workflow config, type-only changes, pure logic refactors. Keep the list to the **3–4
+subjects that best show the change**: the whole summary is capped at 4 images, and a wall of
+near-identical screenshots hides the one that matters. Only name a subject that will actually
+exist in the app — do not propose one for a component that has no app screen yet.

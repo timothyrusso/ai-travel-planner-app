@@ -1,6 +1,6 @@
 ---
 name: implement-issue
-description: Implement a GitHub feature issue end-to-end. Judges the issue — grills the user only if something genuinely needs clarifying (folding answers back into the issue body) — announces its reading, launches the implement-issue-pipeline workflow (explore → build → wire PR → review → device QA → bounded auto-fix → run metrics), then runs the triage-pr skill on the resulting PR so the human is handed a PR with no open bot threads, or a clear hand-back when triage stops short. Explicitly invoked with an issue number, e.g. `/implement-issue 378 [--skip-explore] [--skip-review] [--skip-qa] [--skip-triage] [--worktree] [--max-fix N]`.
+description: Implement a GitHub feature issue end-to-end. Judges the issue — grills the user only if something genuinely needs clarifying (folding answers back into the issue body) — announces its reading, launches the implement-issue-pipeline workflow (explore → build → wire PR → review → device QA → bounded auto-fix → one consolidated run comment), posts the run's metrics from the harness transcripts, then runs the triage-pr skill on the resulting PR so the human is handed a PR with no open bot threads, or a clear hand-back when triage stops short. Explicitly invoked with an issue number, e.g. `/implement-issue 378 [--skip-explore] [--skip-review] [--skip-qa] [--skip-triage] [--worktree] [--max-fix N]`.
 argument-hint: <issue-number> [--skip-explore] [--skip-review] [--skip-qa] [--skip-triage] [--worktree] [--max-fix N]
 disable-model-invocation: true
 ---
@@ -79,15 +79,34 @@ Route on the combined result:
 
 ## Stage 3 — Delegate to the pipeline
 - Invoke the **Workflow tool** with `{ name: "implement-issue-pipeline", args: { issue: <n>,
-  startedAt: <unix epoch>, ...overrides } }` — `startedAt` is the output of `date +%s` at
-  invocation time (the pipeline uses it to compute wall-clock durations; workflow scripts
-  cannot read the clock). Include `clarifications` only in the fallback case above. This
-  skill explicitly authorizes that Workflow call.
+  ...overrides } }`. Include `clarifications` only in the fallback case above. This skill
+  explicitly authorizes that Workflow call.
 - The workflow runs explore → build → wire PR → review ∥ device QA → finding vetting →
   bounded auto-fix (history-aware, convergence-checked) → ONE consolidated run-report
   comment (posted even on an aborted run), and returns `{ prUrl, explored, reviewVerdict,
   qaVerdict, qaItems, fixAttempts, stuck, passed, outstanding, suspects, refuted }`.
 - While it runs, do not poll or narrate; report when it completes.
+
+## Stage 3b — Post the run metrics (best-effort, never blocking)
+The pipeline keeps **no** metrics code: token spend, per-agent wall-clock, models and
+codegraph usage are already on disk in this session's harness run record and agent
+transcripts, so they are read afterwards instead of smuggled out through agent returns.
+
+- Run this stage whenever the run produced a PR — including when the workflow ABORTED after
+  wiring one, which is exactly the run whose metrics matter most. On that path no `prUrl` came
+  back, so recover it the way Stage 5 does:
+  `gh pr list --head feature/<issue> --json url --jq '.[0].url'`.
+- Run `node .claude/scripts/run-metrics.js <pr-number>` (the PR number from that URL) and post
+  its stdout as a **standalone** comment on the PR:
+  `node .claude/scripts/run-metrics.js <pr-number> > <tmp-file> && gh pr comment <pr-url> --body-file <tmp-file>`.
+  The script needs no arguments beyond the PR number: it locates the run from the current
+  directory, `CLAUDE_CODE_SESSION_ID`, and the PR URL inside the transcripts — and it reports
+  an aborted run as happily as a clean one.
+- **Diagnostics, not the artifact.** If the script exits non-zero (typically: it cannot
+  resolve a run directory for that PR), post nothing, do not retry, and report the reason it
+  printed in Stage 4. The consolidated run comment is the pipeline's own artifact and is
+  entirely unaffected either way.
+- Skip this stage only when no PR exists.
 
 ## Stage 4 — Report
 - Report **before** triage starts: the build/review/QA outcome must be visible to the user
@@ -100,7 +119,8 @@ Route on the combined result:
   - `suspects` — device claims the vetter could not verify from code + evidence; these are
     never auto-fixed and ALWAYS need human eyes (they block a clean `passed`).
   - `refuted` — findings the vetter dismissed (mention them so the human can spot-check).
-  - Non-blocking notes: QA items `BLOCKED`/`NEEDS-REVIEW`, or QA `NOT_PERFORMED`.
+  - Non-blocking notes: QA items `BLOCKED`/`NEEDS-REVIEW`, or QA `NOT_PERFORMED`, or a
+    failed metrics comment (Stage 3b) with the reason the script printed.
 - Do not merge the PR.
 
 ## Stage 5 — Triage the bot reviews
@@ -132,7 +152,8 @@ AI-reviewer threads. So drive them to zero yourself; the user does nothing in be
   abort (a flaky QA lane, say) reaches you as an exception with no structured result even
   though the PR is open and the bots are already commenting on it. Recover the URL with
   `gh pr list --head feature/<issue> --json url --jq '.[0].url'` and triage that PR; if no
-  PR can be found, report the pipeline failure and stop.
+  PR can be found, report the pipeline failure and stop. Stage 3b already covers this path and
+  runs before you reach here, so do not repeat its metrics step.
 - `--skip-triage` skips this stage; say so in one line.
 - **One final message closes the run** — exactly one, reporting either that the PR is ready
   for human review or the precise reason it is not (wave cap reached, watcher window closed

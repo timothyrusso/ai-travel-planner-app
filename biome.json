@@ -10,7 +10,7 @@
       "!**/node_modules/**",
       "!**/dist/**",
       "!**/coverage/**",
-      "!**/scripts/**",
+      "!scripts/**",
       "!**/tools/**",
       "!**/.expo/**",
       "!**/convex/_generated/**",
