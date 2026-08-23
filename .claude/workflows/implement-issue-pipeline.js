@@ -158,10 +158,9 @@ const EXPLORE_SCHEMA = {
         type: 'object',
         additionalProperties: false,
         properties: {
-          surface: { enum: ['mobile', 'web'] },
           capture: { type: 'string' },
         },
-        required: ['surface', 'capture'],
+        required: ['capture'],
       },
     },
   },
@@ -234,7 +233,7 @@ const QA_SCHEMA = {
         properties: {
           path: { type: 'string' },
           caption: { type: 'string' },
-          surface: { enum: ['iOS', 'Android', 'Web'] },
+          surface: { enum: ['iOS', 'Android'] },
           variant: { enum: ['single', 'before', 'after'] },
         },
         required: ['path', 'caption', 'surface'],
@@ -287,12 +286,9 @@ const clarificationsBlock = clarifications
   ? `\n\nClarifications from the pre-build conversation (authoritative additions to the issue's Description):\n${clarifications}`
   : ''
 
-// Visual summary — the whole feature is capped at MAX_VISUAL_IMAGES published images. When
-// both QA lanes have shots and together they overflow, each lane is guaranteed
-// VISUAL_LANE_QUOTA of them and whatever a lane leaves unused rolls over to the other, so a
-// single lane can still use the whole budget when it is the only one with visual changes.
+// The whole visual summary is capped at MAX_VISUAL_IMAGES published images, and a before/after
+// pair costs two of them — so this is three comparisons at most.
 const MAX_VISUAL_IMAGES = 6
-const VISUAL_LANE_QUOTA = 3
 
 // The hidden marker is how a re-run finds its own comment again and updates it in place
 // instead of posting a second one. The images are linked from raw content on the per-PR
@@ -301,25 +297,21 @@ const VISUAL_LANE_QUOTA = 3
 const VISUAL_MARKER = '<!-- holidai:visual-summary -->'
 const RAW_CONTENT_BASE = 'https://raw.githubusercontent.com/timothyrusso/HolidAI'
 
-const VISUAL_LANE_SURFACES = { mobile: ['mobile'], web: ['web'] }
-
-// The proposal decides whether the lane captures at all: an empty proposal from a successful
+// The proposal decides whether device QA captures at all: an empty proposal from a successful
 // exploration switches the pass off; NO decision at all (explore skipped, failed, or returned
 // nothing) leaves the judgement to the QA agent rather than silently dropping the summary.
-function visualCaptureBlock(lane) {
-  const engine = lane === 'mobile' ? 'device' : 'browser'
+function visualCaptureBlock() {
   if (exploredVisualSubjects === null) {
     return `\n\nVISUAL CAPTURE PASS: no explorer proposal is available for this run. Judge for yourself whether this change is visually relevant (a new screen or component, a restyle, a colour/spacing change, or a bug fix whose symptom was visual); if it is, run the dedicated capture pass from your instructions AFTER the acceptance-criteria items and return the shots as \`manifest\` — otherwise return an empty \`manifest\`.`
   }
-  const mine = exploredVisualSubjects.filter(s => VISUAL_LANE_SURFACES[lane].includes(s.surface))
-  if (mine.length === 0) {
-    return `\n\nVISUAL CAPTURE PASS: the explorer proposed no ${engine} visual subject for this issue — skip the capture pass entirely and return an empty \`manifest\`.`
+  if (exploredVisualSubjects.length === 0) {
+    return `\n\nVISUAL CAPTURE PASS: the explorer proposed no visual subject for this issue — skip the capture pass entirely and return an empty \`manifest\`.`
   }
-  return `\n\nVISUAL CAPTURE PASS: AFTER the acceptance-criteria items, run the dedicated capture pass from your instructions (a fresh, deliberate shot per subject — never a reuse of an assertion screenshot) for the subjects the explorer proposed, and return them as \`manifest\` entries with a one-line \`caption\`, the \`surface\`, a \`variant\`, and an absolute \`path\` to a \`.png\` saved directly in \`coverage/qa/${issue}/\` — the pipeline publishes those bytes on a public branch, so it drops any entry pointing anywhere else:\n${mine
-    .map((s, i) => `${i + 1}. [${s.surface}] ${s.capture}`)
+  return `\n\nVISUAL CAPTURE PASS: AFTER the acceptance-criteria items, run the dedicated capture pass from your instructions (a fresh, deliberate shot per subject — never a reuse of an assertion screenshot) for the subjects the explorer proposed, and return them as \`manifest\` entries with a one-line \`caption\`, the \`surface\`, a \`variant\`, and an absolute \`path\` to a \`.png\` saved directly in \`coverage/qa/${issue}/\` — the pipeline publishes those bytes on a public branch, so it drops any entry pointing anywhere else:\n${exploredVisualSubjects
+    .map((s, i) => `${i + 1}. ${s.capture}`)
     .join(
       '\n',
-    )}\nDrop a subject you could not reach (say why in your report) and add one you discovered while testing that shows the change better. Both QA lanes share a hard budget of ${MAX_VISUAL_IMAGES} published images, so return at most ${VISUAL_LANE_QUOTA} subjects unless yours is clearly the only lane with visual changes — the pipeline trims anything over the budget, keeping your order. Every failure in this pass is non-blocking: skip the subject, note it, and let the QA verdict stand.`
+    )}\nDrop a subject you could not reach (say why in your report) and add one you discovered while testing that shows the change better. The summary has a hard budget of ${MAX_VISUAL_IMAGES} published images and a before/after pair costs two, so the pipeline trims anything over it, keeping your order. Every failure in this pass is non-blocking: skip the subject, note it, and let the QA verdict stand.`
 }
 
 const explorePrompt = `Run pre-implementation exploration for GitHub issue #${issue} per your process: map the issue onto the architecture (target feature and dependency tier, files/layers to touch, closest pattern to mirror, integration points, risks, suggested approach). Return the full structured exploration report as the \`report\` string.
@@ -331,7 +323,7 @@ ALSO decide which runtime surfaces this issue needs QA'd, and return them as \`q
 - \`[]\` (EMPTY) — when NO acceptance criterion can be verified at runtime: pure build tooling, CI config, lint rules, docs, agent/workflow config, or type-only changes. An empty array SKIPS QA entirely; that is the correct answer for such issues, not a failure. Do not pad the list to look thorough — a QA run that can only report BLOCKED is worse than no QA run.
 Judge from the acceptance criteria and the files the change will touch, not from the issue title.
 
-ALSO propose what is worth SCREENSHOTTING once the change is built, as \`visualSubjects\` — one entry per subject: \`surface\` (\`"mobile"\` or \`"web"\`) and \`capture\` (ONE line naming the state the shot must show). The QA agents shoot those subjects after their acceptance-criteria pass and the pipeline publishes them as a single visual summary comment on the PR, so the change can be judged from the PR alone. Propose subjects only when the change is visually relevant IN THE APP ITSELF (a new screen or component reachable in the app, a restyle, a colour/spacing change, or a bug fix whose symptom was visual) — a component that only exists as a story gets no subject, since the PR already carries a link to its live web Storybook. Keep the list to the 3–4 subjects that best show the change; the whole summary is capped at ${MAX_VISUAL_IMAGES} images shared across both lanes. Return \`[]\` for anything with no visible result (tooling, CI, docs, types, agent/workflow config, pure logic refactors) — an empty list correctly switches capture, push, and comment off for the whole run.${clarificationsBlock}`
+ALSO propose what is worth SCREENSHOTTING IN THE MOBILE APP once the change is built, as \`visualSubjects\` — one entry per subject, each a single \`capture\` line naming the state the shot must show. Device QA shoots those subjects after its acceptance-criteria pass and the pipeline publishes them as a single visual summary comment on the PR, so the change can be judged from the PR alone. Propose subjects only when the change is visually relevant IN THE APP ITSELF (a new screen or component reachable in the app, a restyle, a colour/spacing change, or a bug fix whose symptom was visual) — a component that only exists as a story gets NO subject on any surface, since the PR already carries a link to its live web Storybook. Keep the list to the 3–4 subjects that best show the change; the whole summary is capped at ${MAX_VISUAL_IMAGES} images. Return \`[]\` for anything with no visible result (tooling, CI, docs, types, agent/workflow config, pure logic refactors) — an empty list correctly switches capture, push, and comment off for the whole run.${clarificationsBlock}`
 
 const reviewPrompt = `Review the change on branch feature/${issue} (issue #${issue}) per your process. Do NOT post any PR comment. Return your overall verdict (PASS or CHANGES-REQUESTED), the list of blocking findings (empty if none), and your full review report markdown as \`report\`.`
 
@@ -340,14 +332,14 @@ const qaPrompt = deviceReady =>
     deviceReady
       ? ' The agent-device CLI has already been verified available in this run — skip your own version check entirely.'
       : ''
-  } This run also has a separate web-QA agent covering browser surfaces: if an acceptance criterion is browser-only, mark it BLOCKED as out of scope for mobile QA rather than improvising a browser session.${visualCaptureBlock('mobile')}`
+  } This run also has a separate web-QA agent covering browser surfaces: if an acceptance criterion is browser-only, mark it BLOCKED as out of scope for mobile QA rather than improvising a browser session.${visualCaptureBlock()}`
 
 const qaWebPrompt = browserReady =>
   `Run web QA for issue #${issue} on branch feature/${issue} via agent-browser per your process (web baseline checks + acceptance criteria). Do NOT post any PR comment. Return the structured result mirroring your report: items[] (one entry per test item — id, the acceptance criterion it verifies verbatim, class, per-item verdict, one-line note with evidence path on FAIL), baseline[] ({check, pass} per baseline check), blockingFindings (empty if none), notPerformedReason ONLY if the web target could not be served, and your full QA report markdown as \`report\`. Do NOT compute an overall verdict — the pipeline derives it from the items. Every acceptance criterion must appear in items; if one could not be exercised, report it as BLOCKED with the reason.${
     browserReady
       ? ' The agent-browser CLI has already been verified available in this run — skip your own version check entirely.'
       : ''
-  } This run also has a separate mobile-QA agent covering device surfaces: if an acceptance criterion is device-only, mark it BLOCKED as out of scope for web QA rather than driving a simulator.${visualCaptureBlock('web')}`
+  } This run also has a separate mobile-QA agent covering device surfaces: if an acceptance criterion is device-only, mark it BLOCKED as out of scope for web QA rather than driving a simulator.`
 
 const fixPrompt = (findings, attempt, history, persistedKeys) =>
   `Fix mode for issue #${issue} (attempt ${attempt}/${MAX_FIX}). Branch feature/${issue} and its PR already exist — do NOT create a new branch or PR, and do NOT post any PR comment. Address these CONFIRMED blocking findings as new commits on the existing branch, then return the PR URL, a one-line summary of the fixes, and your fix report markdown as \`report\`:\n${findings
@@ -365,7 +357,7 @@ const SOURCE_LABEL = { qa: 'device-QA', qaWeb: 'web-QA', review: 'code-review' }
 const vetPrompt = f =>
   `Adversarially verify ONE ${SOURCE_LABEL[f.source] || 'code-review'} finding for issue #${issue} (branch feature/${issue}, PR ${build.prUrl}) per your process. The finding:\n\n"${f.text}"\n\nTry to refute it against the actual diff, code, and captured QA evidence. Return confirmed, refuted, or suspect with your reason.`
 
-const visualPrompt = (prNumber, plan) => `Publish the VISUAL SUMMARY for the pull request ${build.prUrl} (issue #${issue}): the screenshots the QA lanes captured, so the change can be judged from the PR alone. Everything here is best-effort — if a step fails, do as much as still makes sense, report what failed in \`note\`, and stop; never retry in a loop.
+const visualPrompt = (prNumber, plan) => `Publish the VISUAL SUMMARY for the pull request ${build.prUrl} (issue #${issue}): the screenshots device QA captured, so the change can be judged from the PR alone. Everything here is best-effort — if a step fails, do as much as still makes sense, report what failed in \`note\`, and stop; never retry in a loop.
 
 Hard boundaries: do NOT edit the PR body or title · do NOT edit or delete any comment other than the one carrying the marker below · do NOT commit anything to \`feature/${issue}\` and do NOT switch the current working tree to another branch · do NOT bypass git hooks (\`--no-verify\` is forbidden).
 
@@ -416,7 +408,7 @@ ${JSON.stringify(plan, null, 2)}
 3. BUILD THE COMMENT — write EXACTLY this markdown to a file and nothing else: no intro, no footer, no per-image commentary, no notes about what failed (that goes in \`note\`, not in the comment).
    - First line: \`${VISUAL_MARKER}\` — the very first characters of the body, nothing (not even a blank line) before it: step 4 finds the comment by that PREFIX, so a marker anywhere else makes the comment unfindable and a re-run posts a duplicate.
    - Then: \`## 📸 Visual summary\`
-   - Then, per plan unit IN PLAN ORDER (mobile units first, they are already ordered): the caption line \`**<surface> — <caption>**\` with \`surface\` and \`caption\` verbatim from the plan, a blank line, then
+   - Then, per plan unit IN PLAN ORDER: the caption line \`**<surface> — <caption>**\` with \`surface\` and \`caption\` verbatim from the plan, a blank line, then
      - \`"layout": "single"\` → \`![<surface> — <caption>](<url>)\`
      - \`"layout": "pair"\` → a two-column table, before on the left:
        \`| Before | After |\`
@@ -523,10 +515,9 @@ function blockingFrom(review, qa, qaWeb) {
   return out
 }
 
-// ─── Visual summary — merge both lanes' capture manifests into ONE ordered, budgeted plan ──
-// Mobile shots always come before web shots. A before/after pair (two entries of the same
-// lane sharing surface + caption) travels as ONE indivisible unit, so the budget can never
-// publish half a comparison.
+// ─── Visual summary — turn device QA's capture manifest into ONE ordered, budgeted plan ─────
+// A before/after pair (two entries sharing surface + caption) travels as ONE indivisible unit,
+// so the budget can never publish half a comparison.
 
 function visualSlug(text) {
   const slug = String(text)
@@ -600,28 +591,22 @@ function unitsCost(units) {
   return units.reduce((total, unit) => total + unit.images.length, 0)
 }
 
-function takeUnits(units, quota) {
+function visualPlan(result) {
+  const units = laneUnits(result)
   const kept = []
-  let used = 0
-  for (const unit of units) {
-    // Keep scanning past a unit that no longer fits: a cheaper later unit may still make it.
-    if (used + unit.images.length > quota) continue
-    kept.push(unit)
-    used += unit.images.length
+  if (unitsCost(units) <= MAX_VISUAL_IMAGES) {
+    kept.push(...units)
+  } else {
+    let used = 0
+    for (const unit of units) {
+      // Keep scanning past a unit that no longer fits: a cheaper later unit may still make it.
+      if (used + unit.images.length > MAX_VISUAL_IMAGES) continue
+      kept.push(unit)
+      used += unit.images.length
+    }
   }
-  return { kept, used }
-}
-
-function allocateVisuals(mobile, web) {
-  if (unitsCost(mobile) + unitsCost(web) <= MAX_VISUAL_IMAGES) return { mobile, web }
-  const mobileTaken = takeUnits(mobile, web.length === 0 ? MAX_VISUAL_IMAGES : VISUAL_LANE_QUOTA)
-  return { mobile: mobileTaken.kept, web: takeUnits(web, MAX_VISUAL_IMAGES - mobileTaken.used).kept }
-}
-
-function visualPlan(mobileResult, webResult) {
-  const allocated = allocateVisuals(laneUnits(mobileResult), laneUnits(webResult))
   let index = 0
-  return [...allocated.mobile, ...allocated.web].map(unit => ({
+  return kept.map(unit => ({
     surface: unit.surface,
     caption: unit.caption,
     layout: unit.layout,
@@ -665,8 +650,8 @@ let explorerReport = suppliedReport
 // explorer never ran or failed, fall back to both surfaces (see resolution below) so a
 // broken explorer can never silently switch QA off.
 let exploredQaTargets = null
-// null => no decision was made (explore skipped, threw, or returned nothing at all): each QA
-// lane judges visual relevance itself. [] => the exploration ran and proposed nothing — either
+// null => no decision was made (explore skipped, threw, or returned nothing at all): device QA
+// judges visual relevance itself. [] => the exploration ran and proposed nothing — either
 // an explicit empty list or an omitted/malformed field, both of which mean "nothing is worth
 // showing" — which turns capture, push, and comment off for the whole run.
 let exploredVisualSubjects = null
@@ -682,12 +667,12 @@ if (doExplore) {
     if (ex) {
       // An exploration that ran but omitted `visualSubjects` (the field is optional) HAS
       // decided: it found nothing worth showing. Treating that as "no decision" would flip
-      // both QA lanes into self-directed capture, the opposite of what the schema promises.
+      // device QA into self-directed capture, the opposite of what the schema promises.
       const proposed = Array.isArray(ex.visualSubjects) ? ex.visualSubjects : []
-      exploredVisualSubjects = proposed.filter(s => s && VISUAL_LANE_SURFACES.mobile.concat(VISUAL_LANE_SURFACES.web).includes(s.surface) && s.capture)
+      exploredVisualSubjects = proposed.filter(s => s && s.capture)
       log(
         exploredVisualSubjects.length
-          ? `Explorer proposed ${exploredVisualSubjects.length} visual subject(s): ${exploredVisualSubjects.map(s => `${s.surface}/${s.capture}`).join(' · ')}`
+          ? `Explorer proposed ${exploredVisualSubjects.length} visual subject(s): ${exploredVisualSubjects.map(s => s.capture).join(' · ')}`
           : `Explorer ${Array.isArray(ex.visualSubjects) ? 'proposed no visual subject' : 'returned no visual proposal'} — visual summary disabled for this run`,
       )
     }
@@ -702,7 +687,7 @@ const qaTargets = qaTargetsOverride ?? exploredQaTargets ?? [...VALID_QA_TARGETS
 if (qaTargetsOverride) log(`QA targets pinned by caller: ${qaTargetsOverride.length ? qaTargetsOverride.join(' + ') : 'none'}`)
 else if (exploredQaTargets === null) log('No QA target decision available (explore skipped or failed) — defaulting to mobile + web')
 if (doQa && qaTargets.length === 0) log('QA skipped: no runtime surface to verify for this issue')
-if (exploredVisualSubjects === null) log('No visual-subject decision available (explore skipped, failed, or returned nothing) — each QA lane judges visual relevance itself')
+if (exploredVisualSubjects === null) log('No visual-subject decision available (explore skipped, failed, or returned nothing) — device QA judges visual relevance itself')
 
 const explorerBlock = explorerReport
   ? `\n\nExploration report (use it as your codebase map; don't re-explore from scratch):\n${explorerReport}`
@@ -810,7 +795,7 @@ REPORT>>>`
 // that returns a manifest anyway (a non-compliant agent, a stale prompt) must still not get an
 // evidence branch pushed and a comment posted. The guarantee belongs to the pipeline.
 const visualsOff = exploredVisualSubjects !== null && exploredVisualSubjects.length === 0
-const visualUnits = visualsOff ? [] : visualPlan(qa, qaWeb)
+const visualUnits = visualsOff ? [] : visualPlan(qa)
 const prNumber = (String(build.prUrl).match(/\/pull\/(\d+)/) || [])[1] || null
 
 if (visualsOff) {
