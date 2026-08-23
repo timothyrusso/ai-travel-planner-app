@@ -234,7 +234,6 @@ const QA_SCHEMA = {
           path: { type: 'string' },
           caption: { type: 'string' },
           surface: { enum: ['iOS', 'Android'] },
-          variant: { enum: ['single', 'before', 'after'] },
         },
         required: ['path', 'caption', 'surface'],
       },
@@ -286,9 +285,7 @@ const clarificationsBlock = clarifications
   ? `\n\nClarifications from the pre-build conversation (authoritative additions to the issue's Description):\n${clarifications}`
   : ''
 
-// The whole visual summary is capped at MAX_VISUAL_IMAGES published images, and a before/after
-// pair costs two of them — so this is three comparisons at most.
-const MAX_VISUAL_IMAGES = 6
+const MAX_VISUAL_IMAGES = 4
 
 // The hidden marker is how a re-run finds its own comment again and updates it in place
 // instead of posting a second one. The images are linked from raw content on the per-PR
@@ -307,11 +304,11 @@ function visualCaptureBlock() {
   if (exploredVisualSubjects.length === 0) {
     return `\n\nVISUAL CAPTURE PASS: the explorer proposed no visual subject for this issue — skip the capture pass entirely and return an empty \`manifest\`.`
   }
-  return `\n\nVISUAL CAPTURE PASS: AFTER the acceptance-criteria items, run the dedicated capture pass from your instructions (a fresh, deliberate shot per subject — never a reuse of an assertion screenshot) for the subjects the explorer proposed, and return them as \`manifest\` entries with a one-line \`caption\`, the \`surface\`, a \`variant\`, and an absolute \`path\` to a \`.png\` saved directly in \`coverage/qa/${issue}/\` — the pipeline publishes those bytes on a public branch, so it drops any entry pointing anywhere else:\n${exploredVisualSubjects
+  return `\n\nVISUAL CAPTURE PASS: AFTER the acceptance-criteria items, run the dedicated capture pass from your instructions (a fresh, deliberate shot per subject — never a reuse of an assertion screenshot) for the subjects the explorer proposed, and return them as \`manifest\` entries with a one-line \`caption\`, the \`surface\`, and an absolute \`path\` to a \`.png\` saved directly in \`coverage/qa/${issue}/\` — the pipeline publishes those bytes on a public branch, so it drops any entry pointing anywhere else:\n${exploredVisualSubjects
     .map((s, i) => `${i + 1}. ${s.capture}`)
     .join(
       '\n',
-    )}\nDrop a subject you could not reach (say why in your report) and add one you discovered while testing that shows the change better. The summary has a hard budget of ${MAX_VISUAL_IMAGES} published images and a before/after pair costs two, so the pipeline trims anything over it, keeping your order. Every failure in this pass is non-blocking: skip the subject, note it, and let the QA verdict stand.`
+    )}\nDrop a subject you could not reach (say why in your report) and add one you discovered while testing that shows the change better. The summary has a hard budget of ${MAX_VISUAL_IMAGES} published images, so the pipeline trims anything over it, keeping your order. Every failure in this pass is non-blocking: skip the subject, note it, and let the QA verdict stand.`
 }
 
 const explorePrompt = `Run pre-implementation exploration for GitHub issue #${issue} per your process: map the issue onto the architecture (target feature and dependency tier, files/layers to touch, closest pattern to mirror, integration points, risks, suggested approach). Return the full structured exploration report as the \`report\` string.
@@ -408,14 +405,9 @@ ${JSON.stringify(plan, null, 2)}
 3. BUILD THE COMMENT — write EXACTLY this markdown to a file and nothing else: no intro, no footer, no per-image commentary, no notes about what failed (that goes in \`note\`, not in the comment).
    - First line: \`${VISUAL_MARKER}\` — the very first characters of the body, nothing (not even a blank line) before it: step 4 finds the comment by that PREFIX, so a marker anywhere else makes the comment unfindable and a re-run posts a duplicate.
    - Then: \`## 📸 Visual summary\`
-   - Then, per plan unit IN PLAN ORDER: the caption line \`**<surface> — <caption>**\` with \`surface\` and \`caption\` verbatim from the plan, a blank line, then
-     - \`"layout": "single"\` → \`![<surface> — <caption>](<url>)\`
-     - \`"layout": "pair"\` → a two-column table, before on the left:
-       \`| Before | After |\`
-       \`| --- | --- |\`
-       \`| ![<caption> before](<before url>) | ![<caption> after](<after url>) |\`
+   - Then, per plan unit IN PLAN ORDER: the caption line \`**<surface> — <caption>**\` with \`surface\` and \`caption\` verbatim from the plan, a blank line, then \`![<surface> — <caption>](<url>)\`.
    - Every url is \`${RAW_CONTENT_BASE}/qa-evidence/pr-${prNumber}/qa/<file name with its real extension>\`.
-   - Skip any unit whose images all failed to convert or push.
+   - Skip any unit whose image failed to convert or push.
 4. POST OR UPDATE — exactly ONE comment, found by its hidden marker so a re-run edits it in place instead of adding a second one:
    \`\`\`bash
    id=$(gh api "repos/timothyrusso/HolidAI/issues/${prNumber}/comments" --paginate --jq '[.[] | select(.user.login == "timothyrusso") | select(.body | startswith("${VISUAL_MARKER}"))] | .[0].id // empty' | head -n 1)
@@ -516,8 +508,6 @@ function blockingFrom(review, qa, qaWeb) {
 }
 
 // ─── Visual summary — turn device QA's capture manifest into ONE ordered, budgeted plan ─────
-// A before/after pair (two entries sharing surface + caption) travels as ONE indivisible unit,
-// so the budget can never publish half a comparison.
 
 function visualSlug(text) {
   const slug = String(text)
@@ -559,7 +549,6 @@ function visualSource(path) {
 function laneUnits(result) {
   if (!result || !Array.isArray(result.manifest)) return []
   const units = []
-  const pairs = new Map()
   for (const entry of result.manifest) {
     if (!entry || !entry.caption || !entry.surface) continue
     const source = visualSource(entry.path)
@@ -567,58 +556,23 @@ function laneUnits(result) {
       log(`Visual summary: dropped a manifest entry — not a .png sitting directly in a coverage/qa/${issue}/ directory: ${String(entry.path).slice(0, 120)}`)
       continue
     }
-    const variant = entry.variant === 'before' || entry.variant === 'after' ? entry.variant : 'single'
-    const image = { variant, source }
-    if (variant === 'single') {
-      units.push({ layout: 'single', surface: entry.surface, caption: entry.caption, images: [image] })
-      continue
-    }
-    const key = `${entry.surface}::${entry.caption}`
-    let unit = pairs.get(key)
-    if (!unit) {
-      unit = { layout: 'pair', surface: entry.surface, caption: entry.caption, images: [] }
-      pairs.set(key, unit)
-      units.push(unit)
-    }
-    if (!unit.images.some(i => i.variant === variant)) unit.images.push(image)
+    units.push({ surface: entry.surface, caption: entry.caption, source })
   }
-  // A half pair (its counterpart failed to capture) degrades to a plain single shot.
-  for (const unit of units) if (unit.layout === 'pair' && unit.images.length < 2) unit.layout = 'single'
   return units
 }
 
 function unitsCost(units) {
-  return units.reduce((total, unit) => total + unit.images.length, 0)
+  return units.length
 }
 
 function visualPlan(result) {
   const units = laneUnits(result)
-  const kept = []
-  if (unitsCost(units) <= MAX_VISUAL_IMAGES) {
-    kept.push(...units)
-  } else {
-    let used = 0
-    for (const unit of units) {
-      // Keep scanning past a unit that no longer fits: a cheaper later unit may still make it.
-      if (used + unit.images.length > MAX_VISUAL_IMAGES) continue
-      kept.push(unit)
-      used += unit.images.length
-    }
-  }
-  let index = 0
-  return kept.map(unit => ({
+  const kept = unitsCost(units) > MAX_VISUAL_IMAGES ? units.slice(0, MAX_VISUAL_IMAGES) : units
+  return kept.map((unit, index) => ({
     surface: unit.surface,
     caption: unit.caption,
-    layout: unit.layout,
-    images: unit.images
-      // "before" first so the table columns read Before | After whatever order QA returned.
-      .slice()
-      .sort((a, b) => (a.variant === b.variant ? 0 : a.variant === 'before' ? -1 : 1))
-      .map(image => ({
-        variant: image.variant,
-        source: image.source,
-        name: `${String(++index).padStart(2, '0')}-${visualSlug(`${unit.surface} ${unit.caption}`)}${image.variant === 'single' ? '' : `-${image.variant}`}`,
-      })),
+    source: unit.source,
+    name: `${String(index + 1).padStart(2, '0')}-${visualSlug(`${unit.surface} ${unit.caption}`)}`,
   }))
 }
 

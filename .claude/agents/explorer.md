@@ -113,6 +113,6 @@ capture, and a Storybook-touching PR already carries a comment linking its live 
 which beats a screenshot; so a component that only exists as a story gets no subject either.
 Return `[]` for anything with no visible result — build tooling, CI, lint rules, docs,
 agent/workflow config, type-only changes, pure logic refactors. Keep the list to the **3–4
-subjects that best show the change**: the whole summary is capped at 6 images, and a wall of
+subjects that best show the change**: the whole summary is capped at 4 images, and a wall of
 near-identical screenshots hides the one that matters. Only name a subject that will actually
 exist in the app — do not propose one for a component that has no app screen yet.

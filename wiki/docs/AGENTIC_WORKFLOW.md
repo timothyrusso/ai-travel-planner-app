@@ -231,8 +231,8 @@ only an exploration that never ran (or failed) leaves the judgement to device QA
   working tree: review, mobile QA and web QA run in parallel against it (and outside worktree
   isolation the app under test is served from it), so a checkout of `main` would change what
   the other lanes are testing mid-run.
-- The pipeline turns that manifest into one ordered plan, before/after pairs kept indivisible,
-  capped at **6 images** — three comparisons at most.
+- The pipeline turns that manifest into one ordered plan of after-only mobile shots, capped at
+  **4 images** — it trims anything over the budget, keeping the lane's order.
 - Images are downscaled to 1080 px on the long edge and converted to WebP (raw PNG on failure),
   then pushed to a per-PR branch `qa-evidence/pr-<number>` branched fresh off the PR head and
   force-pushed, so the feature branch's own diff never contains a screenshot. GitHub's
@@ -243,8 +243,7 @@ only an exploration that never ran (or failed) leaves the judgement to device QA
   build and review reports verbatim, marker included, so a substring match would edit the run
   report instead), edits it in place and force-pushes the same file names, so the URLs stay
   stable — and holds nothing but the heading, a bold
-  `**<iOS|Android> — <what changed>**` caption per shot, and the images
-  (before/after pairs as a two-column table).
+  `**<iOS|Android> — <what changed>**` caption per shot, and the images.
 - A closed PR triggers `.github/workflows/pr-artifacts-cleanup.yml`, which deletes the evidence
   branch (and the PR's Storybook preview folder); the comment is left as-is and its images
   become broken links, which is accepted.
