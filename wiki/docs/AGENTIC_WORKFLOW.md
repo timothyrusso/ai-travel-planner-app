@@ -162,15 +162,16 @@ approval gate.
 - **ONE pipeline comment**, posted at run end — even when a stage aborts the run: a short
   status header (verdicts, fix rounds) plus collapsible sections carrying the full build,
   review, mobile-QA, web-QA, and vetting reports. Agents never post their own comments.
-- **One run-metrics comment**, posted by the skill after the workflow returns (Stage 3b) —
-  per-agent model, wall-clock, token spend, and codegraph calls, read from this session's
-  harness run record and agent transcripts by `.claude/scripts/run-metrics.js <pr-number>`.
-  The workflow itself keeps no metrics code: it cannot read the clock or the filesystem, so
-  everything it could report had to be smuggled out through agent return values and was
-  wrong in ways the on-disk data is not. Purely diagnostic and best-effort — if the script
-  cannot resolve its run, the pipeline comment is unaffected and the skill says why.
-- **Optionally one visual-summary comment** right after it, and only when the change is
-  visually relevant (see below) — captions plus screenshots, nothing else.
+- **Optionally one visual-summary comment**, posted by the pipeline right after the pipeline
+  comment and before it returns, and only when the change is visually relevant (see below) —
+  captions plus screenshots, nothing else.
+- **One run-metrics comment**, posted last, by the skill once the workflow has returned
+  (Stage 3b) — per-agent model, wall-clock, token spend, and codegraph calls, read from this
+  session's harness run record and agent transcripts by `.claude/scripts/run-metrics.js
+  <pr-number>`. The workflow itself keeps no metrics code: it cannot read the clock or the
+  filesystem, so everything it could report had to be smuggled out through agent return values
+  and was wrong in ways the on-disk data is not. Purely diagnostic and best-effort — if the
+  script cannot resolve its run, the pipeline comment is unaffected and the skill says why.
 
 ---
 
@@ -367,5 +368,5 @@ conversation to hold the gates:
    `triage-pr`'s human gates need a conversation — so run `/triage-pr <pr>` on those by hand.
 4. Review the resulting PR — the build, review, mobile-QA, web-QA, and vetting reports all
    live in ONE pipeline comment, as collapsible sections under a short status header, with
-   the run's metrics in a second comment.
+   the run's metrics in a separate comment.
 5. Merge when satisfied. The pipeline never merges for you.

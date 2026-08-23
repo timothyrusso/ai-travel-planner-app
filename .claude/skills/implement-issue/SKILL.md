@@ -92,17 +92,21 @@ The pipeline keeps **no** metrics code: token spend, per-agent wall-clock, model
 codegraph usage are already on disk in this session's harness run record and agent
 transcripts, so they are read afterwards instead of smuggled out through agent returns.
 
-- Once the workflow has returned, run
-  `node .claude/scripts/run-metrics.js <pr-number>` (the PR number from the returned
-  `prUrl`) and post its stdout as a **second, standalone** comment on the PR:
+- Run this stage whenever the run produced a PR — including when the workflow ABORTED after
+  wiring one, which is exactly the run whose metrics matter most. On that path no `prUrl` came
+  back, so recover it the way Stage 5 does:
+  `gh pr list --head feature/<issue> --json url --jq '.[0].url'`.
+- Run `node .claude/scripts/run-metrics.js <pr-number>` (the PR number from that URL) and post
+  its stdout as a **standalone** comment on the PR:
   `node .claude/scripts/run-metrics.js <pr-number> > <tmp-file> && gh pr comment <pr-url> --body-file <tmp-file>`.
   The script needs no arguments beyond the PR number: it locates the run from the current
-  directory, `CLAUDE_CODE_SESSION_ID`, and the PR URL inside the transcripts.
+  directory, `CLAUDE_CODE_SESSION_ID`, and the PR URL inside the transcripts — and it reports
+  an aborted run as happily as a clean one.
 - **Diagnostics, not the artifact.** If the script exits non-zero (typically: it cannot
   resolve a run directory for that PR), post nothing, do not retry, and report the reason it
   printed in Stage 4. The consolidated run comment is the pipeline's own artifact and is
   entirely unaffected either way.
-- Skip this stage when the run produced no PR.
+- Skip this stage only when no PR exists.
 
 ## Stage 4 — Report
 - Report **before** triage starts: the build/review/QA outcome must be visible to the user
