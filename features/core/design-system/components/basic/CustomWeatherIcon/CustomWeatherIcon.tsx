@@ -1,5 +1,7 @@
+import { View } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
+import { customWeatherIconStyles } from '@/features/core/design-system/components/basic/CustomWeatherIcon/CustomWeatherIcon.style';
 import { colors } from '@/features/core/design-system/style/colors';
 
 export const weatherConditions = {
@@ -136,19 +138,26 @@ export const CustomWeatherIcon = ({
   condition,
   size = DEFAULT_WEATHER_ICON_SIZE,
   accessibilityLabel,
-}: CustomWeatherIconProps) => (
-  <Svg
-    width={size}
-    height={size}
-    viewBox={WEATHER_ICON_VIEW_BOX}
-    // A label alone never makes a native view an accessibility element, so an unlabelled icon
-    // stays decorative and a labelled one is announced.
-    accessible={accessibilityLabel !== undefined}
-    accessibilityRole="image"
-    accessibilityLabel={accessibilityLabel}
-  >
-    {weatherIconPaths[condition].map(({ name, d, fill, fillRule }) => (
-      <Path key={name} d={d} fill={fill} fillRule={fillRule} />
-    ))}
-  </Svg>
-);
+}: CustomWeatherIconProps) => {
+  const styles = customWeatherIconStyles({ size });
+
+  return (
+    // The accessibility props belong on this wrapper, not on `Svg`: react-native-svg's web build
+    // forwards unrecognised props straight onto the DOM `<svg>`, so `accessible` landed there as a
+    // raw attribute and React logged a non-boolean-attribute error on every render.
+    <View
+      style={styles.container}
+      // A label alone never makes a native view an accessibility element, so an unlabelled icon
+      // stays decorative and a labelled one is announced.
+      accessible={accessibilityLabel !== undefined}
+      accessibilityRole="image"
+      accessibilityLabel={accessibilityLabel}
+    >
+      <Svg width={size} height={size} viewBox={WEATHER_ICON_VIEW_BOX}>
+        {weatherIconPaths[condition].map(({ name, d, fill, fillRule }) => (
+          <Path key={name} d={d} fill={fill} fillRule={fillRule} />
+        ))}
+      </Svg>
+    </View>
+  );
+};
