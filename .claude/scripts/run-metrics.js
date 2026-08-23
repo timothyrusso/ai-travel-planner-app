@@ -1,5 +1,3 @@
-'use strict';
-
 const fs = require('node:fs');
 const path = require('node:path');
 
@@ -109,7 +107,7 @@ function readTranscript(file) {
     // message id, so keeping the last snapshot per id counts the turn exactly once.
     if (message.usage) turns.set(message.id || record.requestId || `turn-${turns.size}`, message.usage);
     for (const block of Array.isArray(message.content) ? message.content : []) {
-      if (!block || block.type !== 'tool_use' || toolUseIds.has(block.id)) continue;
+      if (block?.type !== 'tool_use' || toolUseIds.has(block.id)) continue;
       toolUseIds.add(block.id);
       toolCalls.set(block.name, (toolCalls.get(block.name) || 0) + 1);
     }
@@ -124,7 +122,7 @@ function readTranscript(file) {
   }
 
   let codegraph = 0;
-  for (const [name, count] of toolCalls) if (name && name.includes('codegraph')) codegraph += count;
+  for (const [name, count] of toolCalls) if (name?.includes('codegraph')) codegraph += count;
 
   return { model, spend, codegraph };
 }
@@ -157,7 +155,7 @@ function buildRows(run, runDir) {
       state: entry.state || 'unknown',
       blocked: entry.blocked === true,
       error: typeof entry.error === 'string' ? entry.error : null,
-      model: entry.model || (transcript && transcript.model) || null,
+      model: entry.model || transcript?.model || null,
       durationMs: ran ? entry.durationMs : null,
       spend: transcript ? transcript.spend : null,
       codegraph: transcript ? transcript.codegraph : null,
