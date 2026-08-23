@@ -216,13 +216,13 @@ function buildReport(prNumber, runId, run, rows, extraRuns) {
   if (extraRuns.length > 0) {
     parts.push(
       '',
-      `_Note: ${extraRuns.length + 1} run(s) in this session reference pull request #${prNumber}; the most recently started one is reported (others: ${extraRuns.join(', ')})._`,
+      `_Note: ${extraRuns.length + 1} run(s) in this session are candidates for pull request #${prNumber}; the most recently started one is reported (others: ${extraRuns.join(', ')})._`,
     );
   }
 
   parts.push(
     '',
-    "<sub>Read after the fact from the harness run record and the per-agent transcripts on disk. Wall-clock is the agent's own recorded duration; the run figure is the whole workflow, which is shorter than the sum of the agents because review and QA run in parallel. Tokens are summed per turn from the transcripts — input + output + cache writes + cache reads, i.e. everything the run was billed for, not the final context size. Codegraph counts the agent's codegraph tool calls. A row with `—` never ran.</sub>",
+    "<sub>Read after the fact from the harness run record and the per-agent transcripts on disk. Wall-clock is the agent's own recorded duration; the run figure is the whole workflow, so it does not add up to the sum of the agents — review and QA overlap, and a killed run keeps counting long after its last agent stopped. Tokens are summed per turn from the transcripts — input + output + cache writes + cache reads, i.e. everything the run was billed for, not the final context size. Codegraph counts the agent's codegraph tool calls. A row with `—` has no recorded duration: it never started, or the run ended while it was still in flight.</sub>",
   );
 
   return parts.join('\n');
