@@ -14,17 +14,24 @@ and fills match the component exactly; change both together or not at all.
 | file | Iconify id |
 | --- | --- |
 | `sunny.svg` | `glyphs:sun-bold` |
-| `partly-cloudy.svg` | `glyphs:cloudy-partly-bold` |
+| `partly-cloudy.svg` | `glyphs:sun-bold` + `glyphs:cloud-1-bold`, both scaled and offset |
 | `cloudy.svg` | `glyphs:cloud-1-bold` |
 | `rain.svg` | `glyphs:rain-1-bold` |
 | `snow.svg` | `glyphs:snow-bold` |
 | `storm.svg` | `glyphs:lightning-bold` |
 
+Every cloud is the one `glyphs:cloud-1-bold` outline, so the set reads as a family: Rain, Snow and
+Storm carry that outline with a cut-out for their own detail, Cloudy draws it plain, and Partly
+cloudy draws it scaled down to leave room for the sun. Partly cloudy no longer uses
+`glyphs:cloudy-partly-bold`, whose sun was a separate single-tone glyph and whose cloud was a
+different shape.
+
 ## Source
 
 Iconify [`glyphs`](https://github.com/gorango/glyphs) set, `-bold` (solid) weight, by Goran
-Spasojevic. All six are natively `viewBox="0 0 80 80"`, so they share one grid and one weight; only
-the `fill` values were changed.
+Spasojevic. All six are natively `viewBox="0 0 80 80"`, so they share one grid and one weight. The
+`d` values are upstream and unmodified; what this set changes is the `fill` values, which glyphs are
+combined, and the `transform` that places them.
 
 ## License
 
