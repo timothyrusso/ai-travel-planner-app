@@ -28,7 +28,7 @@ the `fill` values were changed.
 
 ## License
 
-```
+```text
 MIT License
 
 Copyright (c) 2018
