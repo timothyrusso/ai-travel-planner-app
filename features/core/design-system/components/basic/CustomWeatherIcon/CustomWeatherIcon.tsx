@@ -68,10 +68,41 @@ const STORM_BOLT_PATH =
   'M36.538 55.081H28.59a.595.595 0 0 1-.495-.925l14.23-21.318c.326-.49 1.09-.258 1.09.33v14.75h7.947c.476 0 .76.53.496.926l-14.23 21.317c-.327.49-1.09.259-1.09-.33z';
 
 /**
- * Every glyph is Iconify `glyphs` `-bold` (MIT), held inline because
- * `react-native-svg-transformer` is wired into Metro only and the web Storybook's Vite pipeline
- * would resolve a `.svg` import to a URL string. Reference originals live in
- * `assets/weather/`, and the paths here are the shipped artwork.
+ * The shipped weather artwork, and its only copy in the repository.
+ *
+ * Held inline rather than imported from `.svg` files because `react-native-svg-transformer` is
+ * wired into Metro only: the web Storybook runs `@storybook/react-native-web-vite`, whose Vite
+ * pipeline has no SVG handling and would resolve a `.svg` import to a URL string. `types/svg.d.ts`
+ * declares `*.svg` as a component, so that mistake typechecks cleanly and renders blank.
+ *
+ * Source: the Iconify [`glyphs`](https://github.com/gorango/glyphs) set, `-bold` (solid) weight, by
+ * Goran Spasojevic. All are natively `viewBox="0 0 80 80"`, so they share one grid and one weight;
+ * the `d` values are upstream and unmodified. What this set changes is the `fill` values, which
+ * glyphs are combined, and the `transform` that places them.
+ *
+ * ```text
+ * MIT License
+ *
+ * Copyright (c) 2018
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ * ```
  */
 const weatherIconPaths: Record<WeatherCondition, readonly WeatherIconPath[]> = {
   // glyphs:sun-bold
