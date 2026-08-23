@@ -69,7 +69,7 @@ flowchart TD
         JUDGE -->|"yes"| GRILL["Grill the user<br/>(grilling skill)"]
         GRILL --> FOLD["Fold answers into the issue body<br/>(with approval; fallback: comment)"]
         FOLD --> ANN
-        ANN --> DELEG["Stage 3 — Delegate:<br/>issue, startedAt, flag overrides"]
+        ANN --> DELEG["Stage 3 — Delegate:<br/>issue, flag overrides"]
     end
 
     DELEG --> ARGS
@@ -95,7 +95,7 @@ flowchart TD
         STUCK --> REPORT
         CONV -->|"no"| FIX["feature-builder fix round<br/>(history-aware, PERSISTS markers)"]
         FIX --> VERIFY
-        REPORT["ONE consolidated PR comment:<br/>status header + collapsible<br/>build / review / QA / vetting / metrics"]
+        REPORT["ONE consolidated PR comment:<br/>status header + collapsible<br/>build / review / QA / vetting"]
         REPORT --> VISUAL["visual summary, best-effort:<br/>only if shots were captured —<br/>push qa-evidence/pr-N,<br/>post/update the 📸 marker comment"]
     end
 
@@ -103,7 +103,7 @@ flowchart TD
     ABORT --> REPORT
     VISUAL -.->|"aborted: rethrow<br/>after reporting"| FAILED["run fails"]
     VISUAL -->|"completed without abort"| RET["structured return to the caller"]
-    RET --> SUMM["skill relays the result"]
+    RET --> SUMM["skill posts the run metrics<br/>and relays the result"]
     SUMM --> BOTS["AI review bots comment on the PR"]
     BOTS -->|"Stage 5 — automatic,<br/>announced not asked"| TRIAGE["/triage-pr loop (max 10 waves):<br/>vet each finding, fix confirmed,<br/>resolve noise, escalate judgment<br/>calls to the human"]
     BOTS -.->|"triage skipped — announced:<br/>--skip-triage or --worktree"| PRREV
@@ -160,9 +160,15 @@ approval gate.
 - **Title:** meaningful. **Body:** empty (other GitHub reviewer automation overwrites it, and
   regenerates it on every push — anything the pipeline wrote there would be silently wiped).
 - **ONE pipeline comment**, posted at run end — even when a stage aborts the run: a short
-  status header (verdicts, fix rounds, wall-clock) plus collapsible sections carrying the
-  full build, review, mobile-QA, web-QA, vetting, and run-metrics reports. Agents never post
-  their own comments.
+  status header (verdicts, fix rounds) plus collapsible sections carrying the full build,
+  review, mobile-QA, web-QA, and vetting reports. Agents never post their own comments.
+- **One run-metrics comment**, posted by the skill after the workflow returns (Stage 3b) —
+  per-agent model, wall-clock, token spend, and codegraph calls, read from this session's
+  harness run record and agent transcripts by `.claude/scripts/run-metrics.js <pr-number>`.
+  The workflow itself keeps no metrics code: it cannot read the clock or the filesystem, so
+  everything it could report had to be smuggled out through agent return values and was
+  wrong in ways the on-disk data is not. Purely diagnostic and best-effort — if the script
+  cannot resolve its run, the pipeline comment is unaffected and the skill says why.
 - **Optionally one visual-summary comment** right after it, and only when the change is
   visually relevant (see below) — captions plus screenshots, nothing else.
 
@@ -208,24 +214,24 @@ net under the builder's once-per-round self-check.
 
 A change you can see should be reviewable from the PR alone. When the `explorer` proposes
 `visualSubjects` (a new screen or component in the app, a restyle, a colour/spacing change, or
-a visual bug fix), each QA lane runs a **dedicated capture pass after** its acceptance-criteria
-items — deliberate, clean shots, never a reuse of the `T01`/`W01` assertion screenshots — and
-returns them as a `manifest`. A lane may drop a subject it could not
+a visual bug fix), **device QA** runs a **dedicated capture pass after** its acceptance-criteria
+items — deliberate, clean shots, never a reuse of the `T01` assertion screenshots — and
+returns them as a `manifest`. It may drop a subject it could not
 reach (saying why) and add one it discovered while testing. **An empty proposal — explicitly
 empty, or the field omitted — switches the whole thing off**: no capture, no branch, no comment.
-The pipeline enforces that itself, so a lane that returns a manifest anyway publishes nothing;
-only an exploration that never ran (or failed) leaves the judgement to the QA lanes.
+The pipeline enforces that itself, so a QA lane that returns a manifest anyway publishes nothing;
+only an exploration that never ran (or failed) leaves the judgement to device QA.
 
-- **Mobile is after-only** (a "before" shot would cost a second native build) and uses the one
-  platform QA already ran on; **web captures before/after** for a bug fix — title prefixed
-  `[Fix]:`/`[Bug]:` — by serving the same URL from a throwaway **detached worktree of
-  `origin/main`** and removing it afterwards. No lane ever switches the branch of the shared
+- **The mobile app is the only surface shot**, after-only (a "before" shot would cost a second
+  native build) and on the one platform QA already ran on. The **web lane has no camera**: it
+  keeps running and keeps feeding its console-error and a11y verdicts into the fix loop, but a
+  browser still of a component is redundant next to the per-PR web Storybook CI already
+  publishes and links from its own comment. No lane ever switches the branch of the shared
   working tree: review, mobile QA and web QA run in parallel against it (and outside worktree
   isolation the app under test is served from it), so a checkout of `main` would change what
   the other lanes are testing mid-run.
-- The pipeline merges both manifests into one ordered plan: mobile units first, before/after
-  pairs kept indivisible, capped at **6 images** shared across the lanes (each lane guaranteed
-  3 when both have shots, unused slots rolling over — so one lane can take all 6).
+- The pipeline turns that manifest into one ordered plan, before/after pairs kept indivisible,
+  capped at **6 images** — three comparisons at most.
 - Images are downscaled to 1080 px on the long edge and converted to WebP (raw PNG on failure),
   then pushed to a per-PR branch `qa-evidence/pr-<number>` branched fresh off the PR head and
   force-pushed, so the feature branch's own diff never contains a screenshot. GitHub's
@@ -236,15 +242,16 @@ only an exploration that never ran (or failed) leaves the judgement to the QA la
   build and review reports verbatim, marker included, so a substring match would edit the run
   report instead), edits it in place and force-pushes the same file names, so the URLs stay
   stable — and holds nothing but the heading, a bold
-  `**<iOS|Android|Web> — <what changed>**` caption per shot, and the images
+  `**<iOS|Android> — <what changed>**` caption per shot, and the images
   (before/after pairs as a two-column table).
 - A closed PR triggers `.github/workflows/pr-artifacts-cleanup.yml`, which deletes the evidence
   branch (and the PR's Storybook preview folder); the comment is left as-is and its images
   become broken links, which is accepted.
-- **Stories are never captured.** A Storybook-only change gets no screenshot: CI already
-  publishes the PR's own web Storybook to GitHub Pages and comments the URL
+- **Stories are never captured**, on the web or on a device: CI already publishes the PR's own
+  web Storybook to GitHub Pages and comments the URL
   (`https://timothyrusso.github.io/HolidAI/pr-<number>/`), and the live, interactive catalogue
-  beats a still. Only app surfaces are shot — a device screen or `expo start --web`.
+  beats a still — while shooting the on-device catalogue would need a full native rebuild that
+  also replaces the app binary on the simulator. Only the app itself is shot.
 - Every failure here — capture, conversion, push, posting — is logged and swallowed: the stage
   runs after the run report and can never change the PASS / NOT-PASSED verdict.
 
@@ -298,7 +305,6 @@ workflow owns these canonical defaults; callers pass only overrides:
 | `qaTargets` | — (explorer decides) | which runtime surfaces to QA: `['mobile']`, `['web']`, both, or `[]` for none. Omit to let the `explorer` choose from the acceptance criteria and touched files; pass an array to pin it. `[]` skips QA — the right answer for pure tooling/CI/docs/type-only issues, where a QA run could only report BLOCKED. If exploration is skipped or fails, this falls back to **both** so a broken explorer can never silently switch QA off. |
 | `worktree` | `false` | isolate code-touching agents in git worktrees (cold install/build cost) |
 | `maxFix` | `2` | max auto-fix rounds (hard counter; convergence detection stops earlier when a round makes no progress) |
-| `startedAt` | — | Unix epoch (seconds) of run start (`date +%s`), supplied by the caller — fills the wall-clock column in the metrics report |
 
 Returns `{ prUrl, explored, reviewVerdict, qaVerdict, qaItems, qaWebVerdict, qaWebItems,
 fixAttempts, stuck, passed, outstanding, suspects, refuted }` — each QA lane reports for
@@ -359,7 +365,7 @@ conversation to hold the gates:
    ready for human review, or the precise reason it is not, plus the resume command. Batch
    runs get no triage —
    `triage-pr`'s human gates need a conversation — so run `/triage-pr <pr>` on those by hand.
-4. Review the resulting PR — the build, review, mobile-QA, web-QA, vetting, and run-metrics
-   reports all live in ONE pipeline comment, as collapsible sections under a short status
-   header.
+4. Review the resulting PR — the build, review, mobile-QA, web-QA, and vetting reports all
+   live in ONE pipeline comment, as collapsible sections under a short status header, with
+   the run's metrics in a second comment.
 5. Merge when satisfied. The pipeline never merges for you.
