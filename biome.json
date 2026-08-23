@@ -97,6 +97,14 @@
       "linter": { "enabled": false }
     },
     {
+      "includes": ["**/*.svg"],
+      "linter": {
+        "rules": {
+          "a11y": { "noSvgWithoutTitle": "off" }
+        }
+      }
+    },
+    {
       "linter": {
         "rules": {
           "suspicious": { "noExplicitAny": "off" }
