@@ -262,8 +262,6 @@ the report faithfully — same items, same verdicts:
   `Android` — the platform you shot on), `variant` (always `single` for mobile: there is no
   before/after on this lane).
 - `report` — the full QA report markdown described above, verbatim.
-- `finishedAtEpoch` — as your very last action, run `date +%s` and return the number here
-  (the pipeline computes wall-clock stage durations from it).
 
 Do NOT compute the overall verdict in the return — the pipeline derives it from the items
 and baseline (any FAIL or failed baseline ⇒ FAIL). Never leave an acceptance criterion out

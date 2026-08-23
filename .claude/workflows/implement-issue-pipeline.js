@@ -43,8 +43,6 @@ if (!issue || !/^\d+$/.test(String(issue))) {
   throw new Error(`implement-issue-pipeline: \`issue\` must be a GitHub issue number, got: ${JSON.stringify(issue)}`)
 }
 
-const startedAt = typeof opts.startedAt === 'number' && Number.isFinite(opts.startedAt) ? opts.startedAt : null
-
 const suppliedReport =
   typeof opts.explorerReport === 'string' && opts.explorerReport.trim() ? opts.explorerReport : null
 
@@ -80,114 +78,8 @@ const MAX_FIX = opts.maxFix === undefined ? DEFAULT_MAX_FIX_ROUNDS : opts.maxFix
 const iso = worktree ? { isolation: 'worktree' } : {}
 
 // ═════════════════════════════════════════════════════════════════════════════════════
-// INSTRUMENTATION & REPORTING — token/wall-clock metrics and the consolidated PR comment
+// REPORTING — the ONE consolidated PR comment
 // ═════════════════════════════════════════════════════════════════════════════════════
-
-const MODEL_BY_AGENT = {
-  explorer: 'sonnet',
-  'feature-builder': 'opus',
-  'code-reviewer': 'opus',
-  'qa-engineer': 'sonnet',
-  'qa-web-engineer': 'sonnet',
-  'finding-vetter': 'opus',
-}
-
-const metrics = []
-
-const seenLabels = {}
-
-function spent() {
-  try {
-    if (typeof budget === 'undefined' || !budget || typeof budget.spent !== 'function') return null
-    return budget.spent()
-  } catch {
-    return null
-  }
-}
-
-function asTokens(v) {
-  if (typeof v === 'number') return Number.isFinite(v) ? v : null
-  if (v && typeof v === 'object') {
-    const n = v.tokens ?? v.total ?? v.totalTokens ?? null
-    return typeof n === 'number' && Number.isFinite(n) ? n : null
-  }
-  return null
-}
-
-function tokenDelta(before, after) {
-  const b = asTokens(before)
-  const a = asTokens(after)
-  if (b == null || a == null) return 'n/a'
-  const d = a - b
-  return Number.isFinite(d) && d >= 0 ? d : 'n/a'
-}
-
-let lastFinishEpoch = startedAt
-
-function fmtDur(totalSeconds) {
-  const s = Math.max(0, Math.round(totalSeconds))
-  const m = Math.floor(s / 60)
-  return m > 0 ? `${m}m ${s % 60}s` : `${s}s`
-}
-
-function stageDuration(finishEpoch) {
-  const valid = typeof finishEpoch === 'number' && Number.isFinite(finishEpoch)
-  const base = lastFinishEpoch
-  if (valid && (typeof base !== 'number' || finishEpoch >= base)) lastFinishEpoch = finishEpoch
-  if (!valid || typeof base !== 'number') return 'n/a'
-  const d = finishEpoch - base
-  return d >= 0 ? fmtDur(d) : 'n/a'
-}
-
-function recordMetric(label, agentType, tokens, time) {
-  seenLabels[label] = (seenLabels[label] || 0) + 1
-  const n = seenLabels[label]
-  metrics.push({
-    agent: n > 1 ? `${label} (#${n})` : label,
-    model: agentType ? MODEL_BY_AGENT[agentType] || 'n/a' : 'n/a',
-    codegraph: 'n/a',
-    time: time || 'n/a',
-    tokens,
-  })
-}
-
-async function trackedAgent(prompt, agentOpts) {
-  const before = spent()
-  const result = await agent(prompt, agentOpts)
-  const time = result && typeof result === 'object' ? stageDuration(result.finishedAtEpoch) : 'n/a'
-  recordMetric(agentOpts.label, agentOpts.agentType, tokenDelta(before, spent()), time)
-  return result
-}
-
-const runStartSpent = spent()
-
-function fmtTokens(t) {
-  return typeof t === 'number' ? String(t) : t
-}
-
-function buildMetricsReport() {
-  let totalTok = tokenDelta(runStartSpent, spent())
-  if (totalTok === 'n/a') {
-    const nums = metrics.map(m => m.tokens).filter(t => typeof t === 'number')
-    totalTok = nums.length ? nums.reduce((a, b) => a + b, 0) : 'n/a'
-  }
-
-  const rows = metrics.map(m => `| ${m.agent} | ${m.model} | ${m.codegraph} | ${m.time} | ${fmtTokens(m.tokens)} |`).join('\n')
-
-  return [
-    `## 🤖 Automated run metrics — issue #${issue}`,
-    '',
-    '_Best-effort: any metric the workflow runtime cannot reliably capture is shown as `n/a` and never blocks the run._',
-    '',
-    '| Agent | Model | Codegraph | Wall-clock | Output tokens |',
-    '| --- | --- | --- | --- | --- |',
-    rows,
-    '',
-    `**Totals** — wall-clock: ${startedAt != null && typeof lastFinishEpoch === 'number' && lastFinishEpoch >= startedAt ? fmtDur(lastFinishEpoch - startedAt) : '`n/a`'} · output tokens: ${fmtTokens(totalTok)}`,
-    '',
-    '<sub>Wall-clock durations come from agent-reported `date +%s` epochs (workflow scripts cannot read the clock — `Date.now()` is unavailable); a cell is `n/a` when an agent omitted its epoch or no `startedAt` was passed. Codegraph usage is not observable from the runtime, so it is `n/a`. Token figures are per-agent `budget.spent()` deltas, which count OUTPUT tokens only — the harness-level total (input + output) is several times larger, so never reconcile the two. The total is the whole-run delta; the report-posting agent itself can never appear in the table it posts.</sub>',
-  ].join('\n')
-}
 
 function clip(text, max) {
   const s = typeof text === 'string' ? text : ''
@@ -209,10 +101,6 @@ function buildFinalComment() {
   const ranWeb = doQa && qaTargets.includes('web')
   const qaV = ranMobile ? (qa ? qaVerdictFrom(qa) : 'n/a') : 'skipped'
   const qaWebV = ranWeb ? (qaWeb ? qaVerdictFrom(qaWeb) : 'n/a') : 'skipped'
-  const totalDur =
-    startedAt != null && typeof lastFinishEpoch === 'number' && lastFinishEpoch >= startedAt
-      ? fmtDur(lastFinishEpoch - startedAt)
-      : 'n/a'
 
   const attention = []
   if (abortError) attention.push(`- ⛔ aborted at ${abortStage}: ${abortError.message || abortError}`)
@@ -233,7 +121,7 @@ function buildFinalComment() {
   const parts = [
     `## 🤖 Pipeline run — issue #${issue} · ${status}`,
     '',
-    `**review ${reviewV} · device QA ${qaV} · web QA ${qaWebV} · ${fixAttempts} fix round(s) · wall-clock ${totalDur}**`,
+    `**review ${reviewV} · device QA ${qaV} · web QA ${qaWebV} · ${fixAttempts} fix round(s)**`,
     '',
     build.summary || '',
     attention.length > 0 ? `\n**Needs attention:**\n${attention.join('\n')}` : '',
@@ -244,7 +132,6 @@ function buildFinalComment() {
     section('🌐 Web QA', ranWeb ? clip(qaWeb && qaWeb.report, 15000) : '_skipped — no web surface for this issue_'),
   ]
   if (vetLines.length > 0) parts.push(section('🕵️ Finding vetting', vetLines.join('\n')))
-  parts.push(section('📊 Run metrics', buildMetricsReport()))
   return clip(parts.join('\n'), 60000)
 }
 
@@ -277,7 +164,6 @@ const EXPLORE_SCHEMA = {
         required: ['surface', 'capture'],
       },
     },
-    finishedAtEpoch: { type: 'number' },
   },
   required: ['report', 'qaTargets', 'qaTargetsReason'],
 }
@@ -289,7 +175,6 @@ const BUILD_SCHEMA = {
     prUrl: { type: 'string' },
     summary: { type: 'string' },
     report: { type: 'string' },
-    finishedAtEpoch: { type: 'number' },
   },
   required: ['prUrl', 'summary', 'report'],
 }
@@ -301,7 +186,6 @@ const REVIEW_SCHEMA = {
     verdict: { enum: ['PASS', 'CHANGES-REQUESTED'] },
     blockingFindings: { type: 'array', items: { type: 'string' } },
     report: { type: 'string' },
-    finishedAtEpoch: { type: 'number' },
   },
   required: ['verdict', 'blockingFindings', 'report'],
 }
@@ -357,7 +241,6 @@ const QA_SCHEMA = {
       },
     },
     report: { type: 'string' },
-    finishedAtEpoch: { type: 'number' },
   },
   required: ['items', 'baseline', 'blockingFindings', 'report'],
 }
@@ -368,7 +251,6 @@ const VET_SCHEMA = {
   properties: {
     verdict: { enum: ['confirmed', 'refuted', 'suspect'] },
     reason: { type: 'string' },
-    finishedAtEpoch: { type: 'number' },
   },
   required: ['verdict', 'reason'],
 }
@@ -380,7 +262,6 @@ const WIRE_SCHEMA = {
     agentDeviceReady: { type: 'boolean' },
     agentBrowserReady: { type: 'boolean' },
     note: { type: 'string' },
-    finishedAtEpoch: { type: 'number' },
   },
   required: ['agentDeviceReady', 'agentBrowserReady', 'note'],
 }
@@ -392,7 +273,6 @@ const VISUAL_SCHEMA = {
     published: { type: 'number' },
     commentAction: { enum: ['created', 'updated', 'failed'] },
     note: { type: 'string' },
-    finishedAtEpoch: { type: 'number' },
   },
   required: ['published', 'commentAction', 'note'],
 }
@@ -406,9 +286,6 @@ const VISUAL_SCHEMA = {
 const clarificationsBlock = clarifications
   ? `\n\nClarifications from the pre-build conversation (authoritative additions to the issue's Description):\n${clarifications}`
   : ''
-
-const EPOCH_INSTR =
-  '\n\nAs your very last action before returning, run `date +%s` and include the number as `finishedAtEpoch` in your structured return.'
 
 // Visual summary — the whole feature is capped at MAX_VISUAL_IMAGES published images. When
 // both QA lanes have shots and together they overflow, each lane is guaranteed
@@ -454,23 +331,23 @@ ALSO decide which runtime surfaces this issue needs QA'd, and return them as \`q
 - \`[]\` (EMPTY) — when NO acceptance criterion can be verified at runtime: pure build tooling, CI config, lint rules, docs, agent/workflow config, or type-only changes. An empty array SKIPS QA entirely; that is the correct answer for such issues, not a failure. Do not pad the list to look thorough — a QA run that can only report BLOCKED is worse than no QA run.
 Judge from the acceptance criteria and the files the change will touch, not from the issue title.
 
-ALSO propose what is worth SCREENSHOTTING once the change is built, as \`visualSubjects\` — one entry per subject: \`surface\` (\`"mobile"\` or \`"web"\`) and \`capture\` (ONE line naming the state the shot must show). The QA agents shoot those subjects after their acceptance-criteria pass and the pipeline publishes them as a single visual summary comment on the PR, so the change can be judged from the PR alone. Propose subjects only when the change is visually relevant IN THE APP ITSELF (a new screen or component reachable in the app, a restyle, a colour/spacing change, or a bug fix whose symptom was visual) — a component that only exists as a story gets no subject, since the PR already carries a link to its live web Storybook. Keep the list to the 3–4 subjects that best show the change; the whole summary is capped at ${MAX_VISUAL_IMAGES} images shared across both lanes. Return \`[]\` for anything with no visible result (tooling, CI, docs, types, agent/workflow config, pure logic refactors) — an empty list correctly switches capture, push, and comment off for the whole run.${clarificationsBlock}${EPOCH_INSTR}`
+ALSO propose what is worth SCREENSHOTTING once the change is built, as \`visualSubjects\` — one entry per subject: \`surface\` (\`"mobile"\` or \`"web"\`) and \`capture\` (ONE line naming the state the shot must show). The QA agents shoot those subjects after their acceptance-criteria pass and the pipeline publishes them as a single visual summary comment on the PR, so the change can be judged from the PR alone. Propose subjects only when the change is visually relevant IN THE APP ITSELF (a new screen or component reachable in the app, a restyle, a colour/spacing change, or a bug fix whose symptom was visual) — a component that only exists as a story gets no subject, since the PR already carries a link to its live web Storybook. Keep the list to the 3–4 subjects that best show the change; the whole summary is capped at ${MAX_VISUAL_IMAGES} images shared across both lanes. Return \`[]\` for anything with no visible result (tooling, CI, docs, types, agent/workflow config, pure logic refactors) — an empty list correctly switches capture, push, and comment off for the whole run.${clarificationsBlock}`
 
-const reviewPrompt = `Review the change on branch feature/${issue} (issue #${issue}) per your process. Do NOT post any PR comment. Return your overall verdict (PASS or CHANGES-REQUESTED), the list of blocking findings (empty if none), and your full review report markdown as \`report\`.${EPOCH_INSTR}`
+const reviewPrompt = `Review the change on branch feature/${issue} (issue #${issue}) per your process. Do NOT post any PR comment. Return your overall verdict (PASS or CHANGES-REQUESTED), the list of blocking findings (empty if none), and your full review report markdown as \`report\`.`
 
 const qaPrompt = deviceReady =>
   `Run device QA for issue #${issue} on branch feature/${issue} via agent-device per your process (baseline checks + acceptance criteria). Do NOT post any PR comment. Return the structured result mirroring your report: items[] (one entry per test item — id, the acceptance criterion it verifies verbatim, class, per-item verdict, one-line note with evidence path on FAIL), baseline[] ({check, pass} per baseline check), blockingFindings (empty if none), notPerformedReason ONLY if the app could not be run, and your full QA report markdown as \`report\`. Do NOT compute an overall verdict — the pipeline derives it from the items. Every acceptance criterion must appear in items; if one could not be exercised, report it as BLOCKED with the reason.${
     deviceReady
       ? ' The agent-device CLI has already been verified available in this run — skip your own version check entirely.'
       : ''
-  } This run also has a separate web-QA agent covering browser surfaces: if an acceptance criterion is browser-only, mark it BLOCKED as out of scope for mobile QA rather than improvising a browser session.${visualCaptureBlock('mobile')}${EPOCH_INSTR}`
+  } This run also has a separate web-QA agent covering browser surfaces: if an acceptance criterion is browser-only, mark it BLOCKED as out of scope for mobile QA rather than improvising a browser session.${visualCaptureBlock('mobile')}`
 
 const qaWebPrompt = browserReady =>
   `Run web QA for issue #${issue} on branch feature/${issue} via agent-browser per your process (web baseline checks + acceptance criteria). Do NOT post any PR comment. Return the structured result mirroring your report: items[] (one entry per test item — id, the acceptance criterion it verifies verbatim, class, per-item verdict, one-line note with evidence path on FAIL), baseline[] ({check, pass} per baseline check), blockingFindings (empty if none), notPerformedReason ONLY if the web target could not be served, and your full QA report markdown as \`report\`. Do NOT compute an overall verdict — the pipeline derives it from the items. Every acceptance criterion must appear in items; if one could not be exercised, report it as BLOCKED with the reason.${
     browserReady
       ? ' The agent-browser CLI has already been verified available in this run — skip your own version check entirely.'
       : ''
-  } This run also has a separate mobile-QA agent covering device surfaces: if an acceptance criterion is device-only, mark it BLOCKED as out of scope for web QA rather than driving a simulator.${visualCaptureBlock('web')}${EPOCH_INSTR}`
+  } This run also has a separate mobile-QA agent covering device surfaces: if an acceptance criterion is device-only, mark it BLOCKED as out of scope for web QA rather than driving a simulator.${visualCaptureBlock('web')}`
 
 const fixPrompt = (findings, attempt, history, persistedKeys) =>
   `Fix mode for issue #${issue} (attempt ${attempt}/${MAX_FIX}). Branch feature/${issue} and its PR already exist — do NOT create a new branch or PR, and do NOT post any PR comment. Address these CONFIRMED blocking findings as new commits on the existing branch, then return the PR URL, a one-line summary of the fixes, and your fix report markdown as \`report\`:\n${findings
@@ -481,12 +358,12 @@ const fixPrompt = (findings, attempt, history, persistedKeys) =>
           .map(h => `- Attempt ${h.round}: "${h.summary}"`)
           .join('\n')}\nFindings marked [PERSISTS] survived those attempts — the tried approach is wrong for them. Do NOT repeat it: re-diagnose from scratch (read the code around your previous fix commits, check the adjacent layer, question the assumed root cause) and take a different angle.`
       : ''
-  }${EPOCH_INSTR}`
+  }`
 
 const SOURCE_LABEL = { qa: 'device-QA', qaWeb: 'web-QA', review: 'code-review' }
 
 const vetPrompt = f =>
-  `Adversarially verify ONE ${SOURCE_LABEL[f.source] || 'code-review'} finding for issue #${issue} (branch feature/${issue}, PR ${build.prUrl}) per your process. The finding:\n\n"${f.text}"\n\nTry to refute it against the actual diff, code, and captured QA evidence. Return confirmed, refuted, or suspect with your reason.${EPOCH_INSTR}`
+  `Adversarially verify ONE ${SOURCE_LABEL[f.source] || 'code-review'} finding for issue #${issue} (branch feature/${issue}, PR ${build.prUrl}) per your process. The finding:\n\n"${f.text}"\n\nTry to refute it against the actual diff, code, and captured QA evidence. Return confirmed, refuted, or suspect with your reason.`
 
 const visualPrompt = (prNumber, plan) => `Publish the VISUAL SUMMARY for the pull request ${build.prUrl} (issue #${issue}): the screenshots the QA lanes captured, so the change can be judged from the PR alone. Everything here is best-effort — if a step fails, do as much as still makes sense, report what failed in \`note\`, and stop; never retry in a loop.
 
@@ -556,7 +433,7 @@ ${JSON.stringify(plan, null, 2)}
    Never use \`gh pr comment --edit-last\`: the run-report comment was just posted by the same author and would be overwritten.
 5. VERIFY — \`curl -sI <one published url>\` and confirm it answers 200; say so in \`note\` if it does not.
 
-Return \`published\` (how many images the posted comment actually links), \`commentAction\` (\`created\`, \`updated\`, or \`failed\`), and a one-line \`note\` covering anything dropped or failed.${EPOCH_INSTR}`
+Return \`published\` (how many images the posted comment actually links), \`commentAction\` (\`created\`, \`updated\`, or \`failed\`), and a one-line \`note\` covering anything dropped or failed.`
 
 // ═════════════════════════════════════════════════════════════════════════════════════
 // STAGE HELPERS — verify (review ∥ QA), verdict derivation, finding fingerprints, vetting
@@ -573,8 +450,6 @@ async function verify() {
   const wantMobile = doQa && qaTargets.includes('mobile')
   const wantWeb = doQa && qaTargets.includes('web')
   if (!doReview && !wantMobile && !wantWeb) return { review: null, qa: null, qaWeb: null }
-  const before = spent()
-  const baseEpoch = lastFinishEpoch
   const kinds = []
   const thunks = []
   if (doReview) {
@@ -590,7 +465,6 @@ async function verify() {
     thunks.push(() => agent(qaWebPrompt(agentBrowserReady), { agentType: 'qa-web-engineer', label: `qa-web:${issue}`, phase: 'Web QA', schema: QA_SCHEMA, ...iso }))
   }
   const results = await parallel(thunks)
-  const delta = tokenDelta(before, spent())
 
   const byKind = {}
   kinds.forEach((k, i) => {
@@ -603,19 +477,6 @@ async function verify() {
   if (doReview && !byKind.review) throw new Error(`code-reviewer returned no result for issue #${issue}`)
   if (wantMobile && !byKind.qa) throw new Error(`qa-engineer returned no result for issue #${issue}`)
   if (wantWeb && !byKind.qaWeb) throw new Error(`qa-web-engineer returned no result for issue #${issue}`)
-
-  const finishes = kinds.map(k => (byKind[k] && typeof byKind[k].finishedAtEpoch === 'number' ? byKind[k].finishedAtEpoch : null))
-  const branchDur = f => (typeof f === 'number' && typeof baseEpoch === 'number' && f >= baseEpoch ? fmtDur(f - baseEpoch) : 'n/a')
-  const maxFinish = Math.max(...finishes.filter(f => typeof f === 'number'), Number.NEGATIVE_INFINITY)
-
-  const AGENT_BY_KIND = { review: 'code-reviewer', qa: 'qa-engineer', qaWeb: 'qa-web-engineer' }
-
-  if (Number.isFinite(maxFinish) && (typeof baseEpoch !== 'number' || maxFinish >= baseEpoch)) lastFinishEpoch = maxFinish
-  if (kinds.length === 1) {
-    recordMetric(`${kinds[0]}:${issue}`, AGENT_BY_KIND[kinds[0]], delta, branchDur(finishes[0]))
-  } else {
-    recordMetric(`verify:${issue} (${kinds.join(' ∥ ')})`, null, delta, finishes.map(branchDur).join(' ∥ '))
-  }
 
   return { review: byKind.review || null, qa: byKind.qa || null, qaWeb: byKind.qaWeb || null }
 }
@@ -778,15 +639,10 @@ function visualPlan(mobileResult, webResult) {
 
 async function vetFindings(findings) {
   if (findings.length === 0) return { confirmed: [], refuted: [], suspect: [] }
-  const before = spent()
   const results = await parallel(
     findings.map((f, i) => () =>
       agent(vetPrompt(f), { agentType: 'finding-vetter', label: `vet:${issue}#${i + 1}`, phase: 'Vet', schema: VET_SCHEMA })),
   )
-  const delta = tokenDelta(before, spent())
-  const vetEpochs = results.filter(Boolean).map(r => r.finishedAtEpoch).filter(n => typeof n === 'number' && Number.isFinite(n))
-  const vetTime = vetEpochs.length > 0 ? stageDuration(Math.max(...vetEpochs)) : 'n/a'
-  recordMetric(findings.length === 1 ? `vet:${issue}` : `vet:${issue} (x${findings.length})`, 'finding-vetter', delta, vetTime)
 
   const out = { confirmed: [], refuted: [], suspect: [] }
   findings.forEach((f, i) => {
@@ -817,7 +673,7 @@ let exploredVisualSubjects = null
 if (doExplore) {
   phase('Explore')
   try {
-    const ex = await trackedAgent(explorePrompt, { agentType: 'explorer', label: `explore:${issue}`, schema: EXPLORE_SCHEMA })
+    const ex = await agent(explorePrompt, { agentType: 'explorer', label: `explore:${issue}`, schema: EXPLORE_SCHEMA })
     explorerReport = ex && ex.report ? ex.report : null
     if (ex && Array.isArray(ex.qaTargets)) {
       exploredQaTargets = [...new Set(ex.qaTargets.filter(t => VALID_QA_TARGETS.includes(t)))]
@@ -852,10 +708,10 @@ const explorerBlock = explorerReport
   ? `\n\nExploration report (use it as your codebase map; don't re-explore from scratch):\n${explorerReport}`
   : ''
 
-const buildPrompt = `Implement GitHub issue #${issue} for HolidAI, following your full process: read the issue, obey the architecture rules, verify with tsc + arch (once, before the commit sequence), create branch feature/${issue}, commit in small layer-aligned commits, and open the PR with an empty body. Do NOT post any PR comment. Return the PR URL, a one-line summary, and your full structured report markdown as \`report\`.${clarificationsBlock}${explorerBlock}${EPOCH_INSTR}`
+const buildPrompt = `Implement GitHub issue #${issue} for HolidAI, following your full process: read the issue, obey the architecture rules, verify with tsc + arch (once, before the commit sequence), create branch feature/${issue}, commit in small layer-aligned commits, and open the PR with an empty body. Do NOT post any PR comment. Return the PR URL, a one-line summary, and your full structured report markdown as \`report\`.${clarificationsBlock}${explorerBlock}`
 
 phase('Build')
-const build = await trackedAgent(buildPrompt, { agentType: 'feature-builder', label: `build:${issue}`, schema: BUILD_SCHEMA, ...iso })
+const build = await agent(buildPrompt, { agentType: 'feature-builder', label: `build:${issue}`, schema: BUILD_SCHEMA, ...iso })
 if (!build || !build.prUrl) throw new Error(`build stage returned no PR for issue #${issue}`)
 log(`Built issue #${issue} → ${build.prUrl}`)
 
@@ -871,14 +727,14 @@ const wirePrompt = `PR wiring + environment pre-check for the pull request ${bui
     ? ' Run `agent-browser --version` and return `agentBrowserReady: true` if it reports a version, `false` if it is missing or errors.'
     : ' This run does NOT need web QA — skip the agent-browser check and return `agentBrowserReady: false`.'
 } Keeping the CLIs up to date is handled by environment provisioning outside this run, never by this stage.
-Summarise the outcome of all three in \`note\`.${EPOCH_INSTR}`
+Summarise the outcome of all three in \`note\`.`
 
 let agentDeviceReady = false
 let agentBrowserReady = false
 
 try {
   phase('Wire PR')
-  const wire = await trackedAgent(wirePrompt, { agentType: 'general-purpose', label: `wire:${issue}`, effort: 'low', schema: WIRE_SCHEMA })
+  const wire = await agent(wirePrompt, { agentType: 'general-purpose', label: `wire:${issue}`, effort: 'low', schema: WIRE_SCHEMA })
   agentDeviceReady = Boolean(wire && wire.agentDeviceReady === true)
   agentBrowserReady = Boolean(wire && wire.agentBrowserReady === true)
 } catch (e) {
@@ -916,7 +772,7 @@ try {
     log(`Fix attempt ${fixAttempts}/${MAX_FIX} — ${vetted.confirmed.length} confirmed blocking finding(s)`)
     abortStage = `fix round ${fixAttempts}`
     phase('Fix')
-    const fix = await trackedAgent(fixPrompt(vetted.confirmed, fixAttempts, fixHistory, prevKeys), { agentType: 'feature-builder', label: `fix:${issue}#${fixAttempts}`, schema: BUILD_SCHEMA, ...iso })
+    const fix = await agent(fixPrompt(vetted.confirmed, fixAttempts, fixHistory, prevKeys), { agentType: 'feature-builder', label: `fix:${issue}#${fixAttempts}`, schema: BUILD_SCHEMA, ...iso })
     fixHistory.push({ round: fixAttempts, summary: fix && fix.summary ? fix.summary : 'n/a', report: fix && fix.report ? fix.report : '' })
     prevKeys = new Set(vetted.confirmed.map(findingKey))
     abortStage = 'verify'
@@ -939,7 +795,7 @@ try {
 <<<REPORT
 ${finalComment}
 REPORT>>>`
-  await trackedAgent(reportPrompt, { agentType: 'general-purpose', label: `report:${issue}`, effort: 'low' })
+  await agent(reportPrompt, { agentType: 'general-purpose', label: `report:${issue}`, effort: 'low' })
 } catch (e) {
   log(`Run-report step failed (non-blocking): ${e && e.message ? e.message : e}`)
 }
@@ -966,7 +822,7 @@ if (visualsOff) {
 } else {
   try {
     phase('Visual summary')
-    const visual = await trackedAgent(visualPrompt(prNumber, visualUnits), {
+    const visual = await agent(visualPrompt(prNumber, visualUnits), {
       agentType: 'general-purpose',
       label: `visual:${issue}`,
       effort: 'low',
