@@ -38,12 +38,16 @@ export type CustomSteppedProgressBarProps = {
 };
 
 const MIN_TOTAL_STEPS = 1;
+const MAX_TOTAL_STEPS = 100;
 const FIRST_STEP = 1;
 
-// Whole numbers, and NaN-guarded: a fractional count would ask for a fraction of a segment, and NaN
-// survives Math.min/Math.max untouched — as a length it renders no segments at all.
+// Whole numbers, finite-guarded and capped: a fractional count asks for a fraction of a segment, a
+// non-finite one reaches Array.from as a length and throws RangeError, and an unbounded finite one
+// mounts that many Animated.Views.
 const clampTotalSteps = (totalSteps: number) =>
-  Number.isNaN(totalSteps) ? MIN_TOTAL_STEPS : Math.max(Math.floor(totalSteps), MIN_TOTAL_STEPS);
+  Number.isFinite(totalSteps)
+    ? Math.min(Math.max(Math.floor(totalSteps), MIN_TOTAL_STEPS), MAX_TOTAL_STEPS)
+    : MIN_TOTAL_STEPS;
 
 const clampCurrentStep = (currentStep: number, totalSteps: number) =>
   Number.isNaN(currentStep) ? FIRST_STEP : Math.min(Math.max(Math.round(currentStep), FIRST_STEP), totalSteps);
