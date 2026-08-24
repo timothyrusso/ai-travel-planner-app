@@ -39,6 +39,7 @@ export * from '@/features/core/design-system/components/basic/CustomTag/CustomTa
 export * from '@/features/core/design-system/components/basic/CustomText/CustomText';
 export * from '@/features/core/design-system/components/basic/CustomTextButton/CustomTextButton';
 export * from '@/features/core/design-system/components/basic/CustomTextInput/CustomTextInput';
+export * from '@/features/core/design-system/components/basic/CustomWeatherIcon/CustomWeatherIcon';
 export * from '@/features/core/design-system/components/basic/LinearGradientText/LinearGradientText';
 export * from '@/features/core/design-system/components/basic/LottieAnimation/LottieAnimation';
 export * from '@/features/core/design-system/components/composite/AnimatedHeaderImage/AnimatedHeaderImage';
