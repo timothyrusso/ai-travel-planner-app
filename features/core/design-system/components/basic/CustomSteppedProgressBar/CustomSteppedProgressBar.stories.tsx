@@ -54,7 +54,7 @@ export const AllColors: Story = {
   ),
 };
 
-/** Early, mid and late over the ten steps the design draws — the last bar is not yet complete. */
+/** Early, mid and late over the ten steps the design draws — the last bar is fully complete. */
 export const StepStates: Story = {
   render: args => (
     <View style={styles.stack}>
