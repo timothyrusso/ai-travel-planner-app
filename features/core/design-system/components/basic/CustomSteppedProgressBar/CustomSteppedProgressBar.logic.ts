@@ -25,7 +25,7 @@ export type SteppedProgressBarSegment = {
 export type SteppedProgressBarColors = Record<SteppedProgressBarSegmentState, string>;
 
 export type CustomSteppedProgressBarProps = {
-  /** How many segments the bar draws, clamped to a minimum of one. */
+  /** How many segments the bar draws, clamped to `1…100`. */
   totalSteps: number;
   /**
    * The emphasized segment, 1-based and clamped to `1…totalSteps`. Steps before it are completed and
