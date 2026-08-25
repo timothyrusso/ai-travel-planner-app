@@ -13,8 +13,6 @@ type CustomProgressBarStyleParams = {
 
 export const customProgressBarStyles = ({ size, fillColor, fillWidth }: CustomProgressBarStyleParams) =>
   StyleSheet.create({
-    // The same neutral grey behind every colour, per the design note: a track tinted with its own
-    // hue loses the contrast the fill needs.
     track: {
       width: FILL_PARENT,
       height: size.height,

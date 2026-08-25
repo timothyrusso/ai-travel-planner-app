@@ -13,8 +13,6 @@ type CustomSteppedProgressBarStyleParams = {
 
 export const customSteppedProgressBarStyles = ({ size, segmentColors }: CustomSteppedProgressBarStyleParams) =>
   StyleSheet.create({
-    // As tall as the emphasized segment and centred, so reaching a step grows that segment about the
-    // bar's centre line instead of shifting the row.
     row: {
       flexDirection: 'row',
       alignItems: 'center',
@@ -22,8 +20,6 @@ export const customSteppedProgressBarStyles = ({ size, segmentColors }: CustomSt
       height: size.currentSegmentHeight,
       gap: size.gap,
     },
-    // Flex ratios rather than measured widths: the segments divide whatever width the container gives
-    // them in the 1 : 1.25 ratio the design draws, at any step count, without a layout pass.
     segment: {
       flexBasis: spacing.Zero,
       flexGrow: size.segmentWidthRatio,
