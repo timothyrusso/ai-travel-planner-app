@@ -1,0 +1,1 @@
+import{P as t}from"./iframe-Cv5DlTBo.js";const o={ios:"ios",android:"android"},e={bottomMenuHeight:90+(t.OS.match(o.ios)?20:0),buttonExtraLargeHeight:60,buttonLargeHeight:50,buttonMediumHeight:40,buttonSmallHeight:30,chipSmallHeight:24,chipMediumHeight:32,chipLargeHeight:40,buttonNumberHeight:30};export{o as P,e as c};
