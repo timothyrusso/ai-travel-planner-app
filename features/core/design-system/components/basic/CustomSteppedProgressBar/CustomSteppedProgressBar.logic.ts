@@ -3,10 +3,10 @@ import { useReducedMotion } from 'react-native-reanimated';
 
 import {
   type ProgressBarColor,
-  progressBarPalette,
   progressBarTransition,
 } from '@/features/core/design-system/components/basic/CustomProgressBar/CustomProgressBar.logic';
 import { colors } from '@/features/core/design-system/style/colors';
+import { accentShades } from '@/features/core/design-system/style/paletteRoles';
 
 export const SteppedProgressBarSegmentState = {
   Completed: 'completed',
@@ -73,7 +73,7 @@ export const useCustomSteppedProgressBarLogic = ({
   // out-of-range step has to be resolved here rather than filtered out of the rendered result.
   const stepCount = clampTotalSteps(totalSteps);
   const activeStep = clampCurrentStep(currentStep, stepCount);
-  const palette = progressBarPalette(color);
+  const palette = accentShades(color);
 
   const segments: SteppedProgressBarSegment[] = Array.from({ length: stepCount }, (_, index) => {
     const step = index + FIRST_STEP;

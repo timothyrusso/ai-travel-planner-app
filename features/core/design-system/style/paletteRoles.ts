@@ -1,3 +1,5 @@
+import { match } from 'ts-pattern';
+
 import { colors } from '@/features/core/design-system/style/colors';
 
 export type PaletteColor = (typeof colors)[keyof typeof colors];
@@ -50,3 +52,31 @@ export const paletteContentColor = (backgroundColor: PaletteBackgroundColor): Pa
 /** Narrows a palette token to the fills a chip or a tag may take, excluding the border-only shades. */
 export const isPaletteBackgroundColor = (color: PaletteColor): color is PaletteBackgroundColor =>
   color in paletteContentColors;
+
+export const AccentHue = {
+  Purple: 'purple',
+  Lime: 'lime',
+  Red: 'red',
+  Cyan: 'cyan',
+  Black: 'black',
+} as const;
+
+export type AccentHue = (typeof AccentHue)[keyof typeof AccentHue];
+
+export type AccentShades = {
+  fill: string;
+  emphasis: string;
+};
+
+/**
+ * The two shades an accent resolves to: `<hue>500` fills, `<hue>900` emphasizes. Black has no lighter
+ * shade to fill with, so it carries both roles.
+ */
+export const accentShades = (hue: AccentHue): AccentShades =>
+  match(hue)
+    .with(AccentHue.Purple, () => ({ fill: colors.purple500, emphasis: colors.purple900 }))
+    .with(AccentHue.Lime, () => ({ fill: colors.lime500, emphasis: colors.lime900 }))
+    .with(AccentHue.Red, () => ({ fill: colors.red500, emphasis: colors.red900 }))
+    .with(AccentHue.Cyan, () => ({ fill: colors.cyan500, emphasis: colors.cyan900 }))
+    .with(AccentHue.Black, () => ({ fill: colors.primaryBlack, emphasis: colors.primaryBlack }))
+    .exhaustive();
