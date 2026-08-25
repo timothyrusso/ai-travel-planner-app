@@ -70,3 +70,15 @@ Read at the start of every QA run. Append only under the rules in
   to the same checkout with a different env (e.g. `EXPO_PUBLIC_STORYBOOK_ENABLED=true`) — boot a
   spare simulator under your own `--session <name>` and always verify/restart Metro rather than
   trusting whatever's already listening on 8081.
+- [2026-08-24] To test Reanimated animate-vs-jumpcut (incl. `useReducedMotion`) without a UI
+  slider ref in the AX tree, use on-device Storybook's Controls-panel "reset" icon (top-right
+  of the Controls panel, un-labeled in AX) to force a value jump, wrapped in
+  `xcrun simctl io <udid> recordVideo`; `ffprobe -show_entries frame=pts_time` reveals dense
+  frame bursts precisely where the fill is mid-transition — extract/crop those frames to see
+  gradual vs instant width change. Toggle reduce-motion via
+  `xcrun simctl spawn <udid> defaults write com.apple.Accessibility ReduceMotionEnabled -bool true`
+  + app relaunch (simctl has no dedicated `ui reduce_motion` subcommand).
+- [2026-08-24] iOS's own AX percentage text for `accessibilityValue={{min,max,now}}` renders as
+  `now/(max-min)` (not `(now-min)/(max-min)`) — e.g. min=1,max=10,now=1 shows "11%", now=10 shows
+  "111%", and max===min shows "+∞". This is a platform quirk of the value the device exposes as
+  text, not a component bug; don't flag it as broken without checking the min/max/now match spec.

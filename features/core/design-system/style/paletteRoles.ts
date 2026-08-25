@@ -50,3 +50,34 @@ export const paletteContentColor = (backgroundColor: PaletteBackgroundColor): Pa
 /** Narrows a palette token to the fills a chip or a tag may take, excluding the border-only shades. */
 export const isPaletteBackgroundColor = (color: PaletteColor): color is PaletteBackgroundColor =>
   color in paletteContentColors;
+
+export const AccentHue = {
+  Purple: 'purple',
+  Lime: 'lime',
+  Red: 'red',
+  Cyan: 'cyan',
+  Black: 'black',
+} as const;
+
+export type AccentHue = (typeof AccentHue)[keyof typeof AccentHue];
+
+export type AccentShades = {
+  fill: string;
+  emphasis: string;
+};
+
+// Exhaustive on purpose: a hue added to the union without a shade pair fails to compile here, rather
+// than resolving to undefined at the fill.
+const accentShadePairs: Record<AccentHue, AccentShades> = {
+  [AccentHue.Purple]: { fill: colors.purple500, emphasis: colors.purple900 },
+  [AccentHue.Lime]: { fill: colors.lime500, emphasis: colors.lime900 },
+  [AccentHue.Red]: { fill: colors.red500, emphasis: colors.red900 },
+  [AccentHue.Cyan]: { fill: colors.cyan500, emphasis: colors.cyan900 },
+  [AccentHue.Black]: { fill: colors.primaryBlack, emphasis: colors.primaryBlack },
+};
+
+/**
+ * The two shades an accent resolves to: `<hue>500` fills, `<hue>900` emphasizes. Black has no lighter
+ * shade to fill with, so it carries both roles.
+ */
+export const accentShades = (hue: AccentHue): AccentShades => accentShadePairs[hue];

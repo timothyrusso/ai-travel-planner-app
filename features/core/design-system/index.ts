@@ -29,11 +29,17 @@ export * from '@/features/core/design-system/components/basic/CustomIconButton/C
 export * from '@/features/core/design-system/components/basic/CustomIconButton/CustomIconButtonSmall';
 export * from '@/features/core/design-system/components/basic/CustomImage/CustomImage';
 export * from '@/features/core/design-system/components/basic/CustomPressable/CustomPressable';
+export * from '@/features/core/design-system/components/basic/CustomProgressBar/CustomProgressBar.logic';
+export * from '@/features/core/design-system/components/basic/CustomProgressBar/CustomProgressBarMedium';
+export * from '@/features/core/design-system/components/basic/CustomProgressBar/CustomProgressBarSmall';
 export * from '@/features/core/design-system/components/basic/CustomSegmentedControl/CustomSegmentedControl.logic';
 export * from '@/features/core/design-system/components/basic/CustomSegmentedControl/CustomSegmentedControlMedium';
 export * from '@/features/core/design-system/components/basic/CustomSegmentedControl/CustomSegmentedControlSmall';
 export * from '@/features/core/design-system/components/basic/CustomSpinner/CustomSpinner';
 export * from '@/features/core/design-system/components/basic/CustomSpinner/CustomSpinner.logic';
+export * from '@/features/core/design-system/components/basic/CustomSteppedProgressBar/CustomSteppedProgressBar.logic';
+export * from '@/features/core/design-system/components/basic/CustomSteppedProgressBar/CustomSteppedProgressBarMedium';
+export * from '@/features/core/design-system/components/basic/CustomSteppedProgressBar/CustomSteppedProgressBarSmall';
 export * from '@/features/core/design-system/components/basic/CustomTag/CustomTag';
 export * from '@/features/core/design-system/components/basic/CustomTag/CustomTag.logic';
 export * from '@/features/core/design-system/components/basic/CustomText/CustomText';
