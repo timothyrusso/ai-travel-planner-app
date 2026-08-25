@@ -25,15 +25,9 @@ export type SteppedProgressBarSegment = {
 export type SteppedProgressBarColors = Record<SteppedProgressBarSegmentState, string>;
 
 export type CustomSteppedProgressBarProps = {
-  /** How many segments the bar draws, clamped to `1…100`. */
   totalSteps: number;
-  /**
-   * The emphasized segment, 1-based and clamped to `1…totalSteps`. Steps before it are completed and
-   * steps after it are upcoming, so a fully complete bar is `currentStep === totalSteps`.
-   */
   currentStep: number;
   color?: ProgressBarColor;
-  /** Layout only — the bar always fills the width of its container. */
   style?: StyleProp<ViewStyle>;
 };
 
@@ -41,9 +35,6 @@ const MIN_TOTAL_STEPS = 1;
 const MAX_TOTAL_STEPS = 100;
 const FIRST_STEP = 1;
 
-// Whole numbers, finite-guarded and capped: a fractional count asks for a fraction of a segment, a
-// non-finite one reaches Array.from as a length and throws RangeError, and an unbounded finite one
-// mounts that many Animated.Views.
 const clampTotalSteps = (totalSteps: number) =>
   Number.isFinite(totalSteps)
     ? Math.min(Math.max(Math.floor(totalSteps), MIN_TOTAL_STEPS), MAX_TOTAL_STEPS)
@@ -69,8 +60,6 @@ export const useCustomSteppedProgressBarLogic = ({
   color,
 }: UseCustomSteppedProgressBarLogicParams) => {
   const prefersReducedMotion = useReducedMotion();
-  // Clamped before any per-segment work: the segment list is built from these two numbers, so an
-  // out-of-range step has to be resolved here rather than filtered out of the rendered result.
   const stepCount = clampTotalSteps(totalSteps);
   const activeStep = clampCurrentStep(currentStep, stepCount);
   const palette = accentShades(color);
@@ -83,8 +72,6 @@ export const useCustomSteppedProgressBarLogic = ({
   return {
     derived: {
       segments,
-      // The upcoming grey is the same neutral for every colour, per the design note: it is what the
-      // completed and current shades read against.
       segmentColors: {
         [SteppedProgressBarSegmentState.Completed]: palette.fill,
         [SteppedProgressBarSegmentState.Current]: palette.emphasis,
