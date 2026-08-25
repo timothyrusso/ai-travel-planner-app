@@ -1,5 +1,3 @@
-import { match } from 'ts-pattern';
-
 import { colors } from '@/features/core/design-system/style/colors';
 
 export type PaletteColor = (typeof colors)[keyof typeof colors];
@@ -68,15 +66,18 @@ export type AccentShades = {
   emphasis: string;
 };
 
+// Exhaustive on purpose: a hue added to the union without a shade pair fails to compile here, rather
+// than resolving to undefined at the fill.
+const accentShadePairs: Record<AccentHue, AccentShades> = {
+  [AccentHue.Purple]: { fill: colors.purple500, emphasis: colors.purple900 },
+  [AccentHue.Lime]: { fill: colors.lime500, emphasis: colors.lime900 },
+  [AccentHue.Red]: { fill: colors.red500, emphasis: colors.red900 },
+  [AccentHue.Cyan]: { fill: colors.cyan500, emphasis: colors.cyan900 },
+  [AccentHue.Black]: { fill: colors.primaryBlack, emphasis: colors.primaryBlack },
+};
+
 /**
  * The two shades an accent resolves to: `<hue>500` fills, `<hue>900` emphasizes. Black has no lighter
  * shade to fill with, so it carries both roles.
  */
-export const accentShades = (hue: AccentHue): AccentShades =>
-  match(hue)
-    .with(AccentHue.Purple, () => ({ fill: colors.purple500, emphasis: colors.purple900 }))
-    .with(AccentHue.Lime, () => ({ fill: colors.lime500, emphasis: colors.lime900 }))
-    .with(AccentHue.Red, () => ({ fill: colors.red500, emphasis: colors.red900 }))
-    .with(AccentHue.Cyan, () => ({ fill: colors.cyan500, emphasis: colors.cyan900 }))
-    .with(AccentHue.Black, () => ({ fill: colors.primaryBlack, emphasis: colors.primaryBlack }))
-    .exhaustive();
+export const accentShades = (hue: AccentHue): AccentShades => accentShadePairs[hue];
