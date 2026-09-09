@@ -76,3 +76,9 @@ Read at the start of every web QA run. Append only under the rules in
   ref (the parent of a `checkbox`/`button` role node) can silently no-op on an RN Pressable —
   use `agent-browser find role checkbox click` (targets the actual role element) instead, and
   verify via a DOM attribute (`aria-checked`) rather than trusting the click "succeeded".
+- [2026-09-09] Testing hitSlop/edge tap targets with separate `agent-browser mouse move/down/up`
+  calls is unreliable: each call is a new CLI process round-trip (~100-300ms), enough time for a
+  `CustomPressable`-style press-scale animation to shrink the element before `up` fires, making
+  legitimate edge taps (e.g. a documented 4px hitSlop) falsely appear to miss. Use
+  `agent-browser batch "mouse move X Y" "mouse down" "mouse up"` instead — it executes the
+  sequence with minimal inter-command latency and matches real tap timing.
