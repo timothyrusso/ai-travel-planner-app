@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import {
+  Extrapolation,
   interpolate,
   interpolateColor,
   useAnimatedStyle,
@@ -81,7 +82,8 @@ const CHECKED = 1;
 const CHECKMARK_START_SCALE = 0.6;
 const FULL_SCALE = 1;
 const EMPTY_DASH_PATTERN = [spacing.MinimalDouble, spacing.MinimalDouble];
-// Matches `CustomSegmentedControl`: settles in ~250-300ms with a slight overshoot.
+// Matches `CustomSegmentedControl`: settles in ~250-300ms with a slight overshoot. Every read of it
+// clamps, so the overshoot never pushes an opacity or a border width out of its valid range.
 const CHECK_SPRING = { damping: 22, stiffness: 220, mass: 1 };
 
 export const useCustomCheckboxLogic = (props: CustomCheckboxProps) => {
@@ -115,13 +117,27 @@ export const useCustomCheckboxLogic = (props: CustomCheckboxProps) => {
   // A border rather than an SVG stroke: react-native-web never applies an animated `stroke`
   // attribute, which froze the ring on its checked colour on every transition back out of it.
   const ringAnimatedStyle = useAnimatedStyle(() => ({
-    borderWidth: interpolate(checkProgress.value, [UNCHECKED, CHECKED], [strokeWidth, box / 2]),
+    borderWidth: interpolate(checkProgress.value, [UNCHECKED, CHECKED], [strokeWidth, box / 2], Extrapolation.CLAMP),
     borderColor: interpolateColor(checkProgress.value, [UNCHECKED, CHECKED], [colors.tertiaryGrey, checkedColors.fill]),
   }));
 
   const checkmarkAnimatedStyle = useAnimatedStyle(() => ({
-    opacity: interpolate(checkProgress.value, [UNCHECKED, CHECKED], [opacity.opacity0, opacity.opacity100]),
-    transform: [{ scale: interpolate(checkProgress.value, [UNCHECKED, CHECKED], [CHECKMARK_START_SCALE, FULL_SCALE]) }],
+    opacity: interpolate(
+      checkProgress.value,
+      [UNCHECKED, CHECKED],
+      [opacity.opacity0, opacity.opacity100],
+      Extrapolation.CLAMP,
+    ),
+    transform: [
+      {
+        scale: interpolate(
+          checkProgress.value,
+          [UNCHECKED, CHECKED],
+          [CHECKMARK_START_SCALE, FULL_SCALE],
+          Extrapolation.CLAMP,
+        ),
+      },
+    ],
   }));
 
   const onPress = () => onChange?.(!isChecked);
