@@ -84,14 +84,10 @@ const FULL_SCALE = 1;
 const EMPTY_DASH_PATTERN = [spacing.MinimalDouble, spacing.MinimalDouble];
 // Matches `CustomSegmentedControl`: settles in ~250-300ms with a slight overshoot.
 const CHECK_SPRING = { damping: 22, stiffness: 220, mass: 1 };
-// The medium box is 40, under Apple's 44pt and Android's 48dp minimum touch target; large is already 48.
-const MEDIUM_HIT_SLOP = spacing.MinimalDouble;
-
-export const checkboxHitSlop = (size: CheckboxSizeName) => (size === 'medium' ? MEDIUM_HIT_SLOP : undefined);
 
 export const useCustomCheckboxLogic = (props: CustomCheckboxProps) => {
   const { state, size = DEFAULT_SIZE, color = DEFAULT_COLOR, onChange } = props;
-  const { box, glyph, strokeWidth } = checkboxSizes[size];
+  const { box, glyph, strokeWidth, slop } = checkboxSizes[size];
   const prefersReducedMotion = useReducedMotion();
 
   const isChecked = state === CheckboxState.checked;
@@ -153,7 +149,7 @@ export const useCustomCheckboxLogic = (props: CustomCheckboxProps) => {
       glyphColor: isEmpty ? colors.tertiaryGrey : checkedColors.checkmark,
       ringAnimatedProps,
       checkmarkAnimatedStyle,
-      hitSlop: checkboxHitSlop(size),
+      slop,
       // Static announces as checked and dimmed rather than leaving the a11y tree: it is a value the
       // reader should still hear, just not one it can change.
       accessibilityState: { checked: isChecked, disabled: !isInteractive },

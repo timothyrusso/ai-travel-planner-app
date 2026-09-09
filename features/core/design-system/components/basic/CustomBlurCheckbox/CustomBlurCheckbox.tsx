@@ -27,15 +27,15 @@ export const CustomBlurCheckbox = ({
 
   const styles = customBlurCheckboxStyles({
     box: derived.box,
+    slop: derived.slop,
     tintOpacity: derived.tintOpacity,
     ringOpacity: derived.ringOpacity,
   });
 
   return (
     <CustomPressable
-      style={[styles.checkbox, style]}
+      style={[styles.container, style]}
       onPress={effects.onPress}
-      hitSlop={derived.hitSlop}
       accessibilityRole="checkbox"
       accessibilityLabel={accessibilityLabel}
       accessibilityState={derived.accessibilityState}
@@ -43,19 +43,23 @@ export const CustomBlurCheckbox = ({
       // alongside it; React Native merges it back into `accessibilityState` on device.
       aria-checked={derived.isChecked}
     >
-      <BlurSurface
-        intensity={derived.intensity}
-        canBlur={derived.canBlur}
-        surfaceStyle={styles.surface}
-        maskStyle={styles.mask}
-        blurTargetRef={blurTargetRef}
-      >
-        <View style={styles.tint} />
-        <View style={styles.ring} />
-        <View style={styles.innerContainer}>
-          {derived.isChecked && <CustomIcon name={derived.glyphName} size={derived.glyph} color={derived.glyphColor} />}
-        </View>
-      </BlurSurface>
+      <View style={styles.checkbox}>
+        <BlurSurface
+          intensity={derived.intensity}
+          canBlur={derived.canBlur}
+          surfaceStyle={styles.surface}
+          maskStyle={styles.mask}
+          blurTargetRef={blurTargetRef}
+        >
+          <View style={styles.tint} />
+          <View style={styles.ring} />
+          <View style={styles.innerContainer}>
+            {derived.isChecked && (
+              <CustomIcon name={derived.glyphName} size={derived.glyph} color={derived.glyphColor} />
+            )}
+          </View>
+        </BlurSurface>
+      </View>
     </CustomPressable>
   );
 };

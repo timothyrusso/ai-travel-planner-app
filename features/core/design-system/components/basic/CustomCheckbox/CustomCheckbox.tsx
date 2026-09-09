@@ -22,12 +22,12 @@ export const CustomCheckbox = (props: CustomCheckboxProps) => {
 
   const { style, accessibilityLabel } = props;
 
-  const styles = customCheckboxStyles({ box: derived.box });
+  const styles = customCheckboxStyles({ box: derived.box, slop: derived.slop });
 
   const glyph = <CustomIcon name={derived.glyphName} size={derived.glyph} color={derived.glyphColor} />;
 
   const content = (
-    <>
+    <View style={styles.box}>
       <Svg width={derived.box} height={derived.box} style={styles.ring} pointerEvents="none">
         {/* The static props are what a non-animating runtime falls back to, never a second source of truth. */}
         <AnimatedCircle
@@ -54,7 +54,7 @@ export const CustomCheckbox = (props: CustomCheckboxProps) => {
       <View aria-hidden accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
         {derived.isEmpty ? glyph : <Animated.View style={derived.checkmarkAnimatedStyle}>{glyph}</Animated.View>}
       </View>
-    </>
+    </View>
   );
 
   if (!derived.isInteractive) {
@@ -81,7 +81,6 @@ export const CustomCheckbox = (props: CustomCheckboxProps) => {
     <CustomPressable
       style={[styles.container, style]}
       onPress={effects.onPress}
-      hitSlop={derived.hitSlop}
       accessibilityRole="checkbox"
       accessibilityLabel={accessibilityLabel}
       accessibilityState={derived.accessibilityState}

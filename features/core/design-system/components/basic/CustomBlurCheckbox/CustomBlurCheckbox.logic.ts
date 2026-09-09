@@ -1,10 +1,7 @@
 import type { RefObject } from 'react';
 import { Platform, type StyleProp, type View, type ViewStyle } from 'react-native';
 
-import {
-  CheckboxState,
-  checkboxHitSlop,
-} from '@/features/core/design-system/components/basic/CustomCheckbox/CustomCheckbox.logic';
+import { CheckboxState } from '@/features/core/design-system/components/basic/CustomCheckbox/CustomCheckbox.logic';
 import { PlatformOS } from '@/features/core/design-system/PlatformOS';
 import { blur } from '@/features/core/design-system/style/blur';
 import { colors } from '@/features/core/design-system/style/colors';
@@ -44,7 +41,7 @@ export const useCustomBlurCheckboxLogic = ({
   onChange,
   hasBlurTarget,
 }: UseCustomBlurCheckboxLogicParams) => {
-  const { box, glyph } = checkboxSizes[size];
+  const { box, glyph, slop } = checkboxSizes[size];
   const isChecked = state === CheckboxState.checked;
 
   // `expo-blur` can only sample the pixels behind it on Android when it is handed a `blurTarget`
@@ -66,7 +63,7 @@ export const useCustomBlurCheckboxLogic = ({
       ringOpacity: isChecked ? opacity.opacity40 : opacity.opacity60,
       glyphName: icons.checkmark,
       glyphColor: colors.primaryWhite,
-      hitSlop: checkboxHitSlop(size),
+      slop,
       accessibilityState: { checked: isChecked },
     },
     effects: {

@@ -5,14 +5,25 @@ import { spacing } from '@/features/core/design-system/style/dimensions/spacing'
 
 type CustomBlurCheckboxStyleParams = {
   box: number;
+  slop: number;
   tintOpacity: number;
   ringOpacity: number;
 };
 
-export const customBlurCheckboxStyles = ({ box, tintOpacity, ringOpacity }: CustomBlurCheckboxStyleParams) => {
+export const customBlurCheckboxStyles = ({ box, slop, tintOpacity, ringOpacity }: CustomBlurCheckboxStyleParams) => {
   const radius = box / 2;
 
   return StyleSheet.create({
+    // The pressable's own box carries the touch target, grown by `slop` and pulled back out of the
+    // layout with a negative margin: react-native-web ignores `hitSlop`, so a slopped medium
+    // checkbox is only tappable past its edge if the element itself is the bigger one.
+    container: {
+      width: box + slop * 2,
+      height: box + slop * 2,
+      margin: -slop,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
     checkbox: {
       width: box,
       height: box,
