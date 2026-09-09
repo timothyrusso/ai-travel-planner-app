@@ -10,37 +10,25 @@ import { customCheckboxStyles } from '@/features/core/design-system/components/b
 import { CustomIcon } from '@/features/core/design-system/components/basic/CustomIcon/CustomIcon';
 import { CustomPressable } from '@/features/core/design-system/components/basic/CustomPressable/CustomPressable';
 
-const AnimatedCircle = Animated.createAnimatedComponent(Circle);
-
 /**
- * A circular checkbox. The ring is an SVG stroke rather than a border, because React Native renders
- * `borderStyle: 'dashed'` solid on iOS as soon as the radius is rounded, which would drop the
- * `empty` state's only distinguishing feature.
+ * A circular checkbox. Only the `empty` ring is an SVG, because React Native renders
+ * `borderStyle: 'dashed'` solid on iOS as soon as the radius is rounded, which would drop that
+ * state's only distinguishing feature. The animating ring is a plain border: it swaps in as a
+ * separate element, so a dash pattern can never survive into the state that fills the circle.
  */
 export const CustomCheckbox = (props: CustomCheckboxProps) => {
   const { derived, effects } = useCustomCheckboxLogic(props);
 
   const { style, accessibilityLabel } = props;
 
-  const styles = customCheckboxStyles({ box: derived.box, slop: derived.slop });
+  const styles = customCheckboxStyles({ box: derived.box, strokeWidth: derived.strokeWidth, slop: derived.slop });
 
   const glyph = <CustomIcon name={derived.glyphName} size={derived.glyph} color={derived.glyphColor} />;
 
   const content = (
     <View style={styles.box}>
-      <Svg width={derived.box} height={derived.box} style={styles.ring} pointerEvents="none">
-        {/* The static props are what a non-animating runtime falls back to, never a second source of truth. */}
-        <AnimatedCircle
-          cx={derived.center}
-          cy={derived.center}
-          r={derived.radius}
-          fill="none"
-          stroke={derived.neutralRingColor}
-          strokeWidth={derived.strokeWidth}
-          strokeDasharray={derived.dashArray}
-          animatedProps={derived.ringAnimatedProps}
-        />
-        {derived.hasNeutralOutline && (
+      {derived.isEmpty ? (
+        <Svg width={derived.box} height={derived.box} style={styles.ring} pointerEvents="none">
           <Circle
             cx={derived.center}
             cy={derived.center}
@@ -48,9 +36,13 @@ export const CustomCheckbox = (props: CustomCheckboxProps) => {
             fill="none"
             stroke={derived.neutralRingColor}
             strokeWidth={derived.strokeWidth}
+            strokeDasharray={derived.dashArray}
           />
-        )}
-      </Svg>
+        </Svg>
+      ) : (
+        <Animated.View style={[styles.ring, derived.ringAnimatedStyle]} />
+      )}
+      {derived.hasNeutralOutline && <View style={styles.outline} />}
       <View aria-hidden accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
         {derived.isEmpty ? glyph : <Animated.View style={derived.checkmarkAnimatedStyle}>{glyph}</Animated.View>}
       </View>

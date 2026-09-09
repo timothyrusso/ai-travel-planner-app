@@ -3,7 +3,6 @@ import type { StyleProp, ViewStyle } from 'react-native';
 import {
   interpolate,
   interpolateColor,
-  useAnimatedProps,
   useAnimatedStyle,
   useReducedMotion,
   useSharedValue,
@@ -111,17 +110,14 @@ export const useCustomCheckboxLogic = (props: CustomCheckboxProps) => {
     checkProgress.value = skipsAnimation ? target : withSpring(target, CHECK_SPRING);
   }, [state, prefersReducedMotion, checkProgress]);
 
-  // The ring's outer edge stays on the box while its stroke thickens to the radius, so it fills
+  // The ring's outer edge stays on the box while its border thickens to the radius, so it fills
   // inward into a solid disc; the colour crosses on the same value, so the two cannot drift apart.
-  const ringAnimatedProps = useAnimatedProps(() => {
-    const ringWidth = interpolate(checkProgress.value, [UNCHECKED, CHECKED], [strokeWidth, box / 2]);
-
-    return {
-      r: (box - ringWidth) / 2,
-      strokeWidth: ringWidth,
-      stroke: interpolateColor(checkProgress.value, [UNCHECKED, CHECKED], [colors.tertiaryGrey, checkedColors.fill]),
-    };
-  });
+  // A border rather than an SVG stroke: react-native-web never applies an animated `stroke`
+  // attribute, which froze the ring on its checked colour on every transition back out of it.
+  const ringAnimatedStyle = useAnimatedStyle(() => ({
+    borderWidth: interpolate(checkProgress.value, [UNCHECKED, CHECKED], [strokeWidth, box / 2]),
+    borderColor: interpolateColor(checkProgress.value, [UNCHECKED, CHECKED], [colors.tertiaryGrey, checkedColors.fill]),
+  }));
 
   const checkmarkAnimatedStyle = useAnimatedStyle(() => ({
     opacity: interpolate(checkProgress.value, [UNCHECKED, CHECKED], [opacity.opacity0, opacity.opacity100]),
@@ -144,10 +140,10 @@ export const useCustomCheckboxLogic = (props: CustomCheckboxProps) => {
       // A white fill is invisible on a white surface, so that one variant keeps a neutral ring; the
       // dashed `empty` ring must not be overdrawn by it.
       hasNeutralOutline: color === CheckboxColor.primaryWhite && !isEmpty,
-      dashArray: isEmpty ? EMPTY_DASH_PATTERN : undefined,
+      dashArray: EMPTY_DASH_PATTERN,
       glyphName: isEmpty ? icons.add : icons.checkmark,
       glyphColor: isEmpty ? colors.tertiaryGrey : checkedColors.checkmark,
-      ringAnimatedProps,
+      ringAnimatedStyle,
       checkmarkAnimatedStyle,
       slop,
       // Static announces as checked and dimmed rather than leaving the a11y tree: it is a value the

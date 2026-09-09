@@ -1,11 +1,14 @@
 import { StyleSheet } from 'react-native';
 
+import { colors } from '@/features/core/design-system/style/colors';
+
 type CustomCheckboxStyleParams = {
   box: number;
+  strokeWidth: number;
   slop: number;
 };
 
-export const customCheckboxStyles = ({ box, slop }: CustomCheckboxStyleParams) =>
+export const customCheckboxStyles = ({ box, strokeWidth, slop }: CustomCheckboxStyleParams) =>
   StyleSheet.create({
     // The pressable's own box carries the touch target, grown by `slop` and pulled back out of the
     // layout with a negative margin: react-native-web ignores `hitSlop`, so a slopped medium
@@ -30,5 +33,16 @@ export const customCheckboxStyles = ({ box, slop }: CustomCheckboxStyleParams) =
       left: 0,
       right: 0,
       bottom: 0,
+      borderRadius: box / 2,
+    },
+    outline: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      borderRadius: box / 2,
+      borderWidth: strokeWidth,
+      borderColor: colors.tertiaryGrey,
     },
   });
